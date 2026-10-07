@@ -1,5 +1,7 @@
 'use server';
 
+import { LOCALES } from '@/lib/i18n';
+import { TRANSLATABLE_FIELDS, type ProductText, type ProductTranslations } from '@/lib/products-shared';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import type { FormState } from '@/components/admin/ActionForm';
@@ -183,6 +185,27 @@ export async function saveProductAction(_prev: FormState, fd: FormData): Promise
       return { error: e instanceof Error ? e.message : 'Upload fehlgeschlagen.' };
     }
   }
+  const gallery = String(fd.get('gallery') ?? '').split(/\r?\n/).map((s) => s.trim()).filter(Boolean);
+  for (const f of fd.getAll('gallery_upload')) {
+    if (f instanceof File && f.size > 0) {
+      try {
+        gallery.push(await storeUpload(f));
+      } catch (e) {
+        return { error: e instanceof Error ? e.message : 'Upload fehlgeschlagen.' };
+      }
+    }
+  }
+  const translations: ProductTranslations = {};
+  for (const l of LOCALES) {
+    const tr: Partial<ProductText> = {};
+    for (const k of TRANSLATABLE_FIELDS) {
+      const v = str(fd, `tr_${l}_${k}`);
+      if (v) tr[k] = v;
+    }
+    const hl = String(fd.get(`tr_${l}_highlights`) ?? '').split(/\r?\n/).map((s) => s.trim()).filter(Boolean);
+    if (hl.length) tr.highlights = hl;
+    if (Object.keys(tr).length) translations[l] = tr;
+  }
   const stockRaw = str(fd, 'stock');
   const accent = /^#[0-9a-f]{6}$/i.test(str(fd, 'accent')) ? str(fd, 'accent') : '#002856';
   const values = [
@@ -194,14 +217,14 @@ export async function saveProductAction(_prev: FormState, fd: FormData): Promise
   if (id) {
     await query(
       `UPDATE products SET slug=$1, name=$2, line=$3, subtitle=$4, description=$5, notes=$6, blend=$7, weight=$8, price=$9,
-         image=$10, intensity=$11, accent=$12, active=$13, stock=$14, sort=$15 WHERE id=$16`,
-      [...values, id],
+         image=$10, intensity=$11, accent=$12, active=$13, stock=$14, sort=$15, translations=$16::jsonb, gallery=$17::jsonb WHERE id=$18`,
+      [...values, JSON.stringify(translations), JSON.stringify([...new Set(gallery)]), id],
     );
   } else {
     const row = await one<{ id: number }>(
-      `INSERT INTO products (slug, name, line, subtitle, description, notes, blend, weight, price, image, intensity, accent, active, stock, sort)
-       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15) RETURNING id`,
-      values,
+      `INSERT INTO products (slug, name, line, subtitle, description, notes, blend, weight, price, image, intensity, accent, active, stock, sort, translations, gallery)
+       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16::jsonb,$17::jsonb) RETURNING id`,
+      [...values, JSON.stringify(translations), JSON.stringify([...new Set(gallery)])],
     );
     savedId = row!.id;
   }

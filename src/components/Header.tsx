@@ -3,13 +3,24 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
+import { LOCALES, LOCALE_NAMES, lp, stripLocale, type Locale } from '@/lib/i18n';
 import { Icon } from './Icon';
 import { Logo } from './Logo';
 
 const ABOUT = ['/geschichte', '/qualitaet', '/zertifizierungen', '/nachhaltigkeit'];
 
-export function Header({ count }: { count: number }) {
-  const path = usePathname();
+export type HeaderLabels = Record<
+  | 'menuOpen' | 'menuClose' | 'mainNav' | 'home' | 'cart' | 'language' | 'country'
+  | 'shop' | 'about' | 'history' | 'historySub' | 'quality' | 'qualitySub' | 'certs' | 'certsSub'
+  | 'sustainability' | 'sustainabilitySub' | 'distribution' | 'gastro' | 'contact',
+  string
+>;
+
+export function Header({ count, lang, labels: t }: { count: number; lang: Locale; labels: HeaderLabels }) {
+  const fullPath = usePathname();
+  const path = stripLocale(fullPath);
+  const L = (p: string) => lp(lang, p);
+  const [langOpen, setLangOpen] = useState(false);
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [bump, setBump] = useState(false);
@@ -24,7 +35,8 @@ export function Header({ count }: { count: number }) {
   }, []);
   useEffect(() => {
     setOpen(false);
-  }, [path]);
+    setLangOpen(false);
+  }, [fullPath]);
   useEffect(() => {
     document.body.style.overflow = open ? 'hidden' : '';
   }, [open]);
@@ -47,7 +59,7 @@ export function Header({ count }: { count: number }) {
         <button
           className="burger"
           type="button"
-          aria-label={open ? 'Menü schliessen' : 'Menü öffnen'}
+          aria-label={open ? t.menuClose : t.menuOpen}
           aria-expanded={open}
           aria-controls="mainnav"
           onClick={() => setOpen(!open)}
@@ -57,30 +69,55 @@ export function Header({ count }: { count: number }) {
           <span />
         </button>
 
-        <Link className="logo" href="/" aria-label="Dersut Kaffee Schweiz – Startseite">
+        <Link className="logo" href={L('/')} aria-label={t.home}>
           <Logo />
-          <span className="logo__ch">Schweiz</span>
+          <span className="logo__ch">{t.country}</span>
         </Link>
 
-        <nav className={`nav${open ? ' is-open' : ''}`} id="mainnav" aria-label="Hauptnavigation" style={{ ['--nav-top' as string]: `${navTop}px` }}>
+        <nav className={`nav${open ? ' is-open' : ''}`} id="mainnav" aria-label={t.mainNav} style={{ ['--nav-top' as string]: `${navTop}px` }}>
           <ul className="nav__list">
-            <li><Link href="/shop" className={active('/shop')}>Shop</Link></li>
+            <li><Link href={L('/shop')} className={active('/shop')}>{t.shop}</Link></li>
             <li className="nav__has-sub">
-              <Link href="/geschichte" className={ABOUT.includes(path) ? 'is-active' : ''}>Über Dersut</Link>
+              <Link href={L('/geschichte')} className={ABOUT.includes(path) ? 'is-active' : ''}>{t.about}</Link>
               <ul className="nav__sub">
-                <li><Link href="/geschichte"><strong>Geschichte</strong><span>Seit 1947 in Conegliano</span></Link></li>
-                <li><Link href="/qualitaet"><strong>Qualität &amp; Röstung</strong><span>Vom Kaffeegürtel in die Tasse</span></Link></li>
-                <li><Link href="/zertifizierungen"><strong>Zertifizierungen</strong><span>Auszeichnungen &amp; Mitgliedschaften</span></Link></li>
-                <li><Link href="/nachhaltigkeit"><strong>Nachhaltigkeit</strong><span>Verantwortung mit Weitblick</span></Link></li>
+                <li><Link href={L('/geschichte')}><strong>{t.history}</strong><span>{t.historySub}</span></Link></li>
+                <li><Link href={L('/qualitaet')}><strong>{t.quality}</strong><span>{t.qualitySub}</span></Link></li>
+                <li><Link href={L('/zertifizierungen')}><strong>{t.certs}</strong><span>{t.certsSub}</span></Link></li>
+                <li><Link href={L('/nachhaltigkeit')}><strong>{t.sustainability}</strong><span>{t.sustainabilitySub}</span></Link></li>
               </ul>
             </li>
-            <li><Link href="/offizieller-vertrieb" className={active('/offizieller-vertrieb')}>Offizieller Vertrieb</Link></li>
-            <li><Link href="/gastronomie" className={active('/gastronomie')}>Gastronomie</Link></li>
-            <li><Link href="/kontakt" className={active('/kontakt')}>Kontakt</Link></li>
+            <li><Link href={L('/offizieller-vertrieb')} className={active('/offizieller-vertrieb')}>{t.distribution}</Link></li>
+            <li><Link href={L('/gastronomie')} className={active('/gastronomie')}>{t.gastro}</Link></li>
+            <li><Link href={L('/kontakt')} className={active('/kontakt')}>{t.contact}</Link></li>
+          </ul>
+          <ul className="nav__langs" aria-label={t.language}>
+            {LOCALES.map((l) => (
+              <li key={l}>
+                <a href={lp(l, path)} hrefLang={l} lang={l} onClick={(e) => { if (window.location.search) e.currentTarget.href = lp(l, path) + window.location.search; }} className={l === lang ? 'is-active' : ''} aria-current={l === lang ? 'true' : undefined}>
+                  {LOCALE_NAMES[l]}
+                </a>
+              </li>
+            ))}
           </ul>
         </nav>
 
-        <Link className={`cartlink${bump ? ' is-bump' : ''}`} href="/warenkorb" aria-label={`Warenkorb, ${count} Artikel`}>
+        <div className={`langsw${langOpen ? ' is-open' : ''}`}>
+          <button type="button" className="langsw__btn" aria-label={t.language} aria-expanded={langOpen} onClick={() => setLangOpen(!langOpen)}>
+            {lang.toUpperCase()}
+            <svg viewBox="0 0 10 6" aria-hidden="true"><path d="M1 1l4 4 4-4" fill="none" stroke="currentColor" strokeWidth="1.5" /></svg>
+          </button>
+          <ul className="langsw__menu">
+            {LOCALES.map((l) => (
+              <li key={l}>
+                <a href={lp(l, path)} hrefLang={l} lang={l} onClick={(e) => { if (window.location.search) e.currentTarget.href = lp(l, path) + window.location.search; }} className={l === lang ? 'is-active' : ''}>
+                  <b>{l.toUpperCase()}</b> {LOCALE_NAMES[l]}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <Link className={`cartlink${bump ? ' is-bump' : ''}`} href={L('/warenkorb')} aria-label={t.cart}>
           <Icon name="bag" />
           {count > 0 && <span className="cartlink__count">{count}</span>}
         </Link>

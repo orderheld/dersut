@@ -84,6 +84,9 @@ export const SCHEMA = [
     done BOOLEAN NOT NULL DEFAULT FALSE,
     created_at TIMESTAMPTZ NOT NULL DEFAULT now()
   )`,
+  `ALTER TABLE products ADD COLUMN IF NOT EXISTS translations JSONB NOT NULL DEFAULT '{}'`,
+  `ALTER TABLE products ADD COLUMN IF NOT EXISTS gallery JSONB NOT NULL DEFAULT '[]'`,
+  `ALTER TABLE orders ADD COLUMN IF NOT EXISTS lang TEXT NOT NULL DEFAULT 'de'`,
 ];
 
 export const SEED_PRODUCTS = [

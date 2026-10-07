@@ -5,6 +5,8 @@ import { query, one, transaction, type Query } from './db';
 import type { Cart } from './cart';
 import { getProduct } from './products';
 import { statusLabel } from './format';
+import { getDict } from '@/i18n';
+import type { Locale } from './i18n';
 
 export const ORDER_STATUSES = ['open', 'paid', 'shipped', 'cancelled'] as const;
 export type OrderStatus = (typeof ORDER_STATUSES)[number];
@@ -46,6 +48,7 @@ export type Order = {
   paid_at: Date | null;
   shipped_at: Date | null;
   cancelled_at: Date | null;
+  lang: Locale;
   items: OrderItem[];
 };
 
@@ -63,19 +66,21 @@ export type CheckoutInput = {
   agb: string;
 };
 
-export function validateCheckout(input: CheckoutInput): Record<string, string> {
+export function validateCheckout(input: CheckoutInput, lang: Locale = 'de'): Record<string, string> {
+  const t = getDict(lang);
+  const v = t.validation;
   const errors: Record<string, string> = {};
   const req: Record<string, string> = {
-    first_name: 'Vorname', last_name: 'Nachname', street: 'Strasse und Nr.', zip: 'PLZ', city: 'Ort', email: 'E-Mail',
+    first_name: t.checkout.firstName, last_name: t.checkout.lastName, street: t.checkout.street, zip: t.checkout.zip, city: t.checkout.city, email: t.checkout.email,
   };
   for (const [k, label] of Object.entries(req)) {
-    if (!input[k as keyof CheckoutInput]?.trim()) errors[k] = `${label} fehlt.`;
+    if (!input[k as keyof CheckoutInput]?.trim()) errors[k] = v.missing(label);
   }
-  if (!errors.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.email)) errors.email = 'Bitte eine gültige E-Mail-Adresse angeben.';
-  if (!errors.zip && !/^[1-9]\d{3}$/.test(input.zip)) errors.zip = 'Wir liefern innerhalb der Schweiz: bitte eine vierstellige Schweizer PLZ angeben.';
-  if (!input.agb) errors.agb = 'Bitte bestätigen Sie die AGB und die Datenschutzerklärung.';
-  for (const [k, v] of Object.entries(input)) {
-    if (v.length > (k === 'note' ? 1000 : 120)) errors[k] = 'Eingabe zu lang.';
+  if (!errors.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.email)) errors.email = v.email;
+  if (!errors.zip && !/^[1-9]\d{3}$/.test(input.zip)) errors.zip = v.zip;
+  if (!input.agb) errors.agb = v.agb;
+  for (const [k, val] of Object.entries(input)) {
+    if (val.length > (k === 'note' ? 1000 : 120)) errors[k] = v.tooLong;
   }
   return errors;
 }
@@ -88,15 +93,16 @@ function normalize(o: any): Order {
     paid_at: o.paid_at ? new Date(o.paid_at) : null,
     shipped_at: o.shipped_at ? new Date(o.shipped_at) : null,
     cancelled_at: o.cancelled_at ? new Date(o.cancelled_at) : null,
+    lang: o.lang || 'de',
     items: o.items ?? [],
   };
 }
 
-export async function createOrder(input: CheckoutInput, cart: Cart): Promise<Order> {
+export async function createOrder(input: CheckoutInput, cart: Cart, lang: Locale = 'de'): Promise<Order> {
   for (const it of cart.items) {
     const p = await getProduct(it.product.id);
     if (p && p.stock !== null && p.stock < it.qty) {
-      throw new Error(`Leider sind von «${p.name}» nur noch ${p.stock} Stück verfügbar.`);
+      throw new Error(getDict(lang).validation.stock(p.name, p.stock));
     }
   }
   const seqRow = await one<{ n: string | number }>(`SELECT nextval('order_number_seq') AS n`);
@@ -108,12 +114,12 @@ export async function createOrder(input: CheckoutInput, cart: Cart): Promise<Ord
   const queries: Query[] = [
     {
       text: `INSERT INTO orders (number, token, salutation, first_name, last_name, company, street, zip, city, email, phone, note,
-               subtotal, shipping, total, vat_rate, vat_amount)
-             VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17)`,
+               subtotal, shipping, total, vat_rate, vat_amount, lang)
+             VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18)`,
       params: [
         number, token, input.salutation, input.first_name.trim(), input.last_name.trim(), input.company.trim(),
         input.street.trim(), input.zip.trim(), input.city.trim(), input.email.trim().toLowerCase(), input.phone.trim(), input.note.trim(),
-        cart.subtotal, cart.shipping, cart.total, cart.vatRate, cart.vat,
+        cart.subtotal, cart.shipping, cart.total, cart.vatRate, cart.vat, lang,
       ],
     },
   ];

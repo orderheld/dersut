@@ -1,6 +1,7 @@
 import 'server-only';
 import { neon } from '@neondatabase/serverless';
 import { SCHEMA, SEED_PRODUCTS } from './schema';
+import { SEED_TRANSLATIONS } from './product-seed-i18n';
 
 export type Row = Record<string, any>;
 export type Query = { text: string; params?: unknown[] };
@@ -56,6 +57,15 @@ async function getDriver(): Promise<Driver> {
             Object.values(p),
           );
         }
+      }
+      // Übersetzungen und Galerie der Startprodukte nachtragen, solange noch leer
+      for (const [slug, seed] of Object.entries(SEED_TRANSLATIONS)) {
+        await d.query(
+          `UPDATE products SET translations = CASE WHEN translations = '{}'::jsonb THEN $2::jsonb ELSE translations END,
+             gallery = CASE WHEN gallery = '[]'::jsonb THEN $3::jsonb ELSE gallery END
+           WHERE slug = $1`,
+          [slug, JSON.stringify(seed.translations), JSON.stringify(seed.gallery)],
+        );
       }
       return d;
     })().catch((e) => {

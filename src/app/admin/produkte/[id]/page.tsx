@@ -6,7 +6,9 @@ import { ActionForm } from '@/components/admin/ActionForm';
 import { Flash } from '@/components/admin/Flash';
 import { requireAdmin } from '@/lib/admin';
 import { productImage } from '@/lib/brand';
+import { LOCALES, LOCALE_NAMES, type Locale } from '@/lib/i18n';
 import { getProduct, type Product } from '@/lib/products';
+import type { ProductText } from '@/lib/products-shared';
 import { saveProductAction } from '../../actions';
 
 type Props = { params: Promise<{ id: string }>; searchParams: Promise<{ ok?: string }> };
@@ -15,8 +17,40 @@ export const metadata: Metadata = { title: 'Produkt bearbeiten' };
 
 const EMPTY: Product = {
   id: 0, slug: '', name: '', line: '', subtitle: 'Espressobohnen · 1 kg', description: '', notes: '', blend: '', weight: '1 kg',
-  price: 0, image: '', intensity: 3, accent: '#002856', active: true, stock: null, sort: 100,
+  price: 0, image: '', intensity: 3, accent: '#002856', active: true, stock: null, sort: 100, translations: {}, gallery: [],
 };
+
+const FIELDS: [keyof ProductText, string, 'input' | 'text' | 'lines'][] = [
+  ['subtitle', 'Untertitel', 'input'],
+  ['description', 'Kurzbeschreibung', 'text'],
+  ['notes', 'Geschmacksnoten', 'input'],
+  ['blend', 'Mischung', 'input'],
+  ['highlights', 'Highlights (eine pro Zeile)', 'lines'],
+  ['details', 'Ausführlicher Text (Absätze mit Leerzeile trennen)', 'text'],
+  ['seoTitle', 'SEO-Titel (max. 60 Zeichen)', 'input'],
+  ['seoDescription', 'SEO-Beschreibung (max. 160 Zeichen)', 'text'],
+];
+
+function LangFields({ lang, p }: { lang: Locale; p: Product }) {
+  const tr = p.translations[lang] ?? {};
+  // Deutsch: Untertitel, Beschreibung, Noten und Mischung stehen in den Hauptfeldern
+  const fields = lang === 'de' ? FIELDS.filter(([k]) => !['subtitle', 'description', 'notes', 'blend'].includes(k)) : FIELDS;
+  return (
+    <>
+      {fields.map(([k, label, kind]) => {
+        const name = `tr_${lang}_${k}`;
+        const v = tr[k];
+        const value = Array.isArray(v) ? v.join('\n') : (v ?? '');
+        return (
+          <label key={k}>
+            {label}
+            {kind === 'input' ? <input name={name} defaultValue={value} /> : <textarea name={name} rows={k === 'details' ? 8 : 3} defaultValue={value} />}
+          </label>
+        );
+      })}
+    </>
+  );
+}
 
 export default async function ProductEdit({ params, searchParams }: Props) {
   await requireAdmin();
@@ -52,12 +86,19 @@ export default async function ProductEdit({ params, searchParams }: Props) {
               <label>Geschmacksnoten<input name="notes" defaultValue={p.notes} placeholder="Kakao, Feingebäck" /></label>
               <label>Mischung<input name="blend" defaultValue={p.blend} placeholder="Arabica & Robusta" /></label>
             </div>
+            <LangFields lang="de" p={p} />
             <div className="row3">
               <label>Inhalt<input name="weight" defaultValue={p.weight} placeholder="1 kg" /></label>
               <label>Intensität (1–5)<input type="number" name="intensity" min={1} max={5} defaultValue={p.intensity} /></label>
               <label>Akzentfarbe<input type="color" name="accent" defaultValue={p.accent} /></label>
             </div>
           </section>
+          {LOCALES.filter((l) => l !== 'de').map((l) => (
+            <details className="card form" key={l} open={false}>
+              <summary><h2 style={{ display: 'inline' }}>{LOCALE_NAMES[l]}</h2> <span className="muted">(leere Felder zeigen den deutschen Text)</span></summary>
+              <LangFields lang={l} p={p} />
+            </details>
+          ))}
         </div>
         <div>
           <section className="card form">
@@ -73,6 +114,16 @@ export default async function ProductEdit({ params, searchParams }: Props) {
             {img && <div className="preview"><Img src={img} alt="" /></div>}
             <label>Neues Bild hochladen (JPG, PNG, WebP, max. 4 MB)<input type="file" name="upload" accept="image/jpeg,image/png,image/webp" /></label>
             <label>oder Bild-URL<input name="image" defaultValue={p.image} placeholder="https://… oder brand:prod_optimum" /></label>
+          </section>
+          <section className="card form">
+            <h2>Weitere Bilder (Galerie)</h2>
+            {p.gallery.length > 0 && (
+              <div className="thumbs">
+                {p.gallery.map((g) => <div className="preview preview--sm" key={g}><Img src={productImage(g)} alt="" /></div>)}
+              </div>
+            )}
+            <label>Bilder hochladen <span className="muted">(mehrere möglich, zusammen max. 4 MB)</span><input type="file" name="gallery_upload" multiple accept="image/jpeg,image/png,image/webp" /></label>
+            <label>Bild-URLs <span className="muted">(eine pro Zeile, Reihenfolge = Anzeige)</span><textarea name="gallery" rows={5} defaultValue={p.gallery.join('\n')} placeholder="brand:tazze" /></label>
           </section>
           <button className="btn btn--primary btn--lg btn--block" type="submit">Speichern</button>
         </div>

@@ -7,6 +7,7 @@ import { Flash } from '@/components/admin/Flash';
 import { requireAdmin } from '@/lib/admin';
 import { config } from '@/lib/config';
 import { chf, dateCh, ibanFormat, statusLabel, trackingUrl } from '@/lib/format';
+import { LOCALE_NAMES, lp } from '@/lib/i18n';
 import { getLogs, getOrder } from '@/lib/orders';
 import { dueDate, paymentMessage } from '@/lib/orders-shared';
 import { noteAction, orderStatusAction, resendMailAction, trackingAction } from '../../actions';
@@ -44,7 +45,7 @@ export default async function OrderDetail({ params, searchParams }: Props) {
           <h1>Bestellung {o.number} <span className={`badge badge--${o.status}`}>{statusLabel(o.status)}</span></h1>
           <p className="muted">Eingegangen am {dateCh(o.created_at, true)} · Vorauskasse · zahlbar bis {dateCh(dueDate(o))}</p>
         </div>
-        <a className="btn btn--ghost" href={`/bestellung/${o.number}?t=${o.token}`} target="_blank" rel="noopener">Kundenansicht ↗</a>
+        <a className="btn btn--ghost" href={lp(o.lang, `/bestellung/${o.number}?t=${o.token}`)} target="_blank" rel="noopener">Kundenansicht ↗</a>
       </header>
       <Flash ok={ok} />
 
@@ -161,6 +162,7 @@ export default async function OrderDetail({ params, searchParams }: Props) {
           <section className="card">
             <h2>Zahlungsabgleich</h2>
             <dl className="kv">
+              <dt>Sprache</dt><dd>{LOCALE_NAMES[o.lang] ?? o.lang}</dd>
               <dt>Betrag</dt><dd>{chf(o.total)}</dd>
               <dt>Mitteilung</dt><dd>{msg}</dd>
               <dt>Konto</dt><dd>{ibanFormat(config.bank.iban)}</dd>

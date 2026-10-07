@@ -2,7 +2,8 @@ import 'server-only';
 import { cookies } from 'next/headers';
 import { config } from './config';
 import { vatFromGross } from './format';
-import { getProduct, type Product } from './products';
+import type { Locale } from './i18n';
+import { getProduct, localizeProduct, type Product } from './products';
 
 const COOKIE = 'dersut_cart';
 
@@ -64,13 +65,13 @@ export async function cartCount(): Promise<number> {
   return Object.values(await readCart()).reduce((a, b) => a + b, 0);
 }
 
-export async function cartSummary(): Promise<Cart> {
+export async function cartSummary(lang: Locale = 'de'): Promise<Cart> {
   const raw = await readCart();
   const items: CartItem[] = [];
   for (const [id, qty] of Object.entries(raw)) {
     const p = await getProduct(Number(id));
     if (!p || !p.active) continue;
-    items.push({ product: p, qty, line: p.price * qty });
+    items.push({ product: localizeProduct(p, lang), qty, line: p.price * qty });
   }
   const subtotal = items.reduce((a, i) => a + i.line, 0);
   const shipping = items.length ? config.shop.shipping : 0;

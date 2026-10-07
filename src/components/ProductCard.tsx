@@ -1,18 +1,23 @@
 import Link from 'next/link';
 import type { CSSProperties } from 'react';
+import { getDict } from '@/i18n';
 import { productImage } from '@/lib/brand';
 import { chf } from '@/lib/format';
+import { lp, type Locale } from '@/lib/i18n';
 import { isSoldOut, type Product } from '@/lib/products';
 import { AddToCart } from './AddToCart';
 import { Img } from './Img';
 import { Intensity } from './Intensity';
 
-export function ProductCard({ p }: { p: Product }) {
+export function ProductCard({ p, lang }: { p: Product; lang: Locale }) {
+  const t = getDict(lang);
+  const href = lp(lang, `/shop/${p.slug}`);
   return (
     <article className="pcard" style={{ '--accent': p.accent } as CSSProperties}>
-      <Link className="pcard__media" href={`/shop/${p.slug}`}>
+      <Link className="pcard__media is-pack" href={href}>
         <span className="pcard__badge">{p.line}</span>
         <Img src={productImage(p.image)} alt={`${p.name} ${p.weight}`} className="pcard__img" />
+        <span className="pcard__shadow" aria-hidden="true" />
         <span className="pcard__fallback" aria-hidden="true">
           <span>{p.line}</span>
           <small>{p.weight}</small>
@@ -20,12 +25,12 @@ export function ProductCard({ p }: { p: Product }) {
       </Link>
       <div className="pcard__body">
         <p className="eyebrow">{p.subtitle}</p>
-        <h3 className="pcard__title"><Link href={`/shop/${p.slug}`}>{p.name}</Link></h3>
+        <h3 className="pcard__title"><Link href={href}>{p.name}</Link></h3>
         <p className="pcard__notes">{p.notes}</p>
-        <Intensity value={p.intensity} />
+        <Intensity value={p.intensity} lang={lang} />
         <div className="pcard__foot">
-          <div className="price">{chf(p.price)}<small>inkl. MWST</small></div>
-          <AddToCart productId={p.id} soldOut={isSoldOut(p)} />
+          <div className="price">{chf(p.price)}<small>{t.common.inclVat}</small></div>
+          <AddToCart productId={p.id} soldOut={isSoldOut(p)} lang={lang} />
         </div>
       </div>
     </article>
