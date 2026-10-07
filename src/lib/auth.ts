@@ -84,3 +84,35 @@ export async function recordFailedAttempt(ip: string): Promise<void> {
 export async function clearAttempts(ip: string): Promise<void> {
   await query('DELETE FROM login_attempts WHERE ip = $1', [ip]);
 }
+
+/* ---------- Passwort vergessen ---------- */
+
+const RESET_TTL = 30 * 60; // 30 Minuten
+
+/** Reset-Link-Token: an E-Mail und aktuellen Passwort-Hash gebunden, dadurch nur einmal gültig. */
+function resetSig(email: string, exp: number, currentHash: string): string {
+  return sign(`reset:${email}:${exp}:${currentHash}`);
+}
+
+async function currentHashFor(email: string): Promise<string> {
+  const row = await one<{ password_hash: string }>('SELECT password_hash FROM admins WHERE email = $1', [email]);
+  return row?.password_hash ?? 'neu';
+}
+
+export async function createResetToken(email: string): Promise<string> {
+  const exp = Math.floor(Date.now() / 1000) + RESET_TTL;
+  const e = Buffer.from(email).toString('base64url');
+  return `${e}.${exp}.${resetSig(email, exp, await currentHashFor(email))}`;
+}
+
+/** Prüft ein Reset-Token und liefert die E-Mail-Adresse, oder null. */
+export async function verifyResetToken(token: string): Promise<string | null> {
+  const [e, expRaw, sig] = (token ?? '').split('.');
+  if (!e || !expRaw || !sig) return null;
+  const exp = Number(expRaw);
+  if (!exp || exp < Date.now() / 1000) return null;
+  const email = Buffer.from(e, 'base64url').toString();
+  const expected = Buffer.from(resetSig(email, exp, await currentHashFor(email)));
+  const given = Buffer.from(sig);
+  return expected.length === given.length && timingSafeEqual(expected, given) ? email : null;
+}

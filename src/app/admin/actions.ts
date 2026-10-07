@@ -7,13 +7,13 @@ import { redirect } from 'next/navigation';
 import type { FormState } from '@/components/admin/ActionForm';
 import { requireAdmin } from '@/lib/admin';
 import {
-  clearAttempts, clientIp, createSession, destroySession, hasAdmins, hashPassword,
-  recordFailedAttempt, tooManyAttempts, verifyPassword,
+  clearAttempts, clientIp, createResetToken, createSession, destroySession, hasAdmins, hashPassword,
+  recordFailedAttempt, tooManyAttempts, verifyPassword, verifyResetToken,
 } from '@/lib/auth';
 import { config } from '@/lib/config';
 import { one, query } from '@/lib/db';
-import { mailTypeForStatus, sendOrderMail, testMailHtml } from '@/lib/emails';
-import { slugify, statusLabel, toRappen } from '@/lib/format';
+import { mailTypeForStatus, resetMailHtml, sendOrderMail, testMailHtml } from '@/lib/emails';
+import { absUrl, slugify, statusLabel, toRappen } from '@/lib/format';
 import { deliverMail } from '@/lib/mail';
 import { addLog, getOrder, ORDER_STATUSES, setOrderStatus, type OrderStatus } from '@/lib/orders';
 
@@ -54,6 +54,45 @@ export async function setupAction(_prev: FormState, fd: FormData): Promise<FormS
   );
   if (!row) redirect('/admin/login');
   await createSession(row.id);
+  redirect('/admin?ok=welcome');
+}
+
+/* ---------- Passwort vergessen ---------- */
+
+const RESET_SENT = 'Falls es zu dieser Adresse einen Zugang gibt, ist jetzt ein Link unterwegs. Er ist 30 Minuten gültig. Bitte auch im Spam-Ordner nachsehen.';
+
+export async function forgotPasswordAction(_prev: FormState, fd: FormData): Promise<FormState> {
+  const ip = await clientIp();
+  if (await tooManyAttempts(ip)) return { error: 'Zu viele Versuche. Bitte in 15 Minuten erneut versuchen.' };
+  await recordFailedAttempt(ip); // zählt jede Anfrage, damit niemand massenhaft Mails auslösen kann
+  const email = str(fd, 'email').toLowerCase();
+  if (!EMAIL_RE.test(email)) return { error: 'Bitte eine gültige E-Mail-Adresse angeben.' };
+  // Erlaubt: bestehende Admin-Konten und die Firmenadresse (deren Postfach gehört dem Inhaber)
+  const exists = await one('SELECT 1 FROM admins WHERE email = $1', [email]);
+  if (!exists && email !== config.email.orders.toLowerCase()) return { ok: RESET_SENT };
+  const link = absUrl(`admin/passwort-neu?t=${encodeURIComponent(await createResetToken(email))}`);
+  const r = await deliverMail({
+    to: email,
+    subject: 'Dersut Admin: Passwort neu setzen',
+    html: resetMailHtml(link),
+  });
+  if (!r.ok) return { error: `Die E-Mail konnte nicht gesendet werden (${r.error}).` };
+  return { ok: RESET_SENT };
+}
+
+export async function newPasswordAction(_prev: FormState, fd: FormData): Promise<FormState> {
+  const email = await verifyResetToken(str(fd, 't'));
+  if (!email) return { error: 'Der Link ist abgelaufen oder wurde schon benutzt. Bitte einen neuen anfordern.' };
+  const pw = str(fd, 'password');
+  if (pw.length < 10) return { error: 'Das Passwort muss mindestens 10 Zeichen lang sein.' };
+  if (pw !== str(fd, 'password2')) return { error: 'Die Passwörter stimmen nicht überein.' };
+  const row = await one<{ id: number }>(
+    `INSERT INTO admins (email, password_hash) VALUES ($1, $2)
+     ON CONFLICT (email) DO UPDATE SET password_hash = EXCLUDED.password_hash RETURNING id`,
+    [email, await hashPassword(pw)],
+  );
+  await clearAttempts(await clientIp());
+  await createSession(row!.id);
   redirect('/admin?ok=welcome');
 }
 

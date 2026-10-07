@@ -156,6 +156,13 @@ export async function sendContactMail(m: { name: string; email: string; phone: s
   });
 }
 
+export function resetMailHtml(link: string): string {
+  return layout(`${h1('Passwort neu setzen')}
+<p>Für den Admin-Bereich von dersutkaffee.ch wurde ein neues Passwort angefordert. Der Link ist 30 Minuten gültig und funktioniert nur einmal.</p>
+${button(link, 'Neues Passwort setzen')}
+<p style="font-size:13px;color:#6c6a64">Haben Sie das nicht angefordert? Dann ignorieren Sie diese E-Mail einfach, Ihr Passwort bleibt unverändert.</p>`);
+}
+
 export function testMailHtml(): string {
   return layout(`${h1('Testmail')}<p>Der E-Mail-Versand über Resend funktioniert.</p>`);
 }

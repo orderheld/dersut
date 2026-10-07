@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { ActionForm } from '@/components/admin/ActionForm';
 import { currentAdmin, hasAdmins } from '@/lib/auth';
@@ -18,6 +19,7 @@ export default async function Login() {
         <label>Passwort<input type="password" name="password" required autoComplete="current-password" /></label>
         <button className="btn btn--primary" type="submit">Anmelden</button>
       </ActionForm>
+      <p><Link href="/admin/passwort-vergessen">Passwort vergessen?</Link></p>
     </div>
   );
 }
