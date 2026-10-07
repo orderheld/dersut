@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import type { CSSProperties } from 'react';
 import { getDict } from '@/i18n';
-import { productImage } from '@/lib/brand';
+import { cutoutImage, productImage } from '@/lib/brand';
 import { chf } from '@/lib/format';
 import { lp, type Locale } from '@/lib/i18n';
 import { isSoldOut, type Product } from '@/lib/products';
@@ -16,7 +16,7 @@ export function ProductCard({ p, lang }: { p: Product; lang: Locale }) {
     <article className="pcard" style={{ '--accent': p.accent } as CSSProperties}>
       <Link className="pcard__media is-pack" href={href}>
         <span className="pcard__badge">{p.line}</span>
-        <Img src={productImage(p.image)} alt={`${p.name} ${p.weight}`} className="pcard__img" />
+        <Img src={cutoutImage(productImage(p.image))} fallbackSrc={productImage(p.image)} alt={`${p.name} ${p.weight}`} className="pcard__img" />
         <span className="pcard__shadow" aria-hidden="true" />
         <span className="pcard__fallback" aria-hidden="true">
           <span>{p.line}</span>

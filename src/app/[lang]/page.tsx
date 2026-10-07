@@ -323,6 +323,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return pageMeta(lang, PATH, T[lang].metaTitle, T[lang].metaDescription, { absoluteTitle: true });
 }
 
+const HERO_TITLE: Record<Locale, [string, string]> = {
+  de: ['Echter italienischer', 'Espresso.'],
+  fr: ['Le vrai espresso', 'italien.'],
+  it: ['Il vero espresso', 'italiano.'],
+  en: ['Authentic Italian', 'espresso.'],
+};
+
 export default async function Home({ params }: Props) {
   const lang = asLocale((await params).lang);
   const t = T[lang];
@@ -341,7 +348,7 @@ export default async function Home({ params }: Props) {
         <div className="hero__media"><Img src={brand('hero_1')} alt={t.heroAlt} className="hero__img" eager /></div>
         <div className="wrap hero__inner">
           <p className="hero__kicker"><span className="rule" /> {t.heroKicker}</p>
-          <h1 className="hero__title">Il vero espresso<br /><em>italiano.</em></h1>
+          <h1 className="hero__title">{HERO_TITLE[lang][0]}<br /><em>{HERO_TITLE[lang][1]}</em></h1>
           <p className="hero__lead">{t.heroLead}</p>
           <div className="hero__cta">
             <Link className="btn btn--gold btn--lg" href={lp(lang, '/shop')}>{t.heroShop} <Icon name="arrow" /></Link>

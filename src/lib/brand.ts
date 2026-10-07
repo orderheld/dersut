@@ -67,3 +67,8 @@ export function productImage(image: string): string {
   }
   return image;
 }
+
+/** Freigestellte Version eines Packshots (transparenter Hintergrund), siehe /api/cutout. */
+export function cutoutImage(src: string): string {
+  return src ? `/api/cutout?src=${encodeURIComponent(src)}` : '';
+}

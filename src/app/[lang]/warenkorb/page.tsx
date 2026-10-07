@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { CartQty } from '@/components/CartQty';
 import { Icon } from '@/components/Icon';
 import { Img } from '@/components/Img';
-import { productImage } from '@/lib/brand';
+import { cutoutImage, productImage } from '@/lib/brand';
 import { cartSummary } from '@/lib/cart';
 import { config } from '@/lib/config';
 import { chf } from '@/lib/format';
@@ -45,7 +45,7 @@ export default async function Warenkorb({ params }: Props) {
                       <tr key={p.id}>
                         <td>
                           <div className="cart-prod">
-                            <div className="cart-prod__img"><Img src={productImage(p.image)} alt={p.name} /></div>
+                            <div className="cart-prod__img"><Img src={cutoutImage(productImage(p.image))} fallbackSrc={productImage(p.image)} alt={p.name} /></div>
                             <div>
                               <Link href={lp(lang, `/shop/${p.slug}`)}>{p.name}</Link>
                               <small>{p.subtitle}</small>

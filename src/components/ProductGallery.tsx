@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { Img } from './Img';
 
-export type GalleryImage = { src: string; alt: string; pack: boolean };
+export type GalleryImage = { src: string; alt: string; pack: boolean; cut?: string };
 
 /** Produktbilder: grosse Bühne mit Thumbnails. Packshots (weisser Hintergrund) werden freigestellt dargestellt. */
 export function ProductGallery({ images, badge, fallback, labels }: { images: GalleryImage[]; badge: string; fallback: [string, string]; labels: { gallery: string; show: string[]; prev: string; next: string } }) {
@@ -16,7 +16,7 @@ export function ProductGallery({ images, badge, fallback, labels }: { images: Ga
         <span className="pcard__badge">{badge}</span>
         {images.map((im, n) => (
           <div key={im.src} className={`pg__slide${n === i ? ' is-on' : ''}${im.pack ? ' is-pack' : ''}`} aria-hidden={n !== i}>
-            <Img src={im.src} alt={im.alt} eager={n === 0} />
+            <Img src={im.cut || im.src} fallbackSrc={im.cut ? im.src : undefined} alt={im.alt} eager={n === 0} />
           </div>
         ))}
         {cur?.pack && <span className="pg__floor" aria-hidden="true" />}
@@ -33,7 +33,7 @@ export function ProductGallery({ images, badge, fallback, labels }: { images: Ga
           {images.map((im, n) => (
             <li key={im.src}>
               <button type="button" className={`pg__thumb${n === i ? ' is-on' : ''}${im.pack ? ' is-pack' : ''}`} aria-label={labels.show[n]} aria-current={n === i} onClick={() => setI(n)}>
-                <Img src={im.src} alt="" />
+                <Img src={im.cut || im.src} fallbackSrc={im.cut ? im.src : undefined} alt="" />
               </button>
             </li>
           ))}

@@ -125,10 +125,10 @@ strong { color: var(--ink); font-weight: 600; }
 .link-arrow--light:hover { color: var(--gold-300); }
 
 /* ---------- Topbar & Header ---------- */
-.topbar { background: var(--navy-950); color: rgba(255,255,255,.82); font-size: 12.5px; letter-spacing: .02em; }
-.topbar__inner { display: flex; justify-content: center; gap: 36px; padding-top: 9px; padding-bottom: 9px; }
+.topbar { background: var(--navy-950); color: rgba(255,255,255,.92); font-size: 13.5px; font-weight: 500; letter-spacing: .02em; }
+.topbar__inner { display: flex; justify-content: center; gap: 36px; padding-top: 12px; padding-bottom: 12px; }
 .topbar__item { display: inline-flex; align-items: center; gap: 8px; white-space: nowrap; }
-.topbar__item .icon { color: var(--gold-300); width: 16px; height: 16px; }
+.topbar__item .icon { color: var(--gold-300); width: 17px; height: 17px; flex: none; }
 
 .header { position: sticky; top: 0; z-index: 40; background: rgba(251, 249, 244, .94); backdrop-filter: saturate(1.4) blur(10px); -webkit-backdrop-filter: saturate(1.4) blur(10px); border-bottom: 1px solid var(--line-soft); transition: box-shadow .3s; }
 .header.is-scrolled { box-shadow: 0 6px 24px -14px rgba(0, 26, 58, .35); }
@@ -342,7 +342,9 @@ img.is-broken { visibility: hidden; }
 .footer__since { font-family: var(--serif); font-style: italic; font-size: 20px; color: var(--gold-300); }
 .footer__contact strong { color: #fff; }
 .footer__bottom { display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap; padding-top: 24px; padding-bottom: 30px; border-top: 1px solid rgba(255,255,255,.1); font-size: 12.5px; }
-.footer__bottom nav { display: flex; gap: 22px; }
+.footer__bottom nav { display: flex; gap: 12px 22px; flex-wrap: wrap; }
+.footer__credit { color: rgba(255,255,255,.5) !important; }
+.footer__credit:hover { color: var(--gold-300) !important; }
 
 /* ---------- Timeline (Geschichte) ---------- */
 .tl { position: relative; max-width: 1080px; margin: 0 auto; }
@@ -577,7 +579,7 @@ a.ccard:hover { border-color: var(--gold); box-shadow: var(--shadow-sm); color: 
   .section, .split, .certband { padding: 76px 0; }
 }
 @media (max-width: 640px) {
-  .wrap { padding: 0 16px; }
+  .wrap { padding-left: 16px; padding-right: 16px; }
   .frame::before { inset: 12px -10px -12px 12px; }
   .frame--gold::before { inset: 12px 12px -12px -10px; }
   .topbar__item--hide-sm { display: none; }
@@ -593,8 +595,15 @@ a.ccard:hover { border-color: var(--gold); box-shadow: var(--shadow-sm); color: 
   .assurance__grid { grid-template-columns: 1fr; }
   .assurance__item { padding: 18px 4px; }
   .footer__grid { grid-template-columns: 1fr; gap: 36px; }
-  .fgrid { grid-template-columns: 1fr; }
-  .f--2, .f--3, .f--4 { grid-column: span 1; }
+  .fgrid { grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 14px 12px; }
+  .f, .f--2, .f--3, .f--4 { grid-column: span 6; }
+  .f:has(> #zip) { grid-column: span 2; }
+  .f:has(> #city) { grid-column: span 4; }
+  .f input, .f select, .f textarea { font-size: 16px; padding: 14px; }
+  .topbar { font-size: 12.5px; }
+  .topbar__inner { padding-top: 11px; padding-bottom: 11px; }
+  .topbar__item { white-space: normal; text-align: center; }
+  .footer__grid { padding-top: 56px; padding-bottom: 40px; }
   .form-card, .payinfo { padding: 24px 20px; }
   .cert { grid-template-columns: 80px 1fr; padding: 20px; gap: 18px; }
   .certs { grid-template-columns: 1fr; }
@@ -686,3 +695,12 @@ a.ccard:hover { border-color: var(--gold); box-shadow: var(--shadow-sm); color: 
 .pcard__media:has(.pcard__img:not(.is-broken)) .pcard__fallback,
 .pg__stage:has(.pg__slide.is-on img:not(.is-broken)) .pcard__fallback { display: none; }
 .pg__stage:has(.pg__slide.is-on img.is-broken) .pg__floor { display: none; }
+
+/* Mobile-Formulare: Felder nicht unter dem fixen Header verstecken */
+.f input, .f select, .f textarea { scroll-margin-top: 110px; }
+.f select { appearance: none; -webkit-appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%23002856' stroke-width='1.5'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; background-size: 10px 6px; padding-right: 36px; }
+.f input:disabled { color: var(--muted); }
+
+/* Freigestellte Produktbilder (transparentes WebP aus /api/cutout) */
+.pcard__media.is-pack .pcard__img.is-cut, .pg__slide.is-pack img.is-cut, .pg__thumb.is-pack img.is-cut { mix-blend-mode: normal; filter: none; }
+.cart-prod__img img.is-cut, .summary__items img.is-cut { mix-blend-mode: normal; }

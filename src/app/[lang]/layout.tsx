@@ -151,6 +151,7 @@ export default async function SiteLayout({ children, params }: Props) {
               <Link href={L('/impressum')}>{t.nav.imprint}</Link>
               <Link href={L('/datenschutz')}>{t.nav.privacy}</Link>
               <Link href={L('/agb')}>{t.nav.terms}</Link>
+              <a className="footer__credit" href="https://webnova.ch" target="_blank" rel="noopener">Webdesign by webnova.ch</a>
             </nav>
           </div>
         </footer>

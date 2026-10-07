@@ -16,7 +16,7 @@ export const config = {
     city: 'Basel',
     phone: '', // optional
     uid: 'CHE-452.988.706',
-    vatNo: '', // MWST-Nummer, falls registriert, z. B. CHE-452.988.706 MWST (leer = ausgeblendet)
+    vatNo: 'CHE-452.988.706 MWST',
     register: 'Handelsregisteramt des Kantons Basel-Stadt',
     managing: 'Asurhan Ibrahim Raci Özcelik'
   },

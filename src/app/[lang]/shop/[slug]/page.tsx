@@ -8,7 +8,7 @@ import { Img } from '@/components/Img';
 import { ProductCard } from '@/components/ProductCard';
 import { ProductGallery, type GalleryImage } from '@/components/ProductGallery';
 import { getDict } from '@/i18n';
-import { brand, productImage } from '@/lib/brand';
+import { brand, cutoutImage, productImage } from '@/lib/brand';
 import { config } from '@/lib/config';
 import { chf } from '@/lib/format';
 import { LOCALE_TAGS, asLocale, lp } from '@/lib/i18n';
@@ -21,11 +21,11 @@ type Props = { params: Promise<{ lang: string; slug: string }> };
 
 function galleryOf(p: LocalizedProduct): GalleryImage[] {
   return p.images
-    .map((key, n) => ({
-      src: productImage(key),
-      alt: n === 0 ? `${p.name} ${p.weight}` : `${p.name} – ${p.notes}`,
-      pack: n === 0 || key.startsWith('brand:prod_'),
-    }))
+    .map((key, n) => {
+      const src = productImage(key);
+      const pack = n === 0 || key.startsWith('brand:prod_');
+      return { src, alt: n === 0 ? `${p.name} ${p.weight}` : `${p.name} – ${p.notes}`, pack, cut: pack && src ? cutoutImage(src) : undefined };
+    })
     .filter((im) => im.src);
 }
 
