@@ -1,0 +1,122 @@
+export const SCHEMA = [
+  `CREATE TABLE IF NOT EXISTS products (
+    id SERIAL PRIMARY KEY,
+    slug TEXT NOT NULL UNIQUE,
+    name TEXT NOT NULL,
+    line TEXT NOT NULL DEFAULT '',
+    subtitle TEXT NOT NULL DEFAULT '',
+    description TEXT NOT NULL DEFAULT '',
+    notes TEXT NOT NULL DEFAULT '',
+    blend TEXT NOT NULL DEFAULT '',
+    weight TEXT NOT NULL DEFAULT '1 kg',
+    price INTEGER NOT NULL,
+    image TEXT NOT NULL DEFAULT '',
+    intensity INTEGER NOT NULL DEFAULT 3,
+    accent TEXT NOT NULL DEFAULT '#002856',
+    active BOOLEAN NOT NULL DEFAULT TRUE,
+    stock INTEGER,
+    sort INTEGER NOT NULL DEFAULT 0,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+  )`,
+  `CREATE SEQUENCE IF NOT EXISTS order_number_seq START 1001`,
+  `CREATE TABLE IF NOT EXISTS orders (
+    id SERIAL PRIMARY KEY,
+    number TEXT NOT NULL UNIQUE,
+    token TEXT NOT NULL,
+    status TEXT NOT NULL DEFAULT 'open',
+    salutation TEXT NOT NULL DEFAULT '',
+    first_name TEXT NOT NULL,
+    last_name TEXT NOT NULL,
+    company TEXT NOT NULL DEFAULT '',
+    street TEXT NOT NULL,
+    zip TEXT NOT NULL,
+    city TEXT NOT NULL,
+    email TEXT NOT NULL,
+    phone TEXT NOT NULL DEFAULT '',
+    note TEXT NOT NULL DEFAULT '',
+    subtotal INTEGER NOT NULL,
+    shipping INTEGER NOT NULL,
+    total INTEGER NOT NULL,
+    vat_rate NUMERIC(4,2) NOT NULL,
+    vat_amount INTEGER NOT NULL,
+    tracking TEXT NOT NULL DEFAULT '',
+    admin_note TEXT NOT NULL DEFAULT '',
+    created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+    paid_at TIMESTAMPTZ,
+    shipped_at TIMESTAMPTZ,
+    cancelled_at TIMESTAMPTZ
+  )`,
+  `CREATE INDEX IF NOT EXISTS idx_orders_status ON orders(status)`,
+  `CREATE TABLE IF NOT EXISTS order_items (
+    id SERIAL PRIMARY KEY,
+    order_id INTEGER NOT NULL REFERENCES orders(id) ON DELETE CASCADE,
+    product_id INTEGER,
+    name TEXT NOT NULL,
+    weight TEXT NOT NULL DEFAULT '',
+    unit_price INTEGER NOT NULL,
+    qty INTEGER NOT NULL,
+    line_total INTEGER NOT NULL
+  )`,
+  `CREATE TABLE IF NOT EXISTS order_log (
+    id SERIAL PRIMARY KEY,
+    order_id INTEGER NOT NULL REFERENCES orders(id) ON DELETE CASCADE,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+    message TEXT NOT NULL
+  )`,
+  `CREATE TABLE IF NOT EXISTS admins (
+    id SERIAL PRIMARY KEY,
+    email TEXT NOT NULL UNIQUE,
+    password_hash TEXT NOT NULL,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+  )`,
+  `CREATE TABLE IF NOT EXISTS login_attempts (
+    ip TEXT NOT NULL,
+    at TIMESTAMPTZ NOT NULL DEFAULT now()
+  )`,
+  `CREATE TABLE IF NOT EXISTS messages (
+    id SERIAL PRIMARY KEY,
+    name TEXT NOT NULL,
+    email TEXT NOT NULL,
+    phone TEXT NOT NULL DEFAULT '',
+    company TEXT NOT NULL DEFAULT '',
+    topic TEXT NOT NULL DEFAULT '',
+    message TEXT NOT NULL,
+    done BOOLEAN NOT NULL DEFAULT FALSE,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+  )`,
+];
+
+export const SEED_PRODUCTS = [
+  {
+    slug: 'dersut-optimum-rosso-1kg',
+    name: 'Dersut Optimum Rosso',
+    line: 'Optimum',
+    subtitle: 'Espressobohnen · 1 kg',
+    description:
+      'Optimum ist eine sorgfältig zusammengestellte Mischung aus den beliebtesten Arabica- und Robusta-Sorten, geröstet in Conegliano. Im Espresso zeigt sich eine angenehm langanhaltende Crema und ein ausgewogener Körper. Feine Noten von Kakao und Feingebäck prägen den umhüllenden Geschmack.',
+    notes: 'Kakao, Feingebäck, langanhaltende Crema',
+    blend: 'Arabica & Robusta',
+    weight: '1 kg',
+    price: 2990,
+    image: 'brand:prod_optimum',
+    intensity: 4,
+    accent: '#A3142A',
+    sort: 10,
+  },
+  {
+    slug: 'dersut-domus-marrone-1kg',
+    name: 'Dersut Domus Marrone',
+    line: 'Domus',
+    subtitle: 'Espressobohnen · 1 kg',
+    description:
+      'Domus ist eine Mischung aus ausgewählten Robusta- und Arabica-Sorten mit ausgesprochen intensivem Duft und rundem Körper. Ein angenehmer Hauch von Backwaren und ein feiner Nachklang von Trockenfrüchten geben diesem Espresso seinen kräftigen, entschlossenen Charakter. Ideal für alle, die ihren Espresso vollmundig und mit Kraft mögen.',
+    notes: 'Backwaren, Trockenfrüchte, kräftig',
+    blend: 'Robusta & Arabica',
+    weight: '1 kg',
+    price: 2690,
+    image: 'brand:prod_domus',
+    intensity: 5,
+    accent: '#6B4430',
+    sort: 20,
+  },
+];
