@@ -41,6 +41,7 @@ export function slugify(s: string): string {
 export function companyAddressLines(country = 'Schweiz'): string[] {
   const c = config.company;
   const lines = [c.name];
+  if (c.co) lines.push(c.co);
   if (c.street) lines.push(c.street);
   if (c.zip || c.city) lines.push(`${c.zip} ${c.city}`.trim());
   lines.push(country);

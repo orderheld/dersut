@@ -10,6 +10,7 @@ export const config = {
   company: {
     name: 'Dersut Kaffee GmbH',
     // Quelle: Handelsregister (Zefix), Stand 2026-10-07
+    co: 'c/o Asurhan Özcelik', // Domizil laut Handelsregister
     street: 'Fasanenstrasse 121',
     zip: '4058',
     city: 'Basel',
