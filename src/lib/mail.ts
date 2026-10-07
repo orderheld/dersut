@@ -6,7 +6,15 @@ import { config } from './config';
  * Versendet eine E-Mail über Resend.
  * Ohne RESEND_API_KEY (lokal) wird die E-Mail nur in der Konsole protokolliert.
  */
-export async function sendMail(opts: { to: string; subject: string; html: string; replyTo?: string }): Promise<boolean> {
+export type MailOpts = { to: string; subject: string; html: string; replyTo?: string };
+export type MailResult = { ok: boolean; error?: string };
+
+export async function sendMail(opts: MailOpts): Promise<boolean> {
+  return (await deliverMail(opts)).ok;
+}
+
+/** Wie sendMail, liefert bei einem Fehler aber den Grund (z. B. von Resend) zurück. */
+export async function deliverMail(opts: MailOpts): Promise<MailResult> {
   const key = process.env.RESEND_API_KEY;
   if (!key) {
     console.info(`[E-Mail nicht gesendet, RESEND_API_KEY fehlt] an ${opts.to}: ${opts.subject}`);
@@ -15,9 +23,9 @@ export async function sendMail(opts: { to: string; subject: string; html: string
       await mkdir(process.env.MAIL_DUMP_DIR, { recursive: true });
       const name = `${Date.now()}-${opts.subject.replace(/\W+/g, '_')}.html`;
       await writeFile(`${process.env.MAIL_DUMP_DIR}/${name}`, opts.html);
-      return true; // lokaler Test: als Datei «zugestellt»
+      return { ok: true }; // lokaler Test: als Datei «zugestellt»
     }
-    return false;
+    return { ok: false, error: 'RESEND_API_KEY ist nicht gesetzt' };
   }
   try {
     const resend = new Resend(key);
@@ -31,12 +39,12 @@ export async function sendMail(opts: { to: string; subject: string; html: string
     });
     if (error) {
       console.error('Resend-Fehler:', error);
-      return false;
+      return { ok: false, error: `Resend: ${error.message || error.name || 'unbekannter Fehler'}` };
     }
-    return true;
+    return { ok: true };
   } catch (e) {
     console.error('E-Mail-Versand fehlgeschlagen:', e);
-    return false;
+    return { ok: false, error: e instanceof Error ? e.message : String(e) };
   }
 }
 

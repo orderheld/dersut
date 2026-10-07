@@ -37,9 +37,10 @@ export default async function Account() {
           <section className="card form">
             <h2>E-Mail-Versand testen</h2>
             <p className="muted">
-              Sendet eine Testnachricht an {config.email.orders}. Versand über: <strong>{resend ? 'Resend' : 'nicht eingerichtet (RESEND_API_KEY fehlt)'}</strong>
+              Sendet eine Testnachricht, z. B. an eine Kundenadresse wie Gmail oder GMX. Versand über: <strong>{resend ? 'Resend' : 'nicht eingerichtet (RESEND_API_KEY fehlt)'}</strong>
             </p>
             <ActionForm action={testMailAction}>
+              <label>Empfänger<input type="email" name="to" defaultValue={config.email.orders} /></label>
               <button className="btn btn--ghost" type="submit">Testmail senden</button>
             </ActionForm>
           </section>

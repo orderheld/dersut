@@ -3,7 +3,7 @@ import { config } from './config';
 import { absUrl, chf, companyAddressLines, dateCh, ibanFormat, statusLabel, trackingUrl } from './format';
 import type { Order } from './orders';
 import { dueDate, paymentMessage } from './orders-shared';
-import { sendMail } from './mail';
+import { deliverMail, sendMail, type MailResult } from './mail';
 import { getDict } from '@/i18n';
 import { lp, type Locale } from './i18n';
 
@@ -122,7 +122,7 @@ ${button(absUrl(`admin/bestellungen/${o.id}`), 'Im Admin öffnen')}`);
 
 export type OrderMailType = 'confirmation' | 'paid' | 'shipped' | 'cancelled' | 'admin';
 
-export async function sendOrderMail(o: Order, type: OrderMailType): Promise<boolean> {
+export async function sendOrderMail(o: Order, type: OrderMailType): Promise<MailResult> {
   const m = getDict(o.lang).mail;
   const map = {
     confirmation: [m.confSubject(o.number), confirmation],
@@ -133,7 +133,7 @@ export async function sendOrderMail(o: Order, type: OrderMailType): Promise<bool
   } as const;
   const [subject, tpl] = map[type];
   const toAdmin = type === 'admin';
-  return sendMail({
+  return deliverMail({
     to: toAdmin ? config.email.orders : o.email,
     subject,
     html: tpl(o),

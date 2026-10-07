@@ -8,6 +8,7 @@ import { getOrderByNumberToken } from '@/lib/orders';
 import { dueDate, paymentMessage } from '@/lib/orders-shared';
 import { swissQrSvg } from '@/lib/swissqr';
 import { getDict } from '@/i18n';
+import { de } from '@/i18n/de';
 import { asLocale } from '@/lib/i18n';
 
 export const dynamic = 'force-dynamic';
@@ -47,7 +48,7 @@ export default async function Bestellung({ params, searchParams }: Props) {
           ) : (
             <h1>{d.yourOrder}</h1>
           )}
-          <div className="ordno">{d.number} <strong>{o.number}</strong> <CopyButton text={o.number} /></div>
+          <div className="ordno">{d.number} <strong>{o.number}</strong> <CopyButton text={o.number} label={T.common.copy} doneLabel={T.common.copied} /></div>
           <p style={{ marginTop: 16 }}><span className={`ostatus ostatus--${o.status}`}>{T.status[o.status] ?? statusLabel(o.status)}</span></p>
         </div>
 
@@ -59,11 +60,11 @@ export default async function Bestellung({ params, searchParams }: Props) {
               <p style={{ color: 'var(--muted)' }}>{d.transferText}</p>
               <table className="paytable">
                 <tbody>
-                  <tr><th>{d.amount}</th><td className="hl">{chf(o.total)} <CopyButton text={amount} /></td></tr>
+                  <tr><th>{d.amount}</th><td className="hl">{chf(o.total)} <CopyButton text={amount} label={T.common.copy} doneLabel={T.common.copied} /></td></tr>
                   <tr><th>{d.holder}</th><td>{config.bank.holder}</td></tr>
-                  <tr><th>{d.iban}</th><td>{ibanFormat(config.bank.iban)} <CopyButton text={config.bank.iban} /></td></tr>
+                  <tr><th>{d.iban}</th><td>{ibanFormat(config.bank.iban)} <CopyButton text={config.bank.iban} label={T.common.copy} doneLabel={T.common.copied} /></td></tr>
                   <tr><th>{d.bank}</th><td>{config.bank.bank}</td></tr>
-                  <tr><th>{d.message}</th><td>{msg} <CopyButton text={msg} /></td></tr>
+                  <tr><th>{d.message}</th><td>{msg} <CopyButton text={msg} label={T.common.copy} doneLabel={T.common.copied} /></td></tr>
                   <tr><th>{d.due}</th><td>{dateCh(dueDate(o))}</td></tr>
                 </tbody>
               </table>
@@ -92,7 +93,7 @@ export default async function Bestellung({ params, searchParams }: Props) {
             <h2>{d.address}</h2>
             <p style={{ color: 'var(--text)', marginTop: 14 }}>
               {o.company && <>{o.company}<br /></>}
-              {`${o.salutation} ${o.first_name} ${o.last_name}`.trim()}<br />
+              {`${T.checkout.salutations[de.checkout.salutations.indexOf(o.salutation)] ?? o.salutation} ${o.first_name} ${o.last_name}`.trim()}<br />
               {o.street}<br />{o.zip} {o.city}<br />{T.common.country}
             </p>
             <p style={{ margin: 0 }}>

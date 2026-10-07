@@ -2,7 +2,8 @@
 
 import { redirect } from 'next/navigation';
 import { addToCart, cartSummary, clearCart, setQty } from '@/lib/cart';
-import { createOrder, validateCheckout, type CheckoutInput } from '@/lib/orders';
+import { addLog, createOrder, validateCheckout, type CheckoutInput } from '@/lib/orders';
+import { config } from '@/lib/config';
 import { sendContactMail, sendOrderMail } from '@/lib/emails';
 import { getProduct } from '@/lib/products';
 import { query } from '@/lib/db';
@@ -70,7 +71,9 @@ export async function checkoutAction(_prev: CheckoutState, fd: FormData): Promis
     return { errors: { _: e instanceof Error ? e.message : getDict(lang).checkout.saveFailed }, values: input };
   }
   await clearCart();
-  await Promise.all([sendOrderMail(order, 'confirmation'), sendOrderMail(order, 'admin')]);
+  const [conf, admin] = await Promise.all([sendOrderMail(order, 'confirmation'), sendOrderMail(order, 'admin')]);
+  await addLog(order.id, conf.ok ? `Bestätigung an ${order.email} gesendet.` : `Bestätigung an ${order.email} konnte nicht gesendet werden (${conf.error}).`);
+  if (!admin.ok) await addLog(order.id, `Benachrichtigung an ${config.email.orders} konnte nicht gesendet werden (${admin.error}).`);
   redirect(lp(lang, `/bestellung/${order.number}?t=${order.token}&neu=1`));
 }
 

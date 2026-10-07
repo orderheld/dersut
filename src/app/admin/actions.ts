@@ -14,7 +14,7 @@ import { config } from '@/lib/config';
 import { one, query } from '@/lib/db';
 import { mailTypeForStatus, sendOrderMail, testMailHtml } from '@/lib/emails';
 import { slugify, statusLabel, toRappen } from '@/lib/format';
-import { sendMail } from '@/lib/mail';
+import { deliverMail } from '@/lib/mail';
 import { addLog, getOrder, ORDER_STATUSES, setOrderStatus, type OrderStatus } from '@/lib/orders';
 
 const str = (fd: FormData, k: string) => String(fd.get(k) ?? '').trim();
@@ -67,9 +67,9 @@ export async function logoutAction(): Promise<void> {
 async function changeStatus(id: number, status: OrderStatus, notify: boolean, tracking = ''): Promise<'ok' | 'mail_failed'> {
   const { after } = await setOrderStatus(id, status, tracking);
   if (notify && status !== 'open') {
-    const sent = await sendOrderMail(after, mailTypeForStatus(status));
-    await addLog(id, sent ? `E-Mail «${statusLabel(status)}» an Kunde gesendet.` : 'E-Mail an Kunde konnte nicht gesendet werden.');
-    if (!sent) return 'mail_failed';
+    const r = await sendOrderMail(after, mailTypeForStatus(status));
+    await addLog(id, r.ok ? `E-Mail «${statusLabel(status)}» an ${after.email} gesendet.` : `E-Mail an ${after.email} konnte nicht gesendet werden (${r.error}).`);
+    if (!r.ok) return 'mail_failed';
   }
   return 'ok';
 }
@@ -118,9 +118,9 @@ export async function resendMailAction(fd: FormData): Promise<void> {
   const id = Number(fd.get('id'));
   const o = await getOrder(id);
   if (!o) redirect('/admin/bestellungen');
-  const sent = await sendOrderMail(o, mailTypeForStatus(o.status));
-  await addLog(id, sent ? `E-Mail «${statusLabel(o.status)}» erneut an Kunde gesendet.` : 'E-Mail an Kunde konnte nicht gesendet werden.');
-  redirect(`/admin/bestellungen/${id}?ok=${sent ? 'resent' : 'resend_failed'}`);
+  const r = await sendOrderMail(o, mailTypeForStatus(o.status));
+  await addLog(id, r.ok ? `E-Mail «${statusLabel(o.status)}» erneut an ${o.email} gesendet.` : `E-Mail an ${o.email} konnte nicht gesendet werden (${r.error}).`);
+  redirect(`/admin/bestellungen/${id}?ok=${r.ok ? 'resent' : 'resend_failed'}`);
 }
 
 export async function trackingAction(fd: FormData): Promise<void> {
@@ -272,11 +272,13 @@ export async function removeAdminAction(fd: FormData): Promise<void> {
   revalidatePath('/admin/konto');
 }
 
-export async function testMailAction(_prev: FormState): Promise<FormState> {
+export async function testMailAction(_prev: FormState, fd: FormData): Promise<FormState> {
   await requireAdmin();
   if (!process.env.RESEND_API_KEY) return { error: 'RESEND_API_KEY ist nicht gesetzt. Bitte in Vercel unter Settings → Environment Variables eintragen.' };
-  const ok = await sendMail({ to: config.email.orders, subject: 'Testmail Dersut Shop', html: testMailHtml() });
-  return ok
-    ? { ok: `Testmail an ${config.email.orders} gesendet.` }
-    : { error: 'Versand fehlgeschlagen. Ist die Domain dersut.ch in Resend verifiziert? Details stehen im Vercel-Log.' };
+  const to = str(fd, 'to') || config.email.orders;
+  if (!EMAIL_RE.test(to)) return { error: 'Bitte eine gültige E-Mail-Adresse angeben.' };
+  const r = await deliverMail({ to, subject: 'Testmail Dersut Shop', html: testMailHtml() });
+  return r.ok
+    ? { ok: `Testmail an ${to} gesendet. Bitte auch im Spam-Ordner nachsehen.` }
+    : { error: `Versand an ${to} fehlgeschlagen: ${r.error}` };
 }

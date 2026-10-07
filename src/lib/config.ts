@@ -9,14 +9,15 @@ export const config = {
 
   company: {
     name: 'Dersut Kaffee GmbH',
-    street: '', // TODO: Strasse und Nr.
-    zip: '', // TODO: PLZ
-    city: '', // TODO: Ort
-    phone: '', // TODO (optional)
-    uid: '', // TODO: z. B. CHE-123.456.789
-    vatNo: '', // TODO: z. B. CHE-123.456.789 MWST (leer = ausgeblendet)
-    register: '', // TODO: Handelsregisteramt des Kantons …
-    managing: '', // TODO: Geschäftsführung
+    // Quelle: Handelsregister (Zefix), Stand 2026-10-07
+    street: 'Fasanenstrasse 121',
+    zip: '4058',
+    city: 'Basel',
+    phone: '', // optional
+    uid: 'CHE-452.988.706',
+    vatNo: '', // MWST-Nummer, falls registriert, z. B. CHE-452.988.706 MWST (leer = ausgeblendet)
+    register: 'Handelsregisteramt des Kantons Basel-Stadt',
+    managing: 'Asurhan Ibrahim Raci Özcelik'
   },
 
   // Eine Adresse für alles: Absender der Shop-E-Mails, Bestellkopien, Kontaktformular

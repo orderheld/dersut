@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 
-export function CopyButton({ text, className = 'copy', label = 'Kopieren' }: { text: string; className?: string; label?: string }) {
+export function CopyButton({ text, className = 'copy', label = 'Kopieren', doneLabel = 'Kopiert' }: { text: string; className?: string; label?: string; doneLabel?: string }) {
   const [done, setDone] = useState(false);
   return (
     <button
@@ -23,7 +23,7 @@ export function CopyButton({ text, className = 'copy', label = 'Kopieren' }: { t
         setTimeout(() => setDone(false), 1800);
       }}
     >
-      {done ? 'Kopiert' : label}
+      {done ? doneLabel : label}
     </button>
   );
 }
