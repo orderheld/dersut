@@ -5,11 +5,11 @@ const nextConfig: NextConfig = {
   serverExternalPackages: ['@electric-sql/pglite'],
   // Produktbilder bis 4 MB im Admin hochladen
   experimental: { serverActions: { bodySizeLimit: '5mb' } },
-  // dersutkaffee.ch und www.* leiten auf dersut.ch weiter (zusätzlich zur Domain-Einstellung in Vercel)
+  // Hauptadresse ist dersutkaffee.ch: dersut.ch und alle www.-Varianten leiten dorthin weiter
   async redirects() {
     return [
-      { source: '/:path*', has: [{ type: 'host', value: '(www\\.)?dersutkaffee\\.ch' }], destination: 'https://dersut.ch/:path*', permanent: true },
-      { source: '/:path*', has: [{ type: 'host', value: 'www\\.dersut\\.ch' }], destination: 'https://dersut.ch/:path*', permanent: true },
+      { source: '/:path*', has: [{ type: 'host', value: '(www\\.)?dersut\\.ch' }], destination: 'https://dersutkaffee.ch/:path*', permanent: true },
+      { source: '/:path*', has: [{ type: 'host', value: 'www\\.dersutkaffee\\.ch' }], destination: 'https://dersutkaffee.ch/:path*', permanent: true },
     ];
   },
   async headers() {

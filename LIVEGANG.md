@@ -1,4 +1,4 @@
-# dersut.ch live schalten – Schritt für Schritt
+# dersutkaffee.ch live schalten – Schritt für Schritt
 
 Alle E-Mails laufen über **info@dersut.ch** (Absender, Bestellkopien, Kontaktformular).
 Das Postfach bleibt bei cyon. Du brauchst Konten bei **vercel.com** und **resend.com** (beide gratis).
@@ -71,7 +71,7 @@ In Vercel → Projekt **dersut** → **Settings → Environment Variables** → 
 | Key | Value | Environments |
 |---|---|---|
 | `SESSION_SECRET` | Ctrl+V (der Schlüssel aus der Zwischenablage) | alle |
-| `SITE_URL` | `https://dersut.ch` | Production |
+| `SITE_URL` | `https://dersutkaffee.ch` | Production |
 
 ## Schritt 5 – Resend (E-Mail-Versand) einrichten
 
@@ -112,9 +112,9 @@ Dann **Einstellungen → Testmail senden** klicken: Die Testmail muss im cyon-We
 ## Schritt 7 – Domains auf Vercel zeigen lassen
 
 1. Vercel → Projekt **dersut** → **Settings → Domains** → **Add Domain**:
-   - `dersut.ch` → bei der Frage nach www: **Add www.dersut.ch and redirect it to dersut.ch** wählen
-   - `dersutkaffee.ch` → **Redirect to** `dersut.ch` (301)
-   - `www.dersutkaffee.ch` → **Redirect to** `dersut.ch` (301)
+   - `dersutkaffee.ch` (Hauptadresse) → bei der Frage nach www: **Add www.dersutkaffee.ch and redirect it to dersutkaffee.ch** wählen
+   - `dersut.ch` → **Redirect to** `dersutkaffee.ch` (301)
+   - `www.dersut.ch` → **Redirect to** `dersutkaffee.ch` (301)
 2. Vercel zeigt bei jeder Domain «Invalid Configuration» und die nötigen Werte an. Diese bei cyon eintragen
    (<https://my.cyon.ch> → Domains → jeweilige Domain → DNS-Einträge):
 
@@ -130,7 +130,7 @@ Dann **Einstellungen → Testmail senden** klicken: Die Testmail muss im cyon-We
 3. Nach einigen Minuten bis wenigen Stunden zeigt Vercel überall «Valid Configuration». Das SSL-Zertifikat
    erstellt Vercel automatisch.
 
-Fertig: **https://dersut.ch** ist live.
+Fertig: **https://dersutkaffee.ch** ist live.
 
 ## Später: Änderungen veröffentlichen
 

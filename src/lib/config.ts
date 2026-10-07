@@ -4,8 +4,8 @@
  */
 export const config = {
   siteName: 'Dersut Kaffee Schweiz',
-  siteUrl: process.env.SITE_URL || 'https://dersut.ch',
-  primaryHost: 'dersut.ch',
+  siteUrl: process.env.SITE_URL || 'https://dersutkaffee.ch',
+  primaryHost: 'dersutkaffee.ch',
 
   company: {
     name: 'Dersut Kaffee GmbH',

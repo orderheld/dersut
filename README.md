@@ -20,7 +20,7 @@ Webseite mit Onlineshop für die Dersut Kaffee GmbH, offizieller Vertrieb von De
 - Admin unter `/admin`: bezahlt / versendet (mit Post-Sendungsnummer) / storniert markieren, automatische
   Kunden-E-Mails, Sammelaktionen, Suche, CSV-Export, Produkte inkl. Bildupload, Lagerbestand, Kontaktanfragen,
   mehrere Admin-Zugänge, Testmail
-- `dersutkaffee.ch` und `www.` leiten auf `https://dersut.ch` weiter
+- Hauptadresse ist `https://dersutkaffee.ch`; `dersut.ch` und alle `www.`-Varianten leiten dorthin weiter
 
 ---
 
@@ -77,15 +77,15 @@ git push -u origin main
 
 1. Auf <https://vercel.com> → *Add New → Project* → das GitHub-Repository importieren (Framework: Next.js).
 2. Unter *Settings → Environment Variables* eintragen: `DATABASE_URL`, `RESEND_API_KEY`, `SESSION_SECRET`,
-   `SITE_URL=https://dersut.ch`. Region der Functions: *Settings → Functions → Frankfurt (fra1)*.
+   `SITE_URL=https://dersutkaffee.ch`. Region der Functions: *Settings → Functions → Frankfurt (fra1)*.
 3. Optional für Bild-Uploads im Admin: *Storage → Blob → Create* und mit dem Projekt verbinden
    (setzt `BLOB_READ_WRITE_TOKEN` automatisch).
 4. *Deploy*. Jeder weitere `git push` veröffentlicht automatisch.
 
 ## 5. Domains bei cyon auf Vercel zeigen
 
-In Vercel unter *Settings → Domains* hinzufügen: `dersut.ch`, `www.dersut.ch` (Weiterleitung auf dersut.ch),
-`dersutkaffee.ch` und `www.dersutkaffee.ch` (beide Weiterleitung auf dersut.ch).
+In Vercel unter *Settings → Domains* hinzufügen: `dersutkaffee.ch` (Hauptadresse), `www.dersutkaffee.ch`,
+`dersut.ch` und `www.dersut.ch` (alle drei mit Weiterleitung auf dersutkaffee.ch).
 
 Im cyon-Kundencenter → *Domains → DNS-Editor* für **dersut.ch**:
 
@@ -113,7 +113,7 @@ funktioniert wie bisher im cyon-Webmail.
 
 ## 7. Admin einrichten
 
-`https://dersut.ch/admin` aufrufen und **sofort** das erste Konto anlegen. Die Einrichtungsseite ist nur
+`https://dersutkaffee.ch/admin` aufrufen und **sofort** das erste Konto anlegen. Die Einrichtungsseite ist nur
 verfügbar, solange noch kein Konto existiert. Weitere Zugänge unter *Einstellungen*.
 
 ## 8. Noch offene Angaben in `src/lib/config.ts`
