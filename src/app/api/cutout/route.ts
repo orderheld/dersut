@@ -1,6 +1,8 @@
 import { readFile } from 'node:fs/promises';
 import path from 'node:path';
 import sharp from 'sharp';
+import { BRAND_ASSETS } from '@/lib/brand';
+import { one } from '@/lib/db';
 
 /**
  * Stellt Produktfotos frei: Der weisse Hintergrund eines Packshots wird transparent.
@@ -12,6 +14,16 @@ export const runtime = 'nodejs';
 
 const ALLOWED_HOSTS = [/^www\.dersut\.it$/, /\.public\.blob\.vercel-storage\.com$/];
 const MAX = 1400;
+const WIDTHS = [480, 800, 1200, 1400];
+const MAX_BYTES = 12 * 1024 * 1024;
+const BRAND_URLS = new Set<string>(Object.values(BRAND_ASSETS));
+
+/** Nur Bilder freistellen, die die Webseite tatsächlich verwendet (Markenbilder oder Produktbilder aus der Datenbank). */
+async function isKnownImage(src: string): Promise<boolean> {
+  if (BRAND_URLS.has(src) || src.startsWith('/brand/') || src.startsWith('/uploads/')) return true;
+  const row = await one('SELECT 1 FROM products WHERE image = $1 OR gallery ? $1 LIMIT 1', [src]).catch(() => null);
+  return !!row;
+}
 
 async function load(src: string): Promise<Buffer | null> {
   if (src.startsWith('/brand/') || src.startsWith('/uploads/')) {
@@ -26,9 +38,11 @@ async function load(src: string): Promise<Buffer | null> {
     return null;
   }
   if (url.protocol !== 'https:' || !ALLOWED_HOSTS.some((h) => h.test(url.hostname))) return null;
-  const res = await fetch(url, { headers: { 'User-Agent': 'Mozilla/5.0 (Dersut Schweiz)' } });
+  const res = await fetch(url, { headers: { 'User-Agent': 'Mozilla/5.0 (Dersut Schweiz)' }, redirect: 'error' });
   if (!res.ok || !(res.headers.get('content-type') ?? '').startsWith('image/')) return null;
-  return Buffer.from(await res.arrayBuffer());
+  if (Number(res.headers.get('content-length') ?? 0) > MAX_BYTES) return null;
+  const buf = Buffer.from(await res.arrayBuffer());
+  return buf.length > MAX_BYTES ? null : buf;
 }
 
 /** Hintergrund (vom Rand her erreichbare, fast weisse Pixel) transparent machen, Kanten weich. */
@@ -76,11 +90,15 @@ function cutout(px: Buffer, w: number, h: number): void {
 }
 
 export async function GET(req: Request) {
-  const src = new URL(req.url).searchParams.get('src') ?? '';
-  const input = src ? await load(src).catch(() => null) : null;
+  const params = new URL(req.url).searchParams;
+  const src = params.get('src') ?? '';
+  // Nur feste Breiten und keine weiteren Parameter: So kann niemand den CDN-Cache umgehen
+  const width = params.has('w') ? Number(params.get('w')) : MAX;
+  if (!WIDTHS.includes(width) || [...params.keys()].some((k) => k !== 'src' && k !== 'w')) return new Response('Ungültige Anfrage', { status: 400 });
+  const input = src && (await isKnownImage(src)) ? await load(src).catch(() => null) : null;
   if (!input) return new Response('Bild nicht gefunden', { status: 404 });
   try {
-    const { data, info } = await sharp(input)
+    const { data, info } = await sharp(input, { limitInputPixels: 40_000_000 })
       .rotate()
       .resize({ width: MAX, height: MAX, fit: 'inside', withoutEnlargement: true })
       .ensureAlpha()
@@ -91,7 +109,8 @@ export async function GET(req: Request) {
       .trim({ threshold: 0 })
       .webp({ quality: 88, alphaQuality: 90 })
       .toBuffer();
-    return new Response(new Uint8Array(out), {
+    const sized = width < MAX ? await sharp(out).resize({ width, height: width, fit: 'inside', withoutEnlargement: true }).webp({ quality: 85, alphaQuality: 90 }).toBuffer() : out;
+    return new Response(new Uint8Array(sized), {
       headers: {
         'Content-Type': 'image/webp',
         'Cache-Control': 'public, max-age=31536000, s-maxage=31536000, immutable',

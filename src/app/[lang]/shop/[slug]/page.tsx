@@ -15,9 +15,12 @@ import { LOCALE_TAGS, asLocale, lp } from '@/lib/i18n';
 import { getProductBySlug, getProducts, isSoldOut, type LocalizedProduct } from '@/lib/products';
 import { absolute, jsonLd, pageMeta } from '@/lib/seo';
 
-export const dynamic = 'force-dynamic';
 
 type Props = { params: Promise<{ lang: string; slug: string }> };
+
+export function generateStaticParams() {
+  return [];
+}
 
 function galleryOf(p: LocalizedProduct): GalleryImage[] {
   return p.images

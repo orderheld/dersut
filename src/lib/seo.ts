@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { config } from './config';
 import { LOCALES, LOCALE_TAGS, OG_LOCALES, lp, type Locale } from './i18n';
 import { brand } from './brand';
+import { getDict } from '@/i18n';
 
 export const absolute = (path: string) => config.siteUrl.replace(/\/$/, '') + (path.startsWith('/') ? path : `/${path}`);
 
@@ -48,4 +49,23 @@ export function pageMeta(
 /** JSON-LD sicher in ein <script> schreiben */
 export function jsonLd(data: unknown): { __html: string } {
   return { __html: JSON.stringify(data).replace(/</g, '\\u003c') };
+}
+
+/** Brotkrumen als JSON-LD: Startseite → … (Pfade ohne Sprachpräfix) */
+export function breadcrumbLd(lang: Locale, items: [string, string][]) {
+  const all: [string, string][] = [[getDict(lang).nav.home, '/'], ...items];
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: all.map(([name, path], i) => ({ '@type': 'ListItem', position: i + 1, name, item: absolute(lp(lang, path)) })),
+  };
+}
+
+/** Häufige Fragen als JSON-LD (FAQPage) */
+export function faqLd(faq: [string, string][]) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faq.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })),
+  };
 }

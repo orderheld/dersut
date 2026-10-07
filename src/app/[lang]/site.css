@@ -331,7 +331,7 @@ img.is-broken { visibility: hidden; }
 
 /* Footer */
 .footer { background: var(--navy-950); color: rgba(255,255,255,.66); font-size: 14.5px; }
-.footer__grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1.2fr; gap: 48px; padding-top: 76px; padding-bottom: 56px; }
+.footer__grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr 1.2fr; gap: 40px; padding-top: 76px; padding-bottom: 56px; }
 .footer h3 { color: #fff; font-size: 12px; letter-spacing: .22em; text-transform: uppercase; font-weight: 600; margin-bottom: 20px; }
 .footer ul { list-style: none; padding: 0; margin: 0; }
 .footer li { margin-bottom: 10px; }
@@ -704,3 +704,40 @@ a.ccard:hover { border-color: var(--gold); box-shadow: var(--shadow-sm); color: 
 /* Freigestellte Produktbilder (transparentes WebP aus /api/cutout) */
 .pcard__media.is-pack .pcard__img.is-cut, .pg__slide.is-pack img.is-cut, .pg__thumb.is-pack img.is-cut { mix-blend-mode: normal; filter: none; }
 .cart-prod__img img.is-cut, .summary__items img.is-cut { mix-blend-mode: normal; }
+
+/* ---------- Geschäftskunden & Regionen ---------- */
+.page-hero__cta { display: block; margin-top: 30px; }
+.form-consent { font-size: 13px; color: var(--muted); margin: 0; }
+.b2b-form { display: grid; grid-template-columns: .85fr 1.15fr; gap: 64px; align-items: start; }
+.b2b-form__intro { position: sticky; top: 120px; }
+.b2b-form .form-card { margin: 0; }
+.regionlinks { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
+.regionlinks a { display: inline-flex; align-items: center; gap: 8px; padding: 12px 20px; background: #fff; border: 1px solid var(--line); color: var(--navy); font-weight: 500; text-decoration: none; transition: border-color .25s, box-shadow .25s; }
+.regionlinks a:hover { border-color: var(--gold); box-shadow: var(--shadow-sm); }
+.regionlinks .icon { color: var(--gold); }
+.split__inner--top { align-items: start; }
+.region__sub { font-family: var(--serif); font-weight: 500; font-size: 26px; margin-top: 1.4em; }
+.region__places { background: var(--cream); border: 1px solid var(--line-soft); padding: 36px 38px; }
+.placelist { list-style: none; padding: 0; margin: 14px 0 18px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px 18px; }
+.placelist li { display: flex; align-items: center; gap: 8px; font-size: 15px; color: var(--ink); }
+.placelist .icon { color: var(--gold); flex: none; }
+.region__note { font-size: 14px; color: var(--muted); margin: 0; }
+.b2b-cards { display: grid; gap: 12px; margin-top: 26px; }
+.b2b-card { display: flex; align-items: center; gap: 16px; padding: 18px 20px; border: 1px solid rgba(255,255,255,.22); color: #fff; text-decoration: none; transition: background .25s, border-color .25s; }
+.b2b-card:hover { background: rgba(255,255,255,.06); border-color: var(--gold-300); }
+.b2b-card > .icon:first-child { color: var(--gold-300); flex: none; }
+.b2b-card > .icon:last-child { margin-left: auto; flex: none; }
+.b2b-card span strong { display: block; color: #fff; }
+.b2b-card span small { display: block; color: rgba(255,255,255,.72); font-size: 13.5px; }
+@media (max-width: 960px) {
+  .b2b-form { grid-template-columns: 1fr; gap: 36px; }
+  .b2b-form__intro { position: static; }
+}
+@media (max-width: 640px) {
+  .region__places { padding: 26px 22px; }
+  .placelist { grid-template-columns: 1fr 1fr; }
+}
+
+.footer__h3-2 { margin-top: 26px; }
+.cta-box__actions { display: flex; flex-wrap: wrap; gap: 12px; flex: none; }
+@media (max-width: 640px) { .cta-box__actions { width: 100%; } .cta-box__actions .btn { flex: 1 1 auto; } }

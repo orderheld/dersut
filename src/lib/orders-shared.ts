@@ -2,8 +2,9 @@ import { config } from './config';
 
 type OrderLike = { number: string; created_at: Date | string };
 
+/** Zahlungszweck: nur die Bestellnummer, damit er in allen Sprachen gleich ist und im Bankauszug eindeutig zugeordnet werden kann. */
 export function paymentMessage(o: { number: string }): string {
-  return `Bestellung ${o.number}`;
+  return o.number;
 }
 
 export function dueDate(o: OrderLike): Date {

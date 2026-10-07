@@ -93,7 +93,7 @@ export default async function Bestellung({ params, searchParams }: Props) {
             <h2>{d.address}</h2>
             <p style={{ color: 'var(--text)', marginTop: 14 }}>
               {o.company && <>{o.company}<br /></>}
-              {`${T.checkout.salutations[de.checkout.salutations.indexOf(o.salutation)] ?? o.salutation} ${o.first_name} ${o.last_name}`.trim()}<br />
+              {`${o.salutation === 'Divers' ? '' : T.checkout.salutations[de.checkout.salutations.indexOf(o.salutation)] ?? o.salutation} ${o.first_name} ${o.last_name}`.trim()}<br />
               {o.street}<br />{o.zip} {o.city}<br />{T.common.country}
             </p>
             <p style={{ margin: 0 }}>

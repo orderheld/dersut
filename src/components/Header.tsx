@@ -3,21 +3,43 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
+import { CART_EVENT, readCartCount } from '@/lib/cart-shared';
 import { LOCALES, LOCALE_NAMES, lp, stripLocale, type Locale } from '@/lib/i18n';
 import { Icon } from './Icon';
 import { Logo } from './Logo';
 
 const ABOUT = ['/geschichte', '/qualitaet', '/zertifizierungen', '/nachhaltigkeit'];
+const BUSINESS = ['/gastronomie', '/firmen'];
 
 export type HeaderLabels = Record<
   | 'menuOpen' | 'menuClose' | 'mainNav' | 'home' | 'cart' | 'language' | 'country'
   | 'shop' | 'about' | 'history' | 'historySub' | 'quality' | 'qualitySub' | 'certs' | 'certsSub'
-  | 'sustainability' | 'sustainabilitySub' | 'distribution' | 'gastro' | 'contact',
+  | 'sustainability' | 'sustainabilitySub' | 'distribution' | 'gastro' | 'gastroSub' | 'business' | 'office' | 'officeSub' | 'contact',
   string
 >;
 
-export function Header({ count, lang, labels: t }: { count: number; lang: Locale; labels: HeaderLabels }) {
+/** Anzahl Artikel im Warenkorb aus dem lesbaren Cookie; aktualisiert sich bei Seitenwechsel und nach Änderungen. */
+function useCartCount(fullPath: string): number {
+  const [count, setCount] = useState(0);
+  useEffect(() => {
+    const read = (e?: Event) => {
+      const d = (e as CustomEvent | undefined)?.detail;
+      setCount(typeof d === 'number' ? d : readCartCount());
+    };
+    read();
+    window.addEventListener(CART_EVENT, read);
+    window.addEventListener('focus', read);
+    return () => {
+      window.removeEventListener(CART_EVENT, read);
+      window.removeEventListener('focus', read);
+    };
+  }, [fullPath]);
+  return count;
+}
+
+export function Header({ lang, labels: t }: { lang: Locale; labels: HeaderLabels }) {
   const fullPath = usePathname();
+  const count = useCartCount(fullPath);
   const path = stripLocale(fullPath);
   const L = (p: string) => lp(lang, p);
   const [langOpen, setLangOpen] = useState(false);
@@ -87,7 +109,13 @@ export function Header({ count, lang, labels: t }: { count: number; lang: Locale
               </ul>
             </li>
             <li><Link href={L('/offizieller-vertrieb')} className={active('/offizieller-vertrieb')}>{t.distribution}</Link></li>
-            <li><Link href={L('/gastronomie')} className={active('/gastronomie')}>{t.gastro}</Link></li>
+            <li className="nav__has-sub">
+              <Link href={L('/gastronomie')} className={BUSINESS.includes(path) ? 'is-active' : ''}>{t.business}</Link>
+              <ul className="nav__sub">
+                <li><Link href={L('/gastronomie')}><strong>{t.gastro}</strong><span>{t.gastroSub}</span></Link></li>
+                <li><Link href={L('/firmen')}><strong>{t.office}</strong><span>{t.officeSub}</span></Link></li>
+              </ul>
+            </li>
             <li><Link href={L('/kontakt')} className={active('/kontakt')}>{t.contact}</Link></li>
           </ul>
           <ul className="nav__langs" aria-label={t.language}>
@@ -117,7 +145,7 @@ export function Header({ count, lang, labels: t }: { count: number; lang: Locale
           </ul>
         </div>
 
-        <Link className={`cartlink${bump ? ' is-bump' : ''}`} href={L('/warenkorb')} aria-label={t.cart}>
+        <Link className={`cartlink${bump ? ' is-bump' : ''}`} href={L('/warenkorb')} aria-label={count > 0 ? `${t.cart} (${count})` : t.cart}>
           <Icon name="bag" />
           {count > 0 && <span className="cartlink__count">{count}</span>}
         </Link>

@@ -104,7 +104,9 @@ export async function logoutAction(): Promise<void> {
 /* ---------- Bestellungen ---------- */
 
 async function changeStatus(id: number, status: OrderStatus, notify: boolean, tracking = ''): Promise<'ok' | 'mail_failed'> {
-  const { after } = await setOrderStatus(id, status, tracking);
+  const { before, after } = await setOrderStatus(id, status, tracking);
+  // Storno (oder Storno rückgängig) ändert den Lagerbestand: Shopseiten neu erzeugen
+  if (status === 'cancelled' || before.status === 'cancelled') revalidatePath('/', 'layout');
   if (notify && status !== 'open') {
     const r = await sendOrderMail(after, mailTypeForStatus(status));
     await addLog(id, r.ok ? `E-Mail «${statusLabel(status)}» an ${after.email} gesendet.` : `E-Mail an ${after.email} konnte nicht gesendet werden (${r.error}).`);

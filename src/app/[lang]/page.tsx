@@ -3,6 +3,8 @@ import Link from 'next/link';
 import { Icon } from '@/components/Icon';
 import { Img } from '@/components/Img';
 import { ProductCard } from '@/components/ProductCard';
+import { RegionLinks } from '@/components/RegionLinks';
+import { getDict } from '@/i18n';
 import { brand, type BrandKey } from '@/lib/brand';
 import { config } from '@/lib/config';
 import { asLocale, LOCALE_TAGS, lp, type Locale } from '@/lib/i18n';
@@ -24,7 +26,7 @@ const CERTS: [BrandKey, string][] = [
 
 const de = {
   metaTitle: 'Dersut Kaffee Schweiz · Original italienischer Espresso online kaufen',
-  metaDescription: 'Dersut Caffè aus Conegliano, seit 1947 italienische Espresso-Tradition. Espressobohnen online kaufen beim offiziellen Vertrieb, Lieferung in die ganze Schweiz.',
+  metaDescription: 'Dersut Caffè aus Conegliano, seit 1947 italienische Espresso-Tradition. Espressobohnen online kaufen beim offiziellen Vertrieb in Basel, Lieferung in die ganze Schweiz. Angebote für Gastronomie und Büros.',
   heroAlt: 'Espresso von Dersut Caffè',
   heroKicker: 'Offizieller Vertrieb Schweiz',
   heroLead: 'Seit 1947 röstet Dersut Caffè in Conegliano Espresso-Mischungen mit italienischer Seele. Jetzt offiziell in der Schweiz erhältlich: direkt vom Vertriebspartner, geliefert in die ganze Schweiz.',
@@ -92,14 +94,13 @@ const de = {
   ctaEyebrow: 'Gastronomie & Büro',
   ctaTitle: 'Dersut für Ihre Bar, Ihr Restaurant oder Ihr Büro?',
   ctaText: 'Wir beraten Sie gerne zu Mischungen, Mengen und Konditionen für Geschäftskunden in der ganzen Schweiz.',
-  ctaButton: 'Angebot anfragen',
 };
 
 const T: Record<Locale, typeof de> = {
   de,
   fr: {
     metaTitle: 'Café Dersut Suisse · Espresso italien original en ligne',
-    metaDescription: 'Café Dersut de Conegliano, tradition italienne de l’espresso depuis 1947. Grains d’espresso chez le distributeur officiel, livrés dans toute la Suisse.',
+    metaDescription: 'Café Dersut de Conegliano, tradition italienne de l’espresso depuis 1947. Grains d’espresso chez le distributeur officiel en Suisse, livrés à Genève, Lausanne et dans toute la Suisse romande. Offres pour restaurants et bureaux.',
     heroAlt: 'Espresso de Dersut Caffè',
     heroKicker: 'Distributeur officiel en Suisse',
     heroLead: 'Depuis 1947, Dersut Caffè torréfie à Conegliano des mélanges d’espresso à l’âme italienne. Désormais disponible officiellement en Suisse : directement auprès du distributeur, livré dans toute la Suisse.',
@@ -167,11 +168,10 @@ const T: Record<Locale, typeof de> = {
     ctaEyebrow: 'Restauration & bureau',
     ctaTitle: 'Dersut pour votre bar, votre restaurant ou votre bureau ?',
     ctaText: 'Nous vous conseillons volontiers sur les mélanges, les quantités et les conditions pour les clients professionnels dans toute la Suisse.',
-    ctaButton: 'Demander une offre',
   },
   it: {
     metaTitle: 'Caffè Dersut Svizzera · Vero espresso italiano online',
-    metaDescription: 'Caffè Dersut da Conegliano, tradizione italiana dell’espresso dal 1947. Acquistate caffè in grani dal distributore ufficiale, con consegna in tutta la Svizzera.',
+    metaDescription: 'Caffè Dersut da Conegliano, tradizione italiana dell’espresso dal 1947. Acquistate caffè in grani dal distributore ufficiale, con consegna in Ticino e in tutta la Svizzera. Offerte per bar, ristoranti e uffici.',
     heroAlt: 'Espresso di Dersut Caffè',
     heroKicker: 'Distributore ufficiale Svizzera',
     heroLead: 'Dal 1947 Dersut Caffè tosta a Conegliano miscele per espresso dall’anima italiana. Ora disponibile ufficialmente in Svizzera: direttamente dal distributore, con consegna in tutta la Svizzera.',
@@ -239,11 +239,10 @@ const T: Record<Locale, typeof de> = {
     ctaEyebrow: 'Gastronomia & ufficio',
     ctaTitle: 'Dersut per il vostro bar, ristorante o ufficio?',
     ctaText: 'Vi consigliamo volentieri su miscele, quantità e condizioni per clienti commerciali in tutta la Svizzera.',
-    ctaButton: 'Richiedere un’offerta',
   },
   en: {
     metaTitle: 'Dersut Coffee Switzerland · Original Italian Espresso Online',
-    metaDescription: 'Dersut Caffè from Conegliano, Italian espresso tradition since 1947. Buy Dersut espresso beans from the official distributor, delivered throughout Switzerland.',
+    metaDescription: 'Dersut Caffè from Conegliano, Italian espresso tradition since 1947. Buy Dersut espresso beans from the official distributor in Basel, delivered throughout Switzerland. Offers for hospitality and offices.',
     heroAlt: 'Espresso by Dersut Caffè',
     heroKicker: 'Official distributor in Switzerland',
     heroLead: 'Since 1947, Dersut Caffè has been roasting espresso blends with an Italian soul in Conegliano. Now officially available in Switzerland: direct from the distributor, delivered throughout Switzerland.',
@@ -311,7 +310,6 @@ const T: Record<Locale, typeof de> = {
     ctaEyebrow: 'Hospitality & office',
     ctaTitle: 'Dersut for your bar, restaurant or office?',
     ctaText: 'We are happy to advise you on blends, quantities and terms for business customers throughout Switzerland.',
-    ctaButton: 'Request an offer',
   },
 };
 
@@ -469,9 +467,14 @@ export default async function Home({ params }: Props) {
             <h2 className="h3">{t.ctaTitle}</h2>
             <p>{t.ctaText}</p>
           </div>
-          <Link className="btn btn--primary btn--lg" href={lp(lang, '/gastronomie')}>{t.ctaButton} <Icon name="arrow" /></Link>
+          <div className="cta-box__actions">
+            <Link className="btn btn--primary btn--lg" href={lp(lang, '/gastronomie')}>{getDict(lang).nav.gastro} <Icon name="arrow" /></Link>
+            <Link className="btn btn--outline btn--lg" href={lp(lang, '/firmen')}>{getDict(lang).nav.office} <Icon name="arrow" /></Link>
+          </div>
         </div>
       </section>
+
+      <RegionLinks lang={lang} />
     </>
   );
 }

@@ -8,10 +8,10 @@ type Props = { params: Promise<{ lang: string }> };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const lang = asLocale((await params).lang);
-  const t = B2B.gastro[lang];
-  return pageMeta(lang, '/gastronomie', t.metaTitle, t.metaDescription);
+  const t = B2B.office[lang];
+  return pageMeta(lang, '/firmen', t.metaTitle, t.metaDescription);
 }
 
-export default async function Gastronomie({ params }: Props) {
-  return <B2BPage kind="gastro" lang={asLocale((await params).lang)} />;
+export default async function Firmen({ params }: Props) {
+  return <B2BPage kind="office" lang={asLocale((await params).lang)} />;
 }

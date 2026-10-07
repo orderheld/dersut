@@ -1,4 +1,5 @@
 import 'server-only';
+import { cache } from 'react';
 import { query, one } from './db';
 import type { Locale } from './i18n';
 import type { ProductText, ProductTranslations } from './products-shared';
@@ -63,9 +64,11 @@ export function localizeProduct(raw: Product, lang: Locale = 'de'): LocalizedPro
   };
 }
 
+/** Pro Seitenaufruf nur einmal abfragen, auch wenn Layout und Seite die Produkte brauchen */
+const loadProducts = cache((onlyActive: boolean) => query<Product>(`SELECT * FROM products ${onlyActive ? 'WHERE active' : ''} ORDER BY sort, id`));
+
 export async function getProducts(onlyActive = true, lang: Locale = 'de'): Promise<LocalizedProduct[]> {
-  const rows = await query<Product>(`SELECT * FROM products ${onlyActive ? 'WHERE active' : ''} ORDER BY sort, id`);
-  return rows.map((r) => localizeProduct(r, lang));
+  return (await loadProducts(onlyActive)).map((r) => localizeProduct(r, lang));
 }
 
 export async function getProductBySlug(slug: string, lang: Locale = 'de'): Promise<LocalizedProduct | null> {

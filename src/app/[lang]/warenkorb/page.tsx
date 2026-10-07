@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { CartQty } from '@/components/CartQty';
+import { CartSync } from '@/components/CartSync';
 import { Icon } from '@/components/Icon';
 import { Img } from '@/components/Img';
 import { cutoutImage, productImage } from '@/lib/brand';
@@ -25,6 +26,7 @@ export default async function Warenkorb({ params }: Props) {
   const cart = await cartSummary(lang);
   return (
     <section className="shopflow">
+      <CartSync count={cart.items.reduce((a, i) => a + i.qty, 0)} />
       <div className="wrap">
         <h1>{t.title}</h1>
         {!cart.items.length ? (
