@@ -3,7 +3,7 @@ import type { Dict } from './de';
 /** User interface texts (English, British spelling). */
 export const en: Dict = {
   meta: {
-    siteName: 'Dersut Kaffee Schweiz',
+    siteName: 'Dersut Coffee Switzerland',
     defaultTitle: 'Dersut Coffee Switzerland – Buy Italian Espresso Online',
     defaultDescription:
       'Dersut Caffè from Conegliano, since 1947: buy espresso beans online from the official distributor in Switzerland. Delivery throughout Switzerland for CHF 9.–.',
@@ -90,8 +90,7 @@ export const en: Dict = {
   shop: {
     title: 'Online shop',
     metaTitle: 'Buy Dersut Espresso Beans Online',
-    metaDescription:
-      'Order genuine Dersut espresso beans (1 kg) online: Optimum Rosso and Domus Marrone from the official distributor in Switzerland. Delivery nationwide for CHF 9.–.',
+    metaDescription: 'Buy genuine Dersut espresso beans (1 kg) online: Optimum Rosso and Domus Marrone from the official Swiss distributor. Nationwide delivery for CHF 9.–',
     eyebrow: 'Online shop',
     heading: 'Espresso from <em>Conegliano</em>',
     lead: 'Genuine Dersut Caffè, direct from the official distributor in Switzerland. Delivery throughout Switzerland for a flat rate of CHF 9.–.',
@@ -121,6 +120,7 @@ export const en: Dict = {
       ['truck', 'Postal delivery throughout Switzerland, flat rate CHF 9.–'],
       ['bank', 'Payment in advance, dispatched once payment is received'],
     ] as [string, string][],
+    questions: 'Questions? Email us:',
     detailsEyebrow: 'In detail',
     detailsTitle: 'What makes this blend special',
     prepEyebrow: 'Preparation',
@@ -239,7 +239,7 @@ export const en: Dict = {
   },
   status: { open: 'Awaiting payment', paid: 'Paid', shipped: 'Dispatched', cancelled: 'Cancelled' } as Record<string, string>,
   contact: {
-    metaTitle: 'Contact – Dersut Coffee Switzerland',
+    metaTitle: 'Contact us',
     metaDescription: 'Contact Dersut Kaffee GmbH, the official distributor of Dersut Caffè in Switzerland: advice, orders and tailored offers for hospitality and offices.',
     eyebrow: 'Contatti',
     heading: 'We are <em>here for you</em>',

@@ -25,8 +25,8 @@ const CERTS: [BrandKey, string][] = [
 ];
 
 const de = {
-  metaTitle: 'Dersut Kaffee Schweiz · Original italienischer Espresso online kaufen',
-  metaDescription: 'Dersut Caffè aus Conegliano, seit 1947 italienische Espresso-Tradition. Espressobohnen online kaufen beim offiziellen Vertrieb in Basel, Lieferung in die ganze Schweiz. Angebote für Gastronomie und Büros.',
+  metaTitle: 'Dersut Kaffee Schweiz · Italienischer Espresso kaufen',
+  metaDescription: 'Original Dersut Espresso aus Conegliano, seit 1947. Kaffeebohnen online kaufen beim offiziellen Vertrieb in Basel, Lieferung in die ganze Schweiz.',
   heroAlt: 'Espresso von Dersut Caffè',
   heroKicker: 'Offizieller Vertrieb Schweiz',
   heroLead: 'Seit 1947 röstet Dersut Caffè in Conegliano Espresso-Mischungen mit italienischer Seele. Jetzt offiziell in der Schweiz erhältlich: direkt vom Vertriebspartner, geliefert in die ganze Schweiz.',
@@ -99,8 +99,8 @@ const de = {
 const T: Record<Locale, typeof de> = {
   de,
   fr: {
-    metaTitle: 'Café Dersut Suisse · Espresso italien original en ligne',
-    metaDescription: 'Café Dersut de Conegliano, tradition italienne de l’espresso depuis 1947. Grains d’espresso chez le distributeur officiel en Suisse, livrés à Genève, Lausanne et dans toute la Suisse romande. Offres pour restaurants et bureaux.',
+    metaTitle: 'Café Dersut Suisse · Espresso italien en ligne',
+    metaDescription: 'Café Dersut de Conegliano depuis 1947 : grains d’espresso chez le distributeur officiel en Suisse, livrés à Genève, Lausanne et dans toute la Suisse.',
     heroAlt: 'Espresso de Dersut Caffè',
     heroKicker: 'Distributeur officiel en Suisse',
     heroLead: 'Depuis 1947, Dersut Caffè torréfie à Conegliano des mélanges d’espresso à l’âme italienne. Désormais disponible officiellement en Suisse : directement auprès du distributeur, livré dans toute la Suisse.',
@@ -171,7 +171,7 @@ const T: Record<Locale, typeof de> = {
   },
   it: {
     metaTitle: 'Caffè Dersut Svizzera · Vero espresso italiano online',
-    metaDescription: 'Caffè Dersut da Conegliano, tradizione italiana dell’espresso dal 1947. Acquistate caffè in grani dal distributore ufficiale, con consegna in Ticino e in tutta la Svizzera. Offerte per bar, ristoranti e uffici.',
+    metaDescription: 'Caffè Dersut da Conegliano dal 1947: caffè in grani dal distributore ufficiale svizzero, con consegna in Ticino e in tutta la Svizzera.',
     heroAlt: 'Espresso di Dersut Caffè',
     heroKicker: 'Distributore ufficiale Svizzera',
     heroLead: 'Dal 1947 Dersut Caffè tosta a Conegliano miscele per espresso dall’anima italiana. Ora disponibile ufficialmente in Svizzera: direttamente dal distributore, con consegna in tutta la Svizzera.',
@@ -241,8 +241,8 @@ const T: Record<Locale, typeof de> = {
     ctaText: 'Vi consigliamo volentieri su miscele, quantità e condizioni per clienti commerciali in tutta la Svizzera.',
   },
   en: {
-    metaTitle: 'Dersut Coffee Switzerland · Original Italian Espresso Online',
-    metaDescription: 'Dersut Caffè from Conegliano, Italian espresso tradition since 1947. Buy Dersut espresso beans from the official distributor in Basel, delivered throughout Switzerland. Offers for hospitality and offices.',
+    metaTitle: 'Dersut Coffee Switzerland · Italian Espresso Online',
+    metaDescription: 'Dersut Caffè from Conegliano, Italian espresso since 1947. Buy espresso beans from the official distributor in Basel, delivered throughout Switzerland.',
     heroAlt: 'Espresso by Dersut Caffè',
     heroKicker: 'Official distributor in Switzerland',
     heroLead: 'Since 1947, Dersut Caffè has been roasting espresso blends with an Italian soul in Conegliano. Now officially available in Switzerland: direct from the distributor, delivered throughout Switzerland.',

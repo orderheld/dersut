@@ -40,9 +40,8 @@ export const B2B_PATH: Record<B2BKind, string> = { gastro: '/gastronomie', offic
 export const B2B: Record<B2BKind, Record<Locale, B2BText>> = {
   gastro: {
     de: {
-      metaTitle: 'Kaffee für Gastronomie: Espresso für Restaurant, Bar & Hotel',
-      metaDescription:
-        'Original Dersut Espresso für Restaurants, Bars, Cafés und Hotels in Basel und der ganzen Schweiz. Individuelle Konditionen für Geschäftskunden direkt vom offiziellen Vertrieb.',
+      metaTitle: 'Kaffee für Gastronomie: Restaurant, Bar & Hotel',
+      metaDescription: 'Dersut Espresso für Restaurants, Bars, Cafés und Hotels in Basel und der ganzen Schweiz. Individuelle Konditionen direkt vom offiziellen Vertrieb.',
       crumb: 'Gastronomie',
       eyebrow: 'Horeca · Bar · Ristorante',
       title: ['Italienischer Espresso', 'für Ihre Gäste'],
@@ -93,9 +92,8 @@ export const B2B: Record<B2BKind, Record<Locale, B2BText>> = {
       crossLink: 'Zu Firmen & Büro',
     },
     fr: {
-      metaTitle: 'Café pour la restauration : espresso pour restaurant, bar & hôtel',
-      metaDescription:
-        'Espresso Dersut original pour restaurants, bars, cafés et hôtels à Genève, Lausanne et dans toute la Suisse. Conditions sur mesure pour les professionnels, directement auprès du distributeur officiel.',
+      metaTitle: 'Café pour la restauration : bar, restaurant, hôtel',
+      metaDescription: 'Espresso Dersut pour restaurants, bars, cafés et hôtels à Genève, Lausanne et dans toute la Suisse. Conditions sur mesure du distributeur officiel.',
       crumb: 'Restauration',
       eyebrow: 'Horeca · Bar · Ristorante',
       title: ['L’espresso italien', 'pour vos clients'],
@@ -146,9 +144,8 @@ export const B2B: Record<B2BKind, Record<Locale, B2BText>> = {
       crossLink: 'Entreprises & bureau',
     },
     it: {
-      metaTitle: 'Caffè per la gastronomia: espresso per ristorante, bar & hotel',
-      metaDescription:
-        'Espresso Dersut originale per ristoranti, bar, caffè e hotel in Ticino e in tutta la Svizzera. Condizioni su misura per clienti commerciali, direttamente dal distributore ufficiale.',
+      metaTitle: 'Caffè per la gastronomia: bar, ristorante, hotel',
+      metaDescription: 'Espresso Dersut per ristoranti, bar, caffè e hotel in Ticino e in tutta la Svizzera. Condizioni su misura direttamente dal distributore ufficiale.',
       crumb: 'Gastronomia',
       eyebrow: 'Horeca · Bar · Ristorante',
       title: ['Vero espresso italiano', 'per i vostri ospiti'],
@@ -199,9 +196,8 @@ export const B2B: Record<B2BKind, Record<Locale, B2BText>> = {
       crossLink: 'Aziende & ufficio',
     },
     en: {
-      metaTitle: 'Coffee for hospitality: espresso for restaurants, bars & hotels',
-      metaDescription:
-        'Original Dersut espresso for restaurants, bars, cafés and hotels in Basel, Zurich, Geneva and throughout Switzerland. Tailored terms for business customers, direct from the official distributor.',
+      metaTitle: 'Coffee for hospitality: restaurants, bars & hotels',
+      metaDescription: 'Dersut espresso for restaurants, bars, cafés and hotels in Basel, Zurich, Geneva and all of Switzerland. Tailored terms from the official distributor.',
       crumb: 'Hospitality',
       eyebrow: 'Horeca · Bar · Ristorante',
       title: ['Italian espresso', 'for your guests'],
@@ -254,9 +250,8 @@ export const B2B: Record<B2BKind, Record<Locale, B2BText>> = {
   },
   office: {
     de: {
-      metaTitle: 'Bürokaffee für Firmen: Espresso fürs Büro in der Schweiz',
-      metaDescription:
-        'Original italienischer Espresso fürs Büro: Dersut Kaffeebohnen für Firmen, Praxen und Kanzleien in Basel und der ganzen Schweiz. Mengenkonditionen und regelmässige Lieferung.',
+      metaTitle: 'Bürokaffee für Firmen: Espresso fürs Büro',
+      metaDescription: 'Italienischer Espresso fürs Büro: Dersut Kaffeebohnen für Firmen, Praxen und Kanzleien in der Schweiz, mit Mengenkonditionen und regelmässiger Lieferung.',
       crumb: 'Firmen & Büro',
       eyebrow: 'Caffè in ufficio',
       title: ['Guter Kaffee', 'macht gute Teams'],
@@ -308,8 +303,7 @@ export const B2B: Record<B2BKind, Record<Locale, B2BText>> = {
     },
     fr: {
       metaTitle: 'Café pour entreprises : espresso au bureau en Suisse',
-      metaDescription:
-        'Un véritable espresso italien au bureau : café en grains Dersut pour entreprises, cabinets et études à Genève, Lausanne et dans toute la Suisse. Conditions sur quantité et livraison régulière.',
+      metaDescription: 'Un vrai espresso italien au bureau : café en grains Dersut pour entreprises, cabinets et études en Suisse romande, avec livraison régulière.',
       crumb: 'Entreprises & bureau',
       eyebrow: 'Caffè in ufficio',
       title: ['Un bon café', 'fait de bonnes équipes'],
@@ -361,8 +355,7 @@ export const B2B: Record<B2BKind, Record<Locale, B2BText>> = {
     },
     it: {
       metaTitle: 'Caffè per aziende: espresso in ufficio in Svizzera',
-      metaDescription:
-        'Vero espresso italiano in ufficio: caffè in grani Dersut per aziende, studi medici e legali in Ticino e in tutta la Svizzera. Condizioni sulla quantità e consegna regolare.',
+      metaDescription: 'Vero espresso italiano in ufficio: caffè in grani Dersut per aziende e studi in Ticino e in tutta la Svizzera, con consegna regolare.',
       crumb: 'Aziende & ufficio',
       eyebrow: 'Caffè in ufficio',
       title: ['Un buon caffè', 'fa un buon team'],
@@ -413,9 +406,8 @@ export const B2B: Record<B2BKind, Record<Locale, B2BText>> = {
       crossLink: 'Gastronomia',
     },
     en: {
-      metaTitle: 'Office coffee for companies: espresso at work in Switzerland',
-      metaDescription:
-        'Genuine Italian espresso at the office: Dersut coffee beans for companies, practices and law firms in Basel, Zurich, Geneva and throughout Switzerland. Volume terms and regular delivery.',
+      metaTitle: 'Office coffee for companies in Switzerland',
+      metaDescription: 'Genuine Italian espresso at the office: Dersut coffee beans for companies, practices and law firms in Switzerland, with volume terms and regular delivery.',
       crumb: 'Companies & office',
       eyebrow: 'Caffè in ufficio',
       title: ['Good coffee', 'makes good teams'],

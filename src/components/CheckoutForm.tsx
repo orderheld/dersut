@@ -3,7 +3,6 @@
 import { useActionState, useEffect, useRef, type ReactNode } from 'react';
 import { checkoutAction, type CheckoutState } from '@/app/[lang]/actions';
 import { getDict } from '@/i18n';
-import { de } from '@/i18n/de';
 import { lp, type Locale } from '@/lib/i18n';
 import { Field } from './Field';
 import { Icon } from './Icon';
@@ -36,14 +35,8 @@ export function CheckoutForm({ summary, initial, lang }: { summary: ReactNode; i
             <h2>{t.address}</h2>
             <p>{t.addressNote}</p>
             <div className="fgrid">
-              <Field name="salutation" label={t.salutation} optional={getDict(lang).common.optional} span={2}>
-                <select id="salutation" name="salutation" defaultValue={v('salutation')}>
-                  <option value=""></option>
-                  {de.checkout.salutations.map((s, i) => <option key={s} value={s}>{t.salutations[i]}</option>)}
-                </select>
-              </Field>
-              <Field name="company" label={t.company} optional={getDict(lang).common.optional} span={4} error={e.company}>
-                <input id="company" name="company" defaultValue={v('company')} autoComplete="organization" />
+              <Field name="email" label={t.email} error={e.email}>
+                <input id="email" type="email" name="email" defaultValue={v('email')} required autoComplete="email" inputMode="email" autoCapitalize="off" spellCheck={false} enterKeyHint="next" />
               </Field>
               <Field name="first_name" label={t.firstName} span={3} error={e.first_name}>
                 <input id="first_name" name="first_name" defaultValue={v('first_name')} required autoComplete="given-name" autoCapitalize="words" enterKeyHint="next" />
@@ -60,17 +53,14 @@ export function CheckoutForm({ summary, initial, lang }: { summary: ReactNode; i
               <Field name="city" label={t.city} span={4} error={e.city}>
                 <input id="city" name="city" defaultValue={v('city')} required autoComplete="address-level2" autoCapitalize="words" enterKeyHint="next" />
               </Field>
-              <Field name="country" label={t.country} span={2}>
-                <input id="country" value={getDict(lang).common.country} disabled />
-              </Field>
-              <Field name="email" label={t.email} span={4} error={e.email}>
-                <input id="email" type="email" name="email" defaultValue={v('email')} required autoComplete="email" inputMode="email" autoCapitalize="off" spellCheck={false} enterKeyHint="next" />
-              </Field>
               <Field name="phone" label={t.phone} optional={getDict(lang).common.optional} span={3} error={e.phone}>
                 <input id="phone" type="tel" name="phone" defaultValue={v('phone')} autoComplete="tel" />
               </Field>
+              <Field name="company" label={t.company} optional={getDict(lang).common.optional} span={3} error={e.company}>
+                <input id="company" name="company" defaultValue={v('company')} autoComplete="organization" />
+              </Field>
               <Field name="note" label={t.note} optional={getDict(lang).common.optional} error={e.note}>
-                <textarea id="note" name="note" rows={3} defaultValue={v('note')} />
+                <textarea id="note" name="note" rows={2} defaultValue={v('note')} />
               </Field>
             </div>
           </div>

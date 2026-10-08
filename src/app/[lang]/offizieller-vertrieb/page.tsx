@@ -16,7 +16,7 @@ const c = config.company;
 const bankName = config.bank.bank;
 
 const de = {
-  metaTitle: 'Offizieller Vertrieb von Dersut Kaffee in der Schweiz',
+  metaTitle: 'Offizieller Dersut Vertrieb in der Schweiz',
   metaDescription: `${c.name} ist der offizielle Vertriebspartner von Dersut Caffè in der Schweiz: Espressobohnen kaufen, Originalware direkt aus Conegliano.`,
   crumb: 'Offizieller Vertrieb Schweiz',
   eyebrow: 'Distributore ufficiale · Svizzera',

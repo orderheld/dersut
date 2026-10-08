@@ -7,6 +7,18 @@ import { getDict } from '@/i18n';
 export const absolute = (path: string) => config.siteUrl.replace(/\/$/, '') + (path.startsWith('/') ? path : `/${path}`);
 
 /** hreflang-Alternativen einer Seite in allen Sprachen (inkl. x-default = Deutsch) */
+/** Volle Sichtbarkeit in Google: grosse Bildvorschau, Snippets ohne Längenbegrenzung */
+export const INDEX = { index: true, follow: true, googleBot: { index: true, follow: true, 'max-image-preview': 'large' as const, 'max-snippet': -1, 'max-video-preview': -1 } };
+
+/**
+ * Vorschaubild für Google, WhatsApp, Facebook & Co.: immer 1200 × 630 px mit Dersut-Wortmarke.
+ * `pack` = freigestellter Packshot (Produktseiten), sonst Foto im Querformat.
+ */
+export function shareImage(src: string, alt: string, pack = false) {
+  const url = absolute(`/api/og?src=${encodeURIComponent(src)}${pack ? '&pack=1' : ''}`);
+  return { url, width: 1200, height: 630, alt, type: 'image/jpeg' };
+}
+
 export function languageAlternates(path: string): Record<string, string> {
   const out: Record<string, string> = {};
   for (const l of LOCALES) out[LOCALE_TAGS[l]] = absolute(lp(l, path));
@@ -23,10 +35,10 @@ export function pageMeta(
   path: string,
   title: string,
   description: string,
-  opts: { image?: string; noindex?: boolean; absoluteTitle?: boolean; type?: 'website' | 'article' } = {},
+  opts: { image?: string; pack?: boolean; noindex?: boolean; absoluteTitle?: boolean; type?: 'website' | 'article' } = {},
 ): Metadata {
   const url = absolute(lp(lang, path));
-  const image = opts.image || brand('hero_1');
+  const image = shareImage(opts.image || brand('hero_1'), title, opts.pack);
   return {
     title: opts.absoluteTitle ? { absolute: title } : title,
     description,
@@ -36,13 +48,13 @@ export function pageMeta(
       url,
       title,
       description,
-      siteName: 'Dersut Kaffee Schweiz',
+      siteName: getDict(lang).meta.siteName,
       locale: OG_LOCALES[lang],
       alternateLocale: LOCALES.filter((l) => l !== lang).map((l) => OG_LOCALES[l]),
-      images: [{ url: image }],
+      images: [image],
     },
-    twitter: { card: 'summary_large_image', title, description, images: [image] },
-    robots: opts.noindex ? { index: false, follow: true } : undefined,
+    twitter: { card: 'summary_large_image', title, description, images: [image.url] },
+    robots: opts.noindex ? { index: false, follow: true } : INDEX,
   };
 }
 

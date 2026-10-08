@@ -3,7 +3,7 @@ import type { Dict } from './de';
 /** Textes de l’interface (français, Suisse romande). */
 export const fr: Dict = {
   meta: {
-    siteName: 'Dersut Kaffee Schweiz',
+    siteName: 'Café Dersut Suisse',
     defaultTitle: 'Café Dersut Suisse – Espresso italien en ligne',
     defaultDescription:
       'Dersut Caffè de Conegliano, depuis 1947 : achetez vos grains d’espresso en ligne auprès du distributeur officiel en Suisse. Livraison dans toute la Suisse pour CHF 9.–.',
@@ -121,6 +121,7 @@ export const fr: Dict = {
       ['truck', 'Envoi postal dans toute la Suisse, forfait CHF 9.–'],
       ['bank', 'Paiement anticipé, envoi dès réception du paiement'],
     ] as [string, string][],
+    questions: 'Une question ? Écrivez-nous :',
     detailsEyebrow: 'En détail',
     detailsTitle: 'Ce qui fait le caractère de ce mélange',
     prepEyebrow: 'Préparation',
@@ -239,7 +240,7 @@ export const fr: Dict = {
   },
   status: { open: 'Paiement en attente', paid: 'Payée', shipped: 'Expédiée', cancelled: 'Annulée' } as Record<string, string>,
   contact: {
-    metaTitle: 'Contact – café Dersut Suisse',
+    metaTitle: 'Contact',
     metaDescription: 'Contactez Dersut Kaffee GmbH, distributeur officiel de Dersut Caffè en Suisse : conseils, commandes et offres pour la restauration et les bureaux.',
     eyebrow: 'Contatti',
     heading: 'Nous sommes <em>à votre écoute</em>',

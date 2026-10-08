@@ -3,7 +3,7 @@ import type { Dict } from './de';
 /** Testi dell’interfaccia (italiano, Svizzera italiana). */
 export const it: Dict = {
   meta: {
-    siteName: 'Dersut Kaffee Schweiz',
+    siteName: 'Caffè Dersut Svizzera',
     defaultTitle: 'Caffè Dersut Svizzera – Espresso italiano online',
     defaultDescription:
       'Dersut Caffè da Conegliano, dal 1947: acquista caffè in grani online dal distributore ufficiale in Svizzera. Consegna in tutta la Svizzera a CHF 9.–.',
@@ -90,8 +90,7 @@ export const it: Dict = {
   shop: {
     title: 'Shop online',
     metaTitle: 'Caffè Dersut in grani: acquista online',
-    metaDescription:
-      'Ordina online il caffè in grani originale Dersut da 1 kg: Optimum Rosso e Domus Marrone dal distributore ufficiale Svizzera. Spedizione in tutta la Svizzera CHF 9.–.',
+    metaDescription: 'Caffè in grani Dersut da 1 kg online: Optimum Rosso e Domus Marrone dal distributore ufficiale svizzero. Spedizione in tutta la Svizzera a CHF 9.–',
     eyebrow: 'Shop online',
     heading: 'Espresso da <em>Conegliano</em>',
     lead: 'Dersut Caffè originale, direttamente dal distributore ufficiale in Svizzera. Spedizione in tutta la Svizzera a un forfait di CHF 9.–.',
@@ -121,6 +120,7 @@ export const it: Dict = {
       ['truck', 'Spedizione postale in tutta la Svizzera, forfait CHF 9.–'],
       ['bank', 'Pagamento anticipato, spedizione alla ricezione del pagamento'],
     ] as [string, string][],
+    questions: 'Domande? Scriveteci:',
     detailsEyebrow: 'Nel dettaglio',
     detailsTitle: 'Che cosa rende unica questa miscela',
     prepEyebrow: 'Preparazione',
@@ -239,7 +239,7 @@ export const it: Dict = {
   },
   status: { open: 'In attesa di pagamento', paid: 'Pagato', shipped: 'Spedito', cancelled: 'Annullato' } as Record<string, string>,
   contact: {
-    metaTitle: 'Contatti – caffè Dersut Svizzera',
+    metaTitle: 'Contatti',
     metaDescription: 'Contattate Dersut Kaffee GmbH, distributore ufficiale di Dersut Caffè in Svizzera: consulenza, ordini e offerte per la gastronomia e gli uffici.',
     eyebrow: 'Contatti',
     heading: 'Siamo <em>a vostra disposizione</em>',

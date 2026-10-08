@@ -70,7 +70,7 @@ export default async function Warenkorb({ params }: Props) {
               ))}
               <div className="cart-actions">
                 <Link className="btn btn--ghost" href={lp(lang, '/shop')}>{t.continue}</Link>
-                <button className="btn btn--ghost" type="submit" form="cartform">{t.update}</button>
+                <noscript><button className="btn btn--ghost" type="submit" form="cartform">{t.update}</button></noscript>
               </div>
             </div>
             <aside className="summary">

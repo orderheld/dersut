@@ -39,9 +39,8 @@ export const REGIONS: Region[] = [
     text: {
       de: {
         name: 'Basel',
-        metaTitle: 'Kaffee Basel: Dersut Espressobohnen kaufen, Basel & Region',
-        metaDescription:
-          'Original italienischer Espresso aus Basel: Dersut Kaffeebohnen online kaufen beim offiziellen Vertrieb mit Sitz in Basel. Für Zuhause, Gastronomie und Büros in Basel-Stadt, Baselland und Fricktal.',
+        metaTitle: 'Kaffee Basel: Dersut Espressobohnen kaufen',
+        metaDescription: 'Italienischer Espresso aus Basel: Dersut Kaffeebohnen beim offiziellen Vertrieb mit Sitz in Basel kaufen. Für Zuhause, Gastronomie und Büros in der Region.',
         title: ['Dersut Kaffee', 'in Basel & Region'],
         lead: 'Der offizielle Schweizer Vertrieb von Dersut Caffè ist in Basel zuhause. Von hier aus beliefern wir Geniesser, Restaurants, Bars und Büros in der ganzen Region mit original italienischem Espresso aus Conegliano.',
         introTitle: 'Italienischer Espresso, zuhause in Basel',
@@ -61,9 +60,8 @@ export const REGIONS: Region[] = [
       },
       fr: {
         name: 'Bâle',
-        metaTitle: 'Café à Bâle : grains d’espresso Dersut, Bâle & région',
-        metaDescription:
-          'Espresso italien original depuis Bâle : achetez les grains Dersut en ligne chez le distributeur officiel basé à Bâle. Pour la maison, la restauration et les bureaux à Bâle-Ville, Bâle-Campagne et dans la région.',
+        metaTitle: 'Café à Bâle : grains d’espresso Dersut',
+        metaDescription: 'Espresso italien depuis Bâle : grains Dersut chez le distributeur officiel établi à Bâle. Pour la maison, la restauration et les bureaux de la région.',
         title: ['Café Dersut', 'à Bâle & dans la région'],
         lead: 'Le distributeur officiel de Dersut Caffè en Suisse est établi à Bâle. D’ici, nous livrons particuliers, restaurants, bars et bureaux de toute la région avec un espresso italien original de Conegliano.',
         introTitle: 'L’espresso italien, établi à Bâle',
@@ -83,9 +81,8 @@ export const REGIONS: Region[] = [
       },
       it: {
         name: 'Basilea',
-        metaTitle: 'Caffè a Basilea: caffè in grani Dersut, Basilea & regione',
-        metaDescription:
-          'Vero espresso italiano da Basilea: acquistate caffè in grani Dersut online dal distributore ufficiale con sede a Basilea. Per casa, gastronomia e uffici a Basilea Città, Basilea Campagna e dintorni.',
+        metaTitle: 'Caffè a Basilea: caffè in grani Dersut',
+        metaDescription: 'Vero espresso italiano da Basilea: caffè in grani Dersut dal distributore ufficiale con sede a Basilea. Per casa, gastronomia e uffici.',
         title: ['Caffè Dersut', 'a Basilea & dintorni'],
         lead: 'Il distributore ufficiale di Dersut Caffè in Svizzera ha sede a Basilea. Da qui riforniamo appassionati, ristoranti, bar e uffici di tutta la regione con vero espresso italiano da Conegliano.',
         introTitle: 'Espresso italiano, di casa a Basilea',
@@ -105,9 +102,8 @@ export const REGIONS: Region[] = [
       },
       en: {
         name: 'Basel',
-        metaTitle: 'Coffee in Basel: buy Dersut espresso beans, Basel & region',
-        metaDescription:
-          'Genuine Italian espresso from Basel: buy Dersut coffee beans online from the official distributor based in Basel. For home, hospitality and offices in Basel-Stadt, Basel-Landschaft and the surrounding region.',
+        metaTitle: 'Coffee in Basel: buy Dersut espresso beans',
+        metaDescription: 'Genuine Italian espresso from Basel: buy Dersut coffee beans from the official distributor based in Basel. For home, hospitality and offices in the region.',
         title: ['Dersut coffee', 'in Basel & the region'],
         lead: 'The official Swiss distributor of Dersut Caffè is based in Basel. From here we supply coffee lovers, restaurants, bars and offices throughout the region with genuine Italian espresso from Conegliano.',
         introTitle: 'Italian espresso, at home in Basel',
@@ -135,9 +131,8 @@ export const REGIONS: Region[] = [
     text: {
       de: {
         name: 'Romandie',
-        metaTitle: 'Dersut Kaffee in der Romandie: Genf, Lausanne & Westschweiz',
-        metaDescription:
-          'Original italienischer Espresso für die Westschweiz: Dersut Kaffeebohnen mit Lieferung nach Genf, Lausanne, Neuenburg, Freiburg, ins Wallis und in den Jura. Auch für Gastronomie und Büros.',
+        metaTitle: 'Dersut Kaffee in der Romandie: Genf & Lausanne',
+        metaDescription: 'Italienischer Espresso für die Westschweiz: Dersut Kaffeebohnen mit Lieferung nach Genf, Lausanne, Neuenburg, Freiburg, ins Wallis und in den Jura.',
         title: ['Dersut Kaffee', 'in der Romandie'],
         lead: 'Von Genf bis in den Jura: Wir liefern original italienischen Espresso von Dersut in die ganze Westschweiz. Auf Wunsch betreuen wir Sie auf Französisch, für Ihr Zuhause, Ihr Restaurant oder Ihr Büro.',
         introTitle: 'Italienische Espressokultur für die Westschweiz',
@@ -157,9 +152,8 @@ export const REGIONS: Region[] = [
       },
       fr: {
         name: 'Suisse romande',
-        metaTitle: 'Café Dersut en Suisse romande : Genève, Lausanne, Neuchâtel',
-        metaDescription:
-          'Espresso italien original en Suisse romande : grains Dersut livrés à Genève, Lausanne, Neuchâtel, Fribourg, en Valais et dans le Jura. Boutique en français, offres pour la restauration et les bureaux.',
+        metaTitle: 'Café Dersut en Suisse romande : Genève, Lausanne',
+        metaDescription: 'Espresso italien en Suisse romande : grains Dersut livrés à Genève, Lausanne, Neuchâtel, Fribourg, en Valais et dans le Jura. Boutique en français.',
         title: ['Le café Dersut', 'en Suisse romande'],
         lead: 'De Genève au Jura, nous livrons l’espresso italien original de Dersut dans toute la Suisse romande. Boutique, service clientèle et confirmations en français, pour votre maison, votre restaurant ou votre bureau.',
         introTitle: 'La culture de l’espresso italien pour la Romandie',
@@ -179,9 +173,8 @@ export const REGIONS: Region[] = [
       },
       it: {
         name: 'Romandia',
-        metaTitle: 'Caffè Dersut in Romandia: Ginevra, Losanna & Svizzera francese',
-        metaDescription:
-          'Vero espresso italiano nella Svizzera francese: caffè in grani Dersut con consegna a Ginevra, Losanna, Neuchâtel, Friburgo, in Vallese e nel Giura. Anche per gastronomia e uffici.',
+        metaTitle: 'Caffè Dersut in Romandia: Ginevra e Losanna',
+        metaDescription: 'Vero espresso italiano nella Svizzera francese: caffè in grani Dersut con consegna a Ginevra, Losanna, Neuchâtel, Friburgo e in Vallese.',
         title: ['Caffè Dersut', 'in Romandia'],
         lead: 'Da Ginevra al Giura: consegniamo il vero espresso italiano Dersut in tutta la Svizzera francese, per casa, ristorante o ufficio.',
         introTitle: 'Cultura dell’espresso italiano per la Svizzera francese',
@@ -201,9 +194,8 @@ export const REGIONS: Region[] = [
       },
       en: {
         name: 'French-speaking Switzerland',
-        metaTitle: 'Dersut coffee in Romandy: Geneva, Lausanne & western Switzerland',
-        metaDescription:
-          'Genuine Italian espresso for western Switzerland: Dersut coffee beans delivered to Geneva, Lausanne, Neuchâtel, Fribourg, Valais and Jura. Also for hospitality and offices.',
+        metaTitle: 'Dersut coffee in Romandy: Geneva & Lausanne',
+        metaDescription: 'Genuine Italian espresso for western Switzerland: Dersut beans delivered to Geneva, Lausanne, Neuchâtel, Fribourg, Valais and Jura.',
         title: ['Dersut coffee', 'in French-speaking Switzerland'],
         lead: 'From Geneva to the Jura, we deliver genuine Italian espresso from Dersut throughout Romandy, with a shop and customer service in French, for your home, restaurant or office.',
         introTitle: 'Italian espresso culture for Romandy',
@@ -231,9 +223,8 @@ export const REGIONS: Region[] = [
     text: {
       de: {
         name: 'Zürich',
-        metaTitle: 'Kaffee Zürich: Dersut Espressobohnen kaufen & liefern lassen',
-        metaDescription:
-          'Original italienischer Espresso für Zürich: Dersut Kaffeebohnen online bestellen, Lieferung nach Zürich, Winterthur, Baden, Zug und Luzern. Angebote für Büros und Gastronomie.',
+        metaTitle: 'Kaffee Zürich: Dersut Espressobohnen bestellen',
+        metaDescription: 'Italienischer Espresso für Zürich: Dersut Kaffeebohnen online bestellen, Lieferung nach Zürich, Winterthur, Zug und Luzern. Auch für Büros und Gastronomie.',
         title: ['Dersut Kaffee', 'für Zürich'],
         lead: 'Zürich trinkt gerne guten Kaffee, im Büro, im Café und zuhause. Wir liefern original italienischen Espresso von Dersut in den ganzen Grossraum Zürich und in die Zentralschweiz.',
         introTitle: 'Echter Espresso aus Conegliano',
@@ -252,9 +243,8 @@ export const REGIONS: Region[] = [
       },
       fr: {
         name: 'Zurich',
-        metaTitle: 'Café à Zurich : grains d’espresso Dersut livrés à Zurich',
-        metaDescription:
-          'Espresso italien original pour Zurich : commandez les grains Dersut en ligne, livraison à Zurich, Winterthour, Baden, Zoug et Lucerne. Offres pour bureaux et restauration.',
+        metaTitle: 'Café à Zurich : grains d’espresso Dersut',
+        metaDescription: 'Espresso italien pour Zurich : grains Dersut livrés à Zurich, Winterthour, Zoug et Lucerne. Offres pour bureaux et restauration.',
         title: ['Le café Dersut', 'pour Zurich'],
         lead: 'Zurich apprécie le bon café, au bureau, au café et à la maison. Nous livrons l’espresso italien original de Dersut dans toute la région zurichoise et en Suisse centrale.',
         introTitle: 'Un véritable espresso de Conegliano',
@@ -295,8 +285,7 @@ export const REGIONS: Region[] = [
       en: {
         name: 'Zurich',
         metaTitle: 'Coffee in Zurich: Dersut espresso beans delivered',
-        metaDescription:
-          'Genuine Italian espresso for Zurich: order Dersut coffee beans online with delivery to Zurich, Winterthur, Baden, Zug and Lucerne. Offers for offices and hospitality.',
+        metaDescription: 'Genuine Italian espresso for Zurich: Dersut coffee beans delivered to Zurich, Winterthur, Baden, Zug and Lucerne. For offices and hospitality.',
         title: ['Dersut coffee', 'for Zurich'],
         lead: 'Zurich loves good coffee, at the office, in cafés and at home. We deliver genuine Italian espresso from Dersut throughout greater Zurich and central Switzerland.',
         introTitle: 'Real espresso from Conegliano',
@@ -324,8 +313,7 @@ export const REGIONS: Region[] = [
       de: {
         name: 'Bern',
         metaTitle: 'Kaffee Bern: Dersut Espressobohnen online kaufen',
-        metaDescription:
-          'Original italienischer Espresso für Bern und das Mittelland: Dersut Kaffeebohnen mit Lieferung nach Bern, Thun, Biel, Burgdorf, Solothurn und Olten. Auch für Gastronomie und Büros.',
+        metaDescription: 'Italienischer Espresso für Bern: Dersut Kaffeebohnen mit Lieferung nach Bern, Thun, Biel und Solothurn. Auch für Gastronomie und Büros im Mittelland.',
         title: ['Dersut Kaffee', 'für Bern & Mittelland'],
         lead: 'Von der Bundesstadt bis ins Berner Oberland: Wir liefern original italienischen Espresso von Dersut nach Bern, Thun, Biel und ins ganze Mittelland.',
         introTitle: 'Ein Espresso mit Geschichte',
@@ -345,8 +333,7 @@ export const REGIONS: Region[] = [
       fr: {
         name: 'Berne',
         metaTitle: 'Café à Berne et Bienne : grains d’espresso Dersut',
-        metaDescription:
-          'Espresso italien original pour Berne, Bienne et le Plateau : grains Dersut livrés à Berne, Thoune, Bienne, Berthoud et Soleure. Aussi pour la restauration et les bureaux.',
+        metaDescription: 'Espresso italien pour Berne et Bienne : grains Dersut livrés à Berne, Thoune, Bienne et Soleure. Aussi pour la restauration et les bureaux.',
         title: ['Le café Dersut', 'pour Berne & Bienne'],
         lead: 'De la ville fédérale à Bienne la bilingue : nous livrons l’espresso italien original de Dersut à Berne, Thoune, Bienne et sur tout le Plateau.',
         introTitle: 'Un espresso chargé d’histoire',
@@ -387,8 +374,7 @@ export const REGIONS: Region[] = [
       en: {
         name: 'Bern',
         metaTitle: 'Coffee in Bern: buy Dersut espresso beans online',
-        metaDescription:
-          'Genuine Italian espresso for Bern and the Swiss plateau: Dersut coffee beans delivered to Bern, Thun, Biel, Burgdorf and Solothurn. Also for hospitality and offices.',
+        metaDescription: 'Genuine Italian espresso for Bern: Dersut coffee beans delivered to Bern, Thun, Biel and Solothurn. Also for hospitality and offices.',
         title: ['Dersut coffee', 'for Bern & the Mittelland'],
         lead: 'From the federal city to the Bernese Oberland: we deliver genuine Italian espresso from Dersut to Bern, Thun, Biel and across the Mittelland.',
         introTitle: 'An espresso with a history',
@@ -415,9 +401,8 @@ export const REGIONS: Region[] = [
     text: {
       de: {
         name: 'Tessin',
-        metaTitle: 'Dersut Kaffee im Tessin: Lugano, Bellinzona, Locarno',
-        metaDescription:
-          'Original italienischer Espresso für das Tessin: Dersut Kaffeebohnen mit Lieferung nach Lugano, Bellinzona, Locarno und Mendrisio. Shop auch auf Italienisch, Angebote für Gastronomie.',
+        metaTitle: 'Dersut Kaffee im Tessin: Lugano & Bellinzona',
+        metaDescription: 'Italienischer Espresso fürs Tessin: Dersut Kaffeebohnen mit Lieferung nach Lugano, Bellinzona, Locarno und Mendrisio. Shop auch auf Italienisch.',
         title: ['Dersut Kaffee', 'im Tessin'],
         lead: 'Im Tessin ist Espresso Kultur. Wir liefern den Espresso aus Conegliano nach Lugano, Bellinzona, Locarno und in die ganze Sonnenstube der Schweiz.',
         introTitle: 'Italienische Rösterkunst, ganz nah',
@@ -458,8 +443,7 @@ export const REGIONS: Region[] = [
       it: {
         name: 'Ticino',
         metaTitle: 'Caffè Dersut in Ticino: Lugano, Bellinzona, Locarno',
-        metaDescription:
-          'Vero espresso italiano per il Ticino: caffè in grani Dersut con consegna a Lugano, Bellinzona, Locarno e Mendrisio. Negozio in italiano, offerte per bar, ristoranti e uffici.',
+        metaDescription: 'Vero espresso italiano per il Ticino: caffè in grani Dersut con consegna a Lugano, Bellinzona, Locarno e Mendrisio. Offerte per bar e ristoranti.',
         title: ['Caffè Dersut', 'in Ticino'],
         lead: 'In Ticino l’espresso è cultura. Portiamo l’espresso di Conegliano a Lugano, Bellinzona, Locarno e in tutto il cantone, direttamente dal distributore ufficiale svizzero.',
         introTitle: 'L’arte della torrefazione italiana, a due passi',

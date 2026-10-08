@@ -37,7 +37,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const lang = asLocale(l);
   const p = await getProductBySlug(slug, lang);
   if (!p) return { title: getDict(lang).product.notFound, robots: { index: false } };
-  return pageMeta(lang, `/shop/${p.slug}`, p.seoTitle, p.seoDescription, { image: productImage(p.image) });
+  return pageMeta(lang, `/shop/${p.slug}`, p.seoTitle, p.seoDescription, { image: productImage(p.image), pack: true });
 }
 
 export default async function ProductPage({ params }: Props) {
@@ -150,6 +150,7 @@ export default async function ProductPage({ params }: Props) {
               <AddToCart productId={p.id} soldOut={soldOut} lang={lang} detailed />
               <ul className="pd__assure">
                 {tp.assure.map(([icon, text]) => <li key={icon}><Icon name={icon} /> {text}</li>)}
+                <li><Icon name="mail" /> <span>{tp.questions} <a href={`mailto:${config.email.info}`}>{config.email.info}</a></span></li>
               </ul>
             </div>
           </div>

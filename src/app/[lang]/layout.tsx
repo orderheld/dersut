@@ -11,7 +11,7 @@ import { config } from '@/lib/config';
 import { companyAddressLines } from '@/lib/format';
 import { LOCALE_TAGS, OG_LOCALES, isLocale, lp, type Locale } from '@/lib/i18n';
 import { getProducts } from '@/lib/products';
-import { absolute, jsonLd, languageAlternates } from '@/lib/seo';
+import { INDEX, absolute, jsonLd, languageAlternates, shareImage } from '@/lib/seo';
 import './site.css';
 
 type Props = { children: React.ReactNode; params: Promise<{ lang: string }> };
@@ -29,11 +29,14 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
   const t = getDict(lang);
   return {
     metadataBase: new URL(config.siteUrl),
-    title: { default: t.meta.defaultTitle, template: `%s · ${t.meta.siteName}` },
+    title: { default: t.meta.defaultTitle, template: '%s | Dersut' },
     description: t.meta.defaultDescription,
-    applicationName: t.meta.siteName,
+    applicationName: 'Dersut',
+    appleWebApp: { title: 'Dersut', capable: true, statusBarStyle: 'default' },
+    robots: INDEX,
     alternates: { canonical: absolute(lp(lang, '/')), languages: languageAlternates('/') },
-    openGraph: { type: 'website', locale: OG_LOCALES[lang], siteName: t.meta.siteName, images: [brand('hero_1')] },
+    openGraph: { type: 'website', locale: OG_LOCALES[lang], siteName: t.meta.siteName, images: [shareImage(brand('hero_1'), t.meta.siteName)] },
+    twitter: { card: 'summary_large_image' },
     formatDetection: { telephone: false },
   };
 }
@@ -117,6 +120,7 @@ export default async function SiteLayout({ children, params }: Props) {
             <span className="topbar__item"><Icon name="shield" /> {t.topbar.official}</span>
             <span className="topbar__item topbar__item--hide-sm"><Icon name="truck" /> {t.topbar.shipping}</span>
             <span className="topbar__item topbar__item--hide-md"><Icon name="cup" /> {t.topbar.since}</span>
+            <a className="topbar__item topbar__item--link topbar__item--hide-sm" href={`mailto:${config.email.info}`}><Icon name="mail" /> {config.email.info}</a>
           </div>
         </div>
 
