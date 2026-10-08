@@ -1,11 +1,12 @@
 import sharp from 'sharp';
+import { CUTOUT_VERSION } from '@/lib/brand';
 import { cutoutImage, isKnownImage, loadImage } from '@/lib/imaging';
 
 /**
  * Stellt Produktfotos frei: Der weisse Hintergrund eines Packshots wird transparent.
  * Nur Flächen, die mit dem Bildrand verbunden sind, werden entfernt, helle Stellen
  * auf der Packung bleiben erhalten. Ergebnis: WebP mit Transparenz, lange im CDN gecacht.
- * Aufruf: /api/cutout?src=<Bild-URL oder /brand/…-Pfad>&w=<480|800|1200|1400>
+ * Aufruf: /api/cutout?v=<Version>&src=<Bild-URL oder /brand/…-Pfad>&w=<480|800|1200|1400>
  */
 export const runtime = 'nodejs';
 
@@ -17,7 +18,8 @@ export async function GET(req: Request) {
   const src = params.get('src') ?? '';
   // Nur feste Breiten und keine weiteren Parameter: So kann niemand den CDN-Cache umgehen
   const width = params.has('w') ? Number(params.get('w')) : MAX;
-  if (!WIDTHS.includes(width) || [...params.keys()].some((k) => k !== 'src' && k !== 'w')) return new Response('Ungültige Anfrage', { status: 400 });
+  const extra = [...params.keys()].some((k) => !['src', 'w', 'v'].includes(k));
+  if (!WIDTHS.includes(width) || extra || (params.has('v') && params.get('v') !== CUTOUT_VERSION)) return new Response('Ungültige Anfrage', { status: 400 });
   const input = src && (await isKnownImage(src)) ? await loadImage(src).catch(() => null) : null;
   if (!input) return new Response('Bild nicht gefunden', { status: 404 });
   try {

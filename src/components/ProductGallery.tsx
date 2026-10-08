@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { Img } from './Img';
+import { PackDeco } from './PackDeco';
 
 export type GalleryImage = { src: string; alt: string; pack: boolean; cut?: string };
 
@@ -14,12 +15,12 @@ export function ProductGallery({ images, badge, fallback, labels }: { images: Ga
     <div className="pg">
       <div className={`pg__stage${cur?.pack ? ' is-pack' : ' is-photo'}`}>
         <span className="pcard__badge">{badge}</span>
+        {cur?.pack && <PackDeco />}
         {images.map((im, n) => (
           <div key={im.src} className={`pg__slide${n === i ? ' is-on' : ''}${im.pack ? ' is-pack' : ''}`} aria-hidden={n !== i}>
             <Img src={im.cut || im.src} fallbackSrc={im.cut ? im.src : undefined} alt={im.alt} eager={n === 0} />
           </div>
         ))}
-        {cur?.pack && <span className="pg__floor" aria-hidden="true" />}
         <span className="pcard__fallback" aria-hidden="true"><span>{fallback[0]}</span><small>{fallback[1]}</small></span>
         {images.length > 1 && (
           <>

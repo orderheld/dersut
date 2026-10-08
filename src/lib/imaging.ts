@@ -38,32 +38,45 @@ export async function loadImage(src: string): Promise<Buffer | null> {
   return buf.length > MAX_BYTES ? null : buf;
 }
 
-/** Hintergrund (vom Rand her erreichbare, fast weisse Pixel) transparent machen, Kanten weich. */
+/**
+ * Hintergrund transparent machen: vom Rand her erreichbare, fast weisse Pixel und der graue Bodenschatten
+ * des Packshots. Der Schatten ist ein weicher Verlauf, deshalb geht die Füllung nur zu sehr ähnlichen
+ * Nachbarpixeln weiter: An der Kante der Packung (auch bei silbernen Packungen) stoppt sie. Kanten weich.
+ */
 function cutout(px: Buffer, w: number, h: number): void {
   const n = w * h;
   const bg = new Uint8Array(n); // 1 = Hintergrund
-  const near = (i: number, lim: number) => {
-    const o = i * 4;
-    const r = px[o], g = px[o + 1], b = px[o + 2];
-    const mn = Math.min(r, g, b), mx = Math.max(r, g, b);
-    return mn >= lim && mx - mn <= 22;
+  const lum = (i: number) => Math.min(px[i * 4], px[i * 4 + 1], px[i * 4 + 2]);
+  const chroma = (i: number) => Math.max(px[i * 4], px[i * 4 + 1], px[i * 4 + 2]) - lum(i);
+  const white = (i: number) => lum(i) >= 232 && chroma(i) <= 22;
+  const step = (from: number, i: number) => {
+    if (white(i)) return true;
+    if (lum(i) < 70 || chroma(i) > 16) return false;
+    const a = from * 4, b = i * 4;
+    return Math.abs(px[a] - px[b]) <= 4 && Math.abs(px[a + 1] - px[b + 1]) <= 4 && Math.abs(px[a + 2] - px[b + 2]) <= 4;
   };
   const stack: number[] = [];
-  const push = (i: number) => {
-    if (!bg[i] && near(i, 232)) {
+  const seed = (i: number) => {
+    if (!bg[i] && white(i)) {
       bg[i] = 1;
       stack.push(i);
     }
   };
-  for (let x = 0; x < w; x++) { push(x); push((h - 1) * w + x); }
-  for (let y = 0; y < h; y++) { push(y * w); push(y * w + w - 1); }
+  const push = (from: number, i: number) => {
+    if (!bg[i] && step(from, i)) {
+      bg[i] = 1;
+      stack.push(i);
+    }
+  };
+  for (let x = 0; x < w; x++) { seed(x); seed((h - 1) * w + x); }
+  for (let y = 0; y < h; y++) { seed(y * w); seed(y * w + w - 1); }
   while (stack.length) {
     const i = stack.pop()!;
     const x = i % w;
-    if (x > 0) push(i - 1);
-    if (x < w - 1) push(i + 1);
-    if (i >= w) push(i - w);
-    if (i < n - w) push(i + w);
+    if (x > 0) push(i, i - 1);
+    if (x < w - 1) push(i, i + 1);
+    if (i >= w) push(i, i - w);
+    if (i < n - w) push(i, i + w);
   }
   for (let i = 0; i < n; i++) {
     const o = i * 4;
@@ -81,7 +94,6 @@ function cutout(px: Buffer, w: number, h: number): void {
     px[o + 3] = Math.round(a * 255);
   }
 }
-
 
 /** Packshot freistellen: transparenter Hintergrund, auf den Inhalt zugeschnitten (PNG mit Alpha). */
 export async function cutoutImage(input: Buffer, max = 1400): Promise<Buffer> {
