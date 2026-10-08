@@ -1,7 +1,7 @@
 import 'server-only';
 import { neon } from '@neondatabase/serverless';
 import { SCHEMA, SEED_PRODUCTS } from './schema';
-import { SEED_TRANSLATIONS } from './product-seed-i18n';
+import { SEED_TRANSLATIONS, SEO_DESCRIPTION_UPDATES } from './product-seed-i18n';
 
 export type Row = Record<string, any>;
 export type Query = { text: string; params?: unknown[] };
@@ -65,6 +65,13 @@ async function getDriver(): Promise<Driver> {
              gallery = CASE WHEN gallery = '[]'::jsonb THEN $3::jsonb ELSE gallery END
            WHERE slug = $1`,
           [slug, JSON.stringify(seed.translations), JSON.stringify(seed.gallery)],
+        );
+      }
+      for (const [slug, lang, old, next] of SEO_DESCRIPTION_UPDATES) {
+        await d.query(
+          `UPDATE products SET translations = jsonb_set(translations, ARRAY[$2::text, 'seoDescription'], to_jsonb($4::text))
+           WHERE slug = $1 AND translations -> $2::text ->> 'seoDescription' = $3`,
+          [slug, lang, old, next],
         );
       }
       return d;

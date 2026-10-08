@@ -1,6 +1,7 @@
 import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
+  poweredByHeader: false,
   // PGlite wird nur lokal zum Testen ohne Neon verwendet
   serverExternalPackages: ['@electric-sql/pglite'],
   // Produktbilder bis 4 MB im Admin hochladen
@@ -32,6 +33,10 @@ const nextConfig: NextConfig = {
           { key: 'X-Content-Type-Options', value: 'nosniff' },
           { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
           { key: 'X-Frame-Options', value: 'SAMEORIGIN' },
+          { key: 'Strict-Transport-Security', value: 'max-age=63072000' },
+          { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()' },
+          // Schutz vor Einbetten, fremden Formularzielen und Plugins; Skripte regelt Next selbst
+          { key: 'Content-Security-Policy', value: "frame-ancestors 'self'; base-uri 'self'; form-action 'self'; object-src 'none'; upgrade-insecure-requests" },
         ],
       },
     ];

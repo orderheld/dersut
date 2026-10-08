@@ -145,6 +145,10 @@ export function Header({ lang, labels: t }: { lang: Locale; labels: HeaderLabels
           </ul>
         </div>
 
+        <Link className="cartlink cartlink--contact" href={L('/kontakt')} aria-label={t.contact} title={t.contact}>
+          <Icon name="mail" />
+        </Link>
+
         <Link className={`cartlink${bump ? ' is-bump' : ''}`} href={L('/warenkorb')} aria-label={count > 0 ? `${t.cart} (${count})` : t.cart}>
           <Icon name="bag" />
           {count > 0 && <span className="cartlink__count">{count}</span>}
