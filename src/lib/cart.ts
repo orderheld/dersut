@@ -3,7 +3,9 @@ import { cookies } from 'next/headers';
 import { config } from './config';
 import { vatFromGross } from './format';
 import type { Locale } from './i18n';
-import { getProduct, localizeProduct, type Product } from './products';
+import { query } from './db';
+import { localizeProduct, type Product } from './products';
+import { CART_COUNT_COOKIE } from './cart-shared';
 
 const COOKIE = 'dersut_cart';
 
@@ -35,13 +37,11 @@ export async function readCart(): Promise<CartRaw> {
 }
 
 export async function writeCart(cart: CartRaw): Promise<void> {
-  (await cookies()).set(COOKIE, JSON.stringify(cart), {
-    httpOnly: true,
-    sameSite: 'lax',
-    secure: process.env.NODE_ENV === 'production',
-    path: '/',
-    maxAge: 60 * 60 * 24 * 30,
-  });
+  const jar = await cookies();
+  const opts = { sameSite: 'lax' as const, secure: process.env.NODE_ENV === 'production', path: '/', maxAge: 60 * 60 * 24 * 30 };
+  jar.set(COOKIE, JSON.stringify(cart), { ...opts, httpOnly: true });
+  // Nur die Anzahl, lesbar für die Kopfzeile: So können alle Inhaltsseiten aus dem Cache kommen
+  jar.set(CART_COUNT_COOKIE, String(Object.values(cart).reduce((a, b) => a + b, 0)), opts);
 }
 
 export async function setQty(productId: number, qty: number): Promise<void> {
@@ -58,7 +58,9 @@ export async function addToCart(productId: number, qty: number): Promise<void> {
 }
 
 export async function clearCart(): Promise<void> {
-  (await cookies()).delete(COOKIE);
+  const jar = await cookies();
+  jar.delete(COOKIE);
+  jar.delete(CART_COUNT_COOKIE);
 }
 
 export async function cartCount(): Promise<number> {
@@ -67,12 +69,10 @@ export async function cartCount(): Promise<number> {
 
 export async function cartSummary(lang: Locale = 'de'): Promise<Cart> {
   const raw = await readCart();
-  const items: CartItem[] = [];
-  for (const [id, qty] of Object.entries(raw)) {
-    const p = await getProduct(Number(id));
-    if (!p || !p.active) continue;
-    items.push({ product: localizeProduct(p, lang), qty, line: p.price * qty });
-  }
+  const ids = Object.keys(raw).map(Number);
+  // Alle Produkte des Warenkorbs mit einer einzigen Abfrage laden
+  const rows = ids.length ? await query<Product>('SELECT * FROM products WHERE id = ANY($1::int[]) AND active ORDER BY sort, id', [ids]) : [];
+  const items: CartItem[] = rows.map((p) => ({ product: localizeProduct(p, lang), qty: raw[p.id], line: p.price * raw[p.id] }));
   const subtotal = items.reduce((a, i) => a + i.line, 0);
   const shipping = items.length ? config.shop.shipping : 0;
   const total = subtotal + shipping;

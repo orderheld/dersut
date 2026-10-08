@@ -3,6 +3,7 @@
 import { useActionState, useEffect, useState } from 'react';
 import { addToCartAction, type AddState } from '@/app/[lang]/actions';
 import { getDict } from '@/i18n';
+import { notifyCart } from '@/lib/cart-shared';
 import { lp, type Locale } from '@/lib/i18n';
 import { Icon } from './Icon';
 import { QtyInput } from './QtyInput';
@@ -15,6 +16,7 @@ export function AddToCart({ productId, soldOut, lang, detailed = false }: { prod
 
   useEffect(() => {
     if (state.n > 0) {
+      notifyCart();
       setFlash(true);
       const t = setTimeout(() => setFlash(false), 2600);
       return () => clearTimeout(t);

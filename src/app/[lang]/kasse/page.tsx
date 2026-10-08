@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { redirect } from 'next/navigation';
+import { CartSync } from '@/components/CartSync';
 import { CheckoutForm } from '@/components/CheckoutForm';
 import { cartSummary } from '@/lib/cart';
 import { chf } from '@/lib/format';
@@ -34,6 +35,7 @@ export default async function Kasse({ params }: Props) {
   );
   return (
     <section className="shopflow">
+      <CartSync count={cart.items.reduce((a, i) => a + i.qty, 0)} />
       <div className="wrap">
         <h1>{T.checkout.title}</h1>
         <CheckoutForm summary={summary} initial={{}} lang={lang} />

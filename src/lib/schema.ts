@@ -87,6 +87,12 @@ export const SCHEMA = [
   `ALTER TABLE products ADD COLUMN IF NOT EXISTS translations JSONB NOT NULL DEFAULT '{}'`,
   `ALTER TABLE products ADD COLUMN IF NOT EXISTS gallery JSONB NOT NULL DEFAULT '[]'`,
   `ALTER TABLE orders ADD COLUMN IF NOT EXISTS lang TEXT NOT NULL DEFAULT 'de'`,
+  // Lagerbestand darf nie negativ werden: Zwei gleichzeitige Bestellungen für das letzte Stück scheitern so sauber
+  `DO $$ BEGIN
+     IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'products_stock_nonneg') THEN
+       ALTER TABLE products ADD CONSTRAINT products_stock_nonneg CHECK (stock IS NULL OR stock >= 0) NOT VALID;
+     END IF;
+   END $$`,
 ];
 
 export const SEED_PRODUCTS = [

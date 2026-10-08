@@ -1,7 +1,8 @@
 'use client';
 
 import Link from 'next/link';
-import { useActionState } from 'react';
+import { useSearchParams } from 'next/navigation';
+import { Suspense, useActionState } from 'react';
 import { contactAction, type ContactState } from '@/app/[lang]/actions';
 import { getDict } from '@/i18n';
 import { lp, type Locale } from '@/lib/i18n';
@@ -48,5 +49,18 @@ export function ContactForm({ topic, lang }: { topic: string; lang: Locale }) {
         </div>
       </form>
     </>
+  );
+}
+
+function WithTopic({ lang }: { lang: Locale }) {
+  return <ContactForm topic={useSearchParams().get('thema') ?? ''} lang={lang} />;
+}
+
+/** Kontaktformular, Thema aus ?thema=… vorausgewählt. Die Seite selbst bleibt statisch (Cache). */
+export function ContactFormAuto({ lang }: { lang: Locale }) {
+  return (
+    <Suspense fallback={<ContactForm topic="" lang={lang} />}>
+      <WithTopic lang={lang} />
+    </Suspense>
   );
 }

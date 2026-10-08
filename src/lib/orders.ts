@@ -131,7 +131,18 @@ export async function createOrder(input: CheckoutInput, cart: Cart, lang: Locale
     queries.push({ text: 'UPDATE products SET stock = stock - $1 WHERE id = $2 AND stock IS NOT NULL', params: [it.qty, it.product.id] });
   }
   queries.push({ text: `INSERT INTO order_log (order_id, message) VALUES (${orderId}, $1)`, params: ['Bestellung eingegangen (Vorauskasse).'] });
-  await transaction(queries);
+  try {
+    await transaction(queries);
+  } catch (e) {
+    // Lagerbestand wurde in der Zwischenzeit von einer anderen Bestellung aufgebraucht
+    if (String((e as Error)?.message ?? e).includes('products_stock_nonneg')) {
+      for (const it of cart.items) {
+        const p = await getProduct(it.product.id);
+        if (p && p.stock !== null && p.stock < it.qty) throw new Error(getDict(lang).validation.stock(p.name, p.stock));
+      }
+    }
+    throw e;
+  }
   return (await getOrderByNumber(number))!;
 }
 
@@ -220,12 +231,19 @@ export async function setOrderStatus(id: number, status: OrderStatus, tracking =
   }
   if (status === 'cancelled') sets.push('cancelled_at = now()');
   if (status === 'open') sets.push('paid_at = NULL', 'shipped_at = NULL', 'cancelled_at = NULL');
+  else if (before.status === 'cancelled' && status !== 'cancelled') sets.push('cancelled_at = NULL');
   params.push(id);
 
   const queries: Query[] = [{ text: `UPDATE orders SET ${sets.join(', ')} WHERE id = $${params.length}`, params }];
   if (status === 'cancelled' && before.status !== 'cancelled') {
     for (const it of before.items) {
       if (it.product_id) queries.push({ text: 'UPDATE products SET stock = stock + $1 WHERE id = $2 AND stock IS NOT NULL', params: [it.qty, it.product_id] });
+    }
+  }
+  // Stornierung rückgängig: Ware wieder vom Lager abziehen
+  if (before.status === 'cancelled' && status !== 'cancelled') {
+    for (const it of before.items) {
+      if (it.product_id) queries.push({ text: 'UPDATE products SET stock = stock - $1 WHERE id = $2 AND stock IS NOT NULL', params: [it.qty, it.product_id] });
     }
   }
   let msg = `Status geändert: ${statusLabel(before.status)} → ${statusLabel(status)}`;

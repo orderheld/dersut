@@ -1,5 +1,6 @@
 'use server';
 
+import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { addToCart, cartSummary, clearCart, setQty } from '@/lib/cart';
 import { addLog, createOrder, validateCheckout, type CheckoutInput } from '@/lib/orders';
@@ -9,6 +10,7 @@ import { getProduct } from '@/lib/products';
 import { query } from '@/lib/db';
 import { getDict } from '@/i18n';
 import { asLocale, lp } from '@/lib/i18n';
+import { B2B_FORM } from '@/content/b2b';
 
 const str = (fd: FormData, k: string) => String(fd.get(k) ?? '').trim();
 
@@ -71,6 +73,8 @@ export async function checkoutAction(_prev: CheckoutState, fd: FormData): Promis
     return { errors: { _: e instanceof Error ? e.message : getDict(lang).checkout.saveFailed }, values: input };
   }
   await clearCart();
+  // Lagerbestand hat sich evtl. geändert: Shopseiten neu erzeugen
+  if (cart.items.some((i) => i.product.stock !== null)) revalidatePath('/', 'layout');
   const [conf, admin] = await Promise.all([sendOrderMail(order, 'confirmation'), sendOrderMail(order, 'admin')]);
   await addLog(order.id, conf.ok ? `Bestätigung an ${order.email} gesendet.` : `Bestätigung an ${order.email} konnte nicht gesendet werden (${conf.error}).`);
   if (!admin.ok) await addLog(order.id, `Benachrichtigung an ${config.email.orders} konnte nicht gesendet werden (${admin.error}).`);
@@ -102,5 +106,54 @@ export async function contactAction(_prev: ContactState, fd: FormData): Promise<
     v.name, v.email, v.phone, v.company, v.topic, v.message,
   ]);
   await sendContactMail(v);
+  return { sent: true, errors: {}, values: {} };
+}
+
+export type B2BState = { sent: boolean; errors: Record<string, string>; values: Record<string, string> };
+
+/** Anfrage von Gastronomie oder Firmen: wird wie eine Kontaktnachricht gespeichert und per E-Mail zugestellt. */
+export async function b2bAction(_prev: B2BState, fd: FormData): Promise<B2BState> {
+  const lang = asLocale(fd.get('lang'));
+  const f = B2B_FORM[lang];
+  const pick = (k: string, list: [string, string][]) => {
+    const v = str(fd, k);
+    return list.some(([x]) => x === v) ? v : '';
+  };
+  const v = {
+    kind: str(fd, 'kind') === 'office' ? 'office' : 'gastro',
+    company: str(fd, 'company'),
+    type: pick('type', f.types),
+    name: str(fd, 'name'),
+    email: str(fd, 'email'),
+    phone: str(fd, 'phone'),
+    place: str(fd, 'place'),
+    volume: pick('volume', f.volumes),
+    machine: pick('machine', f.machines),
+    message: str(fd, 'message'),
+  };
+  if (str(fd, 'website')) return { sent: true, errors: {}, values: {} };
+  const t = getDict(lang);
+  const errors: Record<string, string> = {};
+  if (!v.company) errors.company = f.companyMissing;
+  if (!v.name) errors.name = t.validation.name;
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.email)) errors.email = t.validation.email;
+  if (v.message.length > 5000) errors.message = t.validation.messageLong;
+  if ([v.company, v.name, v.email, v.phone, v.place].some((x) => x.length > 200)) errors._ = t.contact.tooLong;
+  if (Object.keys(errors).length) return { sent: false, errors, values: v };
+
+  const topic = v.kind === 'office' ? 'Firmenanfrage' : 'Gastronomie-Anfrage';
+  const message = [
+    `Art des Betriebs: ${v.type || '–'}`,
+    `Ort: ${v.place || '–'}`,
+    `Bedarf pro Monat: ${v.volume || '–'}`,
+    `Kaffeemaschine: ${v.machine || '–'}`,
+    `Sprache: ${lang.toUpperCase()}`,
+    '',
+    v.message || '(keine Nachricht)',
+  ].join('\n');
+  await query('INSERT INTO messages (name, email, phone, company, topic, message) VALUES ($1,$2,$3,$4,$5,$6)', [
+    v.name, v.email, v.phone, v.company, topic, message,
+  ]);
+  await sendContactMail({ name: v.name, email: v.email, phone: v.phone, company: v.company, topic, message });
   return { sent: true, errors: {}, values: {} };
 }

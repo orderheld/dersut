@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { Fragment } from 'react';
-import { ContactForm } from '@/components/ContactForm';
+import { ContactFormAuto } from '@/components/ContactForm';
 import { Icon } from '@/components/Icon';
 import { PageHero } from '@/components/PageHero';
 import { getDict } from '@/i18n';
@@ -9,7 +9,7 @@ import { companyAddressLines } from '@/lib/format';
 import { asLocale } from '@/lib/i18n';
 import { pageMeta } from '@/lib/seo';
 
-type Props = { params: Promise<{ lang: string }>; searchParams: Promise<{ thema?: string }> };
+type Props = { params: Promise<{ lang: string }> };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const lang = asLocale((await params).lang);
@@ -17,11 +17,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return pageMeta(lang, '/kontakt', t.metaTitle, t.metaDescription);
 }
 
-export default async function Kontakt({ params, searchParams }: Props) {
+export default async function Kontakt({ params }: Props) {
   const lang = asLocale((await params).lang);
   const T = getDict(lang);
   const t = T.contact;
-  const { thema = '' } = await searchParams;
   const phone = config.company.phone;
   return (
     <>
@@ -34,7 +33,7 @@ export default async function Kontakt({ params, searchParams }: Props) {
             <div className="ccard"><Icon name="pin" /><div><strong>{t.addressTitle}</strong><small style={{ fontSize: 14.5, color: 'var(--text)' }}>{companyAddressLines(T.common.country).map((l, i) => <Fragment key={i}>{i > 0 && <br />}{l}</Fragment>)}</small></div></div>
           </div>
           <div className="form-card" style={{ margin: 0 }}>
-            <ContactForm topic={thema} lang={lang} />
+            <ContactFormAuto lang={lang} />
           </div>
         </div>
       </section>
