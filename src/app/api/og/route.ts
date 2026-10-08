@@ -1,4 +1,5 @@
 import sharp from 'sharp';
+import { CUTOUT_VERSION } from '@/lib/brand';
 import { cutoutImage, isKnownImage, loadImage } from '@/lib/imaging';
 import { WORDMARK_CAFFE, WORDMARK_DERSUT } from '@/lib/wordmark';
 
@@ -67,7 +68,7 @@ async function pack(input: Buffer): Promise<Buffer> {
 
 export async function GET(req: Request) {
   const params = new URL(req.url).searchParams;
-  if ([...params.keys()].some((k) => k !== 'src' && k !== 'pack')) return new Response('Ungültige Anfrage', { status: 400 });
+  if ([...params.keys()].some((k) => !['src', 'pack', 'v'].includes(k)) || (params.has('v') && params.get('v') !== CUTOUT_VERSION)) return new Response('Ungültige Anfrage', { status: 400 });
   const src = params.get('src') ?? '';
   let out: Buffer;
   let ok = !src;

@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { config } from './config';
 import { LOCALES, LOCALE_TAGS, OG_LOCALES, lp, type Locale } from './i18n';
-import { brand } from './brand';
+import { CUTOUT_VERSION, brand } from './brand';
 import { getDict } from '@/i18n';
 
 export const absolute = (path: string) => config.siteUrl.replace(/\/$/, '') + (path.startsWith('/') ? path : `/${path}`);
@@ -15,7 +15,7 @@ export const INDEX = { index: true, follow: true, googleBot: { index: true, foll
  * `pack` = freigestellter Packshot (Produktseiten), sonst Foto im Querformat.
  */
 export function shareImage(src: string, alt: string, pack = false) {
-  const url = absolute(`/api/og?src=${encodeURIComponent(src)}${pack ? '&pack=1' : ''}`);
+  const url = absolute(`/api/og?v=${CUTOUT_VERSION}&src=${encodeURIComponent(src)}${pack ? '&pack=1' : ''}`);
   return { url, width: 1200, height: 630, alt, type: 'image/jpeg' };
 }
 

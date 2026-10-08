@@ -68,7 +68,10 @@ export function productImage(image: string): string {
   return image;
 }
 
+/** Version des Freistellers: bei Änderungen am Verfahren erhöhen, damit Browser und CDN neu laden. */
+export const CUTOUT_VERSION = '2';
+
 /** Freigestellte Version eines Packshots (transparenter Hintergrund), siehe /api/cutout. */
 export function cutoutImage(src: string): string {
-  return src ? `/api/cutout?src=${encodeURIComponent(src)}` : '';
+  return src ? `/api/cutout?v=${CUTOUT_VERSION}&src=${encodeURIComponent(src)}` : '';
 }

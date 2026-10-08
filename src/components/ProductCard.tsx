@@ -8,6 +8,7 @@ import { isSoldOut, type Product } from '@/lib/products';
 import { AddToCart } from './AddToCart';
 import { Img } from './Img';
 import { Intensity } from './Intensity';
+import { PackDeco } from './PackDeco';
 
 export function ProductCard({ p, lang }: { p: Product; lang: Locale }) {
   const t = getDict(lang);
@@ -16,8 +17,8 @@ export function ProductCard({ p, lang }: { p: Product; lang: Locale }) {
     <article className="pcard" style={{ '--accent': p.accent } as CSSProperties}>
       <Link className="pcard__media is-pack" href={href}>
         <span className="pcard__badge">{p.line}</span>
+        <PackDeco />
         <Img src={cutoutImage(productImage(p.image))} fallbackSrc={productImage(p.image)} alt={`${p.name} ${p.weight}`} className="pcard__img" />
-        <span className="pcard__shadow" aria-hidden="true" />
         <span className="pcard__fallback" aria-hidden="true">
           <span>{p.line}</span>
           <small>{p.weight}</small>
