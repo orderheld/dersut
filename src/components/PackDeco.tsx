@@ -1,16 +1,13 @@
-import { brand } from '@/lib/brand';
-import { Img } from './Img';
-
 /**
- * Bühne hinter freigestellten Packungen: heller Kreis in der Produktfarbe, ein Kaffeezweig
- * mit Bohnen (Originalbild von Dersut) und ein weicher Bodenschatten. Rein dekorativ.
+ * Dekoration hinter freigestellten Packungen: ein paar ausgeschüttete Kaffeebohnen und ein kleines Blatt
+ * (ausgeschnitten aus dem Originalbild «foglie» von Dersut, public/deco/beans.webp) und ein weicher Bodenschatten.
  */
 export function PackDeco() {
   return (
     <span className="pack-deco" aria-hidden="true">
-      <span className="pack-deco__disc" />
-      <Img src={brand('foglie')} alt="" className="pack-deco__leaf" sizes="(max-width: 640px) 45vw, 320px" />
       <span className="pack-deco__floor" />
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src="/deco/beans.webp" alt="" className="pack-deco__beans" width={1000} height={300} loading="lazy" decoding="async" />
     </span>
   );
 }

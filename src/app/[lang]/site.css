@@ -791,16 +791,12 @@ a.ccard:hover { border-color: var(--gold); box-shadow: var(--shadow-sm); color: 
 .price { white-space: nowrap; }
 .pd__assure a { color: var(--navy); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
 
-/* Produktbühne 2026-10: Packung gross und mittig auf hellem Kreis, Kaffeezweig, weicher Bodenschatten */
-.pcard__media.is-pack, .pg__stage.is-pack { background: linear-gradient(160deg, #f4ede2 0%, #ebe1d0 100%); }
+/* Produktbühne 2026-10: Packung gross und mittig, daneben ein paar Kaffeebohnen, weicher Bodenschatten */
+.pcard__media.is-pack, .pg__stage.is-pack { background: radial-gradient(ellipse at 50% 40%, #faf6ef 0%, #f1e9dc 70%, #ebe2d3 100%); }
 .pack-deco { position: absolute; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
-.pack-deco__disc { position: absolute; left: 50%; top: 47%; width: 76%; aspect-ratio: 1; transform: translate(-50%, -50%); border-radius: 50%;
-  background: radial-gradient(circle at 50% 40%, #fffefb 0%, #fbf7f0 50%, #f3eadb 100%);
-  box-shadow: 0 0 0 14px rgba(255, 255, 255, .28), 0 0 0 15px rgba(185, 170, 128, .55); }
-.pack-deco__leaf { position: absolute; left: -10%; bottom: -12%; width: 50%; height: auto; transform: rotate(-24deg); filter: drop-shadow(0 8px 10px rgba(30, 40, 20, .18)); transition: transform .6s var(--ease); }
-.pcard:hover .pack-deco__leaf { transform: rotate(-20deg) scale(1.03); }
+.pack-deco__beans { position: absolute; left: 0; bottom: 0; width: 100%; height: auto; z-index: 2; }
 .pack-deco__floor { position: absolute; left: 50%; bottom: 6%; width: 38%; height: 6%; transform: translateX(-50%); border-radius: 50%;
-  background: radial-gradient(ellipse at center, rgba(45, 32, 14, .36) 0%, rgba(45, 32, 14, .12) 45%, rgba(45, 32, 14, 0) 72%); }
+  background: radial-gradient(ellipse at center, rgba(45, 32, 14, .34) 0%, rgba(45, 32, 14, .12) 45%, rgba(45, 32, 14, 0) 72%); }
 .pcard__media.is-pack .pcard__img, .pg__slide.is-pack img { position: relative; z-index: 1; }
 .pcard__media.is-pack .pcard__img { padding: 7% 10% 8%; }
 .pg__slide.is-pack img { padding: 8% 12% 8%; }
