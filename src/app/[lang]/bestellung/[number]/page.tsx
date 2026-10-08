@@ -101,7 +101,7 @@ export default async function Bestellung({ params, searchParams }: Props) {
               <a href={`mailto:${config.email.orders}?subject=${encodeURIComponent(d.paymentMessage(o.number))}`}>{config.email.orders}</a>.
             </p>
           </div>
-          <aside className="summary" style={{ position: 'static' }}>
+          <div className="summary" style={{ position: 'static' }}>
             <h2>{d.overview}</h2>
             <ul className="summary__items">
               {o.items.map((it) => (
@@ -112,7 +112,7 @@ export default async function Bestellung({ params, searchParams }: Props) {
             <div className="summary__row"><span>{T.cart.shipping}</span><span>{chf(o.shipping)}</span></div>
             <div className="summary__row summary__row--total"><span>{T.cart.total}</span><span>{chf(o.total)}</span></div>
             <p className="summary__vat" style={{ margin: 0 }}>{T.common.inclVatRate(o.vat_rate)} ({chf(o.vat_amount)})</p>
-          </aside>
+          </div>
         </div>
       </div>
     </section>

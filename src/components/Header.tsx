@@ -62,6 +62,24 @@ export function Header({ lang, labels: t }: { lang: Locale; labels: HeaderLabels
   useEffect(() => {
     document.body.style.overflow = open ? 'hidden' : '';
   }, [open]);
+  // Escape schliesst Menü und Sprachauswahl, Klick daneben schliesst die Sprachauswahl
+  useEffect(() => {
+    const key = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setOpen(false);
+        setLangOpen(false);
+      }
+    };
+    const click = (e: MouseEvent) => {
+      if (!(e.target as Element).closest?.('.langsw')) setLangOpen(false);
+    };
+    document.addEventListener('keydown', key);
+    document.addEventListener('click', click);
+    return () => {
+      document.removeEventListener('keydown', key);
+      document.removeEventListener('click', click);
+    };
+  }, []);
   useEffect(() => {
     if (count > prev.current) {
       setBump(true);

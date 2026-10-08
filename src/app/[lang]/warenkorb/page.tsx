@@ -73,7 +73,7 @@ export default async function Warenkorb({ params }: Props) {
                 <noscript><button className="btn btn--ghost" type="submit" form="cartform">{t.update}</button></noscript>
               </div>
             </div>
-            <aside className="summary">
+            <div className="summary">
               <h2>{t.summary}</h2>
               <div className="summary__row"><span>{t.subtotal}</span><span>{chf(cart.subtotal)}</span></div>
               <div className="summary__row"><span>{t.shippingLong}</span><span>{chf(cart.shipping)}</span></div>
@@ -84,7 +84,7 @@ export default async function Warenkorb({ params }: Props) {
                 <Icon name="bank" />
                 <span dangerouslySetInnerHTML={{ __html: t.prepayNote }} />
               </div>
-            </aside>
+            </div>
           </div>
         )}
       </div>

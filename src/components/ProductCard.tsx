@@ -10,7 +10,9 @@ import { Img } from './Img';
 import { Intensity } from './Intensity';
 import { PackDeco } from './PackDeco';
 
-export function ProductCard({ p, lang }: { p: Product; lang: Locale }) {
+/** `level`: Überschriftenebene des Produktnamens (2 auf Seiten ohne Zwischentitel, sonst 3) */
+export function ProductCard({ p, lang, level = 3 }: { p: Product; lang: Locale; level?: 2 | 3 }) {
+  const H = level === 2 ? 'h2' : 'h3';
   const t = getDict(lang);
   const href = lp(lang, `/shop/${p.slug}`);
   return (
@@ -26,7 +28,7 @@ export function ProductCard({ p, lang }: { p: Product; lang: Locale }) {
       </Link>
       <div className="pcard__body">
         <p className="eyebrow">{p.subtitle}</p>
-        <h3 className="pcard__title"><Link href={href}>{p.name}</Link></h3>
+        <H className="pcard__title"><Link href={href}>{p.name}</Link></H>
         <p className="pcard__notes">{p.notes}</p>
         <Intensity value={p.intensity} lang={lang} />
         <div className="pcard__foot">

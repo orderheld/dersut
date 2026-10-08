@@ -44,7 +44,7 @@ export default async function Shop({ params }: Props) {
       <section className="section">
         <div className="wrap">
           <div className="pgrid">
-            {products.map((p) => <ProductCard key={p.id} p={p} lang={lang} />)}
+            {products.map((p) => <ProductCard key={p.id} p={p} lang={lang} level={2} />)}
           </div>
           <p className="center" style={{ marginTop: 50, color: 'var(--muted)' }}>{t.shop.more}</p>
         </div>

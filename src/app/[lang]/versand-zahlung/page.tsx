@@ -140,7 +140,7 @@ export default async function Versand({ params }: Props) {
         <div className="wrap">
           <ol className="howto" style={{ marginBottom: 80 }}>
             {t.steps.map(([icon, h, p]) => (
-              <li key={h}><span className="howto__icon"><Icon name={icon} /></span><h3>{h}</h3><p>{p}</p></li>
+              <li key={h}><span className="howto__icon"><Icon name={icon} /></span><h2 className="howto__h">{h}</h2><p>{p}</p></li>
             ))}
           </ol>
           <div className="faq">
