@@ -75,7 +75,7 @@ export function CheckoutForm({ summary, initial, lang }: { summary: ReactNode; i
             </div>
           </div>
         </div>
-        <aside className="summary">
+        <div className="summary">
           {summary}
           <div className={`f${e.agb ? ' f--error' : ''}`} style={{ marginBottom: 18 }}>
             <label className="check">
@@ -88,7 +88,7 @@ export function CheckoutForm({ summary, initial, lang }: { summary: ReactNode; i
             <Icon name="lock" /> {pending ? t.sending : t.submit}
           </button>
           <div className="summary__note"><Icon name="shield" /><span>{t.noCard}</span></div>
-        </aside>
+        </div>
       </form>
     </>
   );

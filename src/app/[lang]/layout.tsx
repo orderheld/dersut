@@ -115,20 +115,20 @@ export default async function SiteLayout({ children, params }: Props) {
         <a className="skip" href="#main">{t.a11y.skip}</a>
         <script type="application/ld+json" dangerouslySetInnerHTML={jsonLd(org)} />
 
-        <div className="topbar">
+        <aside className="topbar" aria-label={t.a11y.service}>
           <div className="wrap topbar__inner">
             <span className="topbar__item"><Icon name="shield" /> {t.topbar.official}</span>
             <span className="topbar__item topbar__item--hide-sm"><Icon name="truck" /> {t.topbar.shipping}</span>
             <span className="topbar__item topbar__item--hide-md"><Icon name="cup" /> {t.topbar.since}</span>
-            <a className="topbar__item topbar__item--link topbar__item--hide-sm" href={`mailto:${config.email.info}`}><Icon name="mail" /> {config.email.info}</a>
+            <a className="topbar__item topbar__item--link topbar__item--hide-md" href={`mailto:${config.email.info}`}><Icon name="mail" /> {config.email.info}</a>
           </div>
-        </div>
+        </aside>
 
         <Header lang={lang} labels={labels} />
 
         <main id="main">{children}</main>
 
-        <section className="assurance">
+        <section className="assurance" aria-label={t.a11y.benefits}>
           <div className="wrap assurance__grid">
             {t.assurance.map(([icon, title, text]) => (
               <div className="assurance__item" key={title}><Icon name={icon as 'shield'} /><div><strong>{title}</strong><span>{text}</span></div></div>

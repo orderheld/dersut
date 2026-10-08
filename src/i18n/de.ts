@@ -8,6 +8,8 @@ export const de = {
     orgDescription: 'Offizieller Vertrieb von Dersut Caffè in der Schweiz',
   },
   a11y: {
+    service: 'Service-Hinweise',
+    benefits: 'Unsere Vorteile',
     skip: 'Zum Inhalt springen',
     menuOpen: 'Menü öffnen',
     menuClose: 'Menü schliessen',

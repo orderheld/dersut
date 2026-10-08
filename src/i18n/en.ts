@@ -10,6 +10,8 @@ export const en: Dict = {
     orgDescription: 'Official distributor of Dersut Caffè in Switzerland',
   },
   a11y: {
+    service: 'Service information',
+    benefits: 'Why order from us',
     skip: 'Skip to content',
     menuOpen: 'Open menu',
     menuClose: 'Close menu',
