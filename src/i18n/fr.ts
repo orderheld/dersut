@@ -6,7 +6,7 @@ export const fr: Dict = {
     siteName: 'Café Dersut Suisse',
     defaultTitle: 'Café Dersut Suisse – Espresso italien en ligne',
     defaultDescription:
-      'Dersut Caffè de Conegliano, depuis 1947 : achetez vos grains d’espresso en ligne auprès du distributeur officiel en Suisse. Livraison dans toute la Suisse pour CHF 12.–.',
+      'Dersut Caffè de Conegliano, depuis 1947 : achetez vos grains d’espresso en ligne auprès du distributeur officiel en Suisse. Livraison dans toute la Suisse pour CHF 12.– (livraison offerte dès CHF 100.–).',
     orgDescription: 'Distributeur officiel de Dersut Caffè en Suisse',
   },
   a11y: {
@@ -60,12 +60,12 @@ export const fr: Dict = {
   },
   topbar: {
     official: 'Distributeur officiel de Dersut Caffè en Suisse',
-    shipping: 'Envoi postal dans toute la Suisse · CHF 12.–',
+    shipping: 'Livraison offerte dès CHF 100.–',
     since: 'L’art italien de la torréfaction depuis 1947',
   },
   assurance: [
     ['shield', 'Distributeur officiel', 'Produits d’origine, directement de Dersut Caffè, Conegliano'],
-    ['truck', 'Toute la Suisse', 'Envoi postal forfaitaire CHF 12.–'],
+    ['truck', 'Toute la Suisse', 'Envoi postal forfaitaire CHF 12.– (livraison offerte dès CHF 100.–)'],
     ['bank', 'Paiement anticipé', 'Virement bancaire sécurisé, sans risque lié aux cartes'],
     ['leaf', 'Fraîchement torréfié', 'L’art italien de la torréfaction depuis 1947'],
   ] as [string, string, string][],
@@ -80,7 +80,7 @@ export const fr: Dict = {
   common: {
     inclVat: 'TVA incluse',
     inclVatRate: (rate: number) => `TVA ${rate} % incluse`,
-    plusShipping: (s: string) => `plus frais de port ${s}`,
+    plusShipping: (s: string) => `plus frais de port ${s}, offerts dès CHF 100.–`,
     toShop: 'Vers la boutique',
     toHome: 'Retour à l’accueil',
     soldOut: 'Épuisé',
@@ -93,10 +93,10 @@ export const fr: Dict = {
     title: 'Boutique en ligne',
     metaTitle: 'Acheter des grains d’espresso Dersut en ligne',
     metaDescription:
-      'Commandez en ligne les grains d’espresso Dersut d’origine en 1 kg : Optimum Rosso et Domus Marrone, du distributeur officiel en Suisse. Livraison CHF 12.–.',
+      'Commandez en ligne les grains d’espresso Dersut d’origine en 1 kg : Optimum Rosso et Domus Marrone, du distributeur officiel en Suisse. Livraison CHF 12.– (livraison offerte dès CHF 100.–).',
     eyebrow: 'Boutique en ligne',
     heading: 'L’espresso de <em>Conegliano</em>',
-    lead: 'Dersut Caffè d’origine, directement du distributeur officiel en Suisse. Livraison dans toute la Suisse pour un forfait de CHF 12.–.',
+    lead: 'Dersut Caffè d’origine, directement du distributeur officiel en Suisse. Livraison dans toute la Suisse pour un forfait de CHF 12.– (livraison offerte dès CHF 100.–).',
     more: 'D’autres produits suivront : l’assortiment s’enrichit continuellement, au fil des saisons.',
   },
   cartBtn: {
@@ -120,7 +120,7 @@ export const fr: Dict = {
     idealForValue: 'Machine à porte-filtre & automatique',
     assure: [
       ['shield', 'Produits d’origine du distributeur officiel en Suisse'],
-      ['truck', 'Envoi postal dans toute la Suisse, forfait CHF 12.–'],
+      ['truck', 'Envoi postal dans toute la Suisse, forfait CHF 12.– (livraison offerte dès CHF 100.–)'],
       ['bank', 'Paiement anticipé, envoi dès réception du paiement'],
     ] as [string, string][],
     questions: 'Une question ? Écrivez-nous :',
@@ -143,7 +143,7 @@ export const fr: Dict = {
     roastLink: 'En savoir plus sur la qualité & la torréfaction',
     faqTitle: 'Questions fréquentes',
     faq: [
-      ['Quel est le délai de livraison ?', 'Dès réception de votre paiement, nous expédions en règle générale sous 1 à 2 jours ouvrables par La Poste Suisse. L’envoi coûte un forfait de CHF 12.–.'],
+      ['Quel est le délai de livraison ?', 'Dès réception de votre paiement, nous expédions en règle générale sous 1 à 2 jours ouvrables par La Poste Suisse. L’envoi coûte un forfait de CHF 12.– (livraison offerte dès CHF 100.–).'],
       ['Comment puis-je payer ?', 'Par paiement anticipé : après la commande, vous recevez nos coordonnées bancaires, votre numéro de commande et un code QR pour votre application bancaire. Aucune donnée de carte n’est nécessaire.'],
       ['S’agit-il de produits d’origine ?', 'Oui. Dersut Kaffee GmbH est le partenaire de distribution officiel de Dersut Caffè en Suisse. Vous recevez des paquets d’origine, directement de Conegliano.'],
       ['Les grains conviennent-ils à ma machine automatique ?', 'Oui, les grains entiers conviennent aux machines automatiques, aux machines à porte-filtre et à la moka. Pour les machines automatiques, nous recommandons une mouture moyennement fine à fine.'],
@@ -168,6 +168,9 @@ export const fr: Dict = {
     subtotal: 'Sous-total',
     shippingLong: 'Livraison (La Poste, toute la Suisse)',
     shipping: 'Livraison (La Poste)',
+    free: 'Offerte',
+    freeHint: (s: string) => `Plus que ${s} pour la livraison offerte`,
+    freeReached: 'Livraison offerte dès CHF 100.– : c’est gagné',
     checkout: 'Passer à la caisse',
     prepayNote:
       'Paiement <strong>anticipé</strong> : après la commande, vous recevez nos coordonnées bancaires et votre numéro de commande. Nous expédions dès réception du paiement.',
@@ -286,6 +289,7 @@ export const fr: Dict = {
     hello: (name: string) => `Bonjour ${name}`,
     regards: 'Meilleures salutations',
     shipping: 'Livraison (La Poste)',
+    free: 'Offerte',
     inclVat: (rate: number, amount: string) => `dont TVA ${rate} % (${amount})`,
     address: 'Adresse de livraison',
     confSubject: (n: string) => `Votre commande ${n} – informations de paiement`,

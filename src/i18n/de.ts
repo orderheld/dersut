@@ -4,7 +4,7 @@ export const de = {
     siteName: 'Dersut Kaffee Schweiz',
     defaultTitle: 'Dersut Kaffee Schweiz – Italienischer Espresso online kaufen',
     defaultDescription:
-      'Dersut Caffè aus Conegliano, seit 1947: Espressobohnen online kaufen beim offiziellen Vertrieb in der Schweiz. Lieferung in die ganze Schweiz für CHF 12.–.',
+      'Dersut Caffè aus Conegliano, seit 1947: Espressobohnen online kaufen beim offiziellen Vertrieb in der Schweiz. Lieferung in die ganze Schweiz für CHF 12.– (ab CHF 100.– gratis).',
     orgDescription: 'Offizieller Vertrieb von Dersut Caffè in der Schweiz',
   },
   a11y: {
@@ -58,12 +58,12 @@ export const de = {
   },
   topbar: {
     official: 'Offizieller Vertrieb von Dersut Caffè in der Schweiz',
-    shipping: 'Postversand in die ganze Schweiz · CHF 12.–',
+    shipping: 'Gratisversand ab CHF 100.–',
     since: 'Italienische Röstkunst seit 1947',
   },
   assurance: [
     ['shield', 'Offizieller Vertrieb', 'Originalware direkt von Dersut Caffè, Conegliano'],
-    ['truck', 'Ganze Schweiz', 'Postversand pauschal CHF 12.–'],
+    ['truck', 'Ganze Schweiz', 'Postversand pauschal CHF 12.– (ab CHF 100.– gratis)'],
     ['bank', 'Vorauskasse', 'Sichere Banküberweisung, kein Kartenrisiko'],
     ['leaf', 'Frisch geröstet', 'Italienische Röstkunst seit 1947'],
   ] as [string, string, string][],
@@ -78,7 +78,7 @@ export const de = {
   common: {
     inclVat: 'inkl. MWST',
     inclVatRate: (rate: number) => `inkl. ${rate} % MWST`,
-    plusShipping: (s: string) => `zzgl. Versand ${s}`,
+    plusShipping: (s: string) => `zzgl. Versand ${s}, ab CHF 100.– gratis`,
     toShop: 'Zum Shop',
     toHome: 'Zur Startseite',
     soldOut: 'Ausverkauft',
@@ -90,10 +90,10 @@ export const de = {
   shop: {
     title: 'Onlineshop',
     metaTitle: 'Dersut Espressobohnen online kaufen',
-    metaDescription: 'Dersut Espressobohnen 1 kg online kaufen: Optimum Rosso und Domus Marrone vom offiziellen Vertrieb Schweiz. Versand in die ganze Schweiz für CHF 12.–',
+    metaDescription: 'Dersut Espressobohnen 1 kg online kaufen: Optimum Rosso und Domus Marrone vom offiziellen Vertrieb Schweiz. Versand in die ganze Schweiz für CHF 12.– (ab CHF 100.– gratis)',
     eyebrow: 'Onlineshop',
     heading: 'Espresso aus <em>Conegliano</em>',
-    lead: 'Original Dersut Caffè, direkt vom offiziellen Vertrieb in der Schweiz. Versand in die ganze Schweiz für pauschal CHF 12.–.',
+    lead: 'Original Dersut Caffè, direkt vom offiziellen Vertrieb in der Schweiz. Versand in die ganze Schweiz für pauschal CHF 12.– (ab CHF 100.– gratis).',
     more: 'Weitere Produkte folgen: Das Sortiment wird laufend und je nach Saison erweitert.',
   },
   cartBtn: {
@@ -117,7 +117,7 @@ export const de = {
     idealForValue: 'Siebträger & Vollautomat',
     assure: [
       ['shield', 'Originalware vom offiziellen Vertrieb Schweiz'],
-      ['truck', 'Postversand in die ganze Schweiz, pauschal CHF 12.–'],
+      ['truck', 'Postversand in die ganze Schweiz, pauschal CHF 12.– (ab CHF 100.– gratis)'],
       ['bank', 'Zahlung per Vorauskasse, Versand nach Zahlungseingang'],
     ] as [string, string][],
     questions: 'Fragen? Schreiben Sie uns:',
@@ -140,7 +140,7 @@ export const de = {
     roastLink: 'Mehr über Qualität & Röstung',
     faqTitle: 'Häufige Fragen',
     faq: [
-      ['Wie schnell wird geliefert?', 'Sobald Ihre Zahlung eingegangen ist, versenden wir in der Regel innert 1 bis 2 Arbeitstagen mit der Schweizerischen Post. Der Versand kostet pauschal CHF 12.–.'],
+      ['Wie schnell wird geliefert?', 'Sobald Ihre Zahlung eingegangen ist, versenden wir in der Regel innert 1 bis 2 Arbeitstagen mit der Schweizerischen Post. Der Versand kostet pauschal CHF 12.– (ab CHF 100.– gratis).'],
       ['Wie bezahle ich?', 'Per Vorauskasse: Nach der Bestellung erhalten Sie die Bankverbindung, Ihre Bestellnummer und einen QR-Code für Ihre Banking-App. Kartendaten sind nicht nötig.'],
       ['Ist das Originalware?', 'Ja. Dersut Kaffee GmbH ist der offizielle Vertriebspartner von Dersut Caffè in der Schweiz. Sie erhalten Originalpackungen direkt aus Conegliano.'],
       ['Eignen sich die Bohnen für meinen Vollautomaten?', 'Ja, die ganzen Bohnen eignen sich für Vollautomaten, Siebträgermaschinen und die Moka. Für Vollautomaten empfehlen wir einen mittelfeinen bis feinen Mahlgrad.'],
@@ -165,6 +165,9 @@ export const de = {
     subtotal: 'Zwischensumme',
     shippingLong: 'Versand (Post, ganze Schweiz)',
     shipping: 'Versand (Post)',
+    free: 'Gratis',
+    freeHint: (s: string) => `Noch ${s} bis zum Gratisversand`,
+    freeReached: 'Gratisversand ab CHF 100.– erreicht',
     checkout: 'Zur Kasse',
     prepayNote:
       'Zahlung per <strong>Vorauskasse</strong>: Nach der Bestellung erhalten Sie die Bankverbindung und Ihre Bestellnummer. Wir versenden nach Zahlungseingang.',
@@ -283,6 +286,7 @@ export const de = {
     hello: (name: string) => `Guten Tag ${name}`,
     regards: 'Herzliche Grüsse',
     shipping: 'Versand (Post)',
+    free: 'Gratis',
     inclVat: (rate: number, amount: string) => `inkl. ${rate} % MWST (${amount})`,
     address: 'Lieferadresse',
     confSubject: (n: string) => `Ihre Bestellung ${n} – Zahlungsangaben`,

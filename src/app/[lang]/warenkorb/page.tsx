@@ -76,7 +76,11 @@ export default async function Warenkorb({ params }: Props) {
             <div className="summary">
               <h2>{t.summary}</h2>
               <div className="summary__row"><span>{t.subtotal}</span><span>{chf(cart.subtotal)}</span></div>
-              <div className="summary__row"><span>{t.shippingLong}</span><span>{chf(cart.shipping)}</span></div>
+              <div className="summary__row"><span>{t.shippingLong}</span><span>{cart.shipping ? chf(cart.shipping) : t.free}</span></div>
+              <p className={`summary__free${cart.shipping ? '' : ' is-done'}`}>
+                <Icon name="truck" />
+                {cart.shipping ? t.freeHint(chf(config.shop.freeShippingFrom - cart.subtotal)) : t.freeReached}
+              </p>
               <div className="summary__row summary__row--total"><span>{t.total}</span><span>{chf(cart.total)}</span></div>
               <p className="summary__vat">{T.common.inclVatRate(cart.vatRate)} ({chf(cart.vat)})</p>
               <Link className="btn btn--primary btn--lg btn--block" href={lp(lang, '/kasse')}><Icon name="lock" /> {t.checkout}</Link>

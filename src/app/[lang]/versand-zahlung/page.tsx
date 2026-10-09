@@ -10,17 +10,18 @@ type Props = { params: Promise<{ lang: string }> };
 
 const PATH = '/versand-zahlung';
 const ship = chf(config.shop.shipping);
+const free = chf(config.shop.freeShippingFrom);
 const days = config.shop.paymentDays;
 const vat = config.shop.vatRate;
 const example = `${config.shop.orderPrefix}-${String(new Date().getFullYear()).slice(2)}-1001`;
 
 const de = {
   metaTitle: 'Versand & Zahlung',
-  metaDescription: `Lieferung in die ganze Schweiz mit der Post für pauschal ${ship}. Zahlung per Vorauskasse (Banküberweisung mit QR-Code). Alle Preise inkl. MWST.`,
+  metaDescription: `Lieferung in die ganze Schweiz mit der Post für pauschal ${ship}, ab ${free} gratis. Zahlung per Vorauskasse (Banküberweisung mit QR-Code). Alle Preise inkl. MWST.`,
   crumb: 'Versand & Zahlung',
   eyebrow: 'Service',
   title: 'Versand & Zahlung',
-  lead: `Einfach, transparent und sicher: Lieferung in die ganze Schweiz für pauschal ${ship}, Zahlung per Vorauskasse.`,
+  lead: `Einfach, transparent und sicher: Lieferung in die ganze Schweiz für pauschal ${ship} (ab ${free} gratis), Zahlung per Vorauskasse.`,
   steps: [
     ['bag', 'Bestellen', 'Sie schliessen Ihre Bestellung ab und erhalten sofort eine Bestellnummer sowie eine E-Mail mit allen Zahlungsangaben.'],
     ['bank', 'Überweisen', `Sie überweisen den Gesamtbetrag innert ${days} Tagen und geben dabei Ihre Bestellnummer an. Am einfachsten mit dem QR-Code in Ihrer Banking-App.`],
@@ -29,7 +30,7 @@ const de = {
   holder: 'Kontoinhaber',
   bank: 'Bank',
   faq: [
-    ['Was kostet der Versand?', `Der Versand mit der Schweizerischen Post kostet pauschal ${ship} pro Bestellung, unabhängig von der Menge. Wir liefern an Adressen in der ganzen Schweiz.`],
+    ['Was kostet der Versand?', `Der Versand mit der Schweizerischen Post kostet pauschal ${ship} pro Bestellung, unabhängig von der Menge. Ab einem Warenwert von ${free} liefern wir gratis. Wir liefern an Adressen in der ganzen Schweiz.`],
     ['Welche Zahlungsarten gibt es?', 'Wir bieten ausschliesslich Vorauskasse per Banküberweisung an. So müssen Sie keine Kartendaten angeben, und wir halten die Preise tief.'],
     ['Wohin überweise ich den Betrag?', `Bitte geben Sie im Mitteilungsfeld unbedingt Ihre Bestellnummer an (z. B. «${example}»), damit wir Ihre Zahlung zuordnen können.`],
     ['Wann wird meine Bestellung versendet?', 'Sobald Ihre Zahlung auf unserem Konto eingegangen ist, in der Regel innert 1 bis 2 Arbeitstagen. Eine Banküberweisung innerhalb der Schweiz dauert meist 1 Arbeitstag. Sie erhalten eine E-Mail, wenn Ihre Zahlung verbucht ist und wenn das Paket unterwegs ist.'],
@@ -44,11 +45,11 @@ const T: Record<Locale, typeof de> = {
   de,
   fr: {
     metaTitle: 'Livraison & paiement',
-    metaDescription: `Livraison dans toute la Suisse par La Poste pour un forfait de ${ship}. Paiement anticipé par virement bancaire avec QR-code. Tous les prix TVA incluse.`,
+    metaDescription: `Livraison dans toute la Suisse par La Poste pour un forfait de ${ship}, offerte dès ${free}. Paiement anticipé par virement bancaire avec QR-code. Tous les prix TVA incluse.`,
     crumb: 'Livraison & paiement',
     eyebrow: 'Service',
     title: 'Livraison & paiement',
-    lead: `Simple, transparent et sûr : livraison dans toute la Suisse pour un forfait de ${ship}, paiement anticipé.`,
+    lead: `Simple, transparent et sûr : livraison dans toute la Suisse pour un forfait de ${ship} (offerte dès ${free}), paiement anticipé.`,
     steps: [
       ['bag', 'Commander', 'Vous finalisez votre commande et recevez immédiatement un numéro de commande ainsi qu’un e-mail avec toutes les informations de paiement.'],
       ['bank', 'Virer', `Vous virez le montant total dans les ${days} jours en indiquant votre numéro de commande. Le plus simple : avec le QR-code dans votre application bancaire.`],
@@ -57,7 +58,7 @@ const T: Record<Locale, typeof de> = {
     holder: 'Titulaire du compte',
     bank: 'Banque',
     faq: [
-      ['Combien coûte la livraison ?', `La livraison par La Poste suisse coûte un forfait de ${ship} par commande, quelle que soit la quantité. Nous livrons à des adresses dans toute la Suisse.`],
+      ['Combien coûte la livraison ?', `La livraison par La Poste suisse coûte un forfait de ${ship} par commande, quelle que soit la quantité. Dès ${free} d’achats, la livraison est offerte. Nous livrons à des adresses dans toute la Suisse.`],
       ['Quels modes de paiement proposez-vous ?', 'Nous proposons exclusivement le paiement anticipé par virement bancaire. Vous n’avez ainsi aucune donnée de carte à saisir, et nous maintenons des prix bas.'],
       ['Où dois-je virer le montant ?', `Veuillez impérativement indiquer votre numéro de commande dans le champ de communication (p. ex. « ${example} ») afin que nous puissions attribuer votre paiement.`],
       ['Quand ma commande sera-t-elle expédiée ?', 'Dès que votre paiement est crédité sur notre compte, généralement dans un délai de 1 à 2 jours ouvrables. Un virement bancaire en Suisse prend le plus souvent 1 jour ouvrable. Vous recevez un e-mail lorsque votre paiement est enregistré et lorsque le colis est en route.'],
@@ -69,11 +70,11 @@ const T: Record<Locale, typeof de> = {
   },
   it: {
     metaTitle: 'Spedizione & pagamento',
-    metaDescription: `Consegna in tutta la Svizzera con la Posta a un forfait di ${ship}. Pagamento anticipato tramite bonifico bancario con codice QR. Tutti i prezzi IVA inclusa.`,
+    metaDescription: `Consegna in tutta la Svizzera con la Posta a un forfait di ${ship}, gratuita da ${free}. Pagamento anticipato tramite bonifico bancario con codice QR. Tutti i prezzi IVA inclusa.`,
     crumb: 'Spedizione & pagamento',
     eyebrow: 'Servizio',
     title: 'Spedizione & pagamento',
-    lead: `Semplice, trasparente e sicuro: consegna in tutta la Svizzera a un forfait di ${ship}, pagamento anticipato.`,
+    lead: `Semplice, trasparente e sicuro: consegna in tutta la Svizzera a un forfait di ${ship} (gratuita da ${free}), pagamento anticipato.`,
     steps: [
       ['bag', 'Ordinare', 'Concludete l’ordine e ricevete subito un numero d’ordine e un’e-mail con tutti i dati per il pagamento.'],
       ['bank', 'Bonificare', `Bonificate l’importo totale entro ${days} giorni indicando il numero d’ordine. Il modo più semplice: con il codice QR nella vostra app bancaria.`],
@@ -82,7 +83,7 @@ const T: Record<Locale, typeof de> = {
     holder: 'Titolare del conto',
     bank: 'Banca',
     faq: [
-      ['Quanto costa la spedizione?', `La spedizione con la Posta Svizzera costa un forfait di ${ship} per ordine, indipendentemente dalla quantità. Consegniamo a indirizzi in tutta la Svizzera.`],
+      ['Quanto costa la spedizione?', `La spedizione con la Posta Svizzera costa un forfait di ${ship} per ordine, indipendentemente dalla quantità. Da ${free} di acquisti la spedizione è gratuita. Consegniamo a indirizzi in tutta la Svizzera.`],
       ['Quali metodi di pagamento offrite?', 'Offriamo esclusivamente il pagamento anticipato tramite bonifico bancario. Così non dovete indicare dati della carta e noi manteniamo i prezzi bassi.'],
       ['Dove devo bonificare l’importo?', `Indicate assolutamente il numero d’ordine nel campo della comunicazione (p. es. «${example}»), affinché possiamo attribuire il vostro pagamento.`],
       ['Quando viene spedito il mio ordine?', 'Appena il pagamento è accreditato sul nostro conto, di regola entro 1–2 giorni lavorativi. Un bonifico all’interno della Svizzera richiede di solito 1 giorno lavorativo. Riceverete un’e-mail quando il pagamento è registrato e quando il pacco è in viaggio.'],
@@ -94,11 +95,11 @@ const T: Record<Locale, typeof de> = {
   },
   en: {
     metaTitle: 'Shipping & payment',
-    metaDescription: `Delivery throughout Switzerland by Swiss Post for a flat ${ship}. Payment in advance by bank transfer with QR code. All prices include VAT.`,
+    metaDescription: `Delivery throughout Switzerland by Swiss Post for a flat ${ship}, free from ${free}. Payment in advance by bank transfer with QR code. All prices include VAT.`,
     crumb: 'Shipping & payment',
     eyebrow: 'Service',
     title: 'Shipping & payment',
-    lead: `Simple, transparent and secure: delivery throughout Switzerland for a flat ${ship}, payment in advance.`,
+    lead: `Simple, transparent and secure: delivery throughout Switzerland for a flat ${ship} (free from ${free}), payment in advance.`,
     steps: [
       ['bag', 'Order', 'You complete your order and immediately receive an order number and an e-mail with all payment details.'],
       ['bank', 'Transfer', `You transfer the total amount within ${days} days, quoting your order number. The easiest way: with the QR code in your banking app.`],
@@ -107,7 +108,7 @@ const T: Record<Locale, typeof de> = {
     holder: 'Account holder',
     bank: 'Bank',
     faq: [
-      ['How much does shipping cost?', `Shipping with Swiss Post costs a flat ${ship} per order, regardless of quantity. We deliver to addresses throughout Switzerland.`],
+      ['How much does shipping cost?', `Shipping with Swiss Post costs a flat ${ship} per order, regardless of quantity. Orders of ${free} or more ship free. We deliver to addresses throughout Switzerland.`],
       ['Which payment methods do you offer?', 'We only offer payment in advance by bank transfer. That way you never have to enter card details, and we can keep our prices low.'],
       ['Where do I transfer the amount?', `Please be sure to quote your order number in the payment reference (e.g. “${example}”) so that we can match your payment.`],
       ['When will my order be shipped?', 'As soon as your payment has reached our account, usually within 1 to 2 working days. A bank transfer within Switzerland usually takes 1 working day. You will receive an e-mail when your payment has been booked and when the parcel is on its way.'],

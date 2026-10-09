@@ -37,6 +37,7 @@ export const config = {
 
   shop: {
     shipping: 1200, // Rappen, Postversand Schweiz pauschal
+    freeShippingFrom: 10000, // Rappen: ab diesem Warenwert ist der Versand gratis
     vatRate: 8.1, // Prozent, in den Preisen enthalten
     orderPrefix: 'DS',
     paymentDays: 10,

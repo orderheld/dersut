@@ -119,7 +119,7 @@ export default async function OrderDetail({ params, searchParams }: Props) {
                   </tr>
                 ))}
                 <tr><td></td><td className="muted">Zwischensumme</td><td className="num">{chf(o.subtotal)}</td></tr>
-                <tr><td></td><td className="muted">Versand (Post)</td><td className="num">{chf(o.shipping)}</td></tr>
+                <tr><td></td><td className="muted">Versand (Post)</td><td className="num">{o.shipping ? chf(o.shipping) : 'Gratis'}</td></tr>
                 <tr className="total"><td></td><td>Total</td><td className="num">{chf(o.total)}</td></tr>
                 <tr><td></td><td className="muted small">davon MWST {o.vat_rate} %</td><td className="num muted small">{chf(o.vat_amount)}</td></tr>
               </tbody>

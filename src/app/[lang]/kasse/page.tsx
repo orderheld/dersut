@@ -28,7 +28,7 @@ export default async function Kasse({ params }: Props) {
         ))}
       </ul>
       <div className="summary__row"><span>{T.cart.subtotal}</span><span>{chf(cart.subtotal)}</span></div>
-      <div className="summary__row"><span>{T.cart.shipping}</span><span>{chf(cart.shipping)}</span></div>
+      <div className="summary__row"><span>{T.cart.shipping}</span><span>{cart.shipping ? chf(cart.shipping) : T.cart.free}</span></div>
       <div className="summary__row summary__row--total"><span>{T.cart.total}</span><span>{chf(cart.total)}</span></div>
       <p className="summary__vat">{T.common.inclVatRate(cart.vatRate)} ({chf(cart.vat)})</p>
     </>

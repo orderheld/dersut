@@ -109,7 +109,7 @@ export default async function Bestellung({ params, searchParams }: Props) {
               ))}
             </ul>
             <div className="summary__row"><span>{T.cart.subtotal}</span><span>{chf(o.subtotal)}</span></div>
-            <div className="summary__row"><span>{T.cart.shipping}</span><span>{chf(o.shipping)}</span></div>
+            <div className="summary__row"><span>{T.cart.shipping}</span><span>{o.shipping ? chf(o.shipping) : T.cart.free}</span></div>
             <div className="summary__row summary__row--total"><span>{T.cart.total}</span><span>{chf(o.total)}</span></div>
             <p className="summary__vat" style={{ margin: 0 }}>{T.common.inclVatRate(o.vat_rate)} ({chf(o.vat_amount)})</p>
           </div>

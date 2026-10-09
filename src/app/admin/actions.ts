@@ -15,6 +15,7 @@ import { one, query } from '@/lib/db';
 import { mailTypeForStatus, resetMailHtml, sendOrderMail, testMailHtml } from '@/lib/emails';
 import { absUrl, slugify, statusLabel, toRappen } from '@/lib/format';
 import { deliverMail } from '@/lib/mail';
+import { notifyAdmins, removePushSubscription, savePushSubscription } from '@/lib/push';
 import { addLog, getOrder, ORDER_STATUSES, setOrderStatus, type OrderStatus } from '@/lib/orders';
 
 const str = (fd: FormData, k: string) => String(fd.get(k) ?? '').trim();
@@ -322,4 +323,24 @@ export async function testMailAction(_prev: FormState, fd: FormData): Promise<Fo
   return r.ok
     ? { ok: `Testmail an ${to} gesendet. Bitte auch im Spam-Ordner nachsehen.` }
     : { error: `Versand an ${to} fehlgeschlagen: ${r.error}` };
+}
+
+/* ---------- Push-Benachrichtigungen ---------- */
+
+type PushSub = { endpoint: string; keys: { p256dh: string; auth: string } };
+
+export async function savePushAction(sub: PushSub, device: string): Promise<void> {
+  const me = await requireAdmin();
+  if (!/^https:\/\//.test(sub?.endpoint ?? '') || !sub.keys?.p256dh || !sub.keys?.auth) throw new Error('Ungültiges Push-Abo');
+  await savePushSubscription(me.id, sub, String(device ?? ''));
+}
+
+export async function removePushAction(endpoint: string): Promise<void> {
+  const me = await requireAdmin();
+  await removePushSubscription(me.id, String(endpoint ?? ''));
+}
+
+export async function testPushAction(): Promise<number> {
+  const me = await requireAdmin();
+  return notifyAdmins({ title: 'Dersut Admin', body: 'Push funktioniert. So sehen neue Bestellungen und Nachrichten aus.', url: '/admin', tag: 'test' }, me.id);
 }

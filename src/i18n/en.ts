@@ -6,7 +6,7 @@ export const en: Dict = {
     siteName: 'Dersut Coffee Switzerland',
     defaultTitle: 'Dersut Coffee Switzerland – Buy Italian Espresso Online',
     defaultDescription:
-      'Dersut Caffè from Conegliano, since 1947: buy espresso beans online from the official distributor in Switzerland. Delivery throughout Switzerland for CHF 12.–.',
+      'Dersut Caffè from Conegliano, since 1947: buy espresso beans online from the official distributor in Switzerland. Delivery throughout Switzerland for CHF 12.– (free from CHF 100.–).',
     orgDescription: 'Official distributor of Dersut Caffè in Switzerland',
   },
   a11y: {
@@ -60,12 +60,12 @@ export const en: Dict = {
   },
   topbar: {
     official: 'Official distributor of Dersut Caffè in Switzerland',
-    shipping: 'Postal delivery throughout Switzerland · CHF 12.–',
+    shipping: 'Free shipping from CHF 100.–',
     since: 'Italian roasting expertise since 1947',
   },
   assurance: [
     ['shield', 'Official distributor', 'Genuine products direct from Dersut Caffè, Conegliano'],
-    ['truck', 'All of Switzerland', 'Flat-rate postal delivery CHF 12.–'],
+    ['truck', 'All of Switzerland', 'Flat-rate postal delivery CHF 12.– (free from CHF 100.–)'],
     ['bank', 'Payment in advance', 'Secure bank transfer, no card risk'],
     ['leaf', 'Freshly roasted', 'Italian roasting expertise since 1947'],
   ] as [string, string, string][],
@@ -80,7 +80,7 @@ export const en: Dict = {
   common: {
     inclVat: 'incl. VAT',
     inclVatRate: (rate: number) => `incl. ${rate} % VAT`,
-    plusShipping: (s: string) => `plus shipping ${s}`,
+    plusShipping: (s: string) => `plus shipping ${s}, free from CHF 100.–`,
     toShop: 'Go to shop',
     toHome: 'Back to home',
     soldOut: 'Sold out',
@@ -92,10 +92,10 @@ export const en: Dict = {
   shop: {
     title: 'Online shop',
     metaTitle: 'Buy Dersut Espresso Beans Online',
-    metaDescription: 'Buy genuine Dersut espresso beans (1 kg) online: Optimum Rosso and Domus Marrone from the official Swiss distributor. Nationwide delivery for CHF 12.–',
+    metaDescription: 'Buy genuine Dersut espresso beans (1 kg) online: Optimum Rosso and Domus Marrone from the official Swiss distributor. Nationwide delivery for CHF 12.– (free from CHF 100.–)',
     eyebrow: 'Online shop',
     heading: 'Espresso from <em>Conegliano</em>',
-    lead: 'Genuine Dersut Caffè, direct from the official distributor in Switzerland. Delivery throughout Switzerland for a flat rate of CHF 12.–.',
+    lead: 'Genuine Dersut Caffè, direct from the official distributor in Switzerland. Delivery throughout Switzerland for a flat rate of CHF 12.– (free from CHF 100.–).',
     more: 'More products to follow: our range is continually expanded and varies with the seasons.',
   },
   cartBtn: {
@@ -119,7 +119,7 @@ export const en: Dict = {
     idealForValue: 'Portafilter & bean-to-cup machines',
     assure: [
       ['shield', 'Genuine products from the official distributor in Switzerland'],
-      ['truck', 'Postal delivery throughout Switzerland, flat rate CHF 12.–'],
+      ['truck', 'Postal delivery throughout Switzerland, flat rate CHF 12.– (free from CHF 100.–)'],
       ['bank', 'Payment in advance, dispatched once payment is received'],
     ] as [string, string][],
     questions: 'Questions? Email us:',
@@ -142,7 +142,7 @@ export const en: Dict = {
     roastLink: 'More about quality & roasting',
     faqTitle: 'Frequently asked questions',
     faq: [
-      ['How quickly will my order arrive?', 'Once your payment has been received, we usually dispatch within 1 to 2 working days with Swiss Post. Shipping costs a flat rate of CHF 12.–.'],
+      ['How quickly will my order arrive?', 'Once your payment has been received, we usually dispatch within 1 to 2 working days with Swiss Post. Shipping costs a flat rate of CHF 12.– (free from CHF 100.–).'],
       ['How do I pay?', 'By payment in advance: after ordering, you receive our bank details, your order number and a QR code for your banking app. No card details are needed.'],
       ['Are these genuine products?', 'Yes. Dersut Kaffee GmbH is the official distribution partner of Dersut Caffè in Switzerland. You receive original packs direct from Conegliano.'],
       ['Are the beans suitable for my bean-to-cup machine?', 'Yes, the whole beans are suitable for bean-to-cup machines, portafilter machines and the moka pot. For bean-to-cup machines we recommend a medium-fine to fine grind.'],
@@ -167,6 +167,9 @@ export const en: Dict = {
     subtotal: 'Subtotal',
     shippingLong: 'Shipping (Swiss Post, all of Switzerland)',
     shipping: 'Shipping (Swiss Post)',
+    free: 'Free',
+    freeHint: (s: string) => `${s} more for free shipping`,
+    freeReached: 'Free shipping from CHF 100.– unlocked',
     checkout: 'Proceed to checkout',
     prepayNote:
       'Payment <strong>in advance</strong>: after ordering, you receive our bank details and your order number. We dispatch once payment has been received.',
@@ -285,6 +288,7 @@ export const en: Dict = {
     hello: (name: string) => `Dear ${name}`,
     regards: 'Kind regards',
     shipping: 'Shipping (Swiss Post)',
+    free: 'Free',
     inclVat: (rate: number, amount: string) => `incl. ${rate} % VAT (${amount})`,
     address: 'Delivery address',
     confSubject: (n: string) => `Your order ${n} – payment details`,
