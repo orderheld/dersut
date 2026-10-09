@@ -4,7 +4,7 @@ export const de = {
     siteName: 'Dersut Kaffee Schweiz',
     defaultTitle: 'Dersut Kaffee Schweiz – Italienischer Espresso online kaufen',
     defaultDescription:
-      'Dersut Caffè aus Conegliano, seit 1947: Espressobohnen online kaufen beim offiziellen Vertrieb in der Schweiz. Lieferung in die ganze Schweiz für CHF 9.–.',
+      'Dersut Caffè aus Conegliano, seit 1947: Espressobohnen online kaufen beim offiziellen Vertrieb in der Schweiz. Lieferung in die ganze Schweiz für CHF 12.–.',
     orgDescription: 'Offizieller Vertrieb von Dersut Caffè in der Schweiz',
   },
   a11y: {
@@ -58,12 +58,12 @@ export const de = {
   },
   topbar: {
     official: 'Offizieller Vertrieb von Dersut Caffè in der Schweiz',
-    shipping: 'Postversand in die ganze Schweiz · CHF 9.–',
+    shipping: 'Postversand in die ganze Schweiz · CHF 12.–',
     since: 'Italienische Röstkunst seit 1947',
   },
   assurance: [
     ['shield', 'Offizieller Vertrieb', 'Originalware direkt von Dersut Caffè, Conegliano'],
-    ['truck', 'Ganze Schweiz', 'Postversand pauschal CHF 9.–'],
+    ['truck', 'Ganze Schweiz', 'Postversand pauschal CHF 12.–'],
     ['bank', 'Vorauskasse', 'Sichere Banküberweisung, kein Kartenrisiko'],
     ['leaf', 'Frisch geröstet', 'Italienische Röstkunst seit 1947'],
   ] as [string, string, string][],
@@ -90,10 +90,10 @@ export const de = {
   shop: {
     title: 'Onlineshop',
     metaTitle: 'Dersut Espressobohnen online kaufen',
-    metaDescription: 'Dersut Espressobohnen 1 kg online kaufen: Optimum Rosso und Domus Marrone vom offiziellen Vertrieb Schweiz. Versand in die ganze Schweiz für CHF 9.–',
+    metaDescription: 'Dersut Espressobohnen 1 kg online kaufen: Optimum Rosso und Domus Marrone vom offiziellen Vertrieb Schweiz. Versand in die ganze Schweiz für CHF 12.–',
     eyebrow: 'Onlineshop',
     heading: 'Espresso aus <em>Conegliano</em>',
-    lead: 'Original Dersut Caffè, direkt vom offiziellen Vertrieb in der Schweiz. Versand in die ganze Schweiz für pauschal CHF 9.–.',
+    lead: 'Original Dersut Caffè, direkt vom offiziellen Vertrieb in der Schweiz. Versand in die ganze Schweiz für pauschal CHF 12.–.',
     more: 'Weitere Produkte folgen: Das Sortiment wird laufend und je nach Saison erweitert.',
   },
   cartBtn: {
@@ -117,7 +117,7 @@ export const de = {
     idealForValue: 'Siebträger & Vollautomat',
     assure: [
       ['shield', 'Originalware vom offiziellen Vertrieb Schweiz'],
-      ['truck', 'Postversand in die ganze Schweiz, pauschal CHF 9.–'],
+      ['truck', 'Postversand in die ganze Schweiz, pauschal CHF 12.–'],
       ['bank', 'Zahlung per Vorauskasse, Versand nach Zahlungseingang'],
     ] as [string, string][],
     questions: 'Fragen? Schreiben Sie uns:',
@@ -140,7 +140,7 @@ export const de = {
     roastLink: 'Mehr über Qualität & Röstung',
     faqTitle: 'Häufige Fragen',
     faq: [
-      ['Wie schnell wird geliefert?', 'Sobald Ihre Zahlung eingegangen ist, versenden wir in der Regel innert 1 bis 2 Arbeitstagen mit der Schweizerischen Post. Der Versand kostet pauschal CHF 9.–.'],
+      ['Wie schnell wird geliefert?', 'Sobald Ihre Zahlung eingegangen ist, versenden wir in der Regel innert 1 bis 2 Arbeitstagen mit der Schweizerischen Post. Der Versand kostet pauschal CHF 12.–.'],
       ['Wie bezahle ich?', 'Per Vorauskasse: Nach der Bestellung erhalten Sie die Bankverbindung, Ihre Bestellnummer und einen QR-Code für Ihre Banking-App. Kartendaten sind nicht nötig.'],
       ['Ist das Originalware?', 'Ja. Dersut Kaffee GmbH ist der offizielle Vertriebspartner von Dersut Caffè in der Schweiz. Sie erhalten Originalpackungen direkt aus Conegliano.'],
       ['Eignen sich die Bohnen für meinen Vollautomaten?', 'Ja, die ganzen Bohnen eignen sich für Vollautomaten, Siebträgermaschinen und die Moka. Für Vollautomaten empfehlen wir einen mittelfeinen bis feinen Mahlgrad.'],

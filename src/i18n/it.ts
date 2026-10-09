@@ -6,7 +6,7 @@ export const it: Dict = {
     siteName: 'Caffè Dersut Svizzera',
     defaultTitle: 'Caffè Dersut Svizzera – Espresso italiano online',
     defaultDescription:
-      'Dersut Caffè da Conegliano, dal 1947: acquista caffè in grani online dal distributore ufficiale in Svizzera. Consegna in tutta la Svizzera a CHF 9.–.',
+      'Dersut Caffè da Conegliano, dal 1947: acquista caffè in grani online dal distributore ufficiale in Svizzera. Consegna in tutta la Svizzera a CHF 12.–.',
     orgDescription: 'Distributore ufficiale di Dersut Caffè in Svizzera',
   },
   a11y: {
@@ -60,12 +60,12 @@ export const it: Dict = {
   },
   topbar: {
     official: 'Distributore ufficiale di Dersut Caffè in Svizzera',
-    shipping: 'Spedizione postale in tutta la Svizzera · CHF 9.–',
+    shipping: 'Spedizione postale in tutta la Svizzera · CHF 12.–',
     since: 'L’arte italiana della tostatura dal 1947',
   },
   assurance: [
     ['shield', 'Distributore ufficiale', 'Prodotti originali, direttamente da Dersut Caffè, Conegliano'],
-    ['truck', 'Tutta la Svizzera', 'Spedizione postale forfettaria CHF 9.–'],
+    ['truck', 'Tutta la Svizzera', 'Spedizione postale forfettaria CHF 12.–'],
     ['bank', 'Pagamento anticipato', 'Bonifico bancario sicuro, nessun rischio legato alle carte'],
     ['leaf', 'Tostato fresco', 'L’arte italiana della tostatura dal 1947'],
   ] as [string, string, string][],
@@ -92,10 +92,10 @@ export const it: Dict = {
   shop: {
     title: 'Shop online',
     metaTitle: 'Caffè Dersut in grani: acquista online',
-    metaDescription: 'Caffè in grani Dersut da 1 kg online: Optimum Rosso e Domus Marrone dal distributore ufficiale svizzero. Spedizione in tutta la Svizzera a CHF 9.–',
+    metaDescription: 'Caffè in grani Dersut da 1 kg online: Optimum Rosso e Domus Marrone dal distributore ufficiale svizzero. Spedizione in tutta la Svizzera a CHF 12.–',
     eyebrow: 'Shop online',
     heading: 'Espresso da <em>Conegliano</em>',
-    lead: 'Dersut Caffè originale, direttamente dal distributore ufficiale in Svizzera. Spedizione in tutta la Svizzera a un forfait di CHF 9.–.',
+    lead: 'Dersut Caffè originale, direttamente dal distributore ufficiale in Svizzera. Spedizione in tutta la Svizzera a un forfait di CHF 12.–.',
     more: 'Altri prodotti in arrivo: l’assortimento viene ampliato costantemente, a seconda della stagione.',
   },
   cartBtn: {
@@ -119,7 +119,7 @@ export const it: Dict = {
     idealForValue: 'Macchina a portafiltro & automatica',
     assure: [
       ['shield', 'Prodotti originali dal distributore ufficiale Svizzera'],
-      ['truck', 'Spedizione postale in tutta la Svizzera, forfait CHF 9.–'],
+      ['truck', 'Spedizione postale in tutta la Svizzera, forfait CHF 12.–'],
       ['bank', 'Pagamento anticipato, spedizione alla ricezione del pagamento'],
     ] as [string, string][],
     questions: 'Domande? Scriveteci:',
@@ -142,7 +142,7 @@ export const it: Dict = {
     roastLink: 'Scopri di più su qualità & tostatura',
     faqTitle: 'Domande frequenti',
     faq: [
-      ['In quanto tempo avviene la consegna?', 'Una volta ricevuto il pagamento, di norma spediamo entro 1–2 giorni lavorativi con la Posta Svizzera. La spedizione costa un forfait di CHF 9.–.'],
+      ['In quanto tempo avviene la consegna?', 'Una volta ricevuto il pagamento, di norma spediamo entro 1–2 giorni lavorativi con la Posta Svizzera. La spedizione costa un forfait di CHF 12.–.'],
       ['Come posso pagare?', 'Con pagamento anticipato: dopo l’ordine riceverete le coordinate bancarie, il numero d’ordine e un codice QR per la vostra app bancaria. Non servono dati della carta.'],
       ['Si tratta di prodotti originali?', 'Sì. Dersut Kaffee GmbH è il partner di distribuzione ufficiale di Dersut Caffè in Svizzera. Riceverete confezioni originali, direttamente da Conegliano.'],
       ['I grani sono adatti alla mia macchina automatica?', 'Sì, i grani interi sono adatti alle macchine automatiche, alle macchine a portafiltro e alla moka. Per le macchine automatiche consigliamo una macinatura medio-fine o fine.'],
