@@ -1,5 +1,6 @@
 'use server';
 
+import { createHash, timingSafeEqual } from 'node:crypto';
 import { LOCALES } from '@/lib/i18n';
 import { TRANSLATABLE_FIELDS, type ProductText, type ProductTranslations } from '@/lib/products-shared';
 import { revalidatePath } from 'next/cache';
@@ -36,12 +37,32 @@ async function adminByPassword(pw: string, exceptId = 0): Promise<{ id: number }
   return null;
 }
 
+/**
+ * Hauptzugang aus Vercel (ADMIN_PASSWORD): meldet als Konto der Firmenadresse an und legt es bei Bedarf an.
+ * Das Passwort selbst steht nur in Vercel; in der Datenbank liegt nur der Hash.
+ */
+async function envAdmin(pw: string): Promise<{ id: number } | null> {
+  const envPw = process.env.ADMIN_PASSWORD ?? '';
+  if (envPw.length < 10 || !pw) return null;
+  const a = createHash('sha256').update(pw).digest(), b = createHash('sha256').update(envPw).digest();
+  if (!timingSafeEqual(a, b)) return null;
+  const email = config.email.orders.toLowerCase();
+  const row = await one<{ id: number; password_hash: string }>('SELECT id, password_hash FROM admins WHERE email = $1', [email]);
+  if (row && (await verifyPassword(pw, row.password_hash))) return { id: row.id };
+  const saved = await one<{ id: number }>(
+    `INSERT INTO admins (email, password_hash) VALUES ($1, $2)
+     ON CONFLICT (email) DO UPDATE SET password_hash = EXCLUDED.password_hash RETURNING id`,
+    [email, await hashPassword(pw)],
+  );
+  return saved;
+}
+
 const PW_TAKEN = 'Dieses Passwort wird schon für einen anderen Zugang verwendet. Bitte ein anderes wählen.';
 
 export async function loginAction(_prev: FormState, fd: FormData): Promise<FormState> {
   const ip = await clientIp();
   if (await tooManyAttempts(ip)) return { error: 'Zu viele Fehlversuche. Bitte in 15 Minuten erneut versuchen.' };
-  const admin = await adminByPassword(str(fd, 'password'));
+  const admin = (await envAdmin(str(fd, 'password'))) ?? (await adminByPassword(str(fd, 'password')));
   if (!admin) {
     await recordFailedAttempt(ip);
     return { error: 'Das Passwort ist falsch.' };

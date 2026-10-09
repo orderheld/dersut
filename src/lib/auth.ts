@@ -9,8 +9,8 @@ const COOKIE = 'dersut_admin';
 const MAX_AGE = 60 * 60 * 12; // 12 Stunden
 
 function secret(): string {
-  const s = process.env.SESSION_SECRET;
-  if (!s || s.length < 24) throw new Error('SESSION_SECRET fehlt oder ist zu kurz (mind. 24 Zeichen).');
+  const s = process.env.SESSION_SECRET || process.env.AUTH_SECRET;
+  if (!s || s.length < 24) throw new Error('SESSION_SECRET (oder AUTH_SECRET) fehlt oder ist zu kurz (mind. 24 Zeichen).');
   return s;
 }
 
