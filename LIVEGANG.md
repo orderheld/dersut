@@ -73,6 +73,9 @@ In Vercel → Projekt **dersut** → **Settings → Environment Variables** → 
 | `SESSION_SECRET` | Ctrl+V (der Schlüssel aus der Zwischenablage) | alle |
 | `SITE_URL` | `https://dersutkaffee.ch` | Production |
 
+Wichtig: Ohne `SESSION_SECRET` (mind. 24 Zeichen) funktionieren Admin-Anmeldung und «Passwort vergessen» nicht.
+Neue oder geänderte Umgebungsvariablen gelten erst nach einem neuen Deployment (**Deployments → ⋯ → Redeploy**).
+
 ## Schritt 5 – Resend (E-Mail-Versand) einrichten
 
 1. <https://resend.com> → Konto anlegen → **Domains → Add Domain**.
