@@ -32,7 +32,7 @@ const de = {
   heroLead: 'Seit 1947 röstet Dersut Caffè in Conegliano Espresso-Mischungen mit italienischer Seele. Jetzt offiziell in der Schweiz erhältlich: direkt vom Vertriebspartner, geliefert in die ganze Schweiz.',
   heroShop: 'Zum Onlineshop',
   heroStory: 'Unsere Geschichte',
-  proof: ['Espresso Italiano Certificato', 'Originalware aus Conegliano', 'Versand CHF 12.–'],
+  proof: ['Espresso Italiano Certificato', 'Originalware aus Conegliano', 'Gratisversand ab CHF 100.–'],
   figures: [
     'gegründet in Trieste und Conegliano',
     'Bars und Geschäfte vertrauen auf Dersut',
@@ -106,7 +106,7 @@ const T: Record<Locale, typeof de> = {
     heroLead: 'Depuis 1947, Dersut Caffè torréfie à Conegliano des mélanges d’espresso à l’âme italienne. Désormais disponible officiellement en Suisse : directement auprès du distributeur, livré dans toute la Suisse.',
     heroShop: 'Vers la boutique en ligne',
     heroStory: 'Notre histoire',
-    proof: ['Espresso Italiano Certificato', 'Produits originaux de Conegliano', 'Livraison CHF 12.–'],
+    proof: ['Espresso Italiano Certificato', 'Produits originaux de Conegliano', 'Livraison offerte dès CHF 100.–'],
     figures: [
       'fondée à Trieste et Conegliano',
       'bars et commerces font confiance à Dersut',
@@ -177,7 +177,7 @@ const T: Record<Locale, typeof de> = {
     heroLead: 'Dal 1947 Dersut Caffè tosta a Conegliano miscele per espresso dall’anima italiana. Ora disponibile ufficialmente in Svizzera: direttamente dal distributore, con consegna in tutta la Svizzera.',
     heroShop: 'Al negozio online',
     heroStory: 'La nostra storia',
-    proof: ['Espresso Italiano Certificato', 'Prodotti originali da Conegliano', 'Spedizione CHF 12.–'],
+    proof: ['Espresso Italiano Certificato', 'Prodotti originali da Conegliano', 'Spedizione gratuita da CHF 100.–'],
     figures: [
       'fondata a Trieste e Conegliano',
       'bar e negozi si affidano a Dersut',
@@ -248,7 +248,7 @@ const T: Record<Locale, typeof de> = {
     heroLead: 'Since 1947, Dersut Caffè has been roasting espresso blends with an Italian soul in Conegliano. Now officially available in Switzerland: direct from the distributor, delivered throughout Switzerland.',
     heroShop: 'Visit the online shop',
     heroStory: 'Our story',
-    proof: ['Espresso Italiano Certificato', 'Original products from Conegliano', 'Shipping CHF 12.–'],
+    proof: ['Espresso Italiano Certificato', 'Original products from Conegliano', 'Free shipping from CHF 100.–'],
     figures: [
       'founded in Trieste and Conegliano',
       'bars and shops rely on Dersut',

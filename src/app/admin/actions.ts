@@ -1,5 +1,6 @@
 'use server';
 
+import { createHash, timingSafeEqual } from 'node:crypto';
 import { LOCALES } from '@/lib/i18n';
 import { TRANSLATABLE_FIELDS, type ProductText, type ProductTranslations } from '@/lib/products-shared';
 import { revalidatePath } from 'next/cache';
@@ -15,6 +16,7 @@ import { one, query } from '@/lib/db';
 import { mailTypeForStatus, resetMailHtml, sendOrderMail, testMailHtml } from '@/lib/emails';
 import { absUrl, slugify, statusLabel, toRappen } from '@/lib/format';
 import { deliverMail } from '@/lib/mail';
+import { notifyAdmins, removePushSubscription, savePushSubscription } from '@/lib/push';
 import { addLog, getOrder, ORDER_STATUSES, setOrderStatus, type OrderStatus } from '@/lib/orders';
 
 const str = (fd: FormData, k: string) => String(fd.get(k) ?? '').trim();
@@ -27,14 +29,43 @@ const backTo = (fd: FormData, fallback: string) => {
 
 /* ---------- Anmeldung ---------- */
 
+/** Anmeldung nur mit Passwort: Jedes Admin-Konto hat ein eigenes Passwort, darüber wird das Konto erkannt. */
+async function adminByPassword(pw: string, exceptId = 0): Promise<{ id: number } | null> {
+  if (!pw) return null;
+  const rows = await query<{ id: number; password_hash: string }>('SELECT id, password_hash FROM admins WHERE id <> $1 ORDER BY id', [exceptId]);
+  for (const a of rows) if (await verifyPassword(pw, a.password_hash)) return { id: a.id };
+  return null;
+}
+
+/**
+ * Hauptzugang aus Vercel (ADMIN_PASSWORD): meldet als Konto der Firmenadresse an und legt es bei Bedarf an.
+ * Das Passwort selbst steht nur in Vercel; in der Datenbank liegt nur der Hash.
+ */
+async function envAdmin(pw: string): Promise<{ id: number } | null> {
+  const envPw = process.env.ADMIN_PASSWORD ?? '';
+  if (envPw.length < 10 || !pw) return null;
+  const a = createHash('sha256').update(pw).digest(), b = createHash('sha256').update(envPw).digest();
+  if (!timingSafeEqual(a, b)) return null;
+  const email = config.email.orders.toLowerCase();
+  const row = await one<{ id: number; password_hash: string }>('SELECT id, password_hash FROM admins WHERE email = $1', [email]);
+  if (row && (await verifyPassword(pw, row.password_hash))) return { id: row.id };
+  const saved = await one<{ id: number }>(
+    `INSERT INTO admins (email, password_hash) VALUES ($1, $2)
+     ON CONFLICT (email) DO UPDATE SET password_hash = EXCLUDED.password_hash RETURNING id`,
+    [email, await hashPassword(pw)],
+  );
+  return saved;
+}
+
+const PW_TAKEN = 'Dieses Passwort wird schon für einen anderen Zugang verwendet. Bitte ein anderes wählen.';
+
 export async function loginAction(_prev: FormState, fd: FormData): Promise<FormState> {
   const ip = await clientIp();
   if (await tooManyAttempts(ip)) return { error: 'Zu viele Fehlversuche. Bitte in 15 Minuten erneut versuchen.' };
-  const email = str(fd, 'email').toLowerCase();
-  const admin = await one<{ id: number; password_hash: string }>('SELECT id, password_hash FROM admins WHERE email = $1', [email]);
-  if (!admin || !(await verifyPassword(str(fd, 'password'), admin.password_hash))) {
+  const admin = (await envAdmin(str(fd, 'password'))) ?? (await adminByPassword(str(fd, 'password')));
+  if (!admin) {
     await recordFailedAttempt(ip);
-    return { error: 'E-Mail oder Passwort ist falsch.' };
+    return { error: 'Das Passwort ist falsch.' };
   }
   await clearAttempts(ip);
   await createSession(admin.id);
@@ -86,6 +117,8 @@ export async function newPasswordAction(_prev: FormState, fd: FormData): Promise
   const pw = str(fd, 'password');
   if (pw.length < 10) return { error: 'Das Passwort muss mindestens 10 Zeichen lang sein.' };
   if (pw !== str(fd, 'password2')) return { error: 'Die Passwörter stimmen nicht überein.' };
+  const self = await one<{ id: number }>('SELECT id FROM admins WHERE email = $1', [email]);
+  if (await adminByPassword(pw, self?.id ?? 0)) return { error: PW_TAKEN };
   const row = await one<{ id: number }>(
     `INSERT INTO admins (email, password_hash) VALUES ($1, $2)
      ON CONFLICT (email) DO UPDATE SET password_hash = EXCLUDED.password_hash RETURNING id`,
@@ -290,6 +323,7 @@ export async function changePasswordAction(_prev: FormState, fd: FormData): Prom
   const pw = str(fd, 'password');
   if (pw.length < 10) return { error: 'Das neue Passwort muss mindestens 10 Zeichen lang sein.' };
   if (pw !== str(fd, 'password2')) return { error: 'Die neuen Passwörter stimmen nicht überein.' };
+  if (await adminByPassword(pw, admin.id)) return { error: PW_TAKEN };
   await query('UPDATE admins SET password_hash = $1 WHERE id = $2', [await hashPassword(pw), admin.id]);
   return { ok: 'Passwort geändert.' };
 }
@@ -301,6 +335,7 @@ export async function addAdminAction(_prev: FormState, fd: FormData): Promise<Fo
   if (!EMAIL_RE.test(email)) return { error: 'Bitte eine gültige E-Mail-Adresse angeben.' };
   if (pw.length < 10) return { error: 'Das Passwort muss mindestens 10 Zeichen lang sein.' };
   if (await one('SELECT id FROM admins WHERE email = $1', [email])) return { error: 'Diesen Zugang gibt es bereits.' };
+  if (await adminByPassword(pw)) return { error: PW_TAKEN };
   await query('INSERT INTO admins (email, password_hash) VALUES ($1, $2)', [email, await hashPassword(pw)]);
   revalidatePath('/admin/konto');
   return { ok: `Zugang für ${email} angelegt.` };
@@ -322,4 +357,24 @@ export async function testMailAction(_prev: FormState, fd: FormData): Promise<Fo
   return r.ok
     ? { ok: `Testmail an ${to} gesendet. Bitte auch im Spam-Ordner nachsehen.` }
     : { error: `Versand an ${to} fehlgeschlagen: ${r.error}` };
+}
+
+/* ---------- Push-Benachrichtigungen ---------- */
+
+type PushSub = { endpoint: string; keys: { p256dh: string; auth: string } };
+
+export async function savePushAction(sub: PushSub, device: string): Promise<void> {
+  const me = await requireAdmin();
+  if (!/^https:\/\//.test(sub?.endpoint ?? '') || !sub.keys?.p256dh || !sub.keys?.auth) throw new Error('Ungültiges Push-Abo');
+  await savePushSubscription(me.id, sub, String(device ?? ''));
+}
+
+export async function removePushAction(endpoint: string): Promise<void> {
+  const me = await requireAdmin();
+  await removePushSubscription(me.id, String(endpoint ?? ''));
+}
+
+export async function testPushAction(): Promise<number> {
+  const me = await requireAdmin();
+  return notifyAdmins({ title: 'Dersut Admin', body: 'Push funktioniert. So sehen neue Bestellungen und Nachrichten aus.', url: '/admin', tag: 'test' }, me.id);
 }

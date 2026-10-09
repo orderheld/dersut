@@ -15,8 +15,9 @@ export default async function Login() {
       <div className="auth__brand"><span>DERSUT</span><em>Admin · Schweiz</em></div>
       <h1>Anmelden</h1>
       <ActionForm action={loginAction} className="form">
-        <label>E-Mail<input type="email" name="email" required autoFocus autoComplete="username" /></label>
-        <label>Passwort<input type="password" name="password" required autoComplete="current-password" /></label>
+        {/* Für Passwort-Manager: fester Benutzername, nicht sichtbar */}
+        <input type="text" name="username" value="Dersut Admin" autoComplete="username" readOnly hidden />
+        <label>Passwort<input type="password" name="password" required autoFocus autoComplete="current-password" /></label>
         <button className="btn btn--primary" type="submit">Anmelden</button>
       </ActionForm>
       <p><Link href="/admin/passwort-vergessen">Passwort vergessen?</Link></p>

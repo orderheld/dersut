@@ -14,7 +14,7 @@ Webseite mit Onlineshop für die Dersut Kaffee GmbH, offizieller Vertrieb von De
 
 - Seiten: Startseite, Shop, Produktseiten, Geschichte, Qualität & Röstung, Zertifizierungen, Nachhaltigkeit,
   Offizieller Vertrieb, Gastronomie, Versand & Zahlung, Kontakt, AGB, Datenschutz, Impressum
-- Warenkorb, Kasse, Lieferung nur Schweiz, Versand pauschal CHF 12.–, Preise inkl. 8.1 % MWST
+- Warenkorb, Kasse, Lieferung nur Schweiz, Versand pauschal CHF 12.– (ab CHF 100.– gratis), Preise inkl. 8.1 % MWST
 - Zahlung ausschliesslich per Vorauskasse: Bestellnummer (z. B. `DS-26-1001`), IBAN und Swiss-QR-Code auf der
   Bestätigungsseite und in der E-Mail
 - Admin unter `/admin`: bezahlt / versendet (mit Post-Sendungsnummer) / storniert markieren, automatische

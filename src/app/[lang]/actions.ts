@@ -8,6 +8,8 @@ import { config } from '@/lib/config';
 import { sendContactMail, sendOrderMail } from '@/lib/emails';
 import { getProduct } from '@/lib/products';
 import { query } from '@/lib/db';
+import { chf } from '@/lib/format';
+import { notifyAdmins } from '@/lib/push';
 import { getDict } from '@/i18n';
 import { asLocale, lp } from '@/lib/i18n';
 import { B2B_FORM } from '@/content/b2b';
@@ -75,7 +77,16 @@ export async function checkoutAction(_prev: CheckoutState, fd: FormData): Promis
   await clearCart();
   // Lagerbestand hat sich evtl. geändert: Shopseiten neu erzeugen
   if (cart.items.some((i) => i.product.stock !== null)) revalidatePath('/', 'layout');
-  const [conf, admin] = await Promise.all([sendOrderMail(order, 'confirmation'), sendOrderMail(order, 'admin')]);
+  const [conf, admin] = await Promise.all([
+    sendOrderMail(order, 'confirmation'),
+    sendOrderMail(order, 'admin'),
+    notifyAdmins({
+      title: `Neue Bestellung ${order.number}`,
+      body: `${order.first_name} ${order.last_name}, ${order.city} · ${chf(order.total)}`,
+      url: `/admin/bestellungen/${order.id}`,
+      tag: `order-${order.id}`,
+    }),
+  ]);
   await addLog(order.id, conf.ok ? `Bestätigung an ${order.email} gesendet.` : `Bestätigung an ${order.email} konnte nicht gesendet werden (${conf.error}).`);
   if (!admin.ok) await addLog(order.id, `Benachrichtigung an ${config.email.orders} konnte nicht gesendet werden (${admin.error}).`);
   redirect(lp(lang, `/bestellung/${order.number}?t=${order.token}&neu=1`));
@@ -105,7 +116,10 @@ export async function contactAction(_prev: ContactState, fd: FormData): Promise<
   await query('INSERT INTO messages (name, email, phone, company, topic, message) VALUES ($1,$2,$3,$4,$5,$6)', [
     v.name, v.email, v.phone, v.company, v.topic, v.message,
   ]);
-  await sendContactMail(v);
+  await Promise.all([
+    sendContactMail(v),
+    notifyAdmins({ title: `Neue Nachricht von ${v.name}`, body: (v.topic ? `${v.topic}: ` : '') + v.message.slice(0, 140), url: '/admin/nachrichten', tag: 'message' }),
+  ]);
   return { sent: true, errors: {}, values: {} };
 }
 
@@ -154,6 +168,9 @@ export async function b2bAction(_prev: B2BState, fd: FormData): Promise<B2BState
   await query('INSERT INTO messages (name, email, phone, company, topic, message) VALUES ($1,$2,$3,$4,$5,$6)', [
     v.name, v.email, v.phone, v.company, topic, message,
   ]);
-  await sendContactMail({ name: v.name, email: v.email, phone: v.phone, company: v.company, topic, message });
+  await Promise.all([
+    sendContactMail({ name: v.name, email: v.email, phone: v.phone, company: v.company, topic, message }),
+    notifyAdmins({ title: `${topic}: ${v.company}`, body: `${v.name}${v.place ? `, ${v.place}` : ''}${v.volume ? ` · ${v.volume}` : ''}`, url: '/admin/nachrichten', tag: 'message' }),
+  ]);
   return { sent: true, errors: {}, values: {} };
 }

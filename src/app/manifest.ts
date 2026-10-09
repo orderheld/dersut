@@ -6,6 +6,7 @@ export default function manifest(): MetadataRoute.Manifest {
     name: 'Dersut Kaffee Schweiz',
     short_name: 'Dersut',
     description: 'Original Dersut Espresso aus Conegliano, offizieller Vertrieb Schweiz',
+    id: '/',
     start_url: '/',
     scope: '/',
     display: 'standalone',

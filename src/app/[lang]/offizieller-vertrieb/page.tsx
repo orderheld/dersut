@@ -27,7 +27,7 @@ const de = {
   benefits: [
     ['shield', 'Garantiert original', 'Alle Produkte stammen direkt von Dersut Caffè S.p.A. in Conegliano. Keine Parallelimporte, keine Graumarktware.'],
     ['flag', 'Schweizer Firma', `Ihr Vertragspartner ist die ${c.name} mit Sitz in der Schweiz. Rechnung und Zahlung in Franken.`],
-    ['truck', 'Lieferung in die ganze Schweiz', 'Versand mit der Schweizerischen Post, pauschal CHF 12.– pro Bestellung. Ohne Zollformalitäten, ohne Zusatzkosten.'],
+    ['truck', 'Lieferung in die ganze Schweiz', 'Versand mit der Schweizerischen Post, pauschal CHF 12.– (ab CHF 100.– gratis) pro Bestellung. Ohne Zollformalitäten, ohne Zusatzkosten.'],
     ['bank', 'Sichere Zahlung', `Sie bezahlen per Banküberweisung auf unser Konto bei der ${bankName}. Keine Kartendaten nötig.`],
     ['cup', 'Frische Ware', 'Wir beziehen laufend nach, damit Ihr Kaffee frisch bei Ihnen ankommt. Das Sortiment wird saisonal erweitert.'],
     ['users', 'Persönliche Beratung', 'Ob Privatkunde oder Gastronomie: Wir sind per E-Mail für Sie da und beraten Sie gerne persönlich.'],
@@ -64,7 +64,7 @@ const T: Record<Locale, typeof de> = {
     benefits: [
       ['shield', 'Original garanti', 'Tous les produits proviennent directement de Dersut Caffè S.p.A. à Conegliano. Aucune importation parallèle, aucun produit du marché gris.'],
       ['flag', 'Entreprise suisse', `Votre partenaire contractuel est ${c.name}, dont le siège est en Suisse. Facturation et paiement en francs.`],
-      ['truck', 'Livraison dans toute la Suisse', 'Expédition par La Poste suisse, forfait de CHF 12.– par commande. Sans formalités douanières, sans frais supplémentaires.'],
+      ['truck', 'Livraison dans toute la Suisse', 'Expédition par La Poste suisse, forfait de CHF 12.– (livraison offerte dès CHF 100.–) par commande. Sans formalités douanières, sans frais supplémentaires.'],
       ['bank', 'Paiement sécurisé', `Vous payez par virement bancaire sur notre compte auprès de ${bankName}. Aucune donnée de carte nécessaire.`],
       ['cup', 'Produits frais', 'Nous nous réapprovisionnons en continu pour que votre café vous parvienne frais. L’assortiment s’enrichit au fil des saisons.'],
       ['users', 'Conseil personnalisé', 'Particulier ou professionnel de la restauration : nous sommes à votre disposition par e-mail et vous conseillons volontiers personnellement.'],
@@ -98,7 +98,7 @@ const T: Record<Locale, typeof de> = {
     benefits: [
       ['shield', 'Originale garantito', 'Tutti i prodotti provengono direttamente da Dersut Caffè S.p.A. a Conegliano. Nessuna importazione parallela, nessuna merce del mercato grigio.'],
       ['flag', 'Azienda svizzera', `Il vostro partner contrattuale è ${c.name}, con sede in Svizzera. Fatturazione e pagamento in franchi svizzeri.`],
-      ['truck', 'Consegna in tutta la Svizzera', 'Spedizione con la Posta Svizzera, forfait di CHF 12.– per ordine. Senza formalità doganali, senza costi aggiuntivi.'],
+      ['truck', 'Consegna in tutta la Svizzera', 'Spedizione con la Posta Svizzera, forfait di CHF 12.– (gratuita da CHF 100.–) per ordine. Senza formalità doganali, senza costi aggiuntivi.'],
       ['bank', 'Pagamento sicuro', `Pagate con bonifico bancario sul nostro conto presso ${bankName}. Nessun dato della carta necessario.`],
       ['cup', 'Prodotti freschi', 'Ci riforniamo regolarmente affinché il vostro caffè arrivi fresco. L’assortimento viene ampliato di stagione in stagione.'],
       ['users', 'Consulenza personale', 'Clienti privati o gastronomia: siamo a vostra disposizione via e-mail e vi consigliamo volentieri di persona.'],
@@ -132,7 +132,7 @@ const T: Record<Locale, typeof de> = {
     benefits: [
       ['shield', 'Guaranteed original', 'All products come directly from Dersut Caffè S.p.A. in Conegliano. No parallel imports, no grey-market goods.'],
       ['flag', 'Swiss company', `Your contractual partner is ${c.name}, based in Switzerland. Invoicing and payment in Swiss francs.`],
-      ['truck', 'Delivery throughout Switzerland', 'Shipped by Swiss Post for a flat CHF 12.– per order. No customs formalities, no extra costs.'],
+      ['truck', 'Delivery throughout Switzerland', 'Shipped by Swiss Post for a flat CHF 12.– (free from CHF 100.–) per order. No customs formalities, no extra costs.'],
       ['bank', 'Secure payment', `You pay by bank transfer to our account with ${bankName}. No card details required.`],
       ['cup', 'Fresh stock', 'We restock continuously so that your coffee reaches you fresh. The range is extended seasonally.'],
       ['users', 'Personal advice', 'Whether you are a private customer or in hospitality, we are available by email and happy to advise you personally.'],

@@ -14,6 +14,7 @@ const c = config.company;
 const host = config.primaryHost;
 const seat = c.city ? `, ${c.zip} ${c.city}` : '';
 const ship = chf(config.shop.shipping);
+const free = chf(config.shop.freeShippingFrom);
 const days = config.shop.paymentDays;
 const ordersMail = <a href={`mailto:${config.email.orders}`}>{config.email.orders}</a>;
 
@@ -32,7 +33,7 @@ const de = {
   h2: '2. Angebot und Vertragsabschluss',
   p2: (btn: string) => `Die Darstellung der Produkte im Onlineshop ist kein verbindliches Angebot. Mit dem Klick auf «${btn}» geben Sie ein verbindliches Angebot ab. Der Vertrag kommt mit unserer Bestellbestätigung per E-Mail zustande, die Ihre Bestellnummer und die Zahlungsangaben enthält.`,
   h3: '3. Preise',
-  p3: `Alle Preise verstehen sich in Schweizer Franken (CHF) inklusive der gesetzlichen Mehrwertsteuer. Massgebend ist der Preis zum Zeitpunkt der Bestellung. Für den Versand berechnen wir pauschal ${ship} pro Bestellung.`,
+  p3: `Alle Preise verstehen sich in Schweizer Franken (CHF) inklusive der gesetzlichen Mehrwertsteuer. Massgebend ist der Preis zum Zeitpunkt der Bestellung. Für den Versand berechnen wir pauschal ${ship} pro Bestellung. Ab einem Warenwert von ${free} ist der Versand gratis.`,
   h4: '4. Zahlung (Vorauskasse)',
   p4: `Die Zahlung erfolgt ausschliesslich per Vorauskasse mittels Banküberweisung auf das in der Bestellbestätigung genannte Konto. Bitte geben Sie im Zahlungszweck Ihre Bestellnummer an. Der Betrag ist innert ${days} Tagen nach Bestellung zur Zahlung fällig. Geht innert dieser Frist keine Zahlung ein, sind wir berechtigt, vom Vertrag zurückzutreten und die Bestellung zu stornieren.`,
   h5: '5. Lieferung',
@@ -63,7 +64,7 @@ const T: Record<Locale, typeof de> = {
     h2: '2. Offre et conclusion du contrat',
     p2: (btn: string) => `La présentation des produits dans la boutique en ligne ne constitue pas une offre ferme. En cliquant sur « ${btn} », vous soumettez une offre ferme. Le contrat est conclu à réception de notre confirmation de commande par e-mail, qui contient votre numéro de commande et les informations de paiement.`,
     h3: '3. Prix',
-    p3: `Tous les prix s’entendent en francs suisses (CHF), TVA légale incluse. Le prix applicable est celui en vigueur au moment de la commande. Pour la livraison, nous facturons un forfait de ${ship} par commande.`,
+    p3: `Tous les prix s’entendent en francs suisses (CHF), TVA légale incluse. Le prix applicable est celui en vigueur au moment de la commande. Pour la livraison, nous facturons un forfait de ${ship} par commande. La livraison est offerte à partir d’un montant de marchandises de ${free}.`,
     h4: '4. Paiement (paiement anticipé)',
     p4: `Le paiement s’effectue exclusivement à l’avance, par virement bancaire sur le compte indiqué dans la confirmation de commande. Veuillez indiquer votre numéro de commande dans la communication du paiement. Le montant est exigible dans les ${days} jours suivant la commande. Si aucun paiement ne nous parvient dans ce délai, nous sommes en droit de nous départir du contrat et d’annuler la commande.`,
     h5: '5. Livraison',
@@ -91,7 +92,7 @@ const T: Record<Locale, typeof de> = {
     h2: '2. Offerta e conclusione del contratto',
     p2: (btn: string) => `La presentazione dei prodotti nel negozio online non costituisce un’offerta vincolante. Cliccando su «${btn}» presentate un’offerta vincolante. Il contratto è concluso con la nostra conferma d’ordine via e-mail, che contiene il vostro numero d’ordine e i dati per il pagamento.`,
     h3: '3. Prezzi',
-    p3: `Tutti i prezzi si intendono in franchi svizzeri (CHF), IVA legale inclusa. Fa stato il prezzo valido al momento dell’ordine. Per la spedizione addebitiamo un forfait di ${ship} per ordine.`,
+    p3: `Tutti i prezzi si intendono in franchi svizzeri (CHF), IVA legale inclusa. Fa stato il prezzo valido al momento dell’ordine. Per la spedizione addebitiamo un forfait di ${ship} per ordine. A partire da un valore della merce di ${free} la spedizione è gratuita.`,
     h4: '4. Pagamento (pagamento anticipato)',
     p4: `Il pagamento avviene esclusivamente in anticipo, mediante bonifico bancario sul conto indicato nella conferma d’ordine. Vi preghiamo di indicare il numero d’ordine nella causale del pagamento. L’importo è esigibile entro ${days} giorni dall’ordine. Se entro questo termine non riceviamo alcun pagamento, abbiamo il diritto di recedere dal contratto e di annullare l’ordine.`,
     h5: '5. Consegna',
@@ -119,7 +120,7 @@ const T: Record<Locale, typeof de> = {
     h2: '2. Offer and conclusion of contract',
     p2: (btn: string) => `The presentation of products in the online shop does not constitute a binding offer. By clicking “${btn}”, you submit a binding offer. The contract is concluded upon our order confirmation by e-mail, which contains your order number and the payment details.`,
     h3: '3. Prices',
-    p3: `All prices are in Swiss francs (CHF) and include statutory VAT. The price applicable at the time of the order is binding. We charge a flat rate of ${ship} per order for shipping.`,
+    p3: `All prices are in Swiss francs (CHF) and include statutory VAT. The price applicable at the time of the order is binding. We charge a flat rate of ${ship} per order for shipping. Shipping is free for orders with a goods value of ${free} or more.`,
     h4: '4. Payment (payment in advance)',
     p4: `Payment is made exclusively in advance by bank transfer to the account stated in the order confirmation. Please quote your order number in the payment reference. The amount is due for payment within ${days} days of the order. If no payment is received within this period, we are entitled to withdraw from the contract and cancel the order.`,
     h5: '5. Delivery',

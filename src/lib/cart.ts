@@ -67,6 +67,12 @@ export async function cartCount(): Promise<number> {
   return Object.values(await readCart()).reduce((a, b) => a + b, 0);
 }
 
+/** Versandkosten: pauschal, ab config.shop.freeShippingFrom Warenwert gratis. */
+export function shippingFor(subtotal: number, hasItems = true): number {
+  if (!hasItems || subtotal >= config.shop.freeShippingFrom) return 0;
+  return config.shop.shipping;
+}
+
 export async function cartSummary(lang: Locale = 'de'): Promise<Cart> {
   const raw = await readCart();
   const ids = Object.keys(raw).map(Number);
@@ -74,7 +80,7 @@ export async function cartSummary(lang: Locale = 'de'): Promise<Cart> {
   const rows = ids.length ? await query<Product>('SELECT * FROM products WHERE id = ANY($1::int[]) AND active ORDER BY sort, id', [ids]) : [];
   const items: CartItem[] = rows.map((p) => ({ product: localizeProduct(p, lang), qty: raw[p.id], line: p.price * raw[p.id] }));
   const subtotal = items.reduce((a, i) => a + i.line, 0);
-  const shipping = items.length ? config.shop.shipping : 0;
+  const shipping = shippingFor(subtotal, items.length > 0);
   const total = subtotal + shipping;
   return { items, subtotal, shipping, total, vatRate: config.shop.vatRate, vat: vatFromGross(total, config.shop.vatRate) };
 }

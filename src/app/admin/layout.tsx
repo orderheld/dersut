@@ -11,9 +11,12 @@ export const dynamic = 'force-dynamic';
 export const metadata: Metadata = {
   title: { default: 'Admin', template: '%s · Dersut Admin' },
   robots: { index: false, follow: false },
+  manifest: '/admin/manifest.webmanifest',
+  applicationName: 'Dersut Admin',
+  appleWebApp: { capable: true, title: 'Dersut Admin', statusBarStyle: 'black-translucent' },
 };
 
-export const viewport: Viewport = { width: 'device-width', initialScale: 1 };
+export const viewport: Viewport = { width: 'device-width', initialScale: 1, themeColor: '#0e0f12' };
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   const admin = await currentAdmin();
