@@ -14,6 +14,7 @@ import { chf } from '@/lib/format';
 import { LOCALE_TAGS, asLocale, lp } from '@/lib/i18n';
 import { getProductBySlug, getProducts, isSoldOut, type LocalizedProduct } from '@/lib/products';
 import { absolute, jsonLd, pageMeta } from '@/lib/seo';
+import { ARTICLES, RATGEBER_PAGE } from '@/content/ratgeber';
 
 
 type Props = { params: Promise<{ lang: string; slug: string }> };
@@ -51,6 +52,7 @@ export default async function ProductPage({ params }: Props) {
   const images = galleryOf(p);
   const url = absolute(lp(lang, `/shop/${p.slug}`));
   const soldOut = isSoldOut(p);
+  const guides = ARTICLES.filter((g) => g.products.includes(p.slug)).slice(0, 3);
   const nextYear = `${new Date().getFullYear() + 1}-12-31`;
 
   const ld = [
@@ -148,10 +150,19 @@ export default async function ProductPage({ params }: Props) {
                 </div>
               </div>
               <AddToCart productId={p.id} soldOut={soldOut} lang={lang} detailed />
+              {!soldOut && p.price < config.shop.freeShippingFrom && (
+                <p className="pd__freetip"><Icon name="truck" /> {tp.freeTip(Math.ceil(config.shop.freeShippingFrom / p.price))}</p>
+              )}
               <ul className="pd__assure">
                 {tp.assure.map(([icon, text]) => <li key={icon}><Icon name={icon} /> {text}</li>)}
                 <li><Icon name="mail" /> <span>{tp.questions} <a href={`mailto:${config.email.info}`}>{config.email.info}</a></span></li>
               </ul>
+              {guides.length > 0 && (
+                <nav className="pd-guides" aria-label={RATGEBER_PAGE[lang].related}>
+                  <strong>{RATGEBER_PAGE[lang].related}</strong>
+                  <ul>{guides.map((g) => <li key={g.slug}><Link href={lp(lang, `/ratgeber/${g.slug}`)}>{g.text[lang].title}</Link></li>)}</ul>
+                </nav>
+              )}
             </div>
           </div>
         </div>

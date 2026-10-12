@@ -108,6 +108,7 @@ export const it: Dict = {
     soldOutLong: 'Questo prodotto è momentaneamente esaurito. Scriveteci: vi informeremo volentieri non appena sarà di nuovo disponibile.',
   },
   product: {
+    freeTip: (n: number) => `Consiglio: da ${n} confezioni la spedizione è gratuita.`,
     blend: 'Miscela',
     content: 'Contenuto',
     wholeBeans: (w: string) => `${w} in grani interi`,
@@ -170,6 +171,8 @@ export const it: Dict = {
     free: 'Gratuita',
     freeHint: (s: string) => `Ancora ${s} per la spedizione gratuita`,
     freeReached: 'Spedizione gratuita da CHF 100.– raggiunta',
+    upsellTitle: 'Aggiungi e risparmia la spedizione',
+    upsellAdd: 'Aggiungi',
     checkout: 'Vai alla cassa',
     prepayNote:
       'Pagamento <strong>anticipato</strong>: dopo l’ordine riceverete le coordinate bancarie e il numero d’ordine. Spediamo alla ricezione del pagamento.',

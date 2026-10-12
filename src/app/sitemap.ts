@@ -1,4 +1,5 @@
 import type { MetadataRoute } from 'next';
+import { ARTICLES } from '@/content/ratgeber';
 import { REGIONS } from '@/content/regions';
 import { productImage } from '@/lib/brand';
 import { LOCALES, lp } from '@/lib/i18n';
@@ -9,11 +10,11 @@ export const dynamic = 'force-dynamic';
 
 // Stand der Inhalte (bei grösseren Textänderungen anpassen); Produkte nutzen das aktuelle Datum nicht,
 // damit Suchmaschinen nicht bei jedem Aufruf eine Änderung sehen
-const CONTENT_UPDATED = new Date('2026-10-08');
+const CONTENT_UPDATED = new Date('2026-10-12');
 
 const PAGES: [string, number][] = [
   ['/', 1], ['/shop', 0.9], ...REGIONS.map((r): [string, number] => [`/region/${r.slug}`, 0.7]), ['/geschichte', 0.7], ['/qualitaet', 0.7], ['/zertifizierungen', 0.6], ['/nachhaltigkeit', 0.6],
-  ['/offizieller-vertrieb', 0.6], ['/gastronomie', 0.8], ['/firmen', 0.8], ['/versand-zahlung', 0.5], ['/kontakt', 0.5], ['/agb', 0.2], ['/datenschutz', 0.2], ['/impressum', 0.2],
+  ['/offizieller-vertrieb', 0.6], ['/gastronomie', 0.8], ['/firmen', 0.8], ['/versand-zahlung', 0.5], ['/ratgeber', 0.6], ...ARTICLES.map((a): [string, number] => [`/ratgeber/${a.slug}`, 0.7]), ['/kontakt', 0.5], ['/agb', 0.2], ['/datenschutz', 0.2], ['/impressum', 0.2],
 ];
 
 /** Sitemap mit allen Seiten in allen Sprachen, inkl. hreflang-Alternativen und Produktbildern */

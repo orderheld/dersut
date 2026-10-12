@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 import { Header, type HeaderLabels } from '@/components/Header';
 import { Icon } from '@/components/Icon';
 import { Logo } from '@/components/Logo';
+import { RATGEBER_PAGE } from '@/content/ratgeber';
 import { REGIONS } from '@/content/regions';
 import { getDict } from '@/i18n';
 import { brand } from '@/lib/brand';
@@ -38,6 +39,11 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
     openGraph: { type: 'website', locale: OG_LOCALES[lang], siteName: t.meta.siteName, images: [shareImage(brand('hero_1'), t.meta.siteName)] },
     twitter: { card: 'summary_large_image' },
     formatDetection: { telephone: false },
+    // Inhaberschaft für Google Search Console / Bing Webmaster Tools (Code in Vercel eintragen)
+    verification: {
+      google: process.env.GOOGLE_SITE_VERIFICATION || undefined,
+      other: process.env.BING_SITE_VERIFICATION ? { 'msvalidate.01': process.env.BING_SITE_VERIFICATION } : undefined,
+    },
   };
 }
 
@@ -149,6 +155,7 @@ export default async function SiteLayout({ children, params }: Props) {
                 {products.map((p) => <li key={p.id}><Link href={L(`/shop/${p.slug}`)}>{p.name}</Link></li>)}
                 <li><Link href={L('/shop')}>{t.nav.allProducts}</Link></li>
                 <li><Link href={L('/versand-zahlung')}>{t.nav.shipping}</Link></li>
+                <li><Link href={L('/ratgeber')}>{RATGEBER_PAGE[lang].crumb}</Link></li>
               </ul>
             </div>
             <div>

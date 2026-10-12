@@ -109,6 +109,7 @@ export const fr: Dict = {
     soldOutLong: 'Ce produit est actuellement épuisé. Écrivez-nous : nous vous informerons volontiers dès qu’il sera de nouveau disponible.',
   },
   product: {
+    freeTip: (n: number) => `Astuce : dès ${n} paquets, la livraison est offerte.`,
     blend: 'Mélange',
     content: 'Contenu',
     wholeBeans: (w: string) => `${w} en grains entiers`,
@@ -171,6 +172,8 @@ export const fr: Dict = {
     free: 'Offerte',
     freeHint: (s: string) => `Plus que ${s} pour la livraison offerte`,
     freeReached: 'Livraison offerte dès CHF 100.– : c’est gagné',
+    upsellTitle: 'Ajoutez et économisez la livraison',
+    upsellAdd: 'Ajouter',
     checkout: 'Passer à la caisse',
     prepayNote:
       'Paiement <strong>anticipé</strong> : après la commande, vous recevez nos coordonnées bancaires et votre numéro de commande. Nous expédions dès réception du paiement.',
