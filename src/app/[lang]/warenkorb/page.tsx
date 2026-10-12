@@ -10,7 +10,8 @@ import { config } from '@/lib/config';
 import { chf } from '@/lib/format';
 import { getDict } from '@/i18n';
 import { asLocale, lp } from '@/lib/i18n';
-import { removeFromCartAction, updateCartAction } from '../actions';
+import { getProducts, isSoldOut } from '@/lib/products';
+import { addFromCartAction, removeFromCartAction, updateCartAction } from '../actions';
 
 export const dynamic = 'force-dynamic';
 type Props = { params: Promise<{ lang: string }> };
@@ -24,6 +25,9 @@ export default async function Warenkorb({ params }: Props) {
   const T = getDict(lang);
   const t = T.cart;
   const cart = await cartSummary(lang);
+  // Empfehlung: Sorten, die noch nicht im Warenkorb liegen, solange der Gratisversand nicht erreicht ist
+  const inCart = new Set(cart.items.map((i) => i.product.id));
+  const upsell = cart.shipping ? (await getProducts(true, lang)).filter((p) => !inCart.has(p.id) && !isSoldOut(p)) : [];
   return (
     <section className="shopflow">
       <CartSync count={cart.items.reduce((a, i) => a + i.qty, 0)} />
@@ -72,6 +76,23 @@ export default async function Warenkorb({ params }: Props) {
                 <Link className="btn btn--ghost" href={lp(lang, '/shop')}>{t.continue}</Link>
                 <noscript><button className="btn btn--ghost" type="submit" form="cartform">{t.update}</button></noscript>
               </div>
+              {upsell.length > 0 && (
+                <section className="upsell" aria-labelledby="upsell-h">
+                  <h2 id="upsell-h" className="upsell__h">{t.upsellTitle}</h2>
+                  {upsell.map((p) => (
+                    <form key={p.id} action={addFromCartAction} className="upsell__item">
+                      <input type="hidden" name="product_id" value={p.id} />
+                      <input type="hidden" name="lang" value={lang} />
+                      <div className="cart-prod__img"><Img src={cutoutImage(productImage(p.image))} fallbackSrc={productImage(p.image)} alt="" /></div>
+                      <div className="upsell__txt">
+                        <Link href={lp(lang, `/shop/${p.slug}`)}>{p.name}</Link>
+                        <small>{p.notes} · {chf(p.price)}</small>
+                      </div>
+                      <button className="btn btn--outline btn--sm" type="submit"><Icon name="bag" /> {t.upsellAdd}</button>
+                    </form>
+                  ))}
+                </section>
+              )}
             </div>
             <div className="summary">
               <h2>{t.summary}</h2>

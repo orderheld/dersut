@@ -106,6 +106,7 @@ export const de = {
     soldOutLong: 'Dieses Produkt ist momentan ausverkauft. Schreiben Sie uns, wir informieren Sie gerne, sobald es wieder verfügbar ist.',
   },
   product: {
+    freeTip: (n: number) => `Tipp: Ab ${n} Packungen ist der Versand gratis.`,
     blend: 'Mischung',
     content: 'Inhalt',
     wholeBeans: (w: string) => `${w} ganze Bohnen`,
@@ -168,6 +169,8 @@ export const de = {
     free: 'Gratis',
     freeHint: (s: string) => `Noch ${s} bis zum Gratisversand`,
     freeReached: 'Gratisversand ab CHF 100.– erreicht',
+    upsellTitle: 'Dazulegen und Versand sparen',
+    upsellAdd: 'Hinzufügen',
     checkout: 'Zur Kasse',
     prepayNote:
       'Zahlung per <strong>Vorauskasse</strong>: Nach der Bestellung erhalten Sie die Bankverbindung und Ihre Bestellnummer. Wir versenden nach Zahlungseingang.',

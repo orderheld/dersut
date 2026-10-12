@@ -108,6 +108,7 @@ export const en: Dict = {
     soldOutLong: 'This product is currently sold out. Write to us and we will gladly let you know as soon as it is available again.',
   },
   product: {
+    freeTip: (n: number) => `Tip: shipping is free from ${n} packs.`,
     blend: 'Blend',
     content: 'Contents',
     wholeBeans: (w: string) => `${w} whole beans`,
@@ -170,6 +171,8 @@ export const en: Dict = {
     free: 'Free',
     freeHint: (s: string) => `${s} more for free shipping`,
     freeReached: 'Free shipping from CHF 100.– unlocked',
+    upsellTitle: 'Add one and save on shipping',
+    upsellAdd: 'Add',
     checkout: 'Proceed to checkout',
     prepayNote:
       'Payment <strong>in advance</strong>: after ordering, you receive our bank details and your order number. We dispatch once payment has been received.',

@@ -36,6 +36,14 @@ export async function updateCartAction(fd: FormData): Promise<void> {
   }
 }
 
+/** Empfehlung im Warenkorb: eine Packung dazulegen und zurück zum Warenkorb */
+export async function addFromCartAction(fd: FormData): Promise<void> {
+  const lang = asLocale(fd.get('lang'));
+  const p = await getProduct(Number(fd.get('product_id')));
+  if (p?.active) await addToCart(p.id, 1);
+  redirect(lp(lang, '/warenkorb'));
+}
+
 export async function removeFromCartAction(fd: FormData): Promise<void> {
   await setQty(Number(fd.get('product_id')), 0);
 }
