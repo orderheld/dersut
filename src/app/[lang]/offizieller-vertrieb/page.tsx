@@ -4,8 +4,9 @@ import { Icon } from '@/components/Icon';
 import { Img } from '@/components/Img';
 import { PageHero } from '@/components/PageHero';
 import { brand } from '@/lib/brand';
-import { config } from '@/lib/config';
+import { config, onlinePayment } from '@/lib/config';
 import { companyAddressLines, ibanFormat } from '@/lib/format';
+import { getDict } from '@/i18n';
 import { asLocale, lp, type Locale } from '@/lib/i18n';
 import { pageMeta } from '@/lib/seo';
 
@@ -175,7 +176,7 @@ export default async function Vertrieb({ params }: Props) {
             <h2 className="h2">{t.benefitsTitle}</h2>
           </header>
           <div className="features">
-            {t.benefits.map(([icon, h, p]) => (
+            {(onlinePayment() ? t.benefits.map((b) => (b[0] === 'bank' ? getDict(lang).pay.assurance : b)) : t.benefits).map(([icon, h, p]) => (
               <div className="feature" key={icon}><Icon name={icon} /><h3>{h}</h3><p>{p}</p></div>
             ))}
           </div>

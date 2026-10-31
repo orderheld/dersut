@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { PageHero } from '@/components/PageHero';
-import { config } from '@/lib/config';
+import { config, onlinePayment } from '@/lib/config';
 import { companyAddressLines } from '@/lib/format';
 import { asLocale, type Locale } from '@/lib/i18n';
 import { pageMeta } from '@/lib/seo';
@@ -128,14 +128,41 @@ const T: Record<Locale, typeof de> = {
   },
 };
 
+/** Ergänzungen, sobald Online-Zahlung (Payrexx) aktiv ist */
+const ON: Record<Locale, { processorsAdd: string; security: string }> = {
+  de: {
+    processorsAdd: ' Online-Zahlungen wickelt die Payrexx AG (Thun, Schweiz) ab. Dafür übermitteln wir ihr Name, Adresse, E-Mail, Betrag und Bestellnummer. Zahlungsdaten wie Kartennummern geben Sie direkt bei Payrexx ein; sie werden nach deren Datenschutzerklärung bearbeitet.',
+    security: 'Die Webseite ist mit TLS verschlüsselt. Kartendaten und andere Zahlungsdaten erheben wir nicht selbst: Bei einer Online-Zahlung geben Sie diese direkt auf der Zahlungsseite der Payrexx AG ein.',
+  },
+  fr: {
+    processorsAdd: ' Les paiements en ligne sont traités par Payrexx AG (Thoune, Suisse). À cette fin, nous lui transmettons nom, adresse, e-mail, montant et numéro de commande. Vous saisissez les données de paiement, comme les numéros de carte, directement chez Payrexx ; elles sont traitées selon sa déclaration de protection des données.',
+    security: 'Le site est chiffré au moyen de TLS. Nous ne collectons pas nous-mêmes les données de carte ni d’autres données de paiement : lors d’un paiement en ligne, vous les saisissez directement sur la page de paiement de Payrexx AG.',
+  },
+  it: {
+    processorsAdd: ' I pagamenti online sono gestiti da Payrexx AG (Thun, Svizzera). A tal fine le trasmettiamo nome, indirizzo, e-mail, importo e numero d’ordine. I dati di pagamento, come i numeri di carta, li inserite direttamente presso Payrexx; sono trattati secondo la sua informativa sulla protezione dei dati.',
+    security: 'Il sito è cifrato con TLS. Non raccogliamo noi stessi i dati delle carte né altri dati di pagamento: in caso di pagamento online li inserite direttamente sulla pagina di pagamento di Payrexx AG.',
+  },
+  en: {
+    processorsAdd: ' Online payments are processed by Payrexx AG (Thun, Switzerland). For this purpose we transmit your name, address, email, amount and order number. You enter payment details such as card numbers directly with Payrexx; they are processed in accordance with its privacy policy.',
+    security: 'The website is encrypted with TLS. We do not collect card details or other payment data ourselves: for an online payment you enter them directly on the Payrexx AG payment page.',
+  },
+};
+
+function texts(lang: Locale): typeof de {
+  const t = T[lang];
+  if (!onlinePayment()) return t;
+  return { ...t, processors: t.processors + ON[lang].processorsAdd, security: ON[lang].security };
+}
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const lang = asLocale((await params).lang);
-  return pageMeta(lang, PATH, T[lang].metaTitle, T[lang].metaDescription);
+  const t = texts(lang);
+  return pageMeta(lang, PATH, t.metaTitle, t.metaDescription);
 }
 
 export default async function Datenschutz({ params }: Props) {
   const lang = asLocale((await params).lang);
-  const t = T[lang];
+  const t = texts(lang);
   const address = companyAddressLines().map((l) => (l === 'Schweiz' ? t.country : l));
   return (
     <>

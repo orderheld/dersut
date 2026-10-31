@@ -473,6 +473,12 @@ img.is-broken { visibility: hidden; }
 .paymethod { display: flex; gap: 16px; padding: 20px; border: 2px solid var(--navy); background: #fdfcf9; border-radius: var(--radius); }
 .paymethod .icon { width: 28px; height: 28px; color: var(--navy); }
 .paymethod strong { display: block; }
+.paychoice { display: grid; gap: 12px; margin-top: 18px; }
+.paymethod--choice { cursor: pointer; border-color: var(--line); align-items: flex-start; }
+.paymethod--choice.is-on { border-color: var(--navy); }
+.paymethod--choice input { margin: 6px 0 0; accent-color: var(--navy); width: 18px; height: 18px; flex: none; }
+@media (max-width: 600px) { .paymethod--choice .icon { display: none; } }
+.paymethod--choice:focus-within { outline: 2px solid var(--gold); outline-offset: 2px; }
 .paymethod span { font-size: 14px; color: var(--muted); }
 
 /* Bestellbestätigung */
@@ -484,6 +490,9 @@ img.is-broken { visibility: hidden; }
 .ordno { display: inline-flex; align-items: center; gap: 12px; padding: 12px 22px; border: 1px dashed var(--gold); background: #fff; font-size: 15px; margin-top: 8px; }
 .ordno strong { font-family: var(--serif); font-size: 26px; letter-spacing: .04em; color: var(--navy); }
 
+.payonline { background: #fff; border: 1px solid var(--line); border-top: 4px solid var(--gold, #82754F); padding: 40px; margin-bottom: 30px; border-radius: var(--radius-card); }
+.payonline h2 { margin-top: 4px; }
+.payonline form { margin-top: 18px; }
 .payinfo { display: grid; grid-template-columns: 1fr auto; gap: 40px; background: #fff; border: 1px solid var(--line); border-top: 4px solid var(--navy); padding: 40px; margin-bottom: 30px; }
 .payinfo h2 { font-family: var(--serif); font-weight: 500; font-size: 32px; margin-bottom: 6px; }
 .paytable { width: 100%; border-collapse: collapse; margin-top: 18px; }
@@ -608,7 +617,7 @@ a.ccard:hover { border-color: var(--gold); box-shadow: var(--shadow-sm); color: 
   .topbar__inner { padding-top: 11px; padding-bottom: 11px; }
   .topbar__item { white-space: normal; text-align: center; }
   .footer__grid { padding-top: 56px; padding-bottom: 40px; }
-  .form-card, .payinfo { padding: 24px 20px; }
+  .form-card, .payinfo, .payonline { padding: 24px 20px; }
   .cert { grid-template-columns: 80px 1fr; padding: 20px; gap: 18px; }
   .certs { grid-template-columns: 1fr; }
   .cart-table thead { display: none; }

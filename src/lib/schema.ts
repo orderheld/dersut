@@ -100,6 +100,9 @@ export const SCHEMA = [
   `ALTER TABLE products ADD COLUMN IF NOT EXISTS translations JSONB NOT NULL DEFAULT '{}'`,
   `ALTER TABLE products ADD COLUMN IF NOT EXISTS gallery JSONB NOT NULL DEFAULT '[]'`,
   `ALTER TABLE orders ADD COLUMN IF NOT EXISTS lang TEXT NOT NULL DEFAULT 'de'`,
+  // Zahlungsart: 'prepay' (Vorauskasse) oder 'online' (Payrexx)
+  `ALTER TABLE orders ADD COLUMN IF NOT EXISTS payment_method TEXT NOT NULL DEFAULT 'prepay'`,
+  `ALTER TABLE orders ADD COLUMN IF NOT EXISTS payrexx_gateway_id BIGINT`,
   // Lagerbestand darf nie negativ werden: Zwei gleichzeitige Bestellungen für das letzte Stück scheitern so sauber
   `DO $$ BEGIN
      IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'products_stock_nonneg') THEN

@@ -3,6 +3,7 @@ import { redirect } from 'next/navigation';
 import { CartSync } from '@/components/CartSync';
 import { CheckoutForm } from '@/components/CheckoutForm';
 import { cartSummary } from '@/lib/cart';
+import { onlinePayment } from '@/lib/config';
 import { chf } from '@/lib/format';
 import { getDict } from '@/i18n';
 import { asLocale, lp } from '@/lib/i18n';
@@ -38,7 +39,7 @@ export default async function Kasse({ params }: Props) {
       <CartSync count={cart.items.reduce((a, i) => a + i.qty, 0)} />
       <div className="wrap">
         <h1>{T.checkout.title}</h1>
-        <CheckoutForm summary={summary} initial={{}} lang={lang} />
+        <CheckoutForm summary={summary} initial={{}} lang={lang} online={onlinePayment()} />
       </div>
     </section>
   );

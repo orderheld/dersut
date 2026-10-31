@@ -82,6 +82,19 @@ ${items(o, L)}${address(o, L)}
 <p>${esc(m.questions)}</p>${signoff(L)}`, L);
 }
 
+/** Bestellbestätigung für Online-Zahlungen: geht erst raus, wenn Payrexx die Zahlung bestätigt hat. */
+function online(o: Order): string {
+  const L = o.lang;
+  const m = getDict(L).mail;
+  return layout(`${h1(esc(m.confTitle(o.first_name)))}
+<p>${m.confIntro(esc(o.number))}</p>
+<p>${m.paidText(chf(o.total), esc(o.number))} ${esc(m.paidNext)}</p>
+${button(orderLink(o), m.viewOrderOnly)}
+<h2 style="font-family:Georgia,serif;font-weight:normal;font-size:20px;color:#17181c;margin:28px 0 6px">${esc(m.yourOrder)}</h2>
+${items(o, L)}${address(o, L)}
+<p>${esc(m.questions)}</p>${signoff(L)}`, L);
+}
+
 function paid(o: Order): string {
   const L = o.lang;
   const m = getDict(L).mail;
@@ -113,23 +126,24 @@ const LANG_LABEL: Record<Locale, string> = { de: 'Deutsch', fr: 'Französisch', 
 
 function adminNew(o: Order): string {
   return layout(`${h1(`Neue Bestellung ${o.number}`)}
-<p><strong>${chf(o.total)}</strong> · Vorauskasse · ${dateCh(o.created_at, true)} · Sprache: ${LANG_LABEL[o.lang] ?? o.lang}</p>
+<p><strong>${chf(o.total)}</strong> · ${o.payment_method === 'online' ? 'Online bezahlt (Payrexx)' : 'Vorauskasse'} · ${dateCh(o.created_at, true)} · Sprache: ${LANG_LABEL[o.lang] ?? o.lang}</p>
 ${items(o, 'de')}${address(o, 'de')}
 <p style="font-size:14px">E-Mail: ${esc(o.email)}${o.phone ? '<br>Telefon: ' + esc(o.phone) : ''}</p>
 ${o.note ? `<p style="font-size:14px;background:#f6f2e9;padding:12px 14px"><strong>Bemerkung:</strong><br>${nl2br(o.note)}</p>` : ''}
 ${button(absUrl(`admin/bestellungen/${o.id}`), 'Im Admin öffnen')}`);
 }
 
-export type OrderMailType = 'confirmation' | 'paid' | 'shipped' | 'cancelled' | 'admin';
+export type OrderMailType = 'confirmation' | 'online' | 'paid' | 'shipped' | 'cancelled' | 'admin';
 
 export async function sendOrderMail(o: Order, type: OrderMailType): Promise<MailResult> {
   const m = getDict(o.lang).mail;
   const map = {
     confirmation: [m.confSubject(o.number), confirmation],
+    online: [m.onlineSubject(o.number), online],
     paid: [m.paidSubject(o.number), paid],
     shipped: [m.shippedSubject(o.number), shipped],
     cancelled: [m.cancelSubject(o.number), cancelled],
-    admin: [`Neue Bestellung ${o.number} – ${chf(o.total)}`, adminNew],
+    admin: [`Neue Bestellung ${o.number} – ${chf(o.total)}${o.payment_method === 'online' ? ' (online bezahlt)' : ''}`, adminNew],
   } as const;
   const [subject, tpl] = map[type];
   const toAdmin = type === 'admin';

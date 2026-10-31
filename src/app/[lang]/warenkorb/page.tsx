@@ -6,7 +6,7 @@ import { Icon } from '@/components/Icon';
 import { Img } from '@/components/Img';
 import { cutoutImage, productImage } from '@/lib/brand';
 import { cartSummary } from '@/lib/cart';
-import { config } from '@/lib/config';
+import { config, onlinePayment } from '@/lib/config';
 import { chf } from '@/lib/format';
 import { getDict } from '@/i18n';
 import { asLocale, lp } from '@/lib/i18n';
@@ -106,8 +106,8 @@ export default async function Warenkorb({ params }: Props) {
               <p className="summary__vat">{T.common.inclVatRate(cart.vatRate)} ({chf(cart.vat)})</p>
               <Link className="btn btn--primary btn--lg btn--block" href={lp(lang, '/kasse')}><Icon name="lock" /> {t.checkout}</Link>
               <div className="summary__note">
-                <Icon name="bank" />
-                <span dangerouslySetInnerHTML={{ __html: t.prepayNote }} />
+                <Icon name={onlinePayment() ? 'lock' : 'bank'} />
+                <span dangerouslySetInnerHTML={{ __html: onlinePayment() ? T.pay.cartNote : t.prepayNote }} />
               </div>
             </div>
           </div>
