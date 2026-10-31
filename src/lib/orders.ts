@@ -49,8 +49,12 @@ export type Order = {
   shipped_at: Date | null;
   cancelled_at: Date | null;
   lang: Locale;
+  payment_method: PaymentMethod;
+  payrexx_gateway_id: number | null;
   items: OrderItem[];
 };
+
+export type PaymentMethod = 'prepay' | 'online';
 
 export type CheckoutInput = {
   salutation: string;
@@ -94,11 +98,13 @@ function normalize(o: any): Order {
     shipped_at: o.shipped_at ? new Date(o.shipped_at) : null,
     cancelled_at: o.cancelled_at ? new Date(o.cancelled_at) : null,
     lang: o.lang || 'de',
+    payment_method: o.payment_method === 'online' ? 'online' : 'prepay',
+    payrexx_gateway_id: o.payrexx_gateway_id ? Number(o.payrexx_gateway_id) : null,
     items: o.items ?? [],
   };
 }
 
-export async function createOrder(input: CheckoutInput, cart: Cart, lang: Locale = 'de'): Promise<Order> {
+export async function createOrder(input: CheckoutInput, cart: Cart, lang: Locale = 'de', method: PaymentMethod = 'prepay'): Promise<Order> {
   for (const it of cart.items) {
     const p = await getProduct(it.product.id);
     if (p && p.stock !== null && p.stock < it.qty) {
@@ -114,12 +120,12 @@ export async function createOrder(input: CheckoutInput, cart: Cart, lang: Locale
   const queries: Query[] = [
     {
       text: `INSERT INTO orders (number, token, salutation, first_name, last_name, company, street, zip, city, email, phone, note,
-               subtotal, shipping, total, vat_rate, vat_amount, lang)
-             VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18)`,
+               subtotal, shipping, total, vat_rate, vat_amount, lang, payment_method)
+             VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19)`,
       params: [
         number, token, input.salutation, input.first_name.trim(), input.last_name.trim(), input.company.trim(),
         input.street.trim(), input.zip.trim(), input.city.trim(), input.email.trim().toLowerCase(), input.phone.trim(), input.note.trim(),
-        cart.subtotal, cart.shipping, cart.total, cart.vatRate, cart.vat, lang,
+        cart.subtotal, cart.shipping, cart.total, cart.vatRate, cart.vat, lang, method,
       ],
     },
   ];
@@ -130,7 +136,7 @@ export async function createOrder(input: CheckoutInput, cart: Cart, lang: Locale
     });
     queries.push({ text: 'UPDATE products SET stock = stock - $1 WHERE id = $2 AND stock IS NOT NULL', params: [it.qty, it.product.id] });
   }
-  queries.push({ text: `INSERT INTO order_log (order_id, message) VALUES (${orderId}, $1)`, params: ['Bestellung eingegangen (Vorauskasse).'] });
+  queries.push({ text: `INSERT INTO order_log (order_id, message) VALUES (${orderId}, $1)`, params: [method === 'online' ? 'Bestellung eingegangen (Online-Zahlung über Payrexx).' : 'Bestellung eingegangen (Vorauskasse).'] });
   try {
     await transaction(queries);
   } catch (e) {
@@ -166,6 +172,18 @@ export async function getOrderByNumberToken(number: string, token: string): Prom
   if (!o || !token || o.token.length !== token.length) return null;
   const { timingSafeEqual } = await import('node:crypto');
   return timingSafeEqual(Buffer.from(o.token), Buffer.from(token)) ? o : null;
+}
+
+export async function setPaymentMethod(id: number, method: PaymentMethod, gatewayId: number | null = null): Promise<void> {
+  await query('UPDATE orders SET payment_method = $1, payrexx_gateway_id = $2 WHERE id = $3', [method, gatewayId, id]);
+}
+
+/** Setzt eine offene Bestellung auf bezahlt. true nur beim ersten Mal, damit Mails nicht doppelt rausgehen. */
+export async function markPaidOnce(id: number, message: string): Promise<boolean> {
+  const rows = await query(`UPDATE orders SET status = 'paid', paid_at = COALESCE(paid_at, now()) WHERE id = $1 AND status = 'open' RETURNING id`, [id]);
+  if (!rows.length) return false;
+  await addLog(id, message);
+  return true;
 }
 
 export async function addLog(orderId: number, message: string): Promise<void> {

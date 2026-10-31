@@ -1,19 +1,20 @@
 'use client';
 
-import { useActionState, useEffect, useRef, type ReactNode } from 'react';
+import { useActionState, useEffect, useRef, useState, type ReactNode } from 'react';
 import { checkoutAction, type CheckoutState } from '@/app/[lang]/actions';
 import { getDict } from '@/i18n';
 import { lp, type Locale } from '@/lib/i18n';
 import { Field } from './Field';
 import { Icon } from './Icon';
 
-export function CheckoutForm({ summary, initial, lang }: { summary: ReactNode; initial: Record<string, string>; lang: Locale }) {
+export function CheckoutForm({ summary, initial, lang, online = false }: { summary: ReactNode; initial: Record<string, string>; lang: Locale; online?: boolean }) {
   const t = getDict(lang).checkout;
   const [state, action, pending] = useActionState<CheckoutState, FormData>(checkoutAction, { errors: {}, values: initial });
   const v = (k: string) => (state.values as Record<string, string>)[k] ?? '';
   const e = state.errors;
   const hasErrors = Object.keys(e).length > 0;
   const formRef = useRef<HTMLFormElement>(null);
+  const [method, setMethod] = useState(online ? 'online' : 'prepay');
   // Nach einem Fehler zum ersten markierten Feld springen (wichtig auf dem Handy)
   useEffect(() => {
     if (!hasErrors) return;
@@ -66,13 +67,34 @@ export function CheckoutForm({ summary, initial, lang }: { summary: ReactNode; i
           </div>
           <div className="form-card">
             <h2>{t.payment}</h2>
-            <div className="paymethod" style={{ marginTop: 18 }}>
-              <Icon name="bank" />
-              <div>
-                <strong>{t.prepay}</strong>
-                <span>{t.prepayText}</span>
+            {online ? (
+              <div className="paychoice" role="radiogroup" aria-label={t.payment}>
+                <label className={`paymethod paymethod--choice${method === 'online' ? ' is-on' : ''}`}>
+                  <input type="radio" name="payment" value="online" checked={method === 'online'} onChange={() => setMethod('online')} />
+                  <Icon name="lock" />
+                  <div>
+                    <strong>{t.online}</strong>
+                    <span>{t.onlineText}</span>
+                  </div>
+                </label>
+                <label className={`paymethod paymethod--choice${method === 'prepay' ? ' is-on' : ''}`}>
+                  <input type="radio" name="payment" value="prepay" checked={method === 'prepay'} onChange={() => setMethod('prepay')} />
+                  <Icon name="bank" />
+                  <div>
+                    <strong>{t.prepay}</strong>
+                    <span>{t.prepayText}</span>
+                  </div>
+                </label>
               </div>
-            </div>
+            ) : (
+              <div className="paymethod" style={{ marginTop: 18 }}>
+                <Icon name="bank" />
+                <div>
+                  <strong>{t.prepay}</strong>
+                  <span>{t.prepayText}</span>
+                </div>
+              </div>
+            )}
           </div>
         </div>
         <div className="summary">
@@ -85,9 +107,9 @@ export function CheckoutForm({ summary, initial, lang }: { summary: ReactNode; i
             {e.agb && <div className="f__err">{e.agb}</div>}
           </div>
           <button className="btn btn--primary btn--lg btn--block" type="submit" disabled={pending}>
-            <Icon name="lock" /> {pending ? t.sending : t.submit}
+            <Icon name="lock" /> {pending ? t.sending : method === 'online' ? t.submitOnline : t.submit}
           </button>
-          <div className="summary__note"><Icon name="shield" /><span>{t.noCard}</span></div>
+          <div className="summary__note"><Icon name="shield" /><span>{method === 'online' ? t.securePay : t.noCard}</span></div>
         </div>
       </form>
     </>

@@ -2,7 +2,9 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { CopyButton } from '@/components/CopyButton';
 import { Icon } from '@/components/Icon';
-import { config } from '@/lib/config';
+import { payNowAction } from '@/app/[lang]/actions';
+import { config, onlinePayment } from '@/lib/config';
+import { syncOnlinePayment } from '@/lib/payment';
 import { chf, dateCh, ibanFormat, statusLabel, trackingUrl } from '@/lib/format';
 import { getOrderByNumberToken } from '@/lib/orders';
 import { dueDate, paymentMessage } from '@/lib/orders-shared';
@@ -13,7 +15,7 @@ import { asLocale } from '@/lib/i18n';
 
 export const dynamic = 'force-dynamic';
 
-type Props = { params: Promise<{ lang: string; number: string }>; searchParams: Promise<{ t?: string; neu?: string }> };
+type Props = { params: Promise<{ lang: string; number: string }>; searchParams: Promise<{ t?: string; neu?: string; zahlung?: string }> };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { lang, number } = await params;
@@ -25,12 +27,25 @@ export default async function Bestellung({ params, searchParams }: Props) {
   const lang = asLocale(l);
   const T = getDict(lang);
   const d = T.order;
-  const { t: token, neu } = await searchParams;
+  const { t: token, neu, zahlung } = await searchParams;
   if (!/^[A-Z]+-\d{2}-\d{4,}$/.test(number) || !token) notFound();
-  const o = await getOrderByNumberToken(number, token);
-  if (!o) notFound();
+  const found = await getOrderByNumberToken(number, token);
+  if (!found) notFound();
+  // Zurück von Payrexx (oder später erneut geöffnet): Zahlungsstatus direkt bei Payrexx abfragen
+  const o = await syncOnlinePayment(found);
 
   const open = o.status === 'open';
+  const online = o.payment_method === 'online';
+  const canPayOnline = open && onlinePayment();
+  const justPaid = o.status === 'paid' && (zahlung === 'ok' || !!neu);
+  const payForm = (label: string, primary: boolean) => (
+    <form action={payNowAction}>
+      <input type="hidden" name="lang" value={lang} />
+      <input type="hidden" name="number" value={o.number} />
+      <input type="hidden" name="token" value={o.token} />
+      <button className={`btn ${primary ? 'btn--primary btn--lg' : 'btn--ghost'}`} type="submit"><Icon name="lock" /> {label}</button>
+    </form>
+  );
   const qr = open ? await swissQrSvg(o) : null;
   const msg = paymentMessage(o);
   const amount = (o.total / 100).toFixed(2);
@@ -40,10 +55,10 @@ export default async function Bestellung({ params, searchParams }: Props) {
       <div className="wrap">
         <div className="confirm-hero">
           <div className="confirm-hero__icon"><Icon name="check" /></div>
-          {neu && open ? (
+          {(neu && open && !online) || justPaid ? (
             <>
               <h1>{d.thanks(o.first_name)}</h1>
-              <p className="lead" style={{ margin: '0 auto 18px' }} dangerouslySetInnerHTML={{ __html: d.received.replace('{email}', o.email.replace(/[<>&"]/g, '')) }} />
+              <p className="lead" style={{ margin: '0 auto 18px' }} dangerouslySetInnerHTML={{ __html: (justPaid ? d.receivedPaid : d.received).replace('{email}', o.email.replace(/[<>&"]/g, '')) }} />
             </>
           ) : (
             <h1>{d.yourOrder}</h1>
@@ -52,10 +67,22 @@ export default async function Bestellung({ params, searchParams }: Props) {
           <p style={{ marginTop: 16 }}><span className={`ostatus ostatus--${o.status}`}>{T.status[o.status] ?? statusLabel(o.status)}</span></p>
         </div>
 
+        {canPayOnline && online && (
+          <div className="payonline">
+            {zahlung === 'ok' && <div className="alert alert--ok" role="status">{d.payChecking}</div>}
+            {zahlung === 'abbruch' && <div className="alert alert--err" role="alert">{d.payCancelled}</div>}
+            {zahlung === 'fehler' && <div className="alert alert--err" role="alert">{d.payFailed}</div>}
+            <p className="eyebrow">{d.payOnline}</p>
+            <h2>{d.pleasePay(chf(o.total))}</h2>
+            <p style={{ color: 'var(--muted)' }}>{d.payOnlineText}</p>
+            {payForm(d.payNow, true)}
+          </div>
+        )}
+
         {open && (
           <div className="payinfo">
             <div>
-              <p className="eyebrow">{d.prepay}</p>
+              <p className="eyebrow">{online && canPayOnline ? d.orTransfer : d.prepay}</p>
               <h2>{d.pleaseTransfer(chf(o.total))}</h2>
               <p style={{ color: 'var(--muted)' }}>{d.transferText}</p>
               <table className="paytable">
@@ -68,6 +95,12 @@ export default async function Bestellung({ params, searchParams }: Props) {
                   <tr><th>{d.due}</th><td>{dateCh(dueDate(o))}</td></tr>
                 </tbody>
               </table>
+              {canPayOnline && !online && (
+                <div style={{ marginTop: 18 }}>
+                  <p style={{ margin: '0 0 8px', color: 'var(--muted)' }}>{d.orOnline}</p>
+                  {payForm(d.payNow, false)}
+                </div>
+              )}
             </div>
             {qr && (
               <div className="qrbox">
@@ -81,7 +114,7 @@ export default async function Bestellung({ params, searchParams }: Props) {
 
         <ol className="timeline-mini" style={{ marginBottom: 30 }}>
           <li className="is-done"><strong>{d.step1}</strong>{dateCh(o.created_at, true)}</li>
-          <li className={o.paid_at ? 'is-done' : ''}><strong>{d.step2}</strong>{o.paid_at ? dateCh(o.paid_at, true) : d.step2Wait}</li>
+          <li className={o.paid_at ? 'is-done' : ''}><strong>{d.step2}</strong>{o.paid_at ? dateCh(o.paid_at, true) : online ? d.step2WaitOnline : d.step2Wait}</li>
           <li className={o.shipped_at ? 'is-done' : ''}>
             <strong>{d.step3}</strong>{o.shipped_at ? dateCh(o.shipped_at, true) : d.step3Wait}
             {o.tracking && <><br /><a href={trackingUrl(o.tracking)} target="_blank" rel="noopener">{d.track}</a></>}

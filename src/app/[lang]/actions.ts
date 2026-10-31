@@ -3,12 +3,12 @@
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { addToCart, cartSummary, clearCart, setQty } from '@/lib/cart';
-import { addLog, createOrder, validateCheckout, type CheckoutInput } from '@/lib/orders';
-import { config } from '@/lib/config';
-import { sendContactMail, sendOrderMail } from '@/lib/emails';
+import { addLog, createOrder, getOrder, getOrderByNumberToken, setPaymentMethod, validateCheckout, type CheckoutInput } from '@/lib/orders';
+import { announcePrepayOrder, onlinePayLink } from '@/lib/payment';
+import { onlinePayment } from '@/lib/config';
+import { sendContactMail } from '@/lib/emails';
 import { getProduct } from '@/lib/products';
 import { query } from '@/lib/db';
-import { chf } from '@/lib/format';
 import { notifyAdmins } from '@/lib/push';
 import { getDict } from '@/i18n';
 import { asLocale, lp } from '@/lib/i18n';
@@ -76,28 +76,48 @@ export async function checkoutAction(_prev: CheckoutState, fd: FormData): Promis
   const cart = await cartSummary();
   if (!cart.items.length) redirect(lp(lang, '/warenkorb'));
 
+  const online = onlinePayment() && str(fd, 'payment') === 'online';
   let order;
   try {
-    order = await createOrder(input, cart, lang);
+    order = await createOrder(input, cart, lang, online ? 'online' : 'prepay');
   } catch (e) {
     return { errors: { _: e instanceof Error ? e.message : getDict(lang).checkout.saveFailed }, values: input };
   }
   await clearCart();
   // Lagerbestand hat sich evtl. geändert: Shopseiten neu erzeugen
   if (cart.items.some((i) => i.product.stock !== null)) revalidatePath('/', 'layout');
-  const [conf, admin] = await Promise.all([
-    sendOrderMail(order, 'confirmation'),
-    sendOrderMail(order, 'admin'),
-    notifyAdmins({
-      title: `Neue Bestellung ${order.number}`,
-      body: `${order.first_name} ${order.last_name}, ${order.city} · ${chf(order.total)}`,
-      url: `/admin/bestellungen/${order.id}`,
-      tag: `order-${order.id}`,
-    }),
-  ]);
-  await addLog(order.id, conf.ok ? `Bestätigung an ${order.email} gesendet.` : `Bestätigung an ${order.email} konnte nicht gesendet werden (${conf.error}).`);
-  if (!admin.ok) await addLog(order.id, `Benachrichtigung an ${config.email.orders} konnte nicht gesendet werden (${admin.error}).`);
+  if (online) {
+    let link = '';
+    try {
+      link = await onlinePayLink(order);
+    } catch (e) {
+      // Payrexx nicht erreichbar: Bestellung bleibt gültig und wird per Vorauskasse abgewickelt
+      await addLog(order.id, `Online-Zahlung konnte nicht gestartet werden (${e instanceof Error ? e.message : e}), umgestellt auf Vorauskasse.`);
+      await setPaymentMethod(order.id, 'prepay');
+      order = (await getOrder(order.id))!;
+    }
+    if (link) redirect(link);
+  }
+  await announcePrepayOrder(order);
   redirect(lp(lang, `/bestellung/${order.number}?t=${order.token}&neu=1`));
+}
+
+/** «Jetzt bezahlen» auf der Bestellseite: zur Payrexx-Zahlungsseite. */
+export async function payNowAction(fd: FormData): Promise<void> {
+  const lang = asLocale(fd.get('lang'));
+  const o = await getOrderByNumberToken(str(fd, 'number'), str(fd, 'token'));
+  if (!o) redirect(lp(lang, '/'));
+  const back = lp(lang, `/bestellung/${o.number}?t=${o.token}`);
+  if (o.status !== 'open' || !onlinePayment()) redirect(back);
+  let link = '';
+  try {
+    if (o.payment_method !== 'online') await setPaymentMethod(o.id, 'online', o.payrexx_gateway_id);
+    link = await onlinePayLink({ ...o, payment_method: 'online' });
+  } catch (e) {
+    console.error('Payrexx-Link fehlgeschlagen:', e);
+    redirect(`${back}&zahlung=fehler`);
+  }
+  redirect(link);
 }
 
 export type ContactState = { sent: boolean; errors: Record<string, string>; values: Record<string, string> };

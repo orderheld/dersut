@@ -26,7 +26,7 @@ export const config = {
     orders: 'info@dersut.ch',
     contact: 'info@dersut.ch',
     info: 'info@dersut.ch',
-    from: 'Dersut Kaffee Schweiz <info@dersut.ch>',
+    from: process.env.MAIL_FROM || 'Dersut Kaffee Schweiz <info@dersut.ch>',
   },
 
   bank: {
@@ -44,5 +44,10 @@ export const config = {
     maxQty: 50,
   },
 };
+
+/** Online-Zahlung über Payrexx ist aktiv, sobald Instanz und API-Secret in Vercel gesetzt sind. */
+export function onlinePayment(): boolean {
+  return !!(process.env.PAYREXX_INSTANCE && process.env.PAYREXX_API_SECRET);
+}
 
 export type Company = typeof config.company;

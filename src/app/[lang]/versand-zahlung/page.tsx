@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { Icon } from '@/components/Icon';
 import { PageHero } from '@/components/PageHero';
-import { config } from '@/lib/config';
+import { config, onlinePayment } from '@/lib/config';
 import { chf, ibanFormat } from '@/lib/format';
 import { asLocale, type Locale } from '@/lib/i18n';
 import { jsonLd, pageMeta } from '@/lib/seo';
@@ -120,14 +120,56 @@ const T: Record<Locale, typeof de> = {
   },
 };
 
+/** Texte, sobald Online-Zahlung (Payrexx) aktiv ist */
+const ON: Record<Locale, { metaDescription: string; lead: string; step: string[]; payFaq: string[] }> = {
+  de: {
+    metaDescription: `Lieferung in die ganze Schweiz mit der Post für pauschal ${ship}, ab ${free} gratis. Zahlung online mit TWINT oder Karte oder per Vorauskasse. Alle Preise inkl. MWST.`,
+    lead: `Einfach, transparent und sicher: Lieferung in die ganze Schweiz für pauschal ${ship} (ab ${free} gratis), Zahlung online mit TWINT oder Karte oder per Vorauskasse.`,
+    step: ['lock', 'Bezahlen', `Sie bezahlen direkt online mit TWINT oder Karte. Oder Sie überweisen den Betrag innert ${days} Tagen mit dem QR-Code in Ihrer Banking-App.`],
+    payFaq: ['Welche Zahlungsarten gibt es?', 'Sie bezahlen online mit TWINT, Kredit- oder Debitkarte über unseren Schweizer Zahlungspartner Payrexx, oder per Vorauskasse mit Banküberweisung. Ihre Kartendaten geben Sie nur auf der Zahlungsseite von Payrexx ein, wir sehen sie nie. Bei Online-Zahlung versenden wir sofort.'],
+  },
+  fr: {
+    metaDescription: `Livraison dans toute la Suisse par La Poste pour un forfait de ${ship}, offerte dès ${free}. Paiement en ligne par TWINT ou carte, ou paiement anticipé. Tous les prix TVA incluse.`,
+    lead: `Simple, transparent et sûr : livraison dans toute la Suisse pour un forfait de ${ship} (offerte dès ${free}), paiement en ligne par TWINT ou carte, ou paiement anticipé.`,
+    step: ['lock', 'Payer', `Vous payez directement en ligne par TWINT ou par carte. Ou vous virez le montant dans les ${days} jours avec le code QR dans votre application bancaire.`],
+    payFaq: ['Quels modes de paiement proposez-vous ?', 'Vous payez en ligne par TWINT, carte de crédit ou de débit via notre partenaire de paiement suisse Payrexx, ou par paiement anticipé avec virement bancaire. Vous saisissez vos données de carte uniquement sur la page de paiement de Payrexx, nous ne les voyons jamais. En cas de paiement en ligne, nous expédions immédiatement.'],
+  },
+  it: {
+    metaDescription: `Consegna in tutta la Svizzera con la Posta a un forfait di ${ship}, gratuita da ${free}. Pagamento online con TWINT o carta, oppure pagamento anticipato. Tutti i prezzi IVA inclusa.`,
+    lead: `Semplice, trasparente e sicuro: consegna in tutta la Svizzera a un forfait di ${ship} (gratuita da ${free}), pagamento online con TWINT o carta, oppure pagamento anticipato.`,
+    step: ['lock', 'Pagare', `Pagate direttamente online con TWINT o con carta. Oppure versate l’importo entro ${days} giorni con il codice QR nella vostra app bancaria.`],
+    payFaq: ['Quali metodi di pagamento offrite?', 'Pagate online con TWINT, carta di credito o di debito tramite il nostro partner di pagamento svizzero Payrexx, oppure con pagamento anticipato tramite bonifico. I dati della carta li inserite solo sulla pagina di pagamento di Payrexx, noi non li vediamo mai. Con il pagamento online spediamo subito.'],
+  },
+  en: {
+    metaDescription: `Delivery throughout Switzerland by Swiss Post for a flat ${ship}, free from ${free}. Pay online with TWINT or card, or in advance by bank transfer. All prices include VAT.`,
+    lead: `Simple, transparent and secure: delivery throughout Switzerland for a flat ${ship} (free from ${free}), payment online with TWINT or card, or in advance by bank transfer.`,
+    step: ['lock', 'Pay', `Pay directly online with TWINT or card. Or transfer the amount within ${days} days using the QR code in your banking app.`],
+    payFaq: ['Which payment methods do you offer?', 'You pay online with TWINT, credit or debit card via our Swiss payment partner Payrexx, or in advance by bank transfer. You only enter your card details on the Payrexx payment page, we never see them. With online payment we dispatch right away.'],
+  },
+};
+
+function texts(lang: Locale): typeof de {
+  const t = T[lang];
+  if (!onlinePayment()) return t;
+  const o = ON[lang];
+  return {
+    ...t,
+    metaDescription: o.metaDescription,
+    lead: o.lead,
+    steps: t.steps.map((st, i) => (i === 1 ? o.step : st)),
+    faq: t.faq.map((f, i) => (i === 1 ? o.payFaq : f)),
+  };
+}
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const lang = asLocale((await params).lang);
-  return pageMeta(lang, PATH, T[lang].metaTitle, T[lang].metaDescription);
+  const t = texts(lang);
+  return pageMeta(lang, PATH, t.metaTitle, t.metaDescription);
 }
 
 export default async function Versand({ params }: Props) {
   const lang = asLocale((await params).lang);
-  const t = T[lang];
+  const t = texts(lang);
   const faqLd = {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',

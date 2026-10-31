@@ -9,7 +9,7 @@ import { ProductCard } from '@/components/ProductCard';
 import { ProductGallery, type GalleryImage } from '@/components/ProductGallery';
 import { getDict } from '@/i18n';
 import { brand, cutoutImage, productImage } from '@/lib/brand';
-import { config } from '@/lib/config';
+import { config, onlinePayment } from '@/lib/config';
 import { chf } from '@/lib/format';
 import { LOCALE_TAGS, asLocale, lp } from '@/lib/i18n';
 import { getProductBySlug, getProducts, isSoldOut, type LocalizedProduct } from '@/lib/products';
@@ -46,6 +46,9 @@ export default async function ProductPage({ params }: Props) {
   const lang = asLocale(l);
   const t = getDict(lang);
   const tp = t.product;
+  const online = onlinePayment();
+  const faq = online ? tp.faq.map((f, i) => (i === 1 ? t.pay.faq : f)) : tp.faq;
+  const assure = online ? tp.assure.map((a) => (a[0] === 'bank' ? t.pay.assure : a)) : tp.assure;
   const p = await getProductBySlug(slug, lang);
   if (!p) notFound();
   const others = (await getProducts(true, lang)).filter((x) => x.id !== p.id);
@@ -108,7 +111,7 @@ export default async function ProductPage({ params }: Props) {
     {
       '@context': 'https://schema.org',
       '@type': 'FAQPage',
-      mainEntity: tp.faq.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })),
+      mainEntity: faq.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })),
     },
   ];
 
@@ -154,7 +157,7 @@ export default async function ProductPage({ params }: Props) {
                 <p className="pd__freetip"><Icon name="truck" /> {tp.freeTip(Math.ceil(config.shop.freeShippingFrom / p.price))}</p>
               )}
               <ul className="pd__assure">
-                {tp.assure.map(([icon, text]) => <li key={icon}><Icon name={icon} /> {text}</li>)}
+                {assure.map(([icon, text]) => <li key={icon}><Icon name={icon} /> {text}</li>)}
                 <li><Icon name="mail" /> <span>{tp.questions} <a href={`mailto:${config.email.info}`}>{config.email.info}</a></span></li>
               </ul>
               {guides.length > 0 && (
@@ -225,7 +228,7 @@ export default async function ProductPage({ params }: Props) {
           <div className="wrap">
             <header className="section__head section__head--center"><h2 className="h2">{tp.faqTitle}</h2></header>
             <div className="faq">
-              {tp.faq.map(([q, a]) => (
+              {faq.map(([q, a]) => (
                 <details key={q}>
                   <summary>{q}</summary>
                   <div>{a}</div>

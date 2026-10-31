@@ -94,6 +94,9 @@ Neue oder geänderte Umgebungsvariablen gelten erst nach einem neuen Deployment 
    Diese Einträge betreffen nur den Versand über Resend. **Den bestehenden MX-Eintrag von dersut.ch nicht ändern**,
    sonst kommen keine E-Mails mehr bei info@dersut.ch an.
 
+   Pro Name darf es nur **einen** `resend._domainkey`-Eintrag geben, und zwar genau den, den Resend aktuell anzeigt.
+   Wurde die Domain in Resend einmal gelöscht und neu angelegt, ändert sich der Schlüssel: alten Eintrag bei cyon löschen.
+
 4. In Resend auf **Verify DNS Records** klicken. Das dauert meist wenige Minuten, bis alles grün ist.
 5. **API Keys → Create API Key** → Name `dersut`, Permission **Sending access**, Domain `dersut.ch` → **Add** → Key kopieren.
 6. In Vercel → **Settings → Environment Variables** → **Add New**:
@@ -134,6 +137,22 @@ Dann **Einstellungen → Testmail senden** klicken: Die Testmail muss im cyon-We
    erstellt Vercel automatisch.
 
 Fertig: **https://dersutkaffee.ch** ist live.
+
+## Online-Zahlung mit Payrexx (TWINT, Karten)
+
+Ohne diese Einstellungen gibt es im Shop nur Vorauskasse. Sobald beide Werte gesetzt sind, wählen Kundinnen und Kunden an der Kasse zwischen «Online bezahlen» und «Vorauskasse».
+
+1. Payrexx → **Einstellungen → API** → API-Schlüssel kopieren (oder neu erstellen).
+2. Vercel → **Settings → Environment Variables** → **Add New**, Environments: alle:
+   - `PAYREXX_INSTANCE` = Name der Instanz, also der vordere Teil von `xxx.payrexx.com` (nur `xxx`)
+   - `PAYREXX_API_SECRET` = der kopierte API-Schlüssel
+3. Payrexx → **Einstellungen → Webhooks** → neuer Webhook:
+   URL `https://dersutkaffee.ch/api/payrexx`, Typ/Format **JSON**.
+   Der Webhook ist eine Absicherung, falls jemand nach dem Bezahlen das Fenster schliesst. Der Shop prüft jede Zahlung zusätzlich direkt bei Payrexx.
+4. Vercel → **Deployments** → beim obersten Eintrag **⋯ → Redeploy**. Erst danach erscheinen die neuen Texte und die Zahlungsauswahl.
+5. Welche Zahlungsarten (TWINT, Karten, PostFinance …) angeboten werden, stellen Sie direkt in Payrexx unter **Zahlungsanbieter** ein.
+
+Online bezahlte Bestellungen stehen im Admin sofort auf «Bezahlt». Die Bestätigung an die Kundschaft und die Mail an info@dersut.ch gehen erst raus, wenn Payrexx die Zahlung bestätigt hat.
 
 ## Später: Änderungen veröffentlichen
 

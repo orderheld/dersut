@@ -43,7 +43,7 @@ export default async function OrderDetail({ params, searchParams }: Props) {
         <div>
           <Link className="back" href="/admin/bestellungen">← Alle Bestellungen</Link>
           <h1>Bestellung {o.number} <span className={`badge badge--${o.status}`}>{statusLabel(o.status)}</span></h1>
-          <p className="muted">Eingegangen am {dateCh(o.created_at, true)} · Vorauskasse · zahlbar bis {dateCh(dueDate(o))}</p>
+          <p className="muted">Eingegangen am {dateCh(o.created_at, true)} · {o.payment_method === 'online' ? `Online-Zahlung (Payrexx)${o.payrexx_gateway_id ? `, Zahlungslink ${o.payrexx_gateway_id}` : ''}` : <>Vorauskasse · zahlbar bis {dateCh(dueDate(o))}</>}</p>
         </div>
         <a className="btn btn--ghost" href={lp(o.lang, `/bestellung/${o.number}?t=${o.token}`)} target="_blank" rel="noopener">Kundenansicht ↗</a>
       </header>

@@ -8,7 +8,7 @@ import { RATGEBER_PAGE } from '@/content/ratgeber';
 import { REGIONS } from '@/content/regions';
 import { getDict } from '@/i18n';
 import { brand } from '@/lib/brand';
-import { config } from '@/lib/config';
+import { config, onlinePayment } from '@/lib/config';
 import { companyAddressLines } from '@/lib/format';
 import { LOCALE_TAGS, OG_LOCALES, isLocale, lp, type Locale } from '@/lib/i18n';
 import { getProducts } from '@/lib/products';
@@ -136,7 +136,7 @@ export default async function SiteLayout({ children, params }: Props) {
 
         <section className="assurance" aria-label={t.a11y.benefits}>
           <div className="wrap assurance__grid">
-            {t.assurance.map(([icon, title, text]) => (
+            {(onlinePayment() ? t.assurance.map((a) => (a[0] === 'bank' ? t.pay.assurance : a)) : t.assurance).map(([icon, title, text]) => (
               <div className="assurance__item" key={title}><Icon name={icon as 'shield'} /><div><strong>{title}</strong><span>{text}</span></div></div>
             ))}
           </div>

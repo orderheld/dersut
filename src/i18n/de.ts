@@ -202,6 +202,10 @@ export const de = {
     noCard: 'Keine Kartendaten nötig. Ihre Angaben werden nur zur Abwicklung Ihrer Bestellung verwendet.',
     checkFields: 'Bitte prüfen Sie die markierten Felder.',
     saveFailed: 'Die Bestellung konnte nicht gespeichert werden.',
+    online: 'Online bezahlen',
+    onlineText: 'Mit TWINT, Kredit- oder Debitkarte und weiteren Zahlungsarten auf der sicheren Zahlungsseite unseres Schweizer Partners Payrexx. Wir versenden sofort nach der Zahlung.',
+    submitOnline: 'Bestellen und bezahlen',
+    securePay: 'Sichere Zahlung über Payrexx. Ihre Kartendaten werden nur dort eingegeben, wir sehen sie nie.',
   },
   validation: {
     missing: (label: string) => `${label} fehlt.`,
@@ -242,6 +246,17 @@ export const de = {
     questions: 'Fragen zu Ihrer Bestellung? Schreiben Sie an',
     overview: 'Übersicht',
     paymentMessage: (n: string) => `Bestellung ${n}`,
+    payOnline: 'Online bezahlen',
+    pleasePay: (amount: string) => `Bitte bezahlen Sie ${amount}`,
+    payOnlineText: 'Bezahlen Sie bequem mit TWINT oder Karte. Sie werden zur sicheren Zahlungsseite von Payrexx weitergeleitet. Sobald die Zahlung bestätigt ist, versenden wir.',
+    payNow: 'Jetzt online bezahlen',
+    payChecking: 'Vielen Dank! Ihre Zahlung wird noch bestätigt. Bitte laden Sie die Seite in einem Moment neu.',
+    payCancelled: 'Die Zahlung wurde abgebrochen. Ihre Bestellung ist gespeichert, Sie können jederzeit bezahlen.',
+    payFailed: 'Die Zahlung hat nicht geklappt. Bitte versuchen Sie es erneut oder bezahlen Sie per Überweisung.',
+    orTransfer: 'Oder per Banküberweisung',
+    orOnline: 'Lieber mit TWINT oder Karte bezahlen?',
+    receivedPaid: 'Ihre Zahlung ist eingegangen, wir bereiten Ihr Paket vor. Eine Bestätigung haben wir an <strong>{email}</strong> gesendet.',
+    step2WaitOnline: 'Wir warten auf Ihre Zahlung',
   },
   status: { open: 'Zahlung ausstehend', paid: 'Bezahlt', shipped: 'Versendet', cancelled: 'Storniert' } as Record<string, string>,
   contact: {
@@ -319,6 +334,14 @@ export const de = {
     cancelTitle: 'Bestellung storniert',
     cancelText: (n: string) => `Ihre Bestellung <strong>${n}</strong> wurde storniert. Falls Sie bereits bezahlt haben, erstatten wir den Betrag selbstverständlich vollständig zurück.`,
     cancelMore: 'Haben Sie Fragen oder möchten Sie erneut bestellen? Antworten Sie einfach auf diese E-Mail.',
+    onlineSubject: (n: string) => `Ihre Bestellung ${n} – Zahlung erhalten`,
+    viewOrderOnly: 'Bestellung ansehen',
+  },
+  pay: {
+    assurance: ['lock', 'Sicher bezahlen', 'TWINT, Karte oder Banküberweisung'] as [string, string, string],
+    assure: ['lock', 'Sicher bezahlen mit TWINT, Karte oder per Vorauskasse'] as [string, string],
+    faq: ['Wie bezahle ich?', 'Online mit TWINT, Kredit- oder Debitkarte über unseren Schweizer Zahlungspartner Payrexx, oder per Vorauskasse mit Banküberweisung und QR-Code. Bei Online-Zahlung versenden wir sofort.'] as [string, string],
+    cartNote: 'Bezahlen Sie <strong>online mit TWINT oder Karte</strong> oder per <strong>Vorauskasse</strong>. Bei Online-Zahlung versenden wir sofort.',
   },
 };
 
