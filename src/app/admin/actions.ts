@@ -314,6 +314,14 @@ export async function messageDoneAction(fd: FormData): Promise<void> {
   revalidatePath('/admin', 'layout');
 }
 
+/** Nachricht als Spam markieren oder aus dem Spam zurückholen («Kein Spam»). */
+export async function messageSpamAction(fd: FormData): Promise<void> {
+  await requireAdmin();
+  const spam = fd.get('spam') === '1' ? 'Von Hand als Spam markiert' : '';
+  await query('UPDATE messages SET spam = $1 WHERE id = $2', [spam, Number(fd.get('id'))]);
+  revalidatePath('/admin', 'layout');
+}
+
 /* ---------- Einstellungen ---------- */
 
 export async function changePasswordAction(_prev: FormState, fd: FormData): Promise<FormState> {
