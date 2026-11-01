@@ -36,14 +36,14 @@ export function CheckoutForm({ summary, initial, lang, online = false }: { summa
             <h2>{t.address}</h2>
             <p>{t.addressNote}</p>
             <div className="fgrid">
-              <Field name="email" label={t.email} error={e.email}>
-                <input id="email" type="email" name="email" defaultValue={v('email')} required autoComplete="email" inputMode="email" autoCapitalize="off" spellCheck={false} enterKeyHint="next" />
-              </Field>
               <Field name="first_name" label={t.firstName} span={3} error={e.first_name}>
                 <input id="first_name" name="first_name" defaultValue={v('first_name')} required autoComplete="given-name" autoCapitalize="words" enterKeyHint="next" />
               </Field>
               <Field name="last_name" label={t.lastName} span={3} error={e.last_name}>
                 <input id="last_name" name="last_name" defaultValue={v('last_name')} required autoComplete="family-name" autoCapitalize="words" enterKeyHint="next" />
+              </Field>
+              <Field name="company" label={t.company} optional={getDict(lang).common.optional} error={e.company}>
+                <input id="company" name="company" defaultValue={v('company')} autoComplete="organization" />
               </Field>
               <Field name="street" label={t.street} error={e.street}>
                 <input id="street" name="street" defaultValue={v('street')} required autoComplete="address-line1" autoCapitalize="words" enterKeyHint="next" />
@@ -54,14 +54,11 @@ export function CheckoutForm({ summary, initial, lang, online = false }: { summa
               <Field name="city" label={t.city} span={4} error={e.city}>
                 <input id="city" name="city" defaultValue={v('city')} required autoComplete="address-level2" autoCapitalize="words" enterKeyHint="next" />
               </Field>
+              <Field name="email" label={t.email} span={3} error={e.email}>
+                <input id="email" type="email" name="email" defaultValue={v('email')} required autoComplete="email" inputMode="email" autoCapitalize="off" spellCheck={false} enterKeyHint="next" />
+              </Field>
               <Field name="phone" label={t.phone} optional={getDict(lang).common.optional} span={3} error={e.phone}>
-                <input id="phone" type="tel" name="phone" defaultValue={v('phone')} autoComplete="tel" />
-              </Field>
-              <Field name="company" label={t.company} optional={getDict(lang).common.optional} span={3} error={e.company}>
-                <input id="company" name="company" defaultValue={v('company')} autoComplete="organization" />
-              </Field>
-              <Field name="note" label={t.note} optional={getDict(lang).common.optional} error={e.note}>
-                <textarea id="note" name="note" rows={2} defaultValue={v('note')} />
+                <input id="phone" type="tel" name="phone" defaultValue={v('phone')} autoComplete="tel" inputMode="tel" enterKeyHint="next" />
               </Field>
             </div>
           </div>
@@ -99,6 +96,11 @@ export function CheckoutForm({ summary, initial, lang, online = false }: { summa
         </div>
         <div className="summary">
           {summary}
+          <div className="fgrid" style={{ marginBottom: 14 }}>
+            <Field name="note" label={t.note} optional={getDict(lang).common.optional} error={e.note}>
+              <textarea id="note" name="note" rows={2} defaultValue={v('note')} />
+            </Field>
+          </div>
           <div className={`f${e.agb ? ' f--error' : ''}`} style={{ marginBottom: 18 }}>
             <label className="check">
               <input type="checkbox" name="agb" value="1" defaultChecked={!!v('agb')} />{' '}
