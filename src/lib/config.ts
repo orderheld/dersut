@@ -13,7 +13,7 @@ export const config = {
     street: 'Fasanenstrasse 121',
     zip: '4058',
     city: 'Basel',
-    phone: '', // optional
+    phone: '+41 78 673 21 47', // im Admin änderbar (Firma & Shop)
     uid: 'CHE-452.988.706',
     vatNo: 'CHE-452.988.706 MWST',
     register: 'Handelsregisteramt des Kantons Basel-Stadt',
