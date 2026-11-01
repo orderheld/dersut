@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from 'next';
+import { settingsReady } from '@/lib/db';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { Header, type HeaderLabels } from '@/components/Header';
@@ -25,6 +26,7 @@ export function generateStaticParams() {
 export const revalidate = 3600;
 
 export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }): Promise<Metadata> {
+  await settingsReady();
   const { lang: l } = await params;
   const lang: Locale = isLocale(l) ? l : 'de';
   const t = getDict(lang);
@@ -50,6 +52,7 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
 export const viewport: Viewport = { themeColor: '#002856' };
 
 export default async function SiteLayout({ children, params }: Props) {
+  await settingsReady();
   const { lang: l } = await params;
   if (!isLocale(l)) notFound();
   const lang = l;

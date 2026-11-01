@@ -13,7 +13,7 @@ export const config = {
     street: 'Fasanenstrasse 121',
     zip: '4058',
     city: 'Basel',
-    phone: '', // optional
+    phone: '+41 78 673 21 47', // im Admin änderbar (Firma & Shop)
     uid: 'CHE-452.988.706',
     vatNo: 'CHE-452.988.706 MWST',
     register: 'Handelsregisteramt des Kantons Basel-Stadt',
@@ -34,8 +34,8 @@ export const config = {
   },
 
   shop: {
-    shipping: 1200, // Rappen, Postversand Schweiz pauschal
-    freeShippingFrom: 10000, // Rappen: ab diesem Warenwert ist der Versand gratis
+    shipping: 900, // Rappen, Postversand Schweiz pauschal (im Admin unter Firma & Shop änderbar)
+    freeShippingFrom: 10000, // Rappen: ab diesem Warenwert ist der Versand gratis (im Admin änderbar)
     vatRate: 8.1, // Prozent, in den Preisen enthalten
     orderPrefix: 'DS',
     paymentDays: 10,

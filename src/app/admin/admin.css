@@ -89,6 +89,7 @@ img.is-broken { visibility: hidden; }
 .badge--open { background: #fbf1dc; color: var(--warn); }
 .badge--paid { background: #e6eefa; color: var(--navy); }
 .badge--shipped { background: #e3f1e8; color: var(--ok); }
+.badge--test { background: #a3142a; color: #fff; margin-left: 6px; }
 .badge--cancelled { background: #f6e6e6; color: var(--err); }
 
 .bulkbar { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; padding: 12px 4px; font-size: 13.5px; }
@@ -365,6 +366,10 @@ details.card[open] > summary::before { content: "− "; }
 .cats__head span { font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
 .cats__del { border: 1px solid var(--line); background: #fff; border-radius: 6px; height: 36px; cursor: pointer; color: var(--err); }
 .cats .btn { justify-self: start; margin-top: 4px; }
+.cats__item { display: grid; gap: 4px; padding-bottom: 6px; border-bottom: 1px dashed var(--line); }
+.cats__text summary { font-size: 12.5px; color: var(--muted); cursor: pointer; }
+.cats__text label { font-size: 12.5px; }
+.cats__text textarea { font-size: 13.5px !important; }
 @media (max-width: 600px) { .cats__row { grid-template-columns: 1fr 32px; } .cats__row input:not([name=cat_de]) { display: none; } .cats__head { display: none; } }
 .grid2 > .flash { grid-column: 1 / -1; }
 

@@ -440,6 +440,7 @@ img.is-broken { visibility: hidden; }
 .summary__free { display: flex; align-items: center; gap: 8px; margin: 2px 0 6px; padding: 9px 12px; font-size: 13.5px; color: var(--navy); background: rgba(0,40,86,.05); border-radius: 6px; }
 .summary__free svg { flex: none; width: 18px; height: 18px; }
 .summary__free.is-done { color: #2f6b45; background: rgba(47,107,69,.08); }
+.summary__row--test { color: #a3142a; font-weight: 600; }
 .summary__vat { font-size: 12.5px; color: var(--muted); text-align: right; margin: 0 0 22px; }
 .summary__note { display: flex; gap: 12px; background: var(--cream); padding: 16px; font-size: 13.5px; margin-top: 18px; }
 .summary__note .icon { color: var(--gold); margin-top: 2px; }
@@ -918,3 +919,84 @@ a.ccard:hover { border-color: var(--gold); box-shadow: var(--shadow-sm); color: 
 @media (max-width: 860px) { .shop-guide { grid-template-columns: 1fr; gap: 26px; } }
 .summary__row > span:last-child { white-space: nowrap; }
 .summary__row { gap: 12px; }
+
+/* ---------- Auszeichnungen: Goldmedaille, Produktseite, Startseite ---------- */
+.medal { display: block; filter: drop-shadow(0 6px 10px rgba(60, 40, 0, .28)); }
+.medal--card { position: absolute; z-index: 3; top: 12px; right: 12px; width: 66px; height: 66px; transform: rotate(8deg); transition: transform .4s var(--ease); }
+.pcard:hover .medal--card { transform: rotate(0deg) scale(1.05); }
+.medal--stage { position: absolute; z-index: 3; top: 18px; right: 18px; width: 112px; height: 112px; transform: rotate(8deg); }
+.medal--award { position: absolute; z-index: 2; top: 6px; right: 6px; width: 70px; height: 70px; transform: rotate(8deg); }
+
+/* Shop-Raster: vier Sorten nebeneinander auf grossen Bildschirmen, zwei auf Tablet, eine auf dem Handy */
+.pgrid, .pgroup .pgrid { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 26px; }
+.pcard__body { padding: 24px 24px 26px; }
+.pcard__title { font-size: 28px; line-height: 1.08; }
+.pcard__foot { gap: 14px; flex-direction: column; align-items: stretch; }
+.pcard__foot .btn { width: 100%; white-space: nowrap; }
+@media (max-width: 640px) {
+  .pgrid, .pgroup .pgrid { grid-template-columns: 1fr; gap: 22px; }
+  .medal--card { width: 70px; height: 70px; }
+  .medal--stage { width: 84px; height: 84px; top: 12px; right: 12px; }
+}
+
+/* Produktseite: Hinweis auf die Medaille, Aromen */
+.pd__award { display: inline-flex; align-items: center; gap: 10px; margin: -12px 0 24px; padding: 9px 16px 9px 12px; border-radius: 999px; background: linear-gradient(135deg, #fbf3dc, #f1e2b4); border: 1px solid #e2cd8d; color: #5b4714; font-size: 13.5px; font-weight: 600; text-decoration: none; line-height: 1.3; }
+.pd__award .icon { color: #a4822d; flex: none; }
+.pd__award:hover { border-color: #c9a64f; }
+.pd__aromas { display: flex; align-items: center; flex-wrap: wrap; gap: 10px 14px; margin-bottom: 18px; font-size: 12px; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
+.pd__aromas ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.pd__aromas li { letter-spacing: .02em; text-transform: none; font-size: 13.5px; color: var(--ink); background: var(--cream); border: 1px solid var(--line); border-radius: 999px; padding: 5px 13px; }
+
+.pd-awards { background: var(--navy-900) radial-gradient(ellipse at 20% 30%, #0b3a74 0%, transparent 60%); color: rgba(255, 255, 255, .82); padding: 100px 0; }
+.pd-awards__inner { display: grid; grid-template-columns: minmax(220px, .8fr) 1.4fr; gap: 70px; align-items: center; }
+.pd-awards__medal { display: flex; justify-content: center; }
+.pd-awards__medal .medal { width: min(100%, 300px); height: auto; filter: drop-shadow(0 22px 40px rgba(0, 0, 0, .45)); }
+.pd-awards .h2 { color: #fff; }
+.pd-awards__lead { font-size: 18px; max-width: 620px; }
+.pd-awards__list { list-style: none; margin: 30px 0; padding: 0; display: grid; gap: 1px; background: rgba(255, 255, 255, .12); border: 1px solid rgba(255, 255, 255, .12); border-radius: 10px; overflow: hidden; }
+.pd-awards__list li { display: grid; grid-template-columns: auto 1fr auto; gap: 16px; align-items: center; padding: 18px 22px; background: rgba(0, 17, 42, .55); }
+.pd-awards__list .icon { color: #d9b45a; width: 26px; height: 26px; }
+.pd-awards__list small { display: block; font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: var(--gold-300); }
+.pd-awards__list strong { display: block; color: #fff; font-family: var(--serif); font-size: 23px; font-weight: 500; line-height: 1.15; }
+.pd-awards__list span { display: block; font-size: 13.5px; color: rgba(255, 255, 255, .65); }
+.pd-awards__list em { font-style: normal; font-weight: 600; color: #f3de9c; font-size: 14px; white-space: nowrap; }
+.pd-awards__jury { font-size: 14px; color: rgba(255, 255, 255, .6); max-width: 620px; margin-bottom: 26px; }
+@media (max-width: 960px) {
+  .pd-awards { padding: 70px 0; }
+  .pd-awards__inner { grid-template-columns: 1fr; gap: 30px; text-align: left; }
+  .pd-awards__medal .medal { width: 200px; }
+}
+@media (max-width: 640px) {
+  .pd-awards__list li { grid-template-columns: auto 1fr; padding: 16px; }
+  .pd-awards__list em { grid-column: 2; white-space: normal; }
+}
+
+/* Startseite: Goldmedaillen-Band */
+.awardband { background: var(--navy-900) radial-gradient(ellipse at 85% 20%, #0b3a74 0%, transparent 55%); color: rgba(255, 255, 255, .82); padding: 110px 0; overflow: hidden; }
+.awardband__inner { display: grid; grid-template-columns: 1fr 1.1fr; gap: 70px; align-items: center; }
+.awardband .h2 { color: #fff; }
+.awardband .lead { color: rgba(255, 255, 255, .78); }
+.awardband__facts { list-style: none; margin: 30px 0 34px; padding: 0; display: grid; gap: 16px; }
+.awardband__facts li { display: flex; gap: 14px; align-items: flex-start; }
+.awardband__facts .icon { color: #d9b45a; width: 24px; height: 24px; flex: none; margin-top: 2px; }
+.awardband__facts strong { display: block; color: #fff; font-weight: 600; }
+.awardband__facts span { display: block; font-size: 14.5px; color: rgba(255, 255, 255, .65); }
+.awardband__products { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; }
+.awardcard { display: flex; flex-direction: column; background: #fff; border-radius: 10px; overflow: hidden; text-decoration: none; color: var(--ink); box-shadow: 0 24px 50px -24px rgba(0, 0, 0, .6); transition: transform .35s var(--ease); }
+.awardcard:hover { transform: translateY(-4px); }
+.awardcard__media { position: relative; display: block; overflow: hidden; aspect-ratio: 1; background: radial-gradient(ellipse at 50% 40%, #faf6ef 0%, #f1e9dc 70%, #ebe2d3 100%); }
+.awardcard__media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; padding: 16% 22% 9%; filter: drop-shadow(0 14px 16px rgba(40, 28, 12, .22)); }
+.awardcard__body { flex: 1; align-content: start; padding: 18px 20px 20px; display: grid; gap: 4px; border-top: 3px solid #c9a64f; }
+.awardcard__body strong { font-family: var(--serif); font-size: 24px; font-weight: 500; line-height: 1.1; }
+.awardcard__body > span { font-size: 13.5px; color: var(--muted); }
+.awardcard__more { margin-top: 8px; display: inline-flex; align-items: center; gap: 6px; font-size: 12.5px !important; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--navy) !important; }
+@media (max-width: 960px) {
+  .awardband { padding: 80px 0; }
+  .awardband__inner { grid-template-columns: 1fr; gap: 40px; }
+}
+@media (max-width: 420px) {
+  .awardband__products { gap: 12px; }
+  .awardcard__body { padding: 14px; }
+  .awardcard__body strong { font-size: 20px; }
+  .medal--award { width: 54px; height: 54px; }
+}

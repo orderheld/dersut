@@ -65,3 +65,11 @@ export function trackingUrl(tracking: string): string {
 export function absUrl(path = '/'): string {
   return config.siteUrl.replace(/\/$/, '') + '/' + path.replace(/^\//, '');
 }
+
+/** Schweizer Nummer einheitlich darstellen: «0786732147» / «078-673-2147» → «+41 78 673 21 47». */
+export function swissPhone(raw: string): string {
+  const d = raw.replace(/[^\d+]/g, '');
+  const rest = d.startsWith('+41') ? d.slice(3) : d.startsWith('0041') ? d.slice(4) : d.startsWith('0') ? d.slice(1) : '';
+  if (!/^\d{9}$/.test(rest)) return raw.trim();
+  return `+41 ${rest.slice(0, 2)} ${rest.slice(2, 5)} ${rest.slice(5, 7)} ${rest.slice(7)}`;
+}

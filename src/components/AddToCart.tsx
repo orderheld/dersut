@@ -1,12 +1,14 @@
 'use client';
 
 import { useActionState, useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { addToCartAction, type AddState } from '@/app/[lang]/actions';
 import { getDict } from '@/i18n';
 import { notifyCart } from '@/lib/cart-shared';
 import { lp, type Locale } from '@/lib/i18n';
 import { Icon } from './Icon';
 import { QtyInput } from './QtyInput';
+import './shop.css';
 
 export function AddToCart({ productId, soldOut, lang, detailed = false }: { productId: number; soldOut: boolean; lang: Locale; detailed?: boolean }) {
   const t = getDict(lang).cartBtn;
@@ -55,10 +57,12 @@ export function AddToCart({ productId, soldOut, lang, detailed = false }: { prod
           <button className="btn btn--primary" type="submit" disabled={pending}>{label}</button>
         </>
       )}
-      {flash && (
+      {/* Direkt im <body>, damit die Meldung nicht in der (beim Antippen leicht verschobenen) Produktkarte hängt */}
+      {flash && createPortal(
         <div className="toast is-in" role="status">
-          {t.toast} <a href={lp(lang, '/warenkorb')}>{t.toCart}</a>
-        </div>
+          <span>✓ {t.toast}</span> <a href={lp(lang, '/warenkorb')}>{t.toCart} <Icon name="arrow" /></a>
+        </div>,
+        document.body,
       )}
       {state.error && <p className="f__err">{state.error}</p>}
     </form>

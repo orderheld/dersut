@@ -403,7 +403,7 @@ export const ARTICLES: Article[] = [
             'Beide Dersut-Mischungen eignen sich für die Moka. Mahlen Sie dafür etwas gröber als für den Siebträger.',
           ],
         ],
-        cta: 'Mit der richtigen Bohne beginnt der perfekte Espresso. Unsere beiden Mischungen aus Conegliano:',
+        cta: 'Mit der richtigen Bohne beginnt der perfekte Espresso. Unsere Mischungen aus Conegliano:',
       },
       fr: {
         title: 'Préparer un espresso : l’espresso parfait à la maison',
@@ -475,7 +475,7 @@ export const ARTICLES: Article[] = [
             'Les deux mélanges Dersut conviennent à la moka. Choisissez simplement une mouture un peu plus grossière que pour le porte-filtre.',
           ],
         ],
-        cta: 'L’espresso parfait commence par le bon grain. Nos deux mélanges de Conegliano :',
+        cta: 'L’espresso parfait commence par le bon grain. Nos mélanges de Conegliano :',
       },
       it: {
         title: 'Preparare l’espresso: l’espresso perfetto a casa',
@@ -547,7 +547,7 @@ export const ARTICLES: Article[] = [
             'Entrambe le miscele Dersut sono adatte alla moka. Basta macinare un po’ più grosso che per il portafiltro.',
           ],
         ],
-        cta: 'L’espresso perfetto inizia dal chicco giusto. Le nostre due miscele di Conegliano:',
+        cta: 'L’espresso perfetto inizia dal chicco giusto. Le nostre miscele di Conegliano:',
       },
       en: {
         title: 'How to make espresso: the perfect espresso at home',
@@ -619,7 +619,7 @@ export const ARTICLES: Article[] = [
             'Both Dersut blends work well in a moka pot. Just grind a little coarser than for a portafilter.',
           ],
         ],
-        cta: 'The perfect espresso starts with the right beans. Our two blends from Conegliano:',
+        cta: 'The perfect espresso starts with the right beans. Our blends from Conegliano:',
       },
     },
   },
@@ -641,7 +641,7 @@ export const ARTICLES: Article[] = [
         teaser:
           'Ausgewogener Allrounder oder kräftiger Charakter: der direkte Vergleich der beiden Dersut-Mischungen hilft Ihnen bei der Wahl.',
         lead:
-          'Dersut bietet in der Schweiz zwei Espressomischungen in der 1-kg-Packung an: den Optimum Rosso und den Domus Marrone. Beide stammen aus der Familienrösterei in Conegliano, die seit 1947 Kaffee röstet, und beide eignen sich für Vollautomat, Siebträger und Moka. Trotzdem schmecken sie deutlich verschieden. Dieser Vergleich zeigt, welche Bohne zu Ihnen passt.',
+          'Optimum Rosso und Domus Marrone sind die beiden Klassiker unter den Dersut-Espressomischungen in der 1-kg-Packung. Beide stammen aus der Familienrösterei in Conegliano, die seit 1947 Kaffee röstet, und beide eignen sich für Vollautomat, Siebträger und Moka. Trotzdem schmecken sie deutlich verschieden. Dieser Vergleich zeigt, welche Bohne zu Ihnen passt.',
         sections: [
           {
             h: 'Gemeinsamkeiten: gleiche Herkunft, gleiche Sorgfalt',
@@ -712,7 +712,7 @@ export const ARTICLES: Article[] = [
         teaser:
           'Polyvalent équilibré ou caractère corsé : ce comparatif des deux mélanges Dersut vous aide à faire le bon choix.',
         lead:
-          'En Suisse, Dersut propose deux mélanges espresso en paquet de 1 kg : l’Optimum Rosso et le Domus Marrone. Tous deux viennent de la torréfaction familiale de Conegliano, active depuis 1947, et conviennent à la machine automatique, au porte-filtre et à la moka. Leur goût est pourtant bien différent. Ce comparatif vous montre lequel vous correspond.',
+          'L’Optimum Rosso et le Domus Marrone sont les deux classiques parmi les mélanges espresso Dersut en paquet de 1 kg. Tous deux viennent de la torréfaction familiale de Conegliano, active depuis 1947, et conviennent à la machine automatique, au porte-filtre et à la moka. Leur goût est pourtant bien différent. Ce comparatif vous montre lequel vous correspond.',
         sections: [
           {
             h: 'Points communs : même origine, même soin',
@@ -783,7 +783,7 @@ export const ARTICLES: Article[] = [
         teaser:
           'Tuttofare equilibrato o carattere deciso: il confronto diretto tra le due miscele Dersut la aiuta a scegliere.',
         lead:
-          'In Svizzera Dersut propone due miscele espresso in confezione da 1 kg: l’Optimum Rosso e il Domus Marrone. Entrambe nascono nella torrefazione di famiglia di Conegliano, attiva dal 1947, ed entrambe sono adatte a macchina automatica, portafiltro e moka. Eppure il gusto è molto diverso. Questo confronto le mostra quale fa per lei.',
+          'L’Optimum Rosso e il Domus Marrone sono i due classici tra le miscele espresso Dersut in confezione da 1 kg. Entrambe nascono nella torrefazione di famiglia di Conegliano, attiva dal 1947, ed entrambe sono adatte a macchina automatica, portafiltro e moka. Eppure il gusto è molto diverso. Questo confronto le mostra quale fa per lei.',
         sections: [
           {
             h: 'Cosa le accomuna: stessa origine, stessa cura',
@@ -854,7 +854,7 @@ export const ARTICLES: Article[] = [
         teaser:
           'Balanced all-rounder or bold character: a direct comparison of the two Dersut blends to help you decide.',
         lead:
-          'In Switzerland, Dersut offers two espresso blends in 1 kg packs: Optimum Rosso and Domus Marrone. Both come from the family roastery in Conegliano, roasting coffee since 1947, and both work in bean-to-cup machines, portafilter machines and moka pots. Yet they taste noticeably different. This comparison shows which beans suit you.',
+          'Optimum Rosso and Domus Marrone are the two classics among Dersut’s espresso blends in 1 kg packs. Both come from the family roastery in Conegliano, roasting coffee since 1947, and both work in bean-to-cup machines, portafilter machines and moka pots. Yet they taste noticeably different. This comparison shows which beans suit you.',
         sections: [
           {
             h: 'What they share: same origin, same care',
@@ -962,14 +962,14 @@ export const ARTICLES: Article[] = [
           {
             h: 'Zwei Mischungen für jeden Geschmack',
             p: [
-              'Im Shop finden Sie zwei Espressomischungen als ganze Bohnen in der 1-kg-Packung. Der [Dersut Optimum Rosso](/shop/dersut-optimum-rosso-1kg) für CHF 29.90 ist der Allrounder mit lang anhaltender Crema, Noten von Kakao und Gebäck und Intensität 4 von 5, ideal für Espresso und Cappuccino. Der [Dersut Domus Marrone](/shop/dersut-domus-marrone-1kg) für CHF 26.90 hat mit Intensität 5 von 5 ein sehr intensives Aroma und einen starken, entschiedenen Charakter.',
+              'Im Shop finden Sie vier Espressomischungen als ganze Bohnen in der 1-kg-Packung, darunter die mit Gold prämierten [Dersut Non Plus Ultra](/shop/dersut-non-plus-ultra-1kg) aus 100 % Arabica und [Dersut Plus Oro](/shop/dersut-plus-oro-1kg). Der [Dersut Optimum Rosso](/shop/dersut-optimum-rosso-1kg) für CHF 29.90 ist der Allrounder mit lang anhaltender Crema, Noten von Kakao und Gebäck und Intensität 4 von 5, ideal für Espresso und Cappuccino. Der [Dersut Domus Marrone](/shop/dersut-domus-marrone-1kg) für CHF 26.90 hat mit Intensität 5 von 5 ein sehr intensives Aroma und einen starken, entschiedenen Charakter.',
               'Beide eignen sich für Vollautomat, Siebträger und Moka. Für den Vollautomaten stellen Sie einen mittelfeinen bis feinen Mahlgrad ein.',
             ],
           },
           {
             h: 'Versand in der ganzen Schweiz',
             p: [
-              'Wir versenden mit der Schweizerischen Post in die ganze Schweiz. Ihre Bestellung geht innert 1 bis 2 Werktagen nach Zahlungseingang auf den Weg. Der Versand kostet pauschal CHF 12. Ab einem Warenwert von CHF 100 liefern wir kostenlos, das entspricht zum Beispiel vier Packungen.',
+              'Wir versenden mit der Schweizerischen Post in die ganze Schweiz. Ihre Bestellung geht innert 1 bis 2 Werktagen nach Zahlungseingang auf den Weg. Der Versand kostet pauschal {ship}. Ab einem Warenwert von {free} liefern wir kostenlos, das entspricht zum Beispiel vier Packungen.',
               'Gerade wer regelmässig Espresso trinkt, profitiert davon: Mit vier Kilogramm sind Sie für einige Zeit versorgt, und dank der gut verschlossenen Originalpackungen bleibt jede ungeöffnete Packung frisch, bis Sie sie brauchen. Lagern Sie sie kühl, trocken und dunkel.',
             ],
           },
@@ -993,7 +993,7 @@ export const ARTICLES: Article[] = [
           ],
           [
             'Was kostet der Versand?',
-            'Pauschal CHF 12 in die ganze Schweiz. Ab CHF 100 Warenwert, zum Beispiel vier Packungen, ist der Versand kostenlos.',
+            'Pauschal {ship} in die ganze Schweiz. Ab {free} Warenwert, zum Beispiel vier Packungen, ist der Versand kostenlos.',
           ],
           [
             'Wie kann ich bezahlen?',
@@ -1039,14 +1039,14 @@ export const ARTICLES: Article[] = [
           {
             h: 'Deux mélanges pour tous les goûts',
             p: [
-              'La boutique propose deux mélanges espresso en grains entiers, en paquet de 1 kg. Le [Dersut Optimum Rosso](/shop/dersut-optimum-rosso-1kg), à CHF 29.90, est le polyvalent : crème persistante, notes de cacao et de pâtisserie, intensité 4 sur 5, idéal en espresso comme en cappuccino. Le [Dersut Domus Marrone](/shop/dersut-domus-marrone-1kg), à CHF 26.90, intensité 5 sur 5, offre un arôme très intense et un caractère fort et affirmé.',
+              'La boutique propose quatre mélanges espresso en grains entiers, en paquet de 1 kg, dont les médaillés d’or [Dersut Non Plus Ultra](/shop/dersut-non-plus-ultra-1kg) 100 % Arabica et [Dersut Plus Oro](/shop/dersut-plus-oro-1kg). Le [Dersut Optimum Rosso](/shop/dersut-optimum-rosso-1kg), à CHF 29.90, est le polyvalent : crème persistante, notes de cacao et de pâtisserie, intensité 4 sur 5, idéal en espresso comme en cappuccino. Le [Dersut Domus Marrone](/shop/dersut-domus-marrone-1kg), à CHF 26.90, intensité 5 sur 5, offre un arôme très intense et un caractère fort et affirmé.',
               'Les deux conviennent à la machine automatique, au porte-filtre et à la moka. En machine automatique, réglez une mouture moyennement fine à fine.',
             ],
           },
           {
             h: 'Livraison dans toute la Suisse',
             p: [
-              'Nous expédions avec La Poste suisse dans toute la Suisse. Votre commande part dans un délai de 1 à 2 jours ouvrables après réception du paiement. Les frais de port sont forfaitaires : CHF 12. Dès CHF 100 de marchandise, la livraison est offerte, soit par exemple quatre paquets.',
+              'Nous expédions avec La Poste suisse dans toute la Suisse. Votre commande part dans un délai de 1 à 2 jours ouvrables après réception du paiement. Les frais de port sont forfaitaires : {ship}. Dès {free} de marchandise, la livraison est offerte, soit par exemple quatre paquets.',
               'Si vous buvez de l’espresso régulièrement, c’est intéressant : avec quatre kilos, vous êtes servi pour un bon moment, et les paquets originaux bien fermés restent frais jusqu’à leur ouverture. Conservez-les au frais, au sec et à l’abri de la lumière.',
             ],
           },
@@ -1070,7 +1070,7 @@ export const ARTICLES: Article[] = [
           ],
           [
             'Combien coûte la livraison ?',
-            'CHF 12 forfaitaires dans toute la Suisse. Dès CHF 100 de marchandise, par exemple quatre paquets, la livraison est gratuite.',
+            '{ship} forfaitaires dans toute la Suisse. Dès {free} de marchandise, par exemple quatre paquets, la livraison est gratuite.',
           ],
           [
             'Comment puis-je payer ?',
@@ -1116,14 +1116,14 @@ export const ARTICLES: Article[] = [
           {
             h: 'Due miscele per ogni gusto',
             p: [
-              'Nel negozio trova due miscele espresso in grani interi, in confezione da 1 kg. Il [Dersut Optimum Rosso](/shop/dersut-optimum-rosso-1kg), a CHF 29.90, è il tuttofare: crema persistente, note di cacao e pasticceria, intensità 4 su 5, ideale per espresso e cappuccino. Il [Dersut Domus Marrone](/shop/dersut-domus-marrone-1kg), a CHF 26.90, intensità 5 su 5, ha un aroma molto intenso e un carattere forte e deciso.',
+              'Nel negozio trova quattro miscele espresso in grani interi, in confezione da 1 kg, tra cui le medaglie d’oro [Dersut Non Plus Ultra](/shop/dersut-non-plus-ultra-1kg) 100 % Arabica e [Dersut Plus Oro](/shop/dersut-plus-oro-1kg). Il [Dersut Optimum Rosso](/shop/dersut-optimum-rosso-1kg), a CHF 29.90, è il tuttofare: crema persistente, note di cacao e pasticceria, intensità 4 su 5, ideale per espresso e cappuccino. Il [Dersut Domus Marrone](/shop/dersut-domus-marrone-1kg), a CHF 26.90, intensità 5 su 5, ha un aroma molto intenso e un carattere forte e deciso.',
               'Entrambi sono adatti a macchina automatica, portafiltro e moka. In macchina automatica imposti una macinatura medio-fine o fine.',
             ],
           },
           {
             h: 'Spedizione in tutta la Svizzera',
             p: [
-              'Spediamo con la Posta Svizzera in tutta la Svizzera. Il suo ordine parte entro 1-2 giorni lavorativi dal ricevimento del pagamento. La spedizione costa CHF 12 forfettari. Da CHF 100 di merce la consegna è gratuita, per esempio con quattro confezioni.',
+              'Spediamo con la Posta Svizzera in tutta la Svizzera. Il suo ordine parte entro 1-2 giorni lavorativi dal ricevimento del pagamento. La spedizione costa {ship} forfettari. Da {free} di merce la consegna è gratuita, per esempio con quattro confezioni.',
               'Per chi beve espresso tutti i giorni è un vantaggio: con quattro chili è a posto per un bel po’, e le confezioni originali ben chiuse restano fresche fino all’apertura. Le conservi in luogo fresco, asciutto e al buio.',
             ],
           },
@@ -1147,7 +1147,7 @@ export const ARTICLES: Article[] = [
           ],
           [
             'Quanto costa la spedizione?',
-            'CHF 12 forfettari in tutta la Svizzera. Da CHF 100 di merce, per esempio quattro confezioni, la spedizione è gratuita.',
+            '{ship} forfettari in tutta la Svizzera. Da {free} di merce, per esempio quattro confezioni, la spedizione è gratuita.',
           ],
           [
             'Come posso pagare?',
@@ -1193,14 +1193,14 @@ export const ARTICLES: Article[] = [
           {
             h: 'Two blends for every taste',
             p: [
-              'The shop offers two espresso blends as whole beans in 1 kg packs. [Dersut Optimum Rosso](/shop/dersut-optimum-rosso-1kg) at CHF 29.90 is the all-rounder, with long-lasting crema, notes of cocoa and pastry and intensity 4 out of 5, ideal for espresso and cappuccino. [Dersut Domus Marrone](/shop/dersut-domus-marrone-1kg) at CHF 26.90 has intensity 5 out of 5, a very intense aroma and a strong, decisive character.',
+              'The shop offers four espresso blends as whole beans in 1 kg packs, including the gold-medal winners [Dersut Non Plus Ultra](/shop/dersut-non-plus-ultra-1kg), 100 % Arabica, and [Dersut Plus Oro](/shop/dersut-plus-oro-1kg). [Dersut Optimum Rosso](/shop/dersut-optimum-rosso-1kg) at CHF 29.90 is the all-rounder, with long-lasting crema, notes of cocoa and pastry and intensity 4 out of 5, ideal for espresso and cappuccino. [Dersut Domus Marrone](/shop/dersut-domus-marrone-1kg) at CHF 26.90 has intensity 5 out of 5, a very intense aroma and a strong, decisive character.',
               'Both suit bean-to-cup machines, portafilter machines and moka pots. For a fully automatic machine, set a medium-fine to fine grind.',
             ],
           },
           {
             h: 'Shipping all over Switzerland',
             p: [
-              'We ship with Swiss Post all over Switzerland. Your order goes out within 1 to 2 working days after we receive payment. Shipping costs a flat CHF 12. From CHF 100 in goods value, delivery is free, which is for example four packs.',
+              'We ship with Swiss Post all over Switzerland. Your order goes out within 1 to 2 working days after we receive payment. Shipping costs a flat {ship}. From {free} in goods value, delivery is free, which is for example four packs.',
               'If you drink espresso regularly, this pays off: four kilos keep you supplied for quite a while, and the well-sealed original packs stay fresh until you open them. Store them somewhere cool, dry and dark.',
             ],
           },
@@ -1224,7 +1224,7 @@ export const ARTICLES: Article[] = [
           ],
           [
             'How much does shipping cost?',
-            'A flat CHF 12 anywhere in Switzerland. From CHF 100 in goods value, for example four packs, shipping is free.',
+            'A flat {ship} anywhere in Switzerland. From {free} in goods value, for example four packs, shipping is free.',
           ],
           [
             'How can I pay?',

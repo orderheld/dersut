@@ -1,4 +1,6 @@
 import type { Metadata } from 'next';
+import { settingsReady } from '@/lib/db';
+import { shipText } from '@/lib/shipping-text';
 import Link from 'next/link';
 import { Icon } from '@/components/Icon';
 import { Img } from '@/components/Img';
@@ -28,7 +30,7 @@ const de = {
   benefits: [
     ['shield', 'Garantiert original', 'Alle Produkte stammen direkt von Dersut Caffè S.p.A. in Conegliano. Keine Parallelimporte, keine Graumarktware.'],
     ['flag', 'Schweizer Firma', `Ihr Vertragspartner ist die ${c.name} mit Sitz in der Schweiz. Rechnung und Zahlung in Franken.`],
-    ['truck', 'Lieferung in die ganze Schweiz', 'Versand mit der Schweizerischen Post, pauschal CHF 12.– (ab CHF 100.– gratis) pro Bestellung. Ohne Zollformalitäten, ohne Zusatzkosten.'],
+    ['truck', 'Lieferung in die ganze Schweiz', 'Versand mit der Schweizerischen Post, gratis ab {free} (sonst {ship}) pro Bestellung. Ohne Zollformalitäten, ohne Zusatzkosten.'],
     ['bank', 'Sichere Zahlung', `Sie bezahlen per Banküberweisung auf unser Konto bei der ${bankName}. Keine Kartendaten nötig.`],
     ['cup', 'Frische Ware', 'Wir beziehen laufend nach, damit Ihr Kaffee frisch bei Ihnen ankommt. Das Sortiment wird saisonal erweitert.'],
     ['users', 'Persönliche Beratung', 'Ob Privatkunde oder Gastronomie: Wir sind per E-Mail für Sie da und beraten Sie gerne persönlich.'],
@@ -47,7 +49,7 @@ const de = {
   uid: 'UID',
   ctaEyebrow: 'Onlineshop',
   ctaTitle: 'Original Dersut, geliefert in die ganze Schweiz',
-  ctaText: 'Optimum Rosso und Domus Marrone, je 1 kg Espressobohnen.',
+  ctaText: 'Non Plus Ultra, Plus Oro, Optimum Rosso und Domus Marrone, je 1 kg Espressobohnen.',
   ctaButton: 'Jetzt bestellen',
 };
 
@@ -65,7 +67,7 @@ const T: Record<Locale, typeof de> = {
     benefits: [
       ['shield', 'Original garanti', 'Tous les produits proviennent directement de Dersut Caffè S.p.A. à Conegliano. Aucune importation parallèle, aucun produit du marché gris.'],
       ['flag', 'Entreprise suisse', `Votre partenaire contractuel est ${c.name}, dont le siège est en Suisse. Facturation et paiement en francs.`],
-      ['truck', 'Livraison dans toute la Suisse', 'Expédition par La Poste suisse, forfait de CHF 12.– (livraison offerte dès CHF 100.–) par commande. Sans formalités douanières, sans frais supplémentaires.'],
+      ['truck', 'Livraison dans toute la Suisse', 'Expédition par La Poste suisse, livraison offerte dès {free} (sinon {ship}) par commande. Sans formalités douanières, sans frais supplémentaires.'],
       ['bank', 'Paiement sécurisé', `Vous payez par virement bancaire sur notre compte auprès de ${bankName}. Aucune donnée de carte nécessaire.`],
       ['cup', 'Produits frais', 'Nous nous réapprovisionnons en continu pour que votre café vous parvienne frais. L’assortiment s’enrichit au fil des saisons.'],
       ['users', 'Conseil personnalisé', 'Particulier ou professionnel de la restauration : nous sommes à votre disposition par e-mail et vous conseillons volontiers personnellement.'],
@@ -84,7 +86,7 @@ const T: Record<Locale, typeof de> = {
     uid: 'IDE',
     ctaEyebrow: 'Boutique en ligne',
     ctaTitle: 'Dersut original, livré dans toute la Suisse',
-    ctaText: 'Optimum Rosso et Domus Marrone, grains d’espresso en paquets de 1 kg.',
+    ctaText: 'Non Plus Ultra, Plus Oro, Optimum Rosso et Domus Marrone, grains d’espresso en paquets de 1 kg.',
     ctaButton: 'Commander maintenant',
   },
   it: {
@@ -99,7 +101,7 @@ const T: Record<Locale, typeof de> = {
     benefits: [
       ['shield', 'Originale garantito', 'Tutti i prodotti provengono direttamente da Dersut Caffè S.p.A. a Conegliano. Nessuna importazione parallela, nessuna merce del mercato grigio.'],
       ['flag', 'Azienda svizzera', `Il vostro partner contrattuale è ${c.name}, con sede in Svizzera. Fatturazione e pagamento in franchi svizzeri.`],
-      ['truck', 'Consegna in tutta la Svizzera', 'Spedizione con la Posta Svizzera, forfait di CHF 12.– (gratuita da CHF 100.–) per ordine. Senza formalità doganali, senza costi aggiuntivi.'],
+      ['truck', 'Consegna in tutta la Svizzera', 'Spedizione con la Posta Svizzera, gratuita da {free} (altrimenti {ship}) per ordine. Senza formalità doganali, senza costi aggiuntivi.'],
       ['bank', 'Pagamento sicuro', `Pagate con bonifico bancario sul nostro conto presso ${bankName}. Nessun dato della carta necessario.`],
       ['cup', 'Prodotti freschi', 'Ci riforniamo regolarmente affinché il vostro caffè arrivi fresco. L’assortimento viene ampliato di stagione in stagione.'],
       ['users', 'Consulenza personale', 'Clienti privati o gastronomia: siamo a vostra disposizione via e-mail e vi consigliamo volentieri di persona.'],
@@ -118,7 +120,7 @@ const T: Record<Locale, typeof de> = {
     uid: 'IDI',
     ctaEyebrow: 'Shop online',
     ctaTitle: 'Dersut originale, consegnato in tutta la Svizzera',
-    ctaText: 'Optimum Rosso e Domus Marrone, caffè in grani in confezioni da 1 kg.',
+    ctaText: 'Non Plus Ultra, Plus Oro, Optimum Rosso e Domus Marrone, caffè in grani in confezioni da 1 kg.',
     ctaButton: 'Ordina ora',
   },
   en: {
@@ -133,7 +135,7 @@ const T: Record<Locale, typeof de> = {
     benefits: [
       ['shield', 'Guaranteed original', 'All products come directly from Dersut Caffè S.p.A. in Conegliano. No parallel imports, no grey-market goods.'],
       ['flag', 'Swiss company', `Your contractual partner is ${c.name}, based in Switzerland. Invoicing and payment in Swiss francs.`],
-      ['truck', 'Delivery throughout Switzerland', 'Shipped by Swiss Post for a flat CHF 12.– (free from CHF 100.–) per order. No customs formalities, no extra costs.'],
+      ['truck', 'Delivery throughout Switzerland', 'Shipped by Swiss Post free from {free} (otherwise {ship}) per order. No customs formalities, no extra costs.'],
       ['bank', 'Secure payment', `You pay by bank transfer to our account with ${bankName}. No card details required.`],
       ['cup', 'Fresh stock', 'We restock continuously so that your coffee reaches you fresh. The range is extended seasonally.'],
       ['users', 'Personal advice', 'Whether you are a private customer or in hospitality, we are available by email and happy to advise you personally.'],
@@ -152,19 +154,21 @@ const T: Record<Locale, typeof de> = {
     uid: 'UID',
     ctaEyebrow: 'Online shop',
     ctaTitle: 'Original Dersut, delivered throughout Switzerland',
-    ctaText: 'Optimum Rosso and Domus Marrone, 1 kg of espresso beans each.',
+    ctaText: 'Non Plus Ultra, Plus Oro, Optimum Rosso and Domus Marrone, 1 kg of espresso beans each.',
     ctaButton: 'Order now',
   },
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  await settingsReady();
   const lang = asLocale((await params).lang);
-  return pageMeta(lang, PATH, T[lang].metaTitle, T[lang].metaDescription);
+  return pageMeta(lang, PATH, shipText(T[lang]).metaTitle, shipText(T[lang]).metaDescription);
 }
 
 export default async function Vertrieb({ params }: Props) {
+  await settingsReady();
   const lang = asLocale((await params).lang);
-  const t = T[lang];
+  const t = shipText(T[lang]);
   return (
     <>
       <PageHero lang={lang} img={brand('img_1')} crumb={t.crumb} eyebrow={t.eyebrow} title={t.title} lead={t.lead} />

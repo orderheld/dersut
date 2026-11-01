@@ -49,6 +49,8 @@ export const BRAND_ASSETS = {
   cert_best: 'https://www.dersut.it/media/5d/e4/33/1761577329/Best-Performer-2025.jpg',
   prod_optimum: 'https://www.dersut.it/media/45/f2/2f/1705477721/Grani%20Optimum%20SP.jpg',
   prod_domus: 'https://www.dersut.it/media/87/43/b9/1705477319/Grani%20Domus%20OS.jpg',
+  prod_nonplusultra: 'https://www.dersut.it/media/73/f2/3d/1705476152/Grani%20Non%20Plus%20Ultra.jpg',
+  prod_plusoro: 'https://www.dersut.it/media/48/a0/fa/1705478599/Grani%20Plus%20Oro.jpg',
 } as const;
 
 export type BrandKey = keyof typeof BRAND_ASSETS;

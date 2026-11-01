@@ -1,8 +1,9 @@
 import type { Metadata } from 'next';
+import { settingsReady } from '@/lib/db';
 import { redirect } from 'next/navigation';
 import { CartSync } from '@/components/CartSync';
 import { CheckoutForm } from '@/components/CheckoutForm';
-import { cartSummary } from '@/lib/cart';
+import { checkoutCart } from '@/lib/testcode';
 import { onlinePayment } from '@/lib/config';
 import { chf } from '@/lib/format';
 import { getDict } from '@/i18n';
@@ -12,13 +13,15 @@ export const dynamic = 'force-dynamic';
 type Props = { params: Promise<{ lang: string }> };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  await settingsReady();
   return { title: getDict(asLocale((await params).lang)).checkout.title, robots: { index: false } };
 }
 
 export default async function Kasse({ params }: Props) {
+  await settingsReady();
   const lang = asLocale((await params).lang);
   const T = getDict(lang);
-  const cart = await cartSummary(lang);
+  const cart = await checkoutCart(lang);
   if (!cart.items.length) redirect(lp(lang, '/warenkorb'));
   const summary = (
     <>
@@ -30,6 +33,7 @@ export default async function Kasse({ params }: Props) {
       </ul>
       <div className="summary__row"><span>{T.cart.subtotal}</span><span>{chf(cart.subtotal)}</span></div>
       <div className="summary__row"><span>{T.cart.shipping}</span><span>{cart.shipping ? chf(cart.shipping) : T.cart.free}</span></div>
+      {cart.discount ? <div className="summary__row summary__row--test"><span>{T.cart.discount}</span><span>– {chf(cart.discount)}</span></div> : null}
       <div className="summary__row summary__row--total"><span>{T.cart.total}</span><span>{chf(cart.total)}</span></div>
       <p className="summary__vat">{T.common.inclVatRate(cart.vatRate)} ({chf(cart.vat)})</p>
     </>

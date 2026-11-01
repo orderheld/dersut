@@ -4,6 +4,7 @@ import { REGIONS } from '@/content/regions';
 import { productImage } from '@/lib/brand';
 import { LOCALES, lp } from '@/lib/i18n';
 import { getProducts } from '@/lib/products';
+import { shopCategories } from '@/lib/categories';
 import { absolute, languageAlternates } from '@/lib/seo';
 
 export const dynamic = 'force-dynamic';
@@ -21,9 +22,14 @@ const PAGES: [string, number][] = [
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const products = await getProducts();
   const out: MetadataRoute.Sitemap = [];
+  const cats = shopCategories(products, 'de');
   for (const lang of LOCALES) {
     for (const [path, priority] of PAGES) {
       out.push({ url: absolute(lp(lang, path)), lastModified: CONTENT_UPDATED, changeFrequency: 'monthly', priority, alternates: { languages: languageAlternates(path) } });
+    }
+    for (const c of cats) {
+      const path = `/shop/kategorie/${c.slug}`;
+      out.push({ url: absolute(lp(lang, path)), lastModified: CONTENT_UPDATED, changeFrequency: 'weekly', priority: 0.8, alternates: { languages: languageAlternates(path) } });
     }
     for (const p of products) {
       const path = `/shop/${p.slug}`;

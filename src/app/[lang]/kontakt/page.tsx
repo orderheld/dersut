@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { settingsReady } from '@/lib/db';
 import { Fragment } from 'react';
 import { ContactFormAuto } from '@/components/ContactForm';
 import { Icon } from '@/components/Icon';
@@ -12,12 +13,14 @@ import { pageMeta } from '@/lib/seo';
 type Props = { params: Promise<{ lang: string }> };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  await settingsReady();
   const lang = asLocale((await params).lang);
   const t = getDict(lang).contact;
   return pageMeta(lang, '/kontakt', t.metaTitle, t.metaDescription);
 }
 
 export default async function Kontakt({ params }: Props) {
+  await settingsReady();
   const lang = asLocale((await params).lang);
   const T = getDict(lang);
   const t = T.contact;

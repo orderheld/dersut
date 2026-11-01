@@ -132,6 +132,9 @@ export const SCHEMA = [
   )`,
   // Kategorie eines Produkts (Kennung aus den Einstellungen, leer = keine)
   `ALTER TABLE products ADD COLUMN IF NOT EXISTS category TEXT NOT NULL DEFAULT ''`,
+  // Test-Bestellungen mit dem geheimen Testcode aus dem Admin (Rabatt in Rappen)
+  `ALTER TABLE orders ADD COLUMN IF NOT EXISTS discount INTEGER NOT NULL DEFAULT 0`,
+  `ALTER TABLE orders ADD COLUMN IF NOT EXISTS is_test BOOLEAN NOT NULL DEFAULT false`,
   // Lagerbestand darf nie negativ werden: Zwei gleichzeitige Bestellungen für das letzte Stück scheitern so sauber
   `DO $$ BEGIN
      IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'products_stock_nonneg') THEN
@@ -173,4 +176,39 @@ export const SEED_PRODUCTS = [
     accent: '#6B4430',
     sort: 20,
   },
+  {
+    slug: 'dersut-non-plus-ultra-1kg',
+    name: 'Dersut Non Plus Ultra',
+    line: 'Non Plus Ultra',
+    subtitle: 'Espressobohnen · 1 kg',
+    description:
+      'Non Plus Ultra ist die edelste Mischung von Dersut: 100 % Arabica aus den feinsten gewaschenen und naturbelassenen Sorten, vor allem aus Mittelamerika und vom Horn von Afrika. Florale und fruchtige Noten, eine elegante Zitrusfrische und ein feiner Nachklang von Kakao und Nüssen machen ihn zum Espresso für besondere Momente. Ausgezeichnet mit der Gold Medal des International Coffee Tasting.',
+    notes: 'Floral, Zitrus, Mandel, Kakao',
+    blend: '100 % Arabica',
+    weight: '1 kg',
+    price: 3990,
+    image: 'brand:prod_nonplusultra',
+    intensity: 3,
+    accent: '#B8913A',
+    sort: 2,
+  },
+  {
+    slug: 'dersut-plus-oro-1kg',
+    name: 'Dersut Plus Oro',
+    line: 'Plus Oro',
+    subtitle: 'Espressobohnen · 1 kg',
+    description:
+      'Plus Oro ist die harmonische Goldmischung von Dersut: ausgewählte Arabica- und Robusta-Sorten, weich und zugleich intensiv, mit mittlerem Körper und feiner Säure. Noten von Feingebäck und Kakaobohne, ein Hauch von Gewürzen und ein Nachklang von Kakao und Haselnuss machen ihn rund und süss. Mehrfach mit der Gold Medal des International Coffee Tasting ausgezeichnet.',
+    notes: 'Feingebäck, Kakao, Haselnuss, Gewürze',
+    blend: 'Arabica & Robusta',
+    weight: '1 kg',
+    price: 3490,
+    image: 'brand:prod_plusoro',
+    intensity: 4,
+    accent: '#8E7A45',
+    sort: 4,
+  },
 ];
+
+/** Produkte, die nach dem Start ins bestehende Sortiment kamen: werden einmalig ergänzt (nicht erneut, falls im Admin gelöscht). */
+export const ADDED_PRODUCTS = ['dersut-non-plus-ultra-1kg', 'dersut-plus-oro-1kg'];

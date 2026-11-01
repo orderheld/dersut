@@ -83,6 +83,7 @@ export async function OrdersView({ dashboard, status, q, ok, mail }: { dashboard
                     <td className="c-no">
                       <Link className="ordlink" href={`/admin/bestellungen/${o.id}`}>{o.number}</Link>
                       {o.created_at.getTime() > dayAgo && o.status !== 'cancelled' && <span className="is-new">NEU</span>}
+                      {o.is_test && <span className="badge badge--test">TEST</span>}
                       <span className="pay">{o.payment_method === 'online' ? 'Online bezahlt' : 'Vorauskasse'}</span>
                     </td>
                     <td className="muted c-date">{dateCh(o.created_at, true)}</td>

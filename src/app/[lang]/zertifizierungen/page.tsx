@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { settingsReady } from '@/lib/db';
 import Link from 'next/link';
 import { Icon } from '@/components/Icon';
 import { Img } from '@/components/Img';
@@ -40,7 +41,7 @@ const de = {
   awardsEyebrow: 'Auszeichnungen',
   awardsTitle: 'Prämiert von Fachwelt und Wirtschaft',
   awards: [
-    ['2014 · 2016 · 2018 · 2022', 'Gold Medal', 'Goldmedaillen für die Mischungen PLUS Oro (2014 und 2018) und Non Plus Ultra (2016 und 2022).'],
+    ['2014 · 2016 · 2018 · 2022 · 2025', 'Gold Medal', 'Goldmedaillen des International Coffee Tasting (IIAC) für die Mischungen Plus Oro (2014, 2018 und 2025) und Non Plus Ultra (2016, 2022 und 2025). Beide Sorten erhalten Sie bei uns im Shop.'],
     ['Espresso Award', 'Premio Camaleonte', 'Auszeichnung für die Mischung Selezione del Conte aus 100 % Arabica.'],
     ['Accademia Italiana della Cucina', 'Premio della Qualità «Dino Villani»', 'Jährlicher Preis der Accademia Italiana della Cucina für hochwertige gastronomische Produkte.'],
     ['2025 · Il Sole 24 Ore', 'Premio Impresa Sostenibile', 'Auszeichnung in der Kategorie «Wirtschaftliche Nachhaltigkeit» am 22. Oktober 2025.'],
@@ -77,7 +78,7 @@ const T: Record<Locale, typeof de> = {
     awardsEyebrow: 'Distinctions',
     awardsTitle: 'Primé par les experts et le monde économique',
     awards: [
-      ['2014 · 2016 · 2018 · 2022', 'Gold Medal', 'Médailles d’or pour les mélanges PLUS Oro (2014 et 2018) et Non Plus Ultra (2016 et 2022).'],
+      ['2014 · 2016 · 2018 · 2022 · 2025', 'Gold Medal', 'Médailles d’or de l’International Coffee Tasting (IIAC) pour les mélanges Plus Oro (2014, 2018 et 2025) et Non Plus Ultra (2016, 2022 et 2025). Les deux sont disponibles dans notre boutique.'],
       ['Espresso Award', 'Premio Camaleonte', 'Distinction pour le mélange Selezione del Conte, 100 % Arabica.'],
       ['Accademia Italiana della Cucina', 'Premio della Qualità «Dino Villani»', 'Prix annuel de l’Accademia Italiana della Cucina récompensant des produits gastronomiques d’excellence.'],
       ['2025 · Il Sole 24 Ore', 'Premio Impresa Sostenibile', 'Distinction dans la catégorie « Durabilité économique », le 22 octobre 2025.'],
@@ -111,7 +112,7 @@ const T: Record<Locale, typeof de> = {
     awardsEyebrow: 'Riconoscimenti',
     awardsTitle: 'Premiato da esperti e mondo economico',
     awards: [
-      ['2014 · 2016 · 2018 · 2022', 'Gold Medal', 'Medaglie d’oro per le miscele PLUS Oro (2014 e 2018) e Non Plus Ultra (2016 e 2022).'],
+      ['2014 · 2016 · 2018 · 2022 · 2025', 'Gold Medal', 'Medaglie d’oro dell’International Coffee Tasting (IIAC) per le miscele Plus Oro (2014, 2018 e 2025) e Non Plus Ultra (2016, 2022 e 2025). Entrambe disponibili nel nostro negozio.'],
       ['Espresso Award', 'Premio Camaleonte', 'Riconoscimento per la miscela Selezione del Conte, 100 % Arabica.'],
       ['Accademia Italiana della Cucina', 'Premio della Qualità «Dino Villani»', 'Premio annuale dell’Accademia Italiana della Cucina per prodotti gastronomici di eccellenza.'],
       ['2025 · Il Sole 24 Ore', 'Premio Impresa Sostenibile', 'Riconoscimento nella categoria «Sostenibilità economica» il 22 ottobre 2025.'],
@@ -145,7 +146,7 @@ const T: Record<Locale, typeof de> = {
     awardsEyebrow: 'Awards',
     awardsTitle: 'Recognised by experts and the business world',
     awards: [
-      ['2014 · 2016 · 2018 · 2022', 'Gold Medal', 'Gold medals for the PLUS Oro (2014 and 2018) and Non Plus Ultra (2016 and 2022) blends.'],
+      ['2014 · 2016 · 2018 · 2022 · 2025', 'Gold Medal', 'International Coffee Tasting (IIAC) gold medals for the Plus Oro (2014, 2018 and 2025) and Non Plus Ultra (2016, 2022 and 2025) blends. Both are available in our shop.'],
       ['Espresso Award', 'Premio Camaleonte', 'Awarded to the Selezione del Conte blend, 100% Arabica.'],
       ['Accademia Italiana della Cucina', 'Premio della Qualità “Dino Villani”', 'Annual prize of the Accademia Italiana della Cucina for outstanding gastronomic products.'],
       ['2025 · Il Sole 24 Ore', 'Premio Impresa Sostenibile', 'Awarded in the “Economic Sustainability” category on 22 October 2025.'],
@@ -160,6 +161,7 @@ const T: Record<Locale, typeof de> = {
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  await settingsReady();
   const lang = asLocale((await params).lang);
   return pageMeta(lang, PATH, T[lang].metaTitle, T[lang].metaDescription);
 }
@@ -178,6 +180,7 @@ function CertList({ items, imgs }: { items: Entry[]; imgs: BrandKey[] }) {
 }
 
 export default async function Zertifizierungen({ params }: Props) {
+  await settingsReady();
   const lang = asLocale((await params).lang);
   const t = T[lang];
   return (

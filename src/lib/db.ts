@@ -1,8 +1,13 @@
 import 'server-only';
 import { neon } from '@neondatabase/serverless';
-import { SCHEMA, SEED_PRODUCTS } from './schema';
+import { ADDED_PRODUCTS, SCHEMA, SEED_PRODUCTS } from './schema';
 import { SEED_TRANSLATIONS, SEO_DESCRIPTION_UPDATES } from './product-seed-i18n';
 import { applySettings, parseSettings, SETTINGS_KEY } from './settings-core';
+import { seedCategories } from './category-seed';
+import { config } from './config';
+
+const PHONE_FLAG = 'phone:2026-11-01';
+const CURRENT_PHONE = config.company.phone;
 
 export type Row = Record<string, any>;
 export type Query = { text: string; params?: unknown[] };
@@ -31,7 +36,10 @@ async function createDriver(): Promise<Driver> {
   // Lokaler Test ohne Neon: DATABASE_URL="pglite:./.data"
   if (url.startsWith('pglite:')) {
     const { PGlite } = await import('@electric-sql/pglite');
-    const db = new PGlite(url.slice('pglite:'.length) || undefined);
+    // Eine Instanz pro Prozess: Seiten und API-Routen liegen in getrennten Bundles und würden sonst
+    // dieselbe Datenbankdatei zweimal öffnen (führt lokal zu «RuntimeError: Aborted()»).
+    const g = globalThis as { __dersutPglite?: InstanceType<typeof PGlite> };
+    const db = (g.__dersutPglite ??= new PGlite(url.slice('pglite:'.length) || undefined));
     return {
       query: async (text, params = []) => (await db.query<Row>(text, params as any[])).rows,
       transaction: async (queries) => {
@@ -67,6 +75,23 @@ async function getDriver(): Promise<Driver> {
           );
         }
       }
+      // Neue Sorten einmalig ins bestehende Sortiment aufnehmen (Kategorie wie die übrigen Espressobohnen)
+      for (const slug of ADDED_PRODUCTS) {
+        const flag = `seed_product:${slug}`;
+        if ((await d.query('SELECT 1 FROM app_settings WHERE key = $1', [flag])).length) continue;
+        const p = SEED_PRODUCTS.find((x) => x.slug === slug);
+        if (p) {
+          const keys = Object.keys(p);
+          await d.query(
+            `INSERT INTO products (${keys.join(', ')}, category)
+             VALUES (${keys.map((_, i) => '$' + (i + 1)).join(', ')},
+               COALESCE((SELECT category FROM products WHERE category <> '' ORDER BY sort, id LIMIT 1), ''))
+             ON CONFLICT (slug) DO NOTHING`,
+            Object.values(p),
+          );
+        }
+        await d.query(`INSERT INTO app_settings (key, value) VALUES ($1, '1') ON CONFLICT (key) DO NOTHING`, [flag]);
+      }
       // Übersetzungen und Galerie der Startprodukte nachtragen, solange noch leer
       for (const [slug, seed] of Object.entries(SEED_TRANSLATIONS)) {
         await d.query(
@@ -83,6 +108,17 @@ async function getDriver(): Promise<Driver> {
           [slug, lang, old, next],
         );
       }
+      // Telefonnummer einmalig auf die aktuelle Nummer setzen (Stand 2026-11-01), danach im Admin änderbar
+      if (!(await d.query('SELECT 1 FROM app_settings WHERE key = $1', [PHONE_FLAG])).length) {
+        const rows = await d.query('SELECT value FROM app_settings WHERE key = $1', [SETTINGS_KEY]);
+        if (rows[0]) {
+          const s = parseSettings(rows[0].value);
+          s.company.phone = CURRENT_PHONE;
+          await d.query('UPDATE app_settings SET value = $2 WHERE key = $1', [SETTINGS_KEY, JSON.stringify(s)]);
+        }
+        await d.query(`INSERT INTO app_settings (key, value) VALUES ($1, '1') ON CONFLICT (key) DO NOTHING`, [PHONE_FLAG]);
+      }
+      await seedCategories(d.query);
       await refreshSettings(d);
       return d;
     })().catch((e) => {
@@ -110,4 +146,13 @@ export async function reloadSettings(): Promise<void> {
 
 export async function transaction(queries: Query[]): Promise<void> {
   await (await getDriver()).transaction(queries);
+}
+
+/**
+ * Vor dem Anzeigen von Texten mit Versandbeträgen oder Firmendaten aufrufen: stellt sicher, dass die
+ * Einstellungen aus dem Admin geladen sind (auch auf Seiten, die sonst keine Datenbank brauchen).
+ */
+export async function settingsReady(): Promise<void> {
+  const d = await getDriver();
+  if (Date.now() - settingsLoadedAt > 60_000) await refreshSettings(d);
 }

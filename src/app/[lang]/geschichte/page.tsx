@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { settingsReady } from '@/lib/db';
 import type { ReactNode } from 'react';
 import Link from 'next/link';
 import { Icon } from '@/components/Icon';
@@ -53,7 +54,7 @@ const de = {
   ],
   ctaEyebrow: 'Jetzt probieren',
   ctaTitle: '75 Jahre Erfahrung in jeder Tasse',
-  ctaText: 'Entdecken Sie Optimum und Domus, direkt vom offiziellen Vertrieb in der Schweiz.',
+  ctaText: 'Entdecken Sie Non Plus Ultra, Plus Oro, Optimum und Domus, direkt vom offiziellen Vertrieb in der Schweiz.',
   ctaButton: 'Zum Shop',
 };
 
@@ -99,7 +100,7 @@ const T: Record<Locale, typeof de> = {
     ],
     ctaEyebrow: 'À déguster',
     ctaTitle: '75 ans d’expérience dans chaque tasse',
-    ctaText: 'Découvrez Optimum et Domus, directement auprès du distributeur officiel en Suisse.',
+    ctaText: 'Découvrez Non Plus Ultra, Plus Oro, Optimum et Domus, directement auprès du distributeur officiel en Suisse.',
     ctaButton: 'Vers la boutique',
   },
   it: {
@@ -142,7 +143,7 @@ const T: Record<Locale, typeof de> = {
     ],
     ctaEyebrow: 'Da assaggiare',
     ctaTitle: '75 anni di esperienza in ogni tazzina',
-    ctaText: 'Scoprite Optimum e Domus, direttamente dal distributore ufficiale in Svizzera.',
+    ctaText: 'Scoprite Non Plus Ultra, Plus Oro, Optimum e Domus, direttamente dal distributore ufficiale in Svizzera.',
     ctaButton: 'Vai allo shop',
   },
   en: {
@@ -185,17 +186,19 @@ const T: Record<Locale, typeof de> = {
     ],
     ctaEyebrow: 'Taste it now',
     ctaTitle: '75 years of experience in every cup',
-    ctaText: 'Discover Optimum and Domus, direct from the official distributor in Switzerland.',
+    ctaText: 'Discover Non Plus Ultra, Plus Oro, Optimum and Domus, direct from the official distributor in Switzerland.',
     ctaButton: 'Go to the shop',
   },
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  await settingsReady();
   const lang = asLocale((await params).lang);
   return pageMeta(lang, PATH, T[lang].metaTitle, T[lang].metaDescription);
 }
 
 export default async function Geschichte({ params }: Props) {
+  await settingsReady();
   const lang = asLocale((await params).lang);
   const t = T[lang];
   return (
