@@ -1,5 +1,7 @@
 import type { Metadata } from 'next';
-import { PageHero } from '@/components/PageHero';
+import { settingsReady } from '@/lib/db';
+import { ShopHead } from '@/components/ShopHead';
+import { shopCategories } from '@/lib/categories';
 import { ProductCard } from '@/components/ProductCard';
 import { getDict } from '@/i18n';
 import { asLocale, lp } from '@/lib/i18n';
@@ -12,7 +14,6 @@ import { absolute, breadcrumbLd, jsonLd, pageMeta } from '@/lib/seo';
 import { productImage } from '@/lib/brand';
 import { onlinePayment } from '@/lib/config';
 import type { Locale } from '@/lib/i18n';
-import { categoryName, currentSettings } from '@/lib/settings-core';
 
 type Props = { params: Promise<{ lang: string }> };
 
@@ -63,19 +64,21 @@ const GUIDE: Record<Locale, { eyebrow: string; title: string; text: string; inte
 const OTHER: Record<string, string> = { de: 'Weitere Produkte', fr: 'Autres produits', it: 'Altri prodotti', en: 'More products' };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  await settingsReady();
   const lang = asLocale((await params).lang);
   const t = getDict(lang).shop;
   return pageMeta(lang, '/shop', t.metaTitle, t.metaDescription);
 }
 
 export default async function Shop({ params }: Props) {
+  await settingsReady();
   const lang = asLocale((await params).lang);
   const t = getDict(lang);
   const products = await getProducts(true, lang);
   // Nach Kategorie gruppieren, sobald mindestens zwei Kategorien belegt sind (Reihenfolge wie in den Einstellungen)
-  const order = currentSettings().categories.map((c) => c.slug);
-  const groups = [...order, '']
-    .map((slug) => ({ slug, items: products.filter((p) => (order.includes(p.category) ? p.category : '') === slug) }))
+  const cats = shopCategories(products, lang);
+  const groups = [...cats.map((c) => ({ slug: c.slug, name: c.name })), { slug: '', name: OTHER[lang] }]
+    .map((c) => ({ ...c, items: products.filter((p) => (cats.some((x) => x.slug === p.category) ? p.category : '') === c.slug) }))
     .filter((g) => g.items.length);
   const g = GUIDE[lang];
   const compare = ARTICLES.find((a) => a.slug === 'optimum-oder-domus');
@@ -95,20 +98,20 @@ export default async function Shop({ params }: Props) {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={jsonLd([ld, breadcrumbLd(lang, [[t.nav.shop, '/shop']])])} />
-      <PageHero
+      <ShopHead
         lang={lang}
-        ld={false}
-        crumb={t.nav.shop}
-        eyebrow={t.shop.eyebrow}
+        crumbs={[[t.nav.shop]]}
         title={<span dangerouslySetInnerHTML={{ __html: t.shop.heading }} />}
         lead={t.shop.lead}
+        cats={cats}
+        total={products.length}
       />
-      <section className="section">
+      <section className="section shop-list">
         <div className="wrap">
           {groups.length > 1 ? (
             groups.map((g) => (
               <div key={g.slug || 'other'} className="pgroup">
-                <h2 className="pgroup__title">{g.slug ? categoryName(g.slug, lang) : OTHER[lang]}</h2>
+                <h2 className="pgroup__title">{g.slug ? <Link href={lp(lang, `/shop/kategorie/${g.slug}`)}>{g.name}</Link> : g.name}</h2>
                 <div className="pgrid">
                   {g.items.map((p) => <ProductCard key={p.id} p={p} lang={lang} level={3} />)}
                 </div>

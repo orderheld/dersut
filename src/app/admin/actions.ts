@@ -426,6 +426,15 @@ export async function saveSettingsAction(_prev: FormState, fd: FormData): Promis
   const paymentDays = Math.floor(Number(str(fd, 'paymentDays')));
   if (!(paymentDays >= 1 && paymentDays <= 60)) return { error: 'Die Zahlungsfrist muss zwischen 1 und 60 Tagen liegen.' };
 
+  const chfIn = (k: string) => {
+    const v = str(fd, k).replace(',', '.').replace(/[^\d.]/g, '');
+    return v === '' ? NaN : Math.round(parseFloat(v) * 100);
+  };
+  const shipping = chfIn('shipping');
+  const freeShippingFrom = chfIn('freeShippingFrom');
+  if (!(shipping >= 0 && shipping <= 100_00)) return { error: 'Die Versandpauschale muss zwischen CHF 0 und CHF 100 liegen.' };
+  if (!(freeShippingFrom >= 0 && freeShippingFrom <= 10_000_00)) return { error: 'Der Betrag für Gratisversand muss zwischen CHF 0 und CHF 10’000 liegen.' };
+
   const categories: Category[] = [];
   const names = fd.getAll('cat_de').map(String);
   names.forEach((de, i) => {
@@ -434,7 +443,12 @@ export async function saveSettingsAction(_prev: FormState, fd: FormData): Promis
     const slug = String(fd.getAll('cat_slug')[i] ?? '').trim() || slugify(name);
     if (categories.some((c) => c.slug === slug)) return;
     const tr = (l: string) => String(fd.getAll(`cat_${l}`)[i] ?? '').trim().slice(0, 60) || undefined;
-    categories.push({ slug, de: name.slice(0, 60), fr: tr('fr'), it: tr('it'), en: tr('en') });
+    const text: Category['text'] = {};
+    for (const l of ['de', 'fr', 'it', 'en'] as const) {
+      const v = String(fd.getAll(`cat_text_${l}`)[i] ?? '').trim().slice(0, 400);
+      if (v) text[l] = v;
+    }
+    categories.push({ slug, de: name.slice(0, 60), fr: tr('fr'), it: tr('it'), en: tr('en'), ...(Object.keys(text).length ? { text } : {}) });
   });
 
   const settings: SiteSettings = {
@@ -442,6 +456,8 @@ export async function saveSettingsAction(_prev: FormState, fd: FormData): Promis
     email,
     bank: { holder: str(fd, 'bank_holder'), bank: str(fd, 'bank_bank'), iban },
     paymentDays,
+    shipping,
+    freeShippingFrom,
     categories,
   };
   await query(

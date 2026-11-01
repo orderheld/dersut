@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { settingsReady } from '@/lib/db';
 import { notFound } from 'next/navigation';
 import { CopyButton } from '@/components/CopyButton';
 import { Icon } from '@/components/Icon';
@@ -18,11 +19,13 @@ export const dynamic = 'force-dynamic';
 type Props = { params: Promise<{ lang: string; number: string }>; searchParams: Promise<{ t?: string; neu?: string; zahlung?: string }> };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  await settingsReady();
   const { lang, number } = await params;
   return { title: getDict(asLocale(lang)).order.metaTitle(number), robots: { index: false } };
 }
 
 export default async function Bestellung({ params, searchParams }: Props) {
+  await settingsReady();
   const { number, lang: l } = await params;
   const lang = asLocale(l);
   const T = getDict(lang);

@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { settingsReady } from '@/lib/db';
 import { PageHero } from '@/components/PageHero';
 import { config, onlinePayment } from '@/lib/config';
 import { companyAddressLines } from '@/lib/format';
@@ -155,12 +156,14 @@ function texts(lang: Locale): typeof de {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  await settingsReady();
   const lang = asLocale((await params).lang);
   const t = texts(lang);
   return pageMeta(lang, PATH, t.metaTitle, t.metaDescription);
 }
 
 export default async function Datenschutz({ params }: Props) {
+  await settingsReady();
   const lang = asLocale((await params).lang);
   const t = texts(lang);
   const address = companyAddressLines().map((l) => (l === 'Schweiz' ? t.country : l));

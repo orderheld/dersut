@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { settingsReady } from '@/lib/db';
 import type { ReactNode } from 'react';
 import Link from 'next/link';
 import { Icon } from '@/components/Icon';
@@ -191,11 +192,13 @@ const T: Record<Locale, typeof de> = {
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  await settingsReady();
   const lang = asLocale((await params).lang);
   return pageMeta(lang, PATH, T[lang].metaTitle, T[lang].metaDescription);
 }
 
 export default async function Geschichte({ params }: Props) {
+  await settingsReady();
   const lang = asLocale((await params).lang);
   const t = T[lang];
   return (

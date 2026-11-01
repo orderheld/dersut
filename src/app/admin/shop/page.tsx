@@ -53,7 +53,7 @@ export default async function ShopSettings() {
           </section>
           <section className="card form" id="kategorien">
             <h2>Kategorien</h2>
-            <p className="muted small">Ordnen die Produkte im Shop. Sobald Produkte in mindestens zwei Kategorien sind, zeigt der Shop sie nach Kategorie gruppiert. Zuordnung beim Produkt.</p>
+            <p className="muted small">Ordnen die Produkte im Shop: Kundinnen filtern oben im Shop nach Kategorie, und jede Kategorie mit Produkten hat eine eigene Seite (gut für Google). Leere Kategorien bleiben unsichtbar. Zuordnung beim Produkt, Reihenfolge wie hier.</p>
             <CategoryEditor initial={s.categories} counts={counts} />
           </section>
         </div>
@@ -66,10 +66,13 @@ export default async function ShopSettings() {
             <p className="muted small" style={{ marginTop: -8 }}>Erscheint auf Rechnungen, im QR-Zahlteil und in der Bestellbestätigung. Bitte genau prüfen.</p>
             <label>Zahlungsfrist Vorauskasse (Tage)<input name="paymentDays" type="number" min={1} max={60} required defaultValue={config.shop.paymentDays} /></label>
           </section>
-          <section className="card">
+          <section className="card form" id="versand">
             <h2>Versand</h2>
-            <p className="small">Pauschal <strong>{chf(config.shop.shipping)}</strong>, gratis ab <strong>{chf(config.shop.freeShippingFrom)}</strong> Warenwert. MWST {config.shop.vatRate} %.</p>
-            <p className="muted small">Diese Beträge stehen auch in vielen Texten der Webseite in vier Sprachen. Für eine Änderung bitte kurz Bescheid geben, dann wird alles zusammen angepasst.</p>
+            <div className="row2">
+              <label>Versandpauschale (CHF)<input name="shipping" inputMode="decimal" required defaultValue={(config.shop.shipping / 100).toFixed(2)} /></label>
+              <label>Gratisversand ab Warenwert (CHF)<input name="freeShippingFrom" inputMode="decimal" required defaultValue={(config.shop.freeShippingFrom / 100).toFixed(2)} /></label>
+            </div>
+            <p className="muted small" style={{ marginTop: -8 }}>Gilt sofort für Warenkorb, Kasse, Google-Shopping-Feed und alle Texte der Webseite in vier Sprachen (z. B. «Gratis Versand ab {chf(config.shop.freeShippingFrom)}»). Gratisversand ab 0 = immer gratis. Testbestellungen bleiben immer versandkostenfrei. MWST {config.shop.vatRate} %.</p>
           </section>
           <div className="savebar"><button className="btn btn--primary btn--lg btn--block" type="submit">Speichern</button></div>
         </div>

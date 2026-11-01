@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { settingsReady } from '@/lib/db';
 import Link from 'next/link';
 import { Icon } from '@/components/Icon';
 import { Img } from '@/components/Img';
@@ -160,6 +161,7 @@ const T: Record<Locale, typeof de> = {
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  await settingsReady();
   const lang = asLocale((await params).lang);
   return pageMeta(lang, PATH, T[lang].metaTitle, T[lang].metaDescription);
 }
@@ -178,6 +180,7 @@ function CertList({ items, imgs }: { items: Entry[]; imgs: BrandKey[] }) {
 }
 
 export default async function Zertifizierungen({ params }: Props) {
+  await settingsReady();
   const lang = asLocale((await params).lang);
   const t = T[lang];
   return (

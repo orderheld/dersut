@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { settingsReady } from '@/lib/db';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import type { CSSProperties } from 'react';
@@ -39,6 +40,7 @@ function galleryOf(p: LocalizedProduct): GalleryImage[] {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  await settingsReady();
   const { lang: l, slug } = await params;
   const lang = asLocale(l);
   const p = await getProductBySlug(slug, lang);
@@ -47,6 +49,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function ProductPage({ params }: Props) {
+  await settingsReady();
   const { lang: l, slug } = await params;
   const lang = asLocale(l);
   const t = getDict(lang);

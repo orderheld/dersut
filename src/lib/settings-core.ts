@@ -6,13 +6,24 @@ import { swissPhone } from './format';
  * Sie liegen als JSON in app_settings («site») und werden beim Start und danach jede Minute
  * in das zentrale config-Objekt übernommen. Leere Felder fallen auf die Werte aus config.ts zurück.
  */
-export type Category = { slug: string; de: string; fr?: string; it?: string; en?: string };
+export type Category = {
+  slug: string;
+  de: string;
+  fr?: string;
+  it?: string;
+  en?: string;
+  /** Kurzer Einleitungstext der Kategorieseite (SEO), je Sprache. Leer = Standardtext bzw. keiner */
+  text?: Partial<Record<'de' | 'fr' | 'it' | 'en', string>>;
+};
 
 export type SiteSettings = {
   company: Partial<Record<'name' | 'street' | 'zip' | 'city' | 'phone' | 'uid' | 'vatNo' | 'register', string>>;
   email?: string;
   bank: Partial<Record<'holder' | 'bank' | 'iban', string>>;
   paymentDays?: number;
+  /** Versandpauschale und Gratisversand ab (Rappen) */
+  shipping?: number;
+  freeShippingFrom?: number;
   categories: Category[];
 };
 
@@ -30,7 +41,7 @@ export function currentSettings(): SiteSettings {
 export function parseSettings(raw: string | null | undefined): SiteSettings {
   try {
     const s = raw ? (JSON.parse(raw) as Partial<SiteSettings>) : {};
-    return { company: s.company ?? {}, email: s.email, bank: s.bank ?? {}, paymentDays: s.paymentDays, categories: Array.isArray(s.categories) ? s.categories : [] };
+    return { company: s.company ?? {}, email: s.email, bank: s.bank ?? {}, paymentDays: s.paymentDays, shipping: s.shipping, freeShippingFrom: s.freeShippingFrom, categories: Array.isArray(s.categories) ? s.categories : [] };
   } catch {
     return { company: {}, bank: {}, categories: [] };
   }
@@ -58,10 +69,21 @@ export function applySettings(s: SiteSettings): void {
     from: process.env.MAIL_FROM || `${config.siteName} <${email}>`,
   });
   config.shop.paymentDays = s.paymentDays && s.paymentDays > 0 && s.paymentDays <= 60 ? s.paymentDays : DEFAULTS.shop.paymentDays;
+  const rappen = (v: unknown, max: number) => (typeof v === 'number' && Number.isInteger(v) && v >= 0 && v <= max ? v : null);
+  config.shop.shipping = rappen(s.shipping, 100_00) ?? DEFAULTS.shop.shipping;
+  config.shop.freeShippingFrom = rappen(s.freeShippingFrom, 10_000_00) ?? DEFAULTS.shop.freeShippingFrom;
 }
 
 export function categoryName(slug: string, lang: string): string {
   const c = current.categories.find((x) => x.slug === slug);
-  if (!c) return '';
-  return (c[lang as keyof Category] as string | undefined) || c.de;
+  return c ? categoryLabel(c, lang) : '';
+}
+
+export function categoryLabel(c: Category, lang: string): string {
+  const v = lang === 'de' ? c.de : c[lang as 'fr' | 'it' | 'en'];
+  return (typeof v === 'string' && v) || c.de;
+}
+
+export function getCategory(slug: string): Category | undefined {
+  return current.categories.find((x) => x.slug === slug);
 }

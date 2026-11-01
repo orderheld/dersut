@@ -3,6 +3,7 @@ import { neon } from '@neondatabase/serverless';
 import { ADDED_PRODUCTS, SCHEMA, SEED_PRODUCTS } from './schema';
 import { SEED_TRANSLATIONS, SEO_DESCRIPTION_UPDATES } from './product-seed-i18n';
 import { applySettings, parseSettings, SETTINGS_KEY } from './settings-core';
+import { seedCategories } from './category-seed';
 import { config } from './config';
 
 const PHONE_FLAG = 'phone:2026-11-01';
@@ -117,6 +118,7 @@ async function getDriver(): Promise<Driver> {
         }
         await d.query(`INSERT INTO app_settings (key, value) VALUES ($1, '1') ON CONFLICT (key) DO NOTHING`, [PHONE_FLAG]);
       }
+      await seedCategories(d.query);
       await refreshSettings(d);
       return d;
     })().catch((e) => {
@@ -144,4 +146,13 @@ export async function reloadSettings(): Promise<void> {
 
 export async function transaction(queries: Query[]): Promise<void> {
   await (await getDriver()).transaction(queries);
+}
+
+/**
+ * Vor dem Anzeigen von Texten mit Versandbeträgen oder Firmendaten aufrufen: stellt sicher, dass die
+ * Einstellungen aus dem Admin geladen sind (auch auf Seiten, die sonst keine Datenbank brauchen).
+ */
+export async function settingsReady(): Promise<void> {
+  const d = await getDriver();
+  if (Date.now() - settingsLoadedAt > 60_000) await refreshSettings(d);
 }
