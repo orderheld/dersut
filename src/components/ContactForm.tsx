@@ -6,7 +6,7 @@ import { Suspense, useActionState } from 'react';
 import { contactAction, type ContactState } from '@/app/[lang]/actions';
 import { getDict } from '@/i18n';
 import { lp, type Locale } from '@/lib/i18n';
-import { Field } from './Field';
+import { Field, scrollIntoView } from './Field';
 import { FormStart } from './FormStart';
 import { Icon } from './Icon';
 
@@ -20,7 +20,7 @@ export function ContactForm({ topic, lang }: { topic: string; lang: Locale }) {
   if (state.sent) {
     return (
       <>
-        <div className="alert alert--ok" role="status" dangerouslySetInnerHTML={{ __html: t.sent }} />
+        <div ref={scrollIntoView} className="alert alert--ok" role="status" dangerouslySetInnerHTML={{ __html: t.sent }} />
         <Link className="btn btn--outline" href={lp(lang, '/shop')}>{getDict(lang).common.toShop}</Link>
       </>
     );

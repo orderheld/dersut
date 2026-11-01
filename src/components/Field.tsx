@@ -16,3 +16,11 @@ export function Field({ name, label, error, span, optional, children }: { name: 
     </div>
   );
 }
+
+/**
+ * Als ref auf eine Bestätigung setzen: Nach dem Absenden wird das Formular viel kürzer und der Browser
+ * stünde sonst beim Footer. So scrollt die Seite zur Meldung.
+ */
+export function scrollIntoView(el: HTMLElement | null) {
+  if (el) { el.style.scrollMarginTop = '110px'; el.scrollIntoView({ block: 'start', behavior: 'smooth' }); }
+}
