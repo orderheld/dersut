@@ -3,6 +3,10 @@ import { neon } from '@neondatabase/serverless';
 import { ADDED_PRODUCTS, SCHEMA, SEED_PRODUCTS } from './schema';
 import { SEED_TRANSLATIONS, SEO_DESCRIPTION_UPDATES } from './product-seed-i18n';
 import { applySettings, parseSettings, SETTINGS_KEY } from './settings-core';
+import { config } from './config';
+
+const PHONE_FLAG = 'phone:2026-11-01';
+const CURRENT_PHONE = config.company.phone;
 
 export type Row = Record<string, any>;
 export type Query = { text: string; params?: unknown[] };
@@ -102,6 +106,16 @@ async function getDriver(): Promise<Driver> {
            WHERE slug = $1 AND translations -> $2::text ->> 'seoDescription' = $3`,
           [slug, lang, old, next],
         );
+      }
+      // Telefonnummer einmalig auf die aktuelle Nummer setzen (Stand 2026-11-01), danach im Admin änderbar
+      if (!(await d.query('SELECT 1 FROM app_settings WHERE key = $1', [PHONE_FLAG])).length) {
+        const rows = await d.query('SELECT value FROM app_settings WHERE key = $1', [SETTINGS_KEY]);
+        if (rows[0]) {
+          const s = parseSettings(rows[0].value);
+          s.company.phone = CURRENT_PHONE;
+          await d.query('UPDATE app_settings SET value = $2 WHERE key = $1', [SETTINGS_KEY, JSON.stringify(s)]);
+        }
+        await d.query(`INSERT INTO app_settings (key, value) VALUES ($1, '1') ON CONFLICT (key) DO NOTHING`, [PHONE_FLAG]);
       }
       await refreshSettings(d);
       return d;

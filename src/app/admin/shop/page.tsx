@@ -48,7 +48,7 @@ export default async function ShopSettings() {
             <h2>Kontakt</h2>
             <label>E-Mail-Adresse <span className="muted">(für alles: Absender, Bestellkopien, Kontaktformular)</span><input name="email" type="email" required defaultValue={config.email.info} /></label>
             <p className="muted small" style={{ marginTop: -8 }}>Muss auf @dersut.ch enden, weil nur diese Domain für den Versand eingerichtet ist.</p>
-            <label>Telefon <span className="muted">(optional)</span><input name="company_phone" type="tel" defaultValue={c.phone} placeholder="+41 61 …" /></label>
+            <label>Telefon <span className="muted">(optional)</span><input name="company_phone" type="tel" defaultValue={c.phone} placeholder="+41 78 673 21 47" /></label>
             <p className="muted small" style={{ marginTop: -8 }}>Erscheint auf der Kontaktseite, auf Rechnungen und Lieferscheinen und in der E-Mail-Signatur.</p>
           </section>
           <section className="card form" id="kategorien">
