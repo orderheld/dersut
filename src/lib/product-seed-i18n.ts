@@ -110,6 +110,110 @@ export const SEED_TRANSLATIONS: Record<string, { translations: ProductTranslatio
       },
     },
   },
+  'dersut-non-plus-ultra-1kg': {
+    gallery: ['brand:prod_nonplusultra', 'brand:fiori', 'brand:tazze', 'brand:selezione', 'brand:img_2'],
+    translations: {
+      de: {
+        seoTitle: 'Dersut Non Plus Ultra 100 % Arabica Espressobohnen 1 kg',
+        seoDescription:
+          'Dersut Non Plus Ultra, 1 kg Espressobohnen aus 100 % Arabica: florale Noten, Zitrus und Kakao. Gold Medal 2025. Vom offiziellen Vertrieb Schweiz.',
+        highlights: ['100 % Arabica aus Mittelamerika und Afrika', 'Florale und fruchtige Noten, feine Zitrussäure', 'Nachklang von Kakao, Mandel und Nüssen', 'Gold Medal International Coffee Tasting 2016, 2022 und 2025'],
+        details:
+          'Non Plus Ultra heisst «nichts darüber hinaus», und genau so ist diese Mischung gemeint: Sie ist die Spitze des Sortiments von Dersut. Die Röstmeister in Conegliano verwenden ausschliesslich die besten Arabica-Sorten, gewaschen und naturbelassen. Die Einzelherkünfte stammen vor allem aus Mittelamerika und vom Horn von Afrika und bringen florale und fruchtige Aromen in die Tasse.\n\nIm Espresso zeigt sich Non Plus Ultra elegant und vielschichtig. Zitrusnoten prägen die feine, lebendige Säure, der Körper ist zart und umhüllend, das Aroma reich und lang anhaltend. Leichte Noten von Frucht und Mandel verbinden sich mit einem Nachklang von Kakao: ein Espresso, der wunderbar zu einem Dessert passt.\n\nDie Jury des International Coffee Tasting (IIAC) hat Non Plus Ultra mehrfach mit der Gold Medal ausgezeichnet, zuletzt 2025 in Brescia in der Kategorie Espressomischung. Zudem ist die Mischung als «Espresso Italiano di Qualità» zertifiziert. Die 1-kg-Packung mit ganzen Bohnen eignet sich für Siebträger, Vollautomat und Moka.',
+      },
+      fr: {
+        subtitle: 'Grains d’espresso · 1 kg',
+        description:
+          'Non Plus Ultra est le mélange le plus noble de Dersut : 100 % Arabica issu des meilleures variétés lavées et naturelles, surtout d’Amérique centrale et de la Corne de l’Afrique. Des notes florales et fruitées, une élégante fraîcheur d’agrumes et une fine finale de cacao et de fruits secs en font l’espresso des moments particuliers. Récompensé par la Gold Medal de l’International Coffee Tasting.',
+        notes: 'Floral, agrumes, amande, cacao',
+        blend: '100 % Arabica',
+        seoTitle: 'Dersut Non Plus Ultra grains 100 % Arabica 1 kg',
+        seoDescription:
+          'Dersut Non Plus Ultra, 1 kg de grains d’espresso 100 % Arabica : notes florales, agrumes et cacao. Gold Medal 2025. Du distributeur officiel en Suisse.',
+        highlights: ['100 % Arabica d’Amérique centrale et d’Afrique', 'Notes florales et fruitées, fine acidité d’agrumes', 'Finale de cacao, d’amande et de fruits secs', 'Gold Medal International Coffee Tasting 2016, 2022 et 2025'],
+        details:
+          'Non Plus Ultra signifie « rien au-delà », et c’est bien l’ambition de ce mélange : il est le sommet de la gamme Dersut. Les maîtres torréfacteurs de Conegliano n’utilisent que les meilleures variétés d’Arabica, lavées et naturelles. Les origines uniques proviennent surtout d’Amérique centrale et de la Corne de l’Afrique et apportent des arômes floraux et fruités.\n\nEn espresso, Non Plus Ultra se montre élégant et complexe. Les notes d’agrumes marquent une acidité fine et vive, le corps est délicat et enveloppant, l’arôme riche et persistant. De légères notes de fruits et d’amande s’unissent à une finale de cacao : un espresso parfait avec un dessert.\n\nLe jury de l’International Coffee Tasting (IIAC) a décerné plusieurs fois la Gold Medal à Non Plus Ultra, la dernière fois en 2025 à Brescia dans la catégorie mélange espresso. Le mélange est en outre certifié « Espresso Italiano di Qualità ». Le paquet de 1 kg en grains convient aux machines à porte-filtre, aux automates et à la moka.',
+      },
+      it: {
+        subtitle: 'Caffè in grani · 1 kg',
+        description:
+          'Non Plus Ultra è la miscela più pregiata di Dersut: 100 % Arabica dalle varietà più eccelse, lavate e naturali, provenienti soprattutto dal Centro America e dal Corno d’Africa. Note floreali e fruttate, un’elegante freschezza agrumata e un fine retrogusto di cacao e frutta secca ne fanno l’espresso dei momenti speciali. Premiato con la Gold Medal dell’International Coffee Tasting.',
+        notes: 'Floreale, agrumi, mandorla, cacao',
+        blend: '100 % Arabica',
+        seoTitle: 'Dersut Non Plus Ultra caffè in grani 100 % Arabica 1 kg',
+        seoDescription:
+          'Dersut Non Plus Ultra, 1 kg di caffè in grani 100 % Arabica: note floreali, agrumi e cacao. Gold Medal 2025. Dal distributore ufficiale in Svizzera.',
+        highlights: ['100 % Arabica dal Centro America e dall’Africa', 'Note floreali e fruttate, fine acidità agrumata', 'Retrogusto di cacao, mandorla e frutta secca', 'Gold Medal International Coffee Tasting 2016, 2022 e 2025'],
+        details:
+          'Non Plus Ultra significa «niente oltre», ed è proprio questa l’ambizione della miscela: è il vertice della gamma Dersut. I mastri tostatori di Conegliano utilizzano solo le varietà di Arabica più pregiate, lavate e naturali. Le monorigini provengono principalmente dal Centro America e dal Corno d’Africa e portano in tazza aromi floreali e fruttati.\n\nIn espresso Non Plus Ultra si presenta elegante e complesso. Le note agrumate caratterizzano un’acidità fine e vivace, il corpo è delicato e avvolgente, l’aroma ricco e persistente. Leggere note fruttate e mandorlate si sposano con il retrogusto di cacao: un espresso ideale in abbinamento a un dessert.\n\nLa giuria dell’International Coffee Tasting (IIAC) ha premiato più volte Non Plus Ultra con la Gold Medal, l’ultima nel 2025 a Brescia nella categoria miscela per espresso. La miscela è inoltre certificata «Espresso Italiano di Qualità». La confezione da 1 kg in grani è adatta a macchina a leva, automatica e moka.',
+      },
+      en: {
+        subtitle: 'Espresso beans · 1 kg',
+        description:
+          'Non Plus Ultra is Dersut’s finest blend: 100 % Arabica from the most exquisite washed and natural varieties, mainly from Central America and the Horn of Africa. Floral and fruity notes, an elegant citrus freshness and a delicate finish of cocoa and nuts make it the espresso for special moments. Awarded the Gold Medal of the International Coffee Tasting.',
+        notes: 'Floral, citrus, almond, cocoa',
+        blend: '100 % Arabica',
+        seoTitle: 'Dersut Non Plus Ultra 100 % Arabica espresso beans 1 kg',
+        seoDescription:
+          'Dersut Non Plus Ultra, 1 kg of 100 % Arabica espresso beans: floral notes, citrus and cocoa. Gold Medal 2025. From the official Swiss distributor.',
+        highlights: ['100 % Arabica from Central America and Africa', 'Floral and fruity notes, fine citrus acidity', 'Finish of cocoa, almond and nuts', 'Gold Medal International Coffee Tasting 2016, 2022 and 2025'],
+        details:
+          'Non Plus Ultra means “nothing beyond”, and that is exactly the idea behind this blend: it is the pinnacle of the Dersut range. The roasters in Conegliano use only the finest Arabica varieties, washed and natural. The single origins come mainly from Central America and the Horn of Africa and bring floral and fruity aromas to the cup.\n\nAs an espresso, Non Plus Ultra is elegant and complex. Citrus notes shape a fine, lively acidity, the body is delicate and enveloping, the aroma rich and long-lasting. Light notes of fruit and almond meet a finish of cocoa: an espresso that pairs beautifully with dessert.\n\nThe jury of the International Coffee Tasting (IIAC) has awarded Non Plus Ultra the Gold Medal several times, most recently in 2025 in Brescia in the espresso blend category. The blend is also certified “Espresso Italiano di Qualità”. The 1 kg pack of whole beans suits portafilter machines, bean-to-cup machines and the moka pot.',
+      },
+    },
+  },
+  'dersut-plus-oro-1kg': {
+    gallery: ['brand:prod_plusoro', 'brand:caffe', 'brand:macchina', 'brand:tostatura', 'brand:img_1'],
+    translations: {
+      de: {
+        seoTitle: 'Dersut Plus Oro Espressobohnen 1 kg kaufen · Gold Medal',
+        seoDescription:
+          'Dersut Plus Oro, 1 kg Espressobohnen aus Conegliano: harmonisch und süss, Noten von Gebäck, Kakao und Haselnuss. Gold Medal 2025. Offizieller Vertrieb.',
+        highlights: ['Harmonische Mischung aus Arabica und Robusta', 'Noten von Feingebäck, Kakao und Haselnuss', 'Weich und intensiv, mittlerer Körper', 'Gold Medal International Coffee Tasting 2014, 2018 und 2025'],
+        details:
+          'Plus Oro ist die goldene Mitte im Sortiment von Dersut: harmonisch, süss und zugleich mit Charakter. Für diese Mischung wählen die Röstmeister in Conegliano edle Arabica- und Robusta-Sorten, gewaschen und naturbelassen, und rösten sie mit viel Gefühl für die Balance.\n\nIn der Tasse ist Plus Oro weich und intensiv, mit mittlerem Körper und feiner Säure. Noten von Feingebäck treten hervor, getragen von der Kakaobohne und einem zarten, würzigen Aroma. Im Nachklang bleiben angenehme Noten von Kakao und Haselnuss. Pur als Espresso ebenso überzeugend wie im Cappuccino.\n\nPlus Oro wurde beim International Coffee Tasting (IIAC) mehrfach mit der Gold Medal ausgezeichnet, zuletzt 2025 in Brescia in der Kategorie Espressomischung, und erhielt zudem den Camaleonte Espresso Award. Die Mischung ist als «Espresso Italiano di Qualità» zertifiziert. Die 1-kg-Packung mit ganzen Bohnen eignet sich für Siebträger, Vollautomat und Moka.',
+      },
+      fr: {
+        subtitle: 'Grains d’espresso · 1 kg',
+        description:
+          'Plus Oro est le mélange doré et harmonieux de Dersut : des variétés choisies d’Arabica et de Robusta, à la fois douces et intenses, au corps moyen et à l’acidité fine. Des notes de pâtisserie et de fève de cacao, une touche épicée et une finale de cacao et de noisette le rendent rond et doux. Plusieurs fois récompensé par la Gold Medal de l’International Coffee Tasting.',
+        notes: 'Pâtisserie, cacao, noisette, épices',
+        blend: 'Arabica & Robusta',
+        seoTitle: 'Dersut Plus Oro grains d’espresso 1 kg · Gold Medal',
+        seoDescription:
+          'Dersut Plus Oro, 1 kg de grains d’espresso : harmonieux et doux, notes de pâtisserie, cacao et noisette. Gold Medal 2025. Du distributeur officiel en Suisse.',
+        highlights: ['Mélange harmonieux d’Arabica et de Robusta', 'Notes de pâtisserie, de cacao et de noisette', 'Doux et intense, corps moyen', 'Gold Medal International Coffee Tasting 2014, 2018 et 2025'],
+        details:
+          'Plus Oro est le juste milieu doré de la gamme Dersut : harmonieux, doux et pourtant plein de caractère. Pour ce mélange, les maîtres torréfacteurs de Conegliano choisissent de nobles variétés d’Arabica et de Robusta, lavées et naturelles, et les torréfient avec un grand sens de l’équilibre.\n\nEn tasse, Plus Oro est doux et intense, avec un corps moyen et une acidité fine. Les notes de pâtisserie ressortent, portées par la fève de cacao et un délicat arôme épicé. En finale persistent d’agréables notes de cacao et de noisette. Aussi convaincant en espresso qu’en cappuccino.\n\nPlus Oro a reçu plusieurs fois la Gold Medal de l’International Coffee Tasting (IIAC), la dernière fois en 2025 à Brescia dans la catégorie mélange espresso, ainsi que le Camaleonte Espresso Award. Le mélange est certifié « Espresso Italiano di Qualità ». Le paquet de 1 kg en grains convient aux machines à porte-filtre, aux automates et à la moka.',
+      },
+      it: {
+        subtitle: 'Caffè in grani · 1 kg',
+        description:
+          'Plus Oro è la miscela armoniosa e dolce di Dersut: pregiate varietà di Arabica e Robusta, dal gusto morbido e intenso, di media corposità e fine acidità. Sentori di pasticceria e di fava di cacao, un delicato aroma speziato e un retrogusto di cacao e nocciola la rendono rotonda e dolce. Più volte premiata con la Gold Medal dell’International Coffee Tasting.',
+        notes: 'Pasticceria, cacao, nocciola, spezie',
+        blend: 'Arabica & Robusta',
+        seoTitle: 'Dersut Plus Oro caffè in grani 1 kg · Gold Medal',
+        seoDescription:
+          'Dersut Plus Oro, 1 kg di caffè in grani: armonioso e dolce, note di pasticceria, cacao e nocciola. Gold Medal 2025. Dal distributore ufficiale in Svizzera.',
+        highlights: ['Miscela armoniosa di Arabica e Robusta', 'Note di pasticceria, cacao e nocciola', 'Morbido e intenso, media corposità', 'Gold Medal International Coffee Tasting 2014, 2018 e 2025'],
+        details:
+          'Plus Oro è il giusto mezzo dorato della gamma Dersut: armonioso, dolce e al tempo stesso di carattere. Per questa miscela i mastri tostatori di Conegliano scelgono pregiate varietà di Arabica e Robusta, lavate e naturali, e le tostano con grande attenzione all’equilibrio.\n\nIn tazza Plus Oro è morbido e intenso, di media corposità e fine acidità. I sentori di pasticceria spiccano sulla fava di cacao e fanno emergere un delicato aroma speziato. Nel retrogusto restano piacevoli note di cacao e nocciola. Convince sia come espresso sia nel cappuccino.\n\nPlus Oro ha ricevuto più volte la Gold Medal dell’International Coffee Tasting (IIAC), l’ultima nel 2025 a Brescia nella categoria miscela per espresso, oltre al Camaleonte Espresso Award. La miscela è certificata «Espresso Italiano di Qualità». La confezione da 1 kg in grani è adatta a macchina a leva, automatica e moka.',
+      },
+      en: {
+        subtitle: 'Espresso beans · 1 kg',
+        description:
+          'Plus Oro is Dersut’s harmonious golden blend: selected Arabica and Robusta varieties, smooth yet intense, with a medium body and fine acidity. Notes of pastry and cocoa bean, a hint of spice and a finish of cocoa and hazelnut make it round and sweet. Awarded the Gold Medal of the International Coffee Tasting several times.',
+        notes: 'Pastry, cocoa, hazelnut, spice',
+        blend: 'Arabica & Robusta',
+        seoTitle: 'Dersut Plus Oro espresso beans 1 kg · Gold Medal',
+        seoDescription:
+          'Dersut Plus Oro, 1 kg espresso beans from Conegliano: harmonious and sweet, notes of pastry, cocoa and hazelnut. Gold Medal 2025. Official Swiss distributor.',
+        highlights: ['Harmonious blend of Arabica and Robusta', 'Notes of pastry, cocoa and hazelnut', 'Smooth and intense, medium body', 'Gold Medal International Coffee Tasting 2014, 2018 and 2025'],
+        details:
+          'Plus Oro is the golden mean of the Dersut range: harmonious, sweet and full of character. For this blend, the roasters in Conegliano choose fine Arabica and Robusta varieties, washed and natural, and roast them with a keen sense of balance.\n\nIn the cup, Plus Oro is smooth and intense, with a medium body and fine acidity. Pastry notes stand out, carried by the cocoa bean and a delicate spicy aroma. The finish leaves pleasant notes of cocoa and hazelnut. Just as convincing as a pure espresso as in a cappuccino.\n\nPlus Oro has won the Gold Medal of the International Coffee Tasting (IIAC) several times, most recently in 2025 in Brescia in the espresso blend category, as well as the Camaleonte Espresso Award. The blend is certified “Espresso Italiano di Qualità”. The 1 kg pack of whole beans suits portafilter machines, bean-to-cup machines and the moka pot.',
+      },
+    },
+  },
 };
 
 /** Frühere, zu lange Google-Beschreibungen: werden ersetzt, solange sie im Admin nicht geändert wurden. */

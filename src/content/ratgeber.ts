@@ -403,7 +403,7 @@ export const ARTICLES: Article[] = [
             'Beide Dersut-Mischungen eignen sich für die Moka. Mahlen Sie dafür etwas gröber als für den Siebträger.',
           ],
         ],
-        cta: 'Mit der richtigen Bohne beginnt der perfekte Espresso. Unsere beiden Mischungen aus Conegliano:',
+        cta: 'Mit der richtigen Bohne beginnt der perfekte Espresso. Unsere Mischungen aus Conegliano:',
       },
       fr: {
         title: 'Préparer un espresso : l’espresso parfait à la maison',
@@ -475,7 +475,7 @@ export const ARTICLES: Article[] = [
             'Les deux mélanges Dersut conviennent à la moka. Choisissez simplement une mouture un peu plus grossière que pour le porte-filtre.',
           ],
         ],
-        cta: 'L’espresso parfait commence par le bon grain. Nos deux mélanges de Conegliano :',
+        cta: 'L’espresso parfait commence par le bon grain. Nos mélanges de Conegliano :',
       },
       it: {
         title: 'Preparare l’espresso: l’espresso perfetto a casa',
@@ -547,7 +547,7 @@ export const ARTICLES: Article[] = [
             'Entrambe le miscele Dersut sono adatte alla moka. Basta macinare un po’ più grosso che per il portafiltro.',
           ],
         ],
-        cta: 'L’espresso perfetto inizia dal chicco giusto. Le nostre due miscele di Conegliano:',
+        cta: 'L’espresso perfetto inizia dal chicco giusto. Le nostre miscele di Conegliano:',
       },
       en: {
         title: 'How to make espresso: the perfect espresso at home',
@@ -619,7 +619,7 @@ export const ARTICLES: Article[] = [
             'Both Dersut blends work well in a moka pot. Just grind a little coarser than for a portafilter.',
           ],
         ],
-        cta: 'The perfect espresso starts with the right beans. Our two blends from Conegliano:',
+        cta: 'The perfect espresso starts with the right beans. Our blends from Conegliano:',
       },
     },
   },
@@ -641,7 +641,7 @@ export const ARTICLES: Article[] = [
         teaser:
           'Ausgewogener Allrounder oder kräftiger Charakter: der direkte Vergleich der beiden Dersut-Mischungen hilft Ihnen bei der Wahl.',
         lead:
-          'Dersut bietet in der Schweiz zwei Espressomischungen in der 1-kg-Packung an: den Optimum Rosso und den Domus Marrone. Beide stammen aus der Familienrösterei in Conegliano, die seit 1947 Kaffee röstet, und beide eignen sich für Vollautomat, Siebträger und Moka. Trotzdem schmecken sie deutlich verschieden. Dieser Vergleich zeigt, welche Bohne zu Ihnen passt.',
+          'Optimum Rosso und Domus Marrone sind die beiden Klassiker unter den Dersut-Espressomischungen in der 1-kg-Packung. Beide stammen aus der Familienrösterei in Conegliano, die seit 1947 Kaffee röstet, und beide eignen sich für Vollautomat, Siebträger und Moka. Trotzdem schmecken sie deutlich verschieden. Dieser Vergleich zeigt, welche Bohne zu Ihnen passt.',
         sections: [
           {
             h: 'Gemeinsamkeiten: gleiche Herkunft, gleiche Sorgfalt',
@@ -712,7 +712,7 @@ export const ARTICLES: Article[] = [
         teaser:
           'Polyvalent équilibré ou caractère corsé : ce comparatif des deux mélanges Dersut vous aide à faire le bon choix.',
         lead:
-          'En Suisse, Dersut propose deux mélanges espresso en paquet de 1 kg : l’Optimum Rosso et le Domus Marrone. Tous deux viennent de la torréfaction familiale de Conegliano, active depuis 1947, et conviennent à la machine automatique, au porte-filtre et à la moka. Leur goût est pourtant bien différent. Ce comparatif vous montre lequel vous correspond.',
+          'L’Optimum Rosso et le Domus Marrone sont les deux classiques parmi les mélanges espresso Dersut en paquet de 1 kg. Tous deux viennent de la torréfaction familiale de Conegliano, active depuis 1947, et conviennent à la machine automatique, au porte-filtre et à la moka. Leur goût est pourtant bien différent. Ce comparatif vous montre lequel vous correspond.',
         sections: [
           {
             h: 'Points communs : même origine, même soin',
@@ -783,7 +783,7 @@ export const ARTICLES: Article[] = [
         teaser:
           'Tuttofare equilibrato o carattere deciso: il confronto diretto tra le due miscele Dersut la aiuta a scegliere.',
         lead:
-          'In Svizzera Dersut propone due miscele espresso in confezione da 1 kg: l’Optimum Rosso e il Domus Marrone. Entrambe nascono nella torrefazione di famiglia di Conegliano, attiva dal 1947, ed entrambe sono adatte a macchina automatica, portafiltro e moka. Eppure il gusto è molto diverso. Questo confronto le mostra quale fa per lei.',
+          'L’Optimum Rosso e il Domus Marrone sono i due classici tra le miscele espresso Dersut in confezione da 1 kg. Entrambe nascono nella torrefazione di famiglia di Conegliano, attiva dal 1947, ed entrambe sono adatte a macchina automatica, portafiltro e moka. Eppure il gusto è molto diverso. Questo confronto le mostra quale fa per lei.',
         sections: [
           {
             h: 'Cosa le accomuna: stessa origine, stessa cura',
@@ -854,7 +854,7 @@ export const ARTICLES: Article[] = [
         teaser:
           'Balanced all-rounder or bold character: a direct comparison of the two Dersut blends to help you decide.',
         lead:
-          'In Switzerland, Dersut offers two espresso blends in 1 kg packs: Optimum Rosso and Domus Marrone. Both come from the family roastery in Conegliano, roasting coffee since 1947, and both work in bean-to-cup machines, portafilter machines and moka pots. Yet they taste noticeably different. This comparison shows which beans suit you.',
+          'Optimum Rosso and Domus Marrone are the two classics among Dersut’s espresso blends in 1 kg packs. Both come from the family roastery in Conegliano, roasting coffee since 1947, and both work in bean-to-cup machines, portafilter machines and moka pots. Yet they taste noticeably different. This comparison shows which beans suit you.',
         sections: [
           {
             h: 'What they share: same origin, same care',
@@ -962,7 +962,7 @@ export const ARTICLES: Article[] = [
           {
             h: 'Zwei Mischungen für jeden Geschmack',
             p: [
-              'Im Shop finden Sie zwei Espressomischungen als ganze Bohnen in der 1-kg-Packung. Der [Dersut Optimum Rosso](/shop/dersut-optimum-rosso-1kg) für CHF 29.90 ist der Allrounder mit lang anhaltender Crema, Noten von Kakao und Gebäck und Intensität 4 von 5, ideal für Espresso und Cappuccino. Der [Dersut Domus Marrone](/shop/dersut-domus-marrone-1kg) für CHF 26.90 hat mit Intensität 5 von 5 ein sehr intensives Aroma und einen starken, entschiedenen Charakter.',
+              'Im Shop finden Sie vier Espressomischungen als ganze Bohnen in der 1-kg-Packung, darunter die mit Gold prämierten [Dersut Non Plus Ultra](/shop/dersut-non-plus-ultra-1kg) aus 100 % Arabica und [Dersut Plus Oro](/shop/dersut-plus-oro-1kg). Der [Dersut Optimum Rosso](/shop/dersut-optimum-rosso-1kg) für CHF 29.90 ist der Allrounder mit lang anhaltender Crema, Noten von Kakao und Gebäck und Intensität 4 von 5, ideal für Espresso und Cappuccino. Der [Dersut Domus Marrone](/shop/dersut-domus-marrone-1kg) für CHF 26.90 hat mit Intensität 5 von 5 ein sehr intensives Aroma und einen starken, entschiedenen Charakter.',
               'Beide eignen sich für Vollautomat, Siebträger und Moka. Für den Vollautomaten stellen Sie einen mittelfeinen bis feinen Mahlgrad ein.',
             ],
           },
@@ -1039,7 +1039,7 @@ export const ARTICLES: Article[] = [
           {
             h: 'Deux mélanges pour tous les goûts',
             p: [
-              'La boutique propose deux mélanges espresso en grains entiers, en paquet de 1 kg. Le [Dersut Optimum Rosso](/shop/dersut-optimum-rosso-1kg), à CHF 29.90, est le polyvalent : crème persistante, notes de cacao et de pâtisserie, intensité 4 sur 5, idéal en espresso comme en cappuccino. Le [Dersut Domus Marrone](/shop/dersut-domus-marrone-1kg), à CHF 26.90, intensité 5 sur 5, offre un arôme très intense et un caractère fort et affirmé.',
+              'La boutique propose quatre mélanges espresso en grains entiers, en paquet de 1 kg, dont les médaillés d’or [Dersut Non Plus Ultra](/shop/dersut-non-plus-ultra-1kg) 100 % Arabica et [Dersut Plus Oro](/shop/dersut-plus-oro-1kg). Le [Dersut Optimum Rosso](/shop/dersut-optimum-rosso-1kg), à CHF 29.90, est le polyvalent : crème persistante, notes de cacao et de pâtisserie, intensité 4 sur 5, idéal en espresso comme en cappuccino. Le [Dersut Domus Marrone](/shop/dersut-domus-marrone-1kg), à CHF 26.90, intensité 5 sur 5, offre un arôme très intense et un caractère fort et affirmé.',
               'Les deux conviennent à la machine automatique, au porte-filtre et à la moka. En machine automatique, réglez une mouture moyennement fine à fine.',
             ],
           },
@@ -1116,7 +1116,7 @@ export const ARTICLES: Article[] = [
           {
             h: 'Due miscele per ogni gusto',
             p: [
-              'Nel negozio trova due miscele espresso in grani interi, in confezione da 1 kg. Il [Dersut Optimum Rosso](/shop/dersut-optimum-rosso-1kg), a CHF 29.90, è il tuttofare: crema persistente, note di cacao e pasticceria, intensità 4 su 5, ideale per espresso e cappuccino. Il [Dersut Domus Marrone](/shop/dersut-domus-marrone-1kg), a CHF 26.90, intensità 5 su 5, ha un aroma molto intenso e un carattere forte e deciso.',
+              'Nel negozio trova quattro miscele espresso in grani interi, in confezione da 1 kg, tra cui le medaglie d’oro [Dersut Non Plus Ultra](/shop/dersut-non-plus-ultra-1kg) 100 % Arabica e [Dersut Plus Oro](/shop/dersut-plus-oro-1kg). Il [Dersut Optimum Rosso](/shop/dersut-optimum-rosso-1kg), a CHF 29.90, è il tuttofare: crema persistente, note di cacao e pasticceria, intensità 4 su 5, ideale per espresso e cappuccino. Il [Dersut Domus Marrone](/shop/dersut-domus-marrone-1kg), a CHF 26.90, intensità 5 su 5, ha un aroma molto intenso e un carattere forte e deciso.',
               'Entrambi sono adatti a macchina automatica, portafiltro e moka. In macchina automatica imposti una macinatura medio-fine o fine.',
             ],
           },
@@ -1193,7 +1193,7 @@ export const ARTICLES: Article[] = [
           {
             h: 'Two blends for every taste',
             p: [
-              'The shop offers two espresso blends as whole beans in 1 kg packs. [Dersut Optimum Rosso](/shop/dersut-optimum-rosso-1kg) at CHF 29.90 is the all-rounder, with long-lasting crema, notes of cocoa and pastry and intensity 4 out of 5, ideal for espresso and cappuccino. [Dersut Domus Marrone](/shop/dersut-domus-marrone-1kg) at CHF 26.90 has intensity 5 out of 5, a very intense aroma and a strong, decisive character.',
+              'The shop offers four espresso blends as whole beans in 1 kg packs, including the gold-medal winners [Dersut Non Plus Ultra](/shop/dersut-non-plus-ultra-1kg), 100 % Arabica, and [Dersut Plus Oro](/shop/dersut-plus-oro-1kg). [Dersut Optimum Rosso](/shop/dersut-optimum-rosso-1kg) at CHF 29.90 is the all-rounder, with long-lasting crema, notes of cocoa and pastry and intensity 4 out of 5, ideal for espresso and cappuccino. [Dersut Domus Marrone](/shop/dersut-domus-marrone-1kg) at CHF 26.90 has intensity 5 out of 5, a very intense aroma and a strong, decisive character.',
               'Both suit bean-to-cup machines, portafilter machines and moka pots. For a fully automatic machine, set a medium-fine to fine grind.',
             ],
           },

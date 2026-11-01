@@ -1,13 +1,13 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, type ReactNode } from 'react';
 import { Img } from './Img';
 import { PackDeco } from './PackDeco';
 
 export type GalleryImage = { src: string; alt: string; pack: boolean; cut?: string };
 
 /** Produktbilder: grosse Bühne mit Thumbnails. Packshots (weisser Hintergrund) werden freigestellt dargestellt. */
-export function ProductGallery({ images, badge, fallback, labels }: { images: GalleryImage[]; badge: string; fallback: [string, string]; labels: { gallery: string; show: string[]; prev: string; next: string } }) {
+export function ProductGallery({ images, badge, fallback, labels, medal }: { images: GalleryImage[]; badge: string; fallback: [string, string]; labels: { gallery: string; show: string[]; prev: string; next: string }; medal?: ReactNode }) {
   const [i, setI] = useState(0);
   const cur = images[i];
   const go = (d: number) => setI((i + d + images.length) % images.length);
@@ -15,6 +15,7 @@ export function ProductGallery({ images, badge, fallback, labels }: { images: Ga
     <div className="pg">
       <div className={`pg__stage${cur?.pack ? ' is-pack' : ' is-photo'}`}>
         <span className="pcard__badge">{badge}</span>
+        {medal}
         {cur?.pack && <PackDeco />}
         {images.map((im, n) => (
           <div key={im.src} className={`pg__slide${n === i ? ' is-on' : ''}${im.pack ? ' is-pack' : ''}`} aria-hidden={n !== i}>

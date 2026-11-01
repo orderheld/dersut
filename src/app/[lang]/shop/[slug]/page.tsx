@@ -15,6 +15,11 @@ import { LOCALE_TAGS, asLocale, lp } from '@/lib/i18n';
 import { getProductBySlug, getProducts, isSoldOut, type LocalizedProduct } from '@/lib/products';
 import { absolute, jsonLd, pageMeta, returnPolicyLd } from '@/lib/seo';
 import { ARTICLES, RATGEBER_PAGE } from '@/content/ratgeber';
+import { AWARD_TEXT, awardsOf, latestMedal } from '@/content/awards';
+import { Medal } from '@/components/Medal';
+
+const AROMA: Record<string, string> = { de: 'Aromen', fr: 'Arômes', it: 'Aromi', en: 'Aromas' };
+const AWARDS_LINK: Record<string, string> = { de: 'Alle Zertifizierungen & Auszeichnungen', fr: 'Toutes les certifications & distinctions', it: 'Tutte le certificazioni e i premi', en: 'All certifications & awards' };
 
 
 type Props = { params: Promise<{ lang: string; slug: string }> };
@@ -57,6 +62,10 @@ export default async function ProductPage({ params }: Props) {
   const soldOut = isSoldOut(p);
   const guides = ARTICLES.filter((g) => g.products.includes(p.slug)).slice(0, 3);
   const nextYear = `${new Date().getFullYear() + 1}-12-31`;
+  const awards = awardsOf(p.slug);
+  const medal = latestMedal(p.slug);
+  const at = AWARD_TEXT[lang];
+  const aromas = p.notes.split(/,\s*/).filter(Boolean);
 
   const ld = [
     {
@@ -71,6 +80,7 @@ export default async function ProductPage({ params }: Props) {
       brand: { '@type': 'Brand', name: 'Dersut Caffè' },
       manufacturer: { '@type': 'Organization', name: 'Dersut Caffè S.p.A.', address: { '@type': 'PostalAddress', addressLocality: 'Conegliano', addressCountry: 'IT' } },
       countryOfOrigin: 'IT',
+      ...(awards.length ? { award: awards.map((a) => [a.title, a.years.join(', '), a.by].filter(Boolean).join(' · ')) } : {}),
       inLanguage: LOCALE_TAGS[lang],
       weight: { '@type': 'QuantitativeValue', value: parseFloat(p.weight) || 1, unitCode: 'KGM' },
       additionalProperty: [
@@ -127,6 +137,7 @@ export default async function ProductPage({ params }: Props) {
               badge={p.line}
               fallback={[p.line, p.weight]}
               labels={{ gallery: t.a11y.gallery, show: images.map((_, n) => t.a11y.showImage(n + 1)), prev: t.a11y.prevImage, next: t.a11y.nextImage }}
+              medal={medal ? <Medal year={medal} label={at.medal(medal)} className="medal--stage" /> : undefined}
             />
             <div className="pd__info">
               <nav className="pd__crumbs" aria-label={t.a11y.breadcrumbs}>
@@ -135,6 +146,11 @@ export default async function ProductPage({ params }: Props) {
               <p className="pd__brand">Dersut Caffè · Conegliano</p>
               <h1>{p.name}</h1>
               <p className="pd__sub">{p.subtitle}</p>
+              {medal && (
+                <a className="pd__award" href="#auszeichnungen">
+                  <Icon name="award" /> <span>{at.medal(medal)}</span>
+                </a>
+              )}
               <div className="pd__price">
                 <span className="price">{chf(p.price)}</span>
                 <span>{t.common.inclVatRate(config.shop.vatRate)} · {t.common.plusShipping(chf(config.shop.shipping))}</span>
@@ -146,6 +162,12 @@ export default async function ProductPage({ params }: Props) {
                 <ul className="checks pd__highlights">
                   {p.highlights.map((h) => <li key={h}><Icon name="check" /> <span>{h}</span></li>)}
                 </ul>
+              )}
+              {aromas.length > 1 && (
+                <div className="pd__aromas">
+                  <span>{AROMA[lang]}</span>
+                  <ul>{aromas.map((a) => <li key={a}>{a}</li>)}</ul>
+                </div>
               )}
               <div className="pd__intensity">
                 <span>{tp.intensity}</span>
@@ -190,6 +212,36 @@ export default async function ProductPage({ params }: Props) {
             </dl>
           </div>
         </section>
+
+        {awards.length > 0 && (
+          <section className="pd-awards" id="auszeichnungen">
+            <div className="wrap pd-awards__inner">
+              <div className="pd-awards__medal">
+                {medal && <Medal year={medal} label={at.medal(medal)} />}
+              </div>
+              <div>
+                <p className="eyebrow eyebrow--gold">{at.eyebrow}</p>
+                <h2 className="h2">{at.title}</h2>
+                <p className="pd-awards__lead">{at.lead(p.name)}</p>
+                <ul className="pd-awards__list">
+                  {awards.map((a) => (
+                    <li key={a.title}>
+                      <Icon name={a.kind === 'cert' ? 'shield' : 'award'} />
+                      <div>
+                        <small>{at.kinds[a.kind]}</small>
+                        <strong>{a.title}</strong>
+                        <span>{a.by}</span>
+                      </div>
+                      {a.years.length > 0 && <em>{a.years.join(' · ')}</em>}
+                    </li>
+                  ))}
+                </ul>
+                {medal && <p className="pd-awards__jury">{at.jury}</p>}
+                <Link className="link-arrow link-arrow--light" href={lp(lang, '/zertifizierungen')}>{AWARDS_LINK[lang]} <Icon name="arrow" /></Link>
+              </div>
+            </div>
+          </section>
+        )}
 
         <section className="section">
           <div className="wrap">
