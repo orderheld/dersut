@@ -18,6 +18,9 @@ export type Cart = {
   total: number;
   vatRate: number;
   vat: number;
+  /** Rabatt in Rappen (nur mit dem Testcode aus dem Admin) */
+  discount?: number;
+  isTest?: boolean;
 };
 
 export async function readCart(): Promise<CartRaw> {

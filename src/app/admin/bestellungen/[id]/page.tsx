@@ -42,7 +42,7 @@ export default async function OrderDetail({ params, searchParams }: Props) {
       <header className="pagehead">
         <div>
           <Link className="back" href="/admin/bestellungen">← Alle Bestellungen</Link>
-          <h1>Bestellung {o.number} <span className={`badge badge--${o.status}`}>{statusLabel(o.status)}</span></h1>
+          <h1>Bestellung {o.number} <span className={`badge badge--${o.status}`}>{statusLabel(o.status)}</span>{o.is_test && <> <span className="badge badge--test">TEST (Testcode)</span></>}</h1>
           <p className="muted">Eingegangen am {dateCh(o.created_at, true)} · {o.payment_method === 'online' ? `Online-Zahlung (Payrexx)${o.payrexx_gateway_id ? `, Zahlungslink ${o.payrexx_gateway_id}` : ''}` : <>Vorauskasse · zahlbar bis {dateCh(dueDate(o))}</>}</p>
         </div>
         <a className="btn btn--ghost" href={lp(o.lang, `/bestellung/${o.number}?t=${o.token}`)} target="_blank" rel="noopener">Kundenansicht ↗</a>
@@ -132,6 +132,7 @@ export default async function OrderDetail({ params, searchParams }: Props) {
                 ))}
                 <tr><td></td><td className="muted">Zwischensumme</td><td className="num">{chf(o.subtotal)}</td></tr>
                 <tr><td></td><td className="muted">Versand (Post)</td><td className="num">{o.shipping ? chf(o.shipping) : 'Gratis'}</td></tr>
+                {o.discount > 0 && <tr><td></td><td className="muted">Testrabatt</td><td className="num">– {chf(o.discount)}</td></tr>}
                 <tr className="total"><td></td><td>Total</td><td className="num">{chf(o.total)}</td></tr>
                 <tr><td></td><td className="muted small">davon MWST {o.vat_rate} %</td><td className="num muted small">{chf(o.vat_amount)}</td></tr>
               </tbody>
