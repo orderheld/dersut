@@ -9,10 +9,10 @@ export const config = {
 
   company: {
     name: 'Dersut Kaffee GmbH',
-    // Quelle: Handelsregister (Zefix), Stand 2026-10-07
-    street: 'Fasanenstrasse 121',
-    zip: '4058',
-    city: 'Basel',
+    // Geschäftsadresse laut Ferhat (2026-11-01). Sitz im Handelsregister (Zefix) noch Basel.
+    street: 'Hauptstrasse 73',
+    zip: '4147',
+    city: 'Aesch (BL)',
     phone: '+41 78 673 21 47', // im Admin änderbar (Firma & Shop)
     uid: 'CHE-452.988.706',
     vatNo: 'CHE-452.988.706 MWST',

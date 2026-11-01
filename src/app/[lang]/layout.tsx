@@ -91,7 +91,7 @@ export default async function SiteLayout({ children, params }: Props) {
       areaServed: 'CH',
       availableLanguage: ['German', 'French', 'Italian', 'English'],
     },
-    ...(c.street ? { address: { '@type': 'PostalAddress', streetAddress: c.street, postalCode: c.zip, addressLocality: c.city, addressRegion: 'BS', addressCountry: 'CH' } } : {}),
+    ...(c.street ? { address: { '@type': 'PostalAddress', streetAddress: c.street, postalCode: c.zip, addressLocality: c.city, addressRegion: c.zip.startsWith('40') ? 'BS' : 'BL', addressCountry: 'CH' } } : {}),
     ...(c.phone ? { telephone: c.phone } : {}),
   };
 

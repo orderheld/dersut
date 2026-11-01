@@ -957,7 +957,7 @@ const BASE_ARTICLES: Article[] = [
             h: 'Italienischer Kaffee aus Conegliano',
             p: [
               'Dersut Caffè ist eine Familienrösterei aus Conegliano im Veneto, die seit 1947 Kaffee röstet. Die Bohnen werden in zwei Stufen geröstet: Vorröstung bei 150 °C, Hauptröstung bei 210 bis 220 °C und anschliessende Kühlung mit Luft. Eine elektronische Farbsortierung prüft jede Bohne einzeln. Dersut ist mit "Espresso Italiano Certificato" und "Espresso Italiano di Qualità" zertifiziert.',
-              'Die Dersut Kaffee GmbH in Basel ist der offizielle Vertrieb für die Schweiz. Sie erhalten also Originalpackungen direkt aus der Rösterei, ohne Umweg über Zwischenhändler im Ausland.',
+              'Die Dersut Kaffee GmbH in Aesch (BL) ist der offizielle Vertrieb für die Schweiz. Sie erhalten also Originalpackungen direkt aus der Rösterei, ohne Umweg über Zwischenhändler im Ausland.',
             ],
           },
           {
@@ -1002,7 +1002,7 @@ const BASE_ARTICLES: Article[] = [
           ],
           [
             'Sind es Originalpackungen?',
-            'Ja. Die Dersut Kaffee GmbH in Basel ist der offizielle Vertrieb von Dersut Caffè in der Schweiz und verkauft ausschliesslich Originalpackungen.',
+            'Ja. Die Dersut Kaffee GmbH in Aesch (BL) ist der offizielle Vertrieb von Dersut Caffè in der Schweiz und verkauft ausschliesslich Originalpackungen.',
           ],
         ],
         cta: 'Bestellen Sie italienischen Espresso direkt beim offiziellen Schweizer Vertrieb:',
@@ -1034,7 +1034,7 @@ const BASE_ARTICLES: Article[] = [
             h: 'Du café italien de Conegliano',
             p: [
               'Dersut Caffè est une torréfaction familiale de Conegliano, en Vénétie, qui torréfie du café depuis 1947. Les grains sont torréfiés en deux étapes : pré-torréfaction à 150 °C, torréfaction principale entre 210 et 220 °C, puis refroidissement à l’air. Une sélection électronique contrôle la couleur de chaque grain. Dersut est certifié "Espresso Italiano Certificato" et "Espresso Italiano di Qualità".',
-              'Dersut Kaffee GmbH, à Bâle, est le distributeur officiel pour la Suisse. Vous recevez des paquets originaux venus directement de la torréfaction, sans passer par des intermédiaires à l’étranger.',
+              'Dersut Kaffee GmbH, à Aesch (BL), est le distributeur officiel pour la Suisse. Vous recevez des paquets originaux venus directement de la torréfaction, sans passer par des intermédiaires à l’étranger.',
             ],
           },
           {
@@ -1079,7 +1079,7 @@ const BASE_ARTICLES: Article[] = [
           ],
           [
             'S’agit-il de paquets originaux ?',
-            'Oui. Dersut Kaffee GmbH, à Bâle, est le distributeur officiel de Dersut Caffè en Suisse et ne vend que des paquets originaux.',
+            'Oui. Dersut Kaffee GmbH, à Aesch (BL), est le distributeur officiel de Dersut Caffè en Suisse et ne vend que des paquets originaux.',
           ],
         ],
         cta: 'Commandez votre espresso italien directement chez le distributeur officiel suisse :',
@@ -1111,7 +1111,7 @@ const BASE_ARTICLES: Article[] = [
             h: 'Caffè italiano da Conegliano',
             p: [
               'Dersut Caffè è una torrefazione di famiglia di Conegliano, in Veneto, che tosta caffè dal 1947. I chicchi sono tostati in due fasi: pre-tostatura a 150 °C, tostatura principale tra 210 e 220 °C e raffreddamento ad aria. Una selezione elettronica controlla il colore di ogni chicco. Dersut è certificata "Espresso Italiano Certificato" ed "Espresso Italiano di Qualità".',
-              'Dersut Kaffee GmbH, con sede a Basilea, è il distributore ufficiale per la Svizzera. Riceve quindi confezioni originali direttamente dalla torrefazione, senza passare da intermediari all’estero.',
+              'Dersut Kaffee GmbH, con sede ad Aesch (BL), è il distributore ufficiale per la Svizzera. Riceve quindi confezioni originali direttamente dalla torrefazione, senza passare da intermediari all’estero.',
             ],
           },
           {
@@ -1156,7 +1156,7 @@ const BASE_ARTICLES: Article[] = [
           ],
           [
             'Sono confezioni originali?',
-            'Sì. Dersut Kaffee GmbH di Basilea è il distributore ufficiale di Dersut Caffè in Svizzera e vende solo confezioni originali.',
+            'Sì. Dersut Kaffee GmbH di Aesch (BL) è il distributore ufficiale di Dersut Caffè in Svizzera e vende solo confezioni originali.',
           ],
         ],
         cta: 'Ordini il suo espresso italiano direttamente dal distributore ufficiale svizzero:',
@@ -1188,7 +1188,7 @@ const BASE_ARTICLES: Article[] = [
             h: 'Italian coffee from Conegliano',
             p: [
               'Dersut Caffè is a family roastery in Conegliano in the Veneto region that has been roasting coffee since 1947. The beans are roasted in two stages: a pre-roast at 150 °C, a main roast at 210 to 220 °C and then air cooling. Electronic colour sorting checks every bean individually. Dersut holds the certifications "Espresso Italiano Certificato" and "Espresso Italiano di Qualità".',
-              'Dersut Kaffee GmbH in Basel is the official distributor for Switzerland. That means you receive original packs straight from the roastery, without detours via middlemen abroad.',
+              'Dersut Kaffee GmbH in Aesch (BL) is the official distributor for Switzerland. That means you receive original packs straight from the roastery, without detours via middlemen abroad.',
             ],
           },
           {
@@ -1233,7 +1233,7 @@ const BASE_ARTICLES: Article[] = [
           ],
           [
             'Are these original packs?',
-            'Yes. Dersut Kaffee GmbH in Basel is the official distributor of Dersut Caffè in Switzerland and sells original packs only.',
+            'Yes. Dersut Kaffee GmbH in Aesch (BL) is the official distributor of Dersut Caffè in Switzerland and sells original packs only.',
           ],
         ],
         cta: 'Order your Italian espresso directly from the official Swiss distributor:',
@@ -1300,7 +1300,7 @@ const BASE_ARTICLES: Article[] = [
           {
             h: 'Dersut für Ihre Firma oder Ihren Betrieb',
             p: [
-              'Dersut Caffè röstet seit 1947 in Conegliano und beliefert über 4’000 Bars und Geschäfte. Die Dersut Kaffee GmbH in Basel ist der offizielle Vertrieb für die Schweiz. Für Firmen und Gastronomie bieten wir Mengenpreise, Lieferung nach Plan und Rechnung in Franken.',
+              'Dersut Caffè röstet seit 1947 in Conegliano und beliefert über 4’000 Bars und Geschäfte. Die Dersut Kaffee GmbH in Aesch (BL) ist der offizielle Vertrieb für die Schweiz. Für Firmen und Gastronomie bieten wir Mengenpreise, Lieferung nach Plan und Rechnung in Franken.',
               'Fragen Sie unverbindlich an: für Restaurants, Bars und Hotels auf der Seite [Gastronomie](/gastronomie), für Büros, Praxen und Kanzleien auf der Seite [Firmen & Büro](/firmen). Wir melden uns innert 24 Stunden.',
             ],
           },
@@ -1362,7 +1362,7 @@ const BASE_ARTICLES: Article[] = [
           {
             h: 'Dersut pour votre entreprise ou votre établissement',
             p: [
-              'Dersut Caffè torréfie à Conegliano depuis 1947 et fournit plus de 4’000 bars et commerces. Dersut Kaffee GmbH à Bâle est le distributeur officiel pour la Suisse. Pour les entreprises et la restauration, nous proposons des prix de quantité, des livraisons planifiées et une facture en francs.',
+              'Dersut Caffè torréfie à Conegliano depuis 1947 et fournit plus de 4’000 bars et commerces. Dersut Kaffee GmbH à Aesch (BL) est le distributeur officiel pour la Suisse. Pour les entreprises et la restauration, nous proposons des prix de quantité, des livraisons planifiées et une facture en francs.',
               'Demandez une offre sans engagement : pour restaurants, bars et hôtels sur la page [Restauration](/gastronomie), pour bureaux, cabinets et études sur la page [Entreprises & bureau](/firmen). Réponse sous 24 heures.',
             ],
           },
@@ -1424,7 +1424,7 @@ const BASE_ARTICLES: Article[] = [
           {
             h: 'Dersut per la vostra azienda o il vostro locale',
             p: [
-              'Dersut Caffè tosta a Conegliano dal 1947 e rifornisce oltre 4’000 bar e negozi. Dersut Kaffee GmbH a Basilea è il distributore ufficiale per la Svizzera. Per aziende e gastronomia offriamo prezzi per quantità, consegne programmate e fattura in franchi.',
+              'Dersut Caffè tosta a Conegliano dal 1947 e rifornisce oltre 4’000 bar e negozi. Dersut Kaffee GmbH ad Aesch (BL) è il distributore ufficiale per la Svizzera. Per aziende e gastronomia offriamo prezzi per quantità, consegne programmate e fattura in franchi.',
               'Richiedete un’offerta senza impegno: per ristoranti, bar e hotel alla pagina [Gastronomia](/gastronomie), per uffici, studi e cabinet alla pagina [Aziende e ufficio](/firmen). Rispondiamo entro 24 ore.',
             ],
           },
@@ -1486,7 +1486,7 @@ const BASE_ARTICLES: Article[] = [
           {
             h: 'Dersut for your company or venue',
             p: [
-              'Dersut Caffè has been roasting in Conegliano since 1947 and supplies more than 4,000 bars and shops. Dersut Kaffee GmbH in Basel is the official distributor for Switzerland. For companies and hospitality we offer volume pricing, scheduled delivery and invoicing in Swiss francs.',
+              'Dersut Caffè has been roasting in Conegliano since 1947 and supplies more than 4,000 bars and shops. Dersut Kaffee GmbH in Aesch (BL) is the official distributor for Switzerland. For companies and hospitality we offer volume pricing, scheduled delivery and invoicing in Swiss francs.',
               'Ask for a free quote: for restaurants, bars and hotels on the [Hospitality](/gastronomie) page, for offices, practices and law firms on the [Companies & offices](/firmen) page. We reply within 24 hours.',
             ],
           },

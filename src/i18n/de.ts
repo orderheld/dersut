@@ -262,7 +262,7 @@ export const de = {
   },
   status: { open: 'Zahlung ausstehend', paid: 'Bezahlt', shipped: 'Versendet', cancelled: 'Storniert' } as Record<string, string>,
   contact: {
-    metaTitle: 'Kontakt: Dersut Kaffee GmbH, Basel',
+    metaTitle: 'Kontakt: Dersut Kaffee GmbH, Aesch (BL)',
     metaDescription: 'Kontakt zu Dersut Kaffee GmbH, dem offiziellen Vertrieb von Dersut Caffè in der Schweiz. Beratung, Bestellungen und Angebote für die Gastronomie.',
     eyebrow: 'Contatti',
     heading: 'Wir sind <em>für Sie da</em>',
