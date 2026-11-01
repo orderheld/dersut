@@ -174,7 +174,7 @@ export async function sendContactMail(m: { name: string; email: string; phone: s
 /** Antwort bzw. neue E-Mail aus dem Admin-Postfach: eigener Text, darunter optional die ursprüngliche Nachricht. */
 /**
  * HTML-Signatur für E-Mails aus dem Admin (wie /mnt/project-files/signatur): Logo, Person, Firma, Kontakt.
- * Der Webseiten-Link führt auf die Hauptadresse (dersut.ch), angezeigt wird die kurze Marke «dersut.ch».
+ * Der Webseiten-Link führt auf die Hauptadresse dersut.ch.
  */
 export function signatureHtml(): string {
   const p = signaturePerson();

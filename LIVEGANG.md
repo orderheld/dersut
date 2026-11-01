@@ -1,4 +1,4 @@
-# dersutkaffee.ch live schalten – Schritt für Schritt
+# dersut.ch live schalten – Schritt für Schritt
 
 Alle E-Mails laufen über **info@dersut.ch** (Absender, Bestellkopien, Kontaktformular).
 Das Postfach bleibt bei cyon. Du brauchst Konten bei **vercel.com** und **resend.com** (beide gratis).
@@ -71,7 +71,7 @@ In Vercel → Projekt **dersut** → **Settings → Environment Variables** → 
 | Key | Value | Environments |
 |---|---|---|
 | `SESSION_SECRET` | Ctrl+V (der Schlüssel aus der Zwischenablage) | alle |
-| `SITE_URL` | `https://dersutkaffee.ch` | Production |
+| `SITE_URL` | `https://dersut.ch` | Production |
 
 Wichtig: Ohne `SESSION_SECRET` (mind. 24 Zeichen) funktionieren Admin-Anmeldung und «Passwort vergessen» nicht.
 Neue oder geänderte Umgebungsvariablen gelten erst nach einem neuen Deployment (**Deployments → ⋯ → Redeploy**).
@@ -118,9 +118,9 @@ Dann **Einstellungen → Testmail senden** klicken: Die Testmail muss im cyon-We
 ## Schritt 7 – Domains auf Vercel zeigen lassen
 
 1. Vercel → Projekt **dersut** → **Settings → Domains** → **Add Domain**:
-   - `dersutkaffee.ch` (Hauptadresse) → bei der Frage nach www: **Add www.dersutkaffee.ch and redirect it to dersutkaffee.ch** wählen
-   - `dersut.ch` → **Redirect to** `dersutkaffee.ch` (301)
-   - `www.dersut.ch` → **Redirect to** `dersutkaffee.ch` (301)
+   - `dersut.ch` (Hauptadresse) → bei der Frage nach www: **Add www.dersut.ch and redirect it to dersut.ch** wählen
+   - `dersutkaffee.ch` → **Redirect to** `dersut.ch` (308)
+   - `www.dersutkaffee.ch` → **Redirect to** `dersut.ch` (308)
 2. Vercel zeigt bei jeder Domain «Invalid Configuration» und die nötigen Werte an. Diese bei cyon eintragen
    (<https://my.cyon.ch> → Domains → jeweilige Domain → DNS-Einträge):
 
@@ -136,7 +136,7 @@ Dann **Einstellungen → Testmail senden** klicken: Die Testmail muss im cyon-We
 3. Nach einigen Minuten bis wenigen Stunden zeigt Vercel überall «Valid Configuration». Das SSL-Zertifikat
    erstellt Vercel automatisch.
 
-Fertig: **https://dersutkaffee.ch** ist live.
+Fertig: **https://dersut.ch** ist live.
 
 ## Online-Zahlung mit Payrexx (TWINT, Karten)
 
@@ -147,7 +147,7 @@ Ohne diese Einstellungen gibt es im Shop nur Vorauskasse. Sobald beide Werte ges
    - `PAYREXX_INSTANCE` = Name der Instanz, also der vordere Teil von `xxx.payrexx.com` (nur `xxx`)
    - `PAYREXX_API_SECRET` = der kopierte API-Schlüssel
 3. Payrexx → **Einstellungen → Webhooks** → neuer Webhook:
-   URL `https://dersutkaffee.ch/api/payrexx`, Typ/Format **JSON**.
+   URL `https://dersut.ch/api/payrexx`, Typ/Format **JSON**.
    Der Webhook ist eine Absicherung, falls jemand nach dem Bezahlen das Fenster schliesst. Der Shop prüft jede Zahlung zusätzlich direkt bei Payrexx.
 4. Vercel → **Deployments** → beim obersten Eintrag **⋯ → Redeploy**. Erst danach erscheinen die neuen Texte und die Zahlungsauswahl.
 5. Welche Zahlungsarten (TWINT, Karten, PostFinance …) angeboten werden, stellen Sie direkt in Payrexx unter **Zahlungsanbieter** ein.
