@@ -133,3 +133,12 @@ export async function reloadSettings(): Promise<void> {
 export async function transaction(queries: Query[]): Promise<void> {
   await (await getDriver()).transaction(queries);
 }
+
+/**
+ * Vor dem Anzeigen von Texten mit Versandbeträgen oder Firmendaten aufrufen: stellt sicher, dass die
+ * Einstellungen aus dem Admin geladen sind (auch auf Seiten, die sonst keine Datenbank brauchen).
+ */
+export async function settingsReady(): Promise<void> {
+  const d = await getDriver();
+  if (Date.now() - settingsLoadedAt > 60_000) await refreshSettings(d);
+}

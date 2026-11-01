@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { settingsReady } from '@/lib/db';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { Icon } from '@/components/Icon';
@@ -39,6 +40,7 @@ async function load(params: Props['params']) {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  await settingsReady();
   const { lang, c, items } = await load(params);
   if (!c) return { title: getDict(lang).nav.shop, robots: { index: false } };
   const desc = `${categoryIntro(c, lang)} ${fillShipping(FREE[lang])}`.trim();
@@ -46,6 +48,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function CategoryPage({ params }: Props) {
+  await settingsReady();
   const { lang, products, cats, c, items } = await load(params);
   if (!c) notFound();
   const t = getDict(lang);

@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { settingsReady } from '@/lib/db';
 import { shipText } from '@/lib/shipping-text';
 import Link from 'next/link';
 import { Icon } from '@/components/Icon';
@@ -320,6 +321,7 @@ const STEP_IMGS: BrandKey[] = ['selezione', 'tostatura', 'caffe'];
 const HOW_ICONS = ['bag', 'bank', 'truck'] as const;
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  await settingsReady();
   const lang = asLocale((await params).lang);
   return pageMeta(lang, PATH, T[lang].metaTitle, T[lang].metaDescription, { absoluteTitle: true });
 }
@@ -332,6 +334,7 @@ const HERO_TITLE: Record<Locale, [string, string]> = {
 };
 
 export default async function Home({ params }: Props) {
+  await settingsReady();
   const lang = asLocale((await params).lang);
   const t = shipText(T[lang]);
   const products = await getProducts(true, lang);

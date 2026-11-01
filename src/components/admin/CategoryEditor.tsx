@@ -23,7 +23,7 @@ export function CategoryEditor({ initial, counts }: { initial: Cat[]; counts: Re
           <button type="button" className="cats__del" title={counts[c.slug] ? `${counts[c.slug]} Produkte verlieren die Kategorie` : 'Entfernen'} onClick={() => setRows(rows.filter((_, j) => j !== i))}>✕</button>
         </div>
         <details className="cats__text">
-          <summary>Text der Kategorieseite{c.slug ? <> · <a href={`/shop/kategorie/${c.slug}`} target="_blank" rel="noopener noreferrer">ansehen</a></> : null}{counts[c.slug] ? ` · ${counts[c.slug]} Produkt${counts[c.slug] > 1 ? 'e' : ''}` : ''}</summary>
+          <summary>Text der Kategorieseite{counts[c.slug] ? <> · <a href={`/shop/kategorie/${c.slug}`} target="_blank" rel="noopener noreferrer">ansehen</a></> : null}{counts[c.slug] ? ` · ${counts[c.slug]} Produkt${counts[c.slug] > 1 ? 'e' : ''}` : ''}</summary>
           <p className="muted small">Leer lassen = Standardtext. Erscheint oben auf der Kategorieseite und hilft bei Google.</p>
           {LANGS.map(([l, name]) => (
             <label key={l}>{name}<textarea name={`cat_text_${l}`} rows={2} maxLength={400} defaultValue={c.text?.[l] ?? ''} /></label>

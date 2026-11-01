@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { settingsReady } from '@/lib/db';
 import { shipText } from '@/lib/shipping-text';
 import { Icon } from '@/components/Icon';
 import { PageHero } from '@/components/PageHero';
@@ -16,11 +17,11 @@ const example = `${config.shop.orderPrefix}-${String(new Date().getFullYear()).s
 
 const de = {
   metaTitle: 'Versand & Zahlung',
-  metaDescription: `Lieferung in die ganze Schweiz mit der Post für pauschal {ship}, ab {free} gratis. Zahlung per Vorauskasse (Banküberweisung mit QR-Code). Alle Preise inkl. MWST.`,
+  metaDescription: `Gratis Versand in die ganze Schweiz ab {free} (sonst pauschal {ship}). Zahlung per Vorauskasse (Banküberweisung mit QR-Code). Alle Preise inkl. MWST.`,
   crumb: 'Versand & Zahlung',
   eyebrow: 'Service',
   title: 'Versand & Zahlung',
-  lead: `Einfach, transparent und sicher: Lieferung in die ganze Schweiz für pauschal {ship} (ab {free} gratis), Zahlung per Vorauskasse.`,
+  lead: `Einfach, transparent und sicher: gratis Versand in die ganze Schweiz ab {free} (sonst pauschal {ship}), Zahlung per Vorauskasse.`,
   steps: [
     ['bag', 'Bestellen', 'Sie schliessen Ihre Bestellung ab und erhalten sofort eine Bestellnummer sowie eine E-Mail mit allen Zahlungsangaben.'],
     ['bank', 'Überweisen', `Sie überweisen den Gesamtbetrag innert ${days} Tagen und geben dabei Ihre Bestellnummer an. Am einfachsten mit dem QR-Code in Ihrer Banking-App.`],
@@ -44,11 +45,11 @@ const T: Record<Locale, typeof de> = {
   de,
   fr: {
     metaTitle: 'Livraison & paiement',
-    metaDescription: `Livraison dans toute la Suisse par La Poste pour un forfait de {ship}, offerte dès {free}. Paiement anticipé par virement bancaire avec QR-code. Tous les prix TVA incluse.`,
+    metaDescription: `Livraison offerte dans toute la Suisse dès {free} (sinon forfait de {ship}). Paiement anticipé par virement bancaire avec QR-code. Tous les prix TVA incluse.`,
     crumb: 'Livraison & paiement',
     eyebrow: 'Service',
     title: 'Livraison & paiement',
-    lead: `Simple, transparent et sûr : livraison dans toute la Suisse pour un forfait de {ship} (offerte dès {free}), paiement anticipé.`,
+    lead: `Simple, transparent et sûr : livraison offerte dans toute la Suisse dès {free} (sinon forfait de {ship}), paiement anticipé.`,
     steps: [
       ['bag', 'Commander', 'Vous finalisez votre commande et recevez immédiatement un numéro de commande ainsi qu’un e-mail avec toutes les informations de paiement.'],
       ['bank', 'Virer', `Vous virez le montant total dans les ${days} jours en indiquant votre numéro de commande. Le plus simple : avec le QR-code dans votre application bancaire.`],
@@ -69,11 +70,11 @@ const T: Record<Locale, typeof de> = {
   },
   it: {
     metaTitle: 'Spedizione & pagamento',
-    metaDescription: `Consegna in tutta la Svizzera con la Posta a un forfait di {ship}, gratuita da {free}. Pagamento anticipato tramite bonifico bancario con codice QR. Tutti i prezzi IVA inclusa.`,
+    metaDescription: `Spedizione gratuita in tutta la Svizzera da {free} (altrimenti forfait di {ship}). Pagamento anticipato tramite bonifico bancario con codice QR. Tutti i prezzi IVA inclusa.`,
     crumb: 'Spedizione & pagamento',
     eyebrow: 'Servizio',
     title: 'Spedizione & pagamento',
-    lead: `Semplice, trasparente e sicuro: consegna in tutta la Svizzera a un forfait di {ship} (gratuita da {free}), pagamento anticipato.`,
+    lead: `Semplice, trasparente e sicuro: spedizione gratuita in tutta la Svizzera da {free} (altrimenti forfait di {ship}), pagamento anticipato.`,
     steps: [
       ['bag', 'Ordinare', 'Concludete l’ordine e ricevete subito un numero d’ordine e un’e-mail con tutti i dati per il pagamento.'],
       ['bank', 'Bonificare', `Bonificate l’importo totale entro ${days} giorni indicando il numero d’ordine. Il modo più semplice: con il codice QR nella vostra app bancaria.`],
@@ -94,11 +95,11 @@ const T: Record<Locale, typeof de> = {
   },
   en: {
     metaTitle: 'Shipping & payment',
-    metaDescription: `Delivery throughout Switzerland by Swiss Post for a flat {ship}, free from {free}. Payment in advance by bank transfer with QR code. All prices include VAT.`,
+    metaDescription: `Free delivery throughout Switzerland from {free} (otherwise a flat {ship}). Payment in advance by bank transfer with QR code. All prices include VAT.`,
     crumb: 'Shipping & payment',
     eyebrow: 'Service',
     title: 'Shipping & payment',
-    lead: `Simple, transparent and secure: delivery throughout Switzerland for a flat {ship} (free from {free}), payment in advance.`,
+    lead: `Simple, transparent and secure: free delivery throughout Switzerland from {free} (otherwise a flat {ship}), payment in advance.`,
     steps: [
       ['bag', 'Order', 'You complete your order and immediately receive an order number and an e-mail with all payment details.'],
       ['bank', 'Transfer', `You transfer the total amount within ${days} days, quoting your order number. The easiest way: with the QR code in your banking app.`],
@@ -122,26 +123,26 @@ const T: Record<Locale, typeof de> = {
 /** Texte, sobald Online-Zahlung (Payrexx) aktiv ist */
 const ON: Record<Locale, { metaDescription: string; lead: string; step: string[]; payFaq: string[] }> = {
   de: {
-    metaDescription: `Lieferung in die ganze Schweiz mit der Post für pauschal {ship}, ab {free} gratis. Zahlung online mit TWINT oder Karte oder per Vorauskasse. Alle Preise inkl. MWST.`,
-    lead: `Einfach, transparent und sicher: Lieferung in die ganze Schweiz für pauschal {ship} (ab {free} gratis), Zahlung online mit TWINT oder Karte oder per Vorauskasse.`,
+    metaDescription: `Gratis Versand in die ganze Schweiz ab {free} (sonst pauschal {ship}). Zahlung online mit TWINT oder Karte oder per Vorauskasse. Alle Preise inkl. MWST.`,
+    lead: `Einfach, transparent und sicher: gratis Versand in die ganze Schweiz ab {free} (sonst pauschal {ship}), Zahlung online mit TWINT oder Karte oder per Vorauskasse.`,
     step: ['lock', 'Bezahlen', `Sie bezahlen direkt online mit TWINT oder Karte. Oder Sie überweisen den Betrag innert ${days} Tagen mit dem QR-Code in Ihrer Banking-App.`],
     payFaq: ['Welche Zahlungsarten gibt es?', 'Sie bezahlen online mit TWINT, Kredit- oder Debitkarte über unseren Schweizer Zahlungspartner Payrexx, oder per Vorauskasse mit Banküberweisung. Ihre Kartendaten geben Sie nur auf der Zahlungsseite von Payrexx ein, wir sehen sie nie. Bei Online-Zahlung versenden wir sofort.'],
   },
   fr: {
-    metaDescription: `Livraison dans toute la Suisse par La Poste pour un forfait de {ship}, offerte dès {free}. Paiement en ligne par TWINT ou carte, ou paiement anticipé. Tous les prix TVA incluse.`,
-    lead: `Simple, transparent et sûr : livraison dans toute la Suisse pour un forfait de {ship} (offerte dès {free}), paiement en ligne par TWINT ou carte, ou paiement anticipé.`,
+    metaDescription: `Livraison offerte dans toute la Suisse dès {free} (sinon forfait de {ship}). Paiement en ligne par TWINT ou carte, ou paiement anticipé. Tous les prix TVA incluse.`,
+    lead: `Simple, transparent et sûr : livraison offerte dans toute la Suisse dès {free} (sinon forfait de {ship}), paiement en ligne par TWINT ou carte, ou paiement anticipé.`,
     step: ['lock', 'Payer', `Vous payez directement en ligne par TWINT ou par carte. Ou vous virez le montant dans les ${days} jours avec le code QR dans votre application bancaire.`],
     payFaq: ['Quels modes de paiement proposez-vous ?', 'Vous payez en ligne par TWINT, carte de crédit ou de débit via notre partenaire de paiement suisse Payrexx, ou par paiement anticipé avec virement bancaire. Vous saisissez vos données de carte uniquement sur la page de paiement de Payrexx, nous ne les voyons jamais. En cas de paiement en ligne, nous expédions immédiatement.'],
   },
   it: {
-    metaDescription: `Consegna in tutta la Svizzera con la Posta a un forfait di {ship}, gratuita da {free}. Pagamento online con TWINT o carta, oppure pagamento anticipato. Tutti i prezzi IVA inclusa.`,
-    lead: `Semplice, trasparente e sicuro: consegna in tutta la Svizzera a un forfait di {ship} (gratuita da {free}), pagamento online con TWINT o carta, oppure pagamento anticipato.`,
+    metaDescription: `Spedizione gratuita in tutta la Svizzera da {free} (altrimenti forfait di {ship}). Pagamento online con TWINT o carta, oppure pagamento anticipato. Tutti i prezzi IVA inclusa.`,
+    lead: `Semplice, trasparente e sicuro: spedizione gratuita in tutta la Svizzera da {free} (altrimenti forfait di {ship}), pagamento online con TWINT o carta, oppure pagamento anticipato.`,
     step: ['lock', 'Pagare', `Pagate direttamente online con TWINT o con carta. Oppure versate l’importo entro ${days} giorni con il codice QR nella vostra app bancaria.`],
     payFaq: ['Quali metodi di pagamento offrite?', 'Pagate online con TWINT, carta di credito o di debito tramite il nostro partner di pagamento svizzero Payrexx, oppure con pagamento anticipato tramite bonifico. I dati della carta li inserite solo sulla pagina di pagamento di Payrexx, noi non li vediamo mai. Con il pagamento online spediamo subito.'],
   },
   en: {
-    metaDescription: `Delivery throughout Switzerland by Swiss Post for a flat {ship}, free from {free}. Pay online with TWINT or card, or in advance by bank transfer. All prices include VAT.`,
-    lead: `Simple, transparent and secure: delivery throughout Switzerland for a flat {ship} (free from {free}), payment online with TWINT or card, or in advance by bank transfer.`,
+    metaDescription: `Free delivery throughout Switzerland from {free} (otherwise a flat {ship}). Pay online with TWINT or card, or in advance by bank transfer. All prices include VAT.`,
+    lead: `Simple, transparent and secure: free delivery throughout Switzerland from {free} (otherwise a flat {ship}), payment online with TWINT or card, or in advance by bank transfer.`,
     step: ['lock', 'Pay', `Pay directly online with TWINT or card. Or transfer the amount within ${days} days using the QR code in your banking app.`],
     payFaq: ['Which payment methods do you offer?', 'You pay online with TWINT, credit or debit card via our Swiss payment partner Payrexx, or in advance by bank transfer. You only enter your card details on the Payrexx payment page, we never see them. With online payment we dispatch right away.'],
   },
@@ -161,12 +162,14 @@ function texts(lang: Locale): typeof de {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  await settingsReady();
   const lang = asLocale((await params).lang);
   const t = texts(lang);
   return pageMeta(lang, PATH, t.metaTitle, t.metaDescription);
 }
 
 export default async function Versand({ params }: Props) {
+  await settingsReady();
   const lang = asLocale((await params).lang);
   const t = texts(lang);
   const faqLd = {

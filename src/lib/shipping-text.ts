@@ -10,7 +10,12 @@ export const chfShort = (rappen: number) => (rappen % 100 === 0 ? `CHF ${chf(rap
 
 export function fillShipping(s: string): string {
   if (!s.includes('{')) return s;
-  return s.replace(/\{ship\}/g, chfShort(config.shop.shipping)).replace(/\{free\}/g, chfShort(config.shop.freeShippingFrom));
+  const val = (k: string) => chfShort(k === 'ship' ? config.shop.shipping : config.shop.freeShippingFrom);
+  // «CHF 100.–.» vermeiden: Satzpunkt nach einem Betrag mit «.–» weglassen
+  return s.replace(/\{(ship|free)\}(\.(?!\d))?/g, (_, k: string, dot?: string) => {
+    const v = val(k);
+    return dot && !v.endsWith('–') ? v + dot : v;
+  });
 }
 
 const memo = new WeakMap<object, { key: string; value: unknown }>();

@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { settingsReady } from '@/lib/db';
 import { shipText } from '@/lib/shipping-text';
 import Link from 'next/link';
 import { Icon } from '@/components/Icon';
@@ -159,11 +160,13 @@ const T: Record<Locale, typeof de> = {
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  await settingsReady();
   const lang = asLocale((await params).lang);
   return pageMeta(lang, PATH, shipText(T[lang]).metaTitle, shipText(T[lang]).metaDescription);
 }
 
 export default async function Vertrieb({ params }: Props) {
+  await settingsReady();
   const lang = asLocale((await params).lang);
   const t = shipText(T[lang]);
   return (

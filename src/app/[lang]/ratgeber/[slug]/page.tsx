@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { settingsReady } from '@/lib/db';
 import { shipText } from '@/lib/shipping-text';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
@@ -19,6 +20,7 @@ export function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  await settingsReady();
   const { lang: l, slug } = await params;
   const lang = asLocale(l);
   const a = shipText(ARTICLES.find((x) => x.slug === slug));
@@ -28,6 +30,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function Article({ params }: Props) {
+  await settingsReady();
   const { lang: l, slug } = await params;
   const lang = asLocale(l);
   const a = shipText(ARTICLES.find((x) => x.slug === slug));

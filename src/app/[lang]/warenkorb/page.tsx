@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { settingsReady } from '@/lib/db';
 import Link from 'next/link';
 import { CartQty } from '@/components/CartQty';
 import { CartSync } from '@/components/CartSync';
@@ -17,10 +18,12 @@ export const dynamic = 'force-dynamic';
 type Props = { params: Promise<{ lang: string }> };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  await settingsReady();
   return { title: getDict(asLocale((await params).lang)).cart.title, robots: { index: false } };
 }
 
 export default async function Warenkorb({ params }: Props) {
+  await settingsReady();
   const lang = asLocale((await params).lang);
   const T = getDict(lang);
   const t = T.cart;

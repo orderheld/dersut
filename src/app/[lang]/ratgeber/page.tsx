@@ -1,4 +1,5 @@
 import { shipText } from '@/lib/shipping-text';
+import { settingsReady } from '@/lib/db';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Img } from '@/components/Img';
@@ -11,12 +12,14 @@ import { absolute, breadcrumbLd, jsonLd, pageMeta } from '@/lib/seo';
 type Props = { params: Promise<{ lang: string }> };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  await settingsReady();
   const lang = asLocale((await params).lang);
   const t = RATGEBER_PAGE[lang];
   return pageMeta(lang, '/ratgeber', t.metaTitle, t.metaDescription, { image: brand('macchina') });
 }
 
 export default async function Ratgeber({ params }: Props) {
+  await settingsReady();
   const lang = asLocale((await params).lang);
   const t = RATGEBER_PAGE[lang];
   const ld = [

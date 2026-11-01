@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { settingsReady } from '@/lib/db';
 import { ShopHead } from '@/components/ShopHead';
 import { shopCategories } from '@/lib/categories';
 import { ProductCard } from '@/components/ProductCard';
@@ -63,12 +64,14 @@ const GUIDE: Record<Locale, { eyebrow: string; title: string; text: string; inte
 const OTHER: Record<string, string> = { de: 'Weitere Produkte', fr: 'Autres produits', it: 'Altri prodotti', en: 'More products' };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  await settingsReady();
   const lang = asLocale((await params).lang);
   const t = getDict(lang).shop;
   return pageMeta(lang, '/shop', t.metaTitle, t.metaDescription);
 }
 
 export default async function Shop({ params }: Props) {
+  await settingsReady();
   const lang = asLocale((await params).lang);
   const t = getDict(lang);
   const products = await getProducts(true, lang);
