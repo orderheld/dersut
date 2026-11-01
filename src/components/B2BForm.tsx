@@ -5,7 +5,7 @@ import { b2bAction, type B2BState } from '@/app/[lang]/actions';
 import { B2B_FORM, type B2BKind } from '@/content/b2b';
 import { getDict } from '@/i18n';
 import { lp, type Locale } from '@/lib/i18n';
-import { Field } from './Field';
+import { Field, scrollIntoView } from './Field';
 import { FormStart } from './FormStart';
 import { Icon } from './Icon';
 
@@ -18,7 +18,7 @@ export function B2BForm({ kind, lang }: { kind: B2BKind; lang: Locale }) {
   const e = state.errors;
   const defaultType = kind === 'office' ? 'Büro / Firma' : 'Restaurant';
 
-  if (state.sent) return <div className="alert alert--ok" role="status" dangerouslySetInnerHTML={{ __html: f.sent }} />;
+  if (state.sent) return <div ref={scrollIntoView} className="alert alert--ok" role="status" dangerouslySetInnerHTML={{ __html: f.sent }} />;
 
   const opt = T.common.optional;
   return (
