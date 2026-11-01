@@ -29,7 +29,7 @@ export default async function Ratgeber({ params }: Props) {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={jsonLd(ld)} />
-      <PageHero lang={lang} crumb={t.crumb} eyebrow={t.crumb} title={t.title} lead={t.lead} />
+      <PageHero ld={false} lang={lang} crumb={t.crumb} eyebrow={t.crumb} title={t.title} lead={t.lead} />
       <section className="section">
         <div className="wrap guides">
           {ARTICLES.map((a) => {

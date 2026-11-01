@@ -892,3 +892,29 @@ a.ccard:hover { border-color: var(--gold); box-shadow: var(--shadow-sm); color: 
 .pgroup + .pgroup { margin-top: 64px; }
 .pgroup__title { font-family: var(--serif, "Cormorant Garamond", serif); font-weight: 600; font-size: clamp(28px, 3vw, 38px); margin: 0 0 26px; color: var(--ink, #17181c); }
 .pgroup .pgrid { grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); }
+
+/* ---------- Bedienbarkeit auf Handy & Tablet: grössere Tippflächen ---------- */
+@media (max-width: 1024px) {
+  .crumbs a, .pd__crumbs a { display: inline-block; padding: 8px 0; }
+  .footer__bottom nav a { display: inline-block; padding: 10px 0; }
+  .footer ul a { display: inline-block; padding: 4px 0; }
+  .check input { width: 22px; height: 22px; margin-top: 0; }
+}
+@media (max-width: 520px) {
+  .upsell__item { flex-wrap: wrap; }
+  .upsell__txt { flex: 1 1 0; }
+  .upsell__item .btn { width: 100%; justify-content: center; }
+}
+
+/* Footer-Überschriften sind h2 (korrekte Überschriften-Reihenfolge), Aussehen wie bisher */
+.footer h2 { color: #fff; font-size: 12px; letter-spacing: .22em; text-transform: uppercase; font-weight: 600; margin-bottom: 20px; font-family: inherit; line-height: 1.4; }
+
+/* Shop: Ratgeber-Block unter den Produkten */
+.shop-guide { display: grid; gap: 40px; grid-template-columns: 1.2fr 1fr; align-items: start; }
+.shop-guide__compare { display: grid; gap: 16px; margin: 22px 0 26px; }
+.shop-guide__compare div { padding: 16px 18px; background: #fff; border: 1px solid var(--line); border-radius: 8px; }
+.shop-guide__compare strong { display: block; color: var(--ink); margin-bottom: 4px; }
+.shop-guide__links { display: flex; flex-wrap: wrap; gap: 10px 22px; }
+@media (max-width: 860px) { .shop-guide { grid-template-columns: 1fr; gap: 26px; } }
+.summary__row > span:last-child { white-space: nowrap; }
+.summary__row { gap: 12px; }

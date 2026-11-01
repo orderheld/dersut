@@ -92,9 +92,9 @@ export const en: Dict = {
   shop: {
     title: 'Online shop',
     metaTitle: 'Buy Dersut Espresso Beans Online',
-    metaDescription: 'Buy genuine Dersut espresso beans (1 kg) online: Optimum Rosso and Domus Marrone from the official Swiss distributor. Nationwide delivery for CHF 12.– (free from CHF 100.–)',
+    metaDescription: 'Genuine Dersut espresso beans (1 kg): Optimum Rosso and Domus Marrone from the official Swiss distributor. Delivery across Switzerland, free from CHF 100.–',
     eyebrow: 'Online shop',
-    heading: 'Espresso from <em>Conegliano</em>',
+    heading: 'Dersut espresso beans <em>from Conegliano</em>',
     lead: 'Genuine Dersut Caffè, direct from the official distributor in Switzerland. Delivery throughout Switzerland for a flat rate of CHF 12.– (free from CHF 100.–).',
     more: 'More products to follow: our range is continually expanded and varies with the seasons.',
   },
@@ -262,7 +262,7 @@ export const en: Dict = {
   },
   status: { open: 'Awaiting payment', paid: 'Paid', shipped: 'Dispatched', cancelled: 'Cancelled' } as Record<string, string>,
   contact: {
-    metaTitle: 'Contact us',
+    metaTitle: 'Contact: Dersut Kaffee GmbH, Basel',
     metaDescription: 'Contact Dersut Kaffee GmbH, the official distributor of Dersut Caffè in Switzerland: advice, orders and tailored offers for hospitality and offices.',
     eyebrow: 'Contatti',
     heading: 'We are <em>here for you</em>',

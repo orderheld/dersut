@@ -64,7 +64,7 @@ export default async function RegionPage({ params }: Props) {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={jsonLd(ld)} />
-      <PageHero
+      <PageHero ld={false}
         lang={lang}
         img={brand(r.img)}
         crumb={t.name}

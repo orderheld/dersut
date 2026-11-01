@@ -10,6 +10,8 @@ export default function NotFound() {
   const t = getDict(lang);
   return (
     <section className="error-page">
+      <title>{`${t.notFound.title} | Dersut`}</title>
+      <meta name="robots" content="noindex" />
       <div className="wrap">
         <p className="eyebrow">404</p>
         <h1 className="h1">{t.notFound.title}</h1>
