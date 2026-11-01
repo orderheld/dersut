@@ -132,6 +132,9 @@ export const SCHEMA = [
   )`,
   // Kategorie eines Produkts (Kennung aus den Einstellungen, leer = keine)
   `ALTER TABLE products ADD COLUMN IF NOT EXISTS category TEXT NOT NULL DEFAULT ''`,
+  // Test-Bestellungen mit dem geheimen Testcode aus dem Admin (Rabatt in Rappen)
+  `ALTER TABLE orders ADD COLUMN IF NOT EXISTS discount INTEGER NOT NULL DEFAULT 0`,
+  `ALTER TABLE orders ADD COLUMN IF NOT EXISTS is_test BOOLEAN NOT NULL DEFAULT false`,
   // Lagerbestand darf nie negativ werden: Zwei gleichzeitige Bestellungen für das letzte Stück scheitern so sauber
   `DO $$ BEGIN
      IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'products_stock_nonneg') THEN

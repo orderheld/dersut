@@ -43,6 +43,7 @@ function items(o: Order, lang: Locale): string {
     .join('');
   return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;font-size:14px;margin:8px 0 20px">${rows}
 <tr><td style="padding:9px 0">${esc(m.shipping)}</td><td align="right" style="padding:9px 0">${o.shipping ? chf(o.shipping) : esc(m.free)}</td></tr>
+${o.discount ? `<tr><td style="padding:9px 0;color:#a3142a">${esc(m.discount)}</td><td align="right" style="padding:9px 0;color:#a3142a">– ${chf(o.discount)}</td></tr>` : ''}
 <tr><td style="padding:12px 0;border-top:2px solid #002856;font-weight:bold;color:#17181c">Total</td><td align="right" style="padding:12px 0;border-top:2px solid #002856;font-weight:bold;font-size:17px;color:#002856">${chf(o.total)}</td></tr>
 <tr><td colspan="2" align="right" style="font-size:12px;color:#6c6a64">${esc(m.inclVat(o.vat_rate, chf(o.vat_amount)))}</td></tr></table>`;
 }
@@ -143,7 +144,7 @@ export async function sendOrderMail(o: Order, type: OrderMailType): Promise<Mail
     paid: [m.paidSubject(o.number), paid],
     shipped: [m.shippedSubject(o.number), shipped],
     cancelled: [m.cancelSubject(o.number), cancelled],
-    admin: [`Neue Bestellung ${o.number} – ${chf(o.total)}${o.payment_method === 'online' ? ' (online bezahlt)' : ''}`, adminNew],
+    admin: [`${o.is_test ? '[TEST] ' : ''}Neue Bestellung ${o.number} – ${chf(o.total)}${o.payment_method === 'online' ? ' (online bezahlt)' : ''}`, adminNew],
   } as const;
   const [subject, tpl] = map[type];
   const toAdmin = type === 'admin';

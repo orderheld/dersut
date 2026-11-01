@@ -5,7 +5,7 @@ import { CartSync } from '@/components/CartSync';
 import { Icon } from '@/components/Icon';
 import { Img } from '@/components/Img';
 import { cutoutImage, productImage } from '@/lib/brand';
-import { cartSummary } from '@/lib/cart';
+import { checkoutCart } from '@/lib/testcode';
 import { config, onlinePayment } from '@/lib/config';
 import { chf } from '@/lib/format';
 import { getDict } from '@/i18n';
@@ -24,7 +24,7 @@ export default async function Warenkorb({ params }: Props) {
   const lang = asLocale((await params).lang);
   const T = getDict(lang);
   const t = T.cart;
-  const cart = await cartSummary(lang);
+  const cart = await checkoutCart(lang);
   // Empfehlung: Sorten, die noch nicht im Warenkorb liegen, solange der Gratisversand nicht erreicht ist
   const inCart = new Set(cart.items.map((i) => i.product.id));
   const upsell = cart.shipping ? (await getProducts(true, lang)).filter((p) => !inCart.has(p.id) && !isSoldOut(p)) : [];
@@ -98,10 +98,11 @@ export default async function Warenkorb({ params }: Props) {
               <h2>{t.summary}</h2>
               <div className="summary__row"><span>{t.subtotal}</span><span>{chf(cart.subtotal)}</span></div>
               <div className="summary__row"><span>{t.shippingLong}</span><span>{cart.shipping ? chf(cart.shipping) : t.free}</span></div>
-              <p className={`summary__free${cart.shipping ? '' : ' is-done'}`}>
+              {cart.discount ? <div className="summary__row summary__row--test"><span>{T.cart.discount}</span><span>– {chf(cart.discount)}</span></div> : null}
+              {!cart.isTest && <p className={`summary__free${cart.shipping ? '' : ' is-done'}`}>
                 <Icon name="truck" />
                 {cart.shipping ? t.freeHint(chf(config.shop.freeShippingFrom - cart.subtotal)) : t.freeReached}
-              </p>
+              </p>}
               <div className="summary__row summary__row--total"><span>{t.total}</span><span>{chf(cart.total)}</span></div>
               <p className="summary__vat">{T.common.inclVatRate(cart.vatRate)} ({chf(cart.vat)})</p>
               <Link className="btn btn--primary btn--lg btn--block" href={lp(lang, '/kasse')}><Icon name="lock" /> {t.checkout}</Link>

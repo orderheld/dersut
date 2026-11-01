@@ -2,7 +2,8 @@
 
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
-import { addToCart, cartSummary, clearCart, setQty } from '@/lib/cart';
+import { addToCart, clearCart, setQty } from '@/lib/cart';
+import { checkoutCart } from '@/lib/testcode';
 import { addLog, createOrder, getOrder, getOrderByNumberToken, setPaymentMethod, validateCheckout, type CheckoutInput } from '@/lib/orders';
 import { announcePrepayOrder, onlinePayLink } from '@/lib/payment';
 import { onlinePayment } from '@/lib/config';
@@ -75,7 +76,7 @@ export async function checkoutAction(_prev: CheckoutState, fd: FormData): Promis
   const errors = validateCheckout(input, lang);
   if (Object.keys(errors).length) return { errors, values: input };
 
-  const cart = await cartSummary();
+  const cart = await checkoutCart(lang);
   if (!cart.items.length) redirect(lp(lang, '/warenkorb'));
 
   const online = onlinePayment() && str(fd, 'payment') === 'online';
