@@ -13,8 +13,8 @@ import {
 } from '@/lib/auth';
 import { config } from '@/lib/config';
 import { one, query } from '@/lib/db';
-import { mailTypeForStatus, resetMailHtml, sendOrderMail, testMailHtml } from '@/lib/emails';
-import { absUrl, slugify, statusLabel, toRappen } from '@/lib/format';
+import { adminMailHtml, mailTypeForStatus, resetMailHtml, sendOrderMail, testMailHtml } from '@/lib/emails';
+import { absUrl, dateCh, slugify, statusLabel, toRappen } from '@/lib/format';
 import { deliverMail } from '@/lib/mail';
 import { preparePackshot, preparePhoto } from '@/lib/imaging';
 import { saveMedia } from '@/lib/media';
@@ -338,20 +338,61 @@ export async function deleteProductAction(fd: FormData): Promise<void> {
   redirect('/admin/produkte?ok=deleted');
 }
 
-/* ---------- Nachrichten ---------- */
+/* ---------- Nachrichten (Postfach) ---------- */
+
+/** Zurück in den Ordner (ohne geöffnete Nachricht) oder auf die gleiche Nachricht. */
+const mailBack = (fd: FormData) => backTo(fd, '/admin/nachrichten');
+
+async function msgUpdate(fd: FormData, sql: string, params: unknown[] = []): Promise<void> {
+  await requireAdmin();
+  const ids = (fd.getAll('ids').length ? fd.getAll('ids') : [fd.get('id')]).map(Number).filter(Boolean);
+  if (ids.length) await query(sql.replace('$IDS', `ANY($${params.length + 1}::int[])`), [...params, ids]);
+  revalidatePath('/admin', 'layout');
+  redirect(mailBack(fd));
+}
 
 export async function messageDoneAction(fd: FormData): Promise<void> {
-  await requireAdmin();
-  await query('UPDATE messages SET done = $1 WHERE id = $2', [fd.get('done') === '1', Number(fd.get('id'))]);
-  revalidatePath('/admin', 'layout');
+  await msgUpdate(fd, 'UPDATE messages SET done = $1, read_at = COALESCE(read_at, now()) WHERE id = $IDS', [fd.get('done') === '1']);
 }
 
 /** Nachricht als Spam markieren oder aus dem Spam zurückholen («Kein Spam»). */
 export async function messageSpamAction(fd: FormData): Promise<void> {
-  await requireAdmin();
-  const spam = fd.get('spam') === '1' ? 'Von Hand als Spam markiert' : '';
-  await query('UPDATE messages SET spam = $1 WHERE id = $2', [spam, Number(fd.get('id'))]);
+  await msgUpdate(fd, 'UPDATE messages SET spam = $1 WHERE id = $IDS', [fd.get('spam') === '1' ? 'Von Hand als Spam markiert' : '']);
+}
+
+export async function messageUnreadAction(fd: FormData): Promise<void> {
+  await msgUpdate(fd, 'UPDATE messages SET read_at = NULL WHERE id = $IDS');
+}
+
+/** In den Papierkorb (wird nach 30 Tagen geleert) oder wiederherstellen. */
+export async function messageTrashAction(fd: FormData): Promise<void> {
+  await msgUpdate(fd, `UPDATE messages SET deleted_at = ${fd.get('restore') === '1' ? 'NULL' : 'now()'} WHERE id = $IDS`);
+}
+
+export async function messageDeleteAction(fd: FormData): Promise<void> {
+  await msgUpdate(fd, 'DELETE FROM messages WHERE deleted_at IS NOT NULL AND id = $IDS');
+}
+
+/** Antwort auf eine Nachricht oder neue E-Mail, gesendet von info@dersut.ch. Wird unter «Gesendet» abgelegt. */
+export async function sendAdminMailAction(_prev: FormState, fd: FormData): Promise<FormState> {
+  const admin = await requireAdmin();
+  const to = str(fd, 'to').toLowerCase();
+  const subject = str(fd, 'subject').slice(0, 200);
+  const body = String(fd.get('body') ?? '').trim().slice(0, 20000);
+  if (!EMAIL_RE.test(to)) return { error: 'Bitte eine gültige E-Mail-Adresse angeben.' };
+  if (!subject) return { error: 'Bitte einen Betreff angeben.' };
+  if (!body) return { error: 'Bitte einen Text schreiben.' };
+  const id = Number(fd.get('id')) || null;
+  const orig = id ? await one<{ name: string; message: string; created_at: Date }>('SELECT name, message, created_at FROM messages WHERE id = $1', [id]) : null;
+  const html = adminMailHtml(body, orig && fd.get('quote') === '1' ? { name: orig.name, date: dateCh(orig.created_at, true), text: orig.message } : undefined);
+  const r = await deliverMail({ to, subject, html, replyTo: config.email.contact });
+  await query('INSERT INTO mail_out (message_id, to_email, subject, body, ok, error, sent_by) VALUES ($1, $2, $3, $4, $5, $6, $7)', [
+    orig ? id : null, to, subject, body, r.ok, r.error ?? '', admin.email,
+  ]);
+  if (!r.ok) return { error: `Die E-Mail konnte nicht gesendet werden (${r.error}). Der Text ist unter «Gesendet» gespeichert.` };
+  if (orig && fd.get('done') === '1') await query('UPDATE messages SET done = TRUE, read_at = COALESCE(read_at, now()) WHERE id = $1', [id]);
   revalidatePath('/admin', 'layout');
+  return { ok: `E-Mail an ${to} gesendet.` };
 }
 
 /* ---------- Einstellungen ---------- */
