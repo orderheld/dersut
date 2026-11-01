@@ -150,7 +150,7 @@ export async function contactAction(_prev: ContactState, fd: FormData): Promise<
   ]);
   if (spam) return { sent: true, errors: {}, values: {} }; // still ablegen, keine Mail, kein Push
   await Promise.all([
-    sendContactMail(v),
+    sendContactMail(v, asLocale(fd.get('lang'))),
     notifyAdmins({ title: `Neue Nachricht von ${v.name}`, body: (v.topic ? `${v.topic}: ` : '') + v.message.slice(0, 140), url: '/admin/nachrichten', tag: 'message' }),
   ]);
   return { sent: true, errors: {}, values: {} };
@@ -205,7 +205,7 @@ export async function b2bAction(_prev: B2BState, fd: FormData): Promise<B2BState
   ]);
   if (spam) return { sent: true, errors: {}, values: {} };
   await Promise.all([
-    sendContactMail({ name: v.name, email: v.email, phone: v.phone, company: v.company, topic, message }),
+    sendContactMail({ name: v.name, email: v.email, phone: v.phone, company: v.company, topic, message }, lang),
     notifyAdmins({ title: `${topic}: ${v.company}`, body: `${v.name}${v.place ? `, ${v.place}` : ''}${v.volume ? ` · ${v.volume}` : ''}`, url: '/admin/nachrichten', tag: 'message' }),
   ]);
   return { sent: true, errors: {}, values: {} };
