@@ -5,12 +5,14 @@ import { notFound } from 'next/navigation';
 import { Header, type HeaderLabels } from '@/components/Header';
 import { Icon } from '@/components/Icon';
 import { Logo } from '@/components/Logo';
+import { PromoBar } from '@/components/PromoBar';
+import { PROMO, phoneLinks } from '@/content/promo';
 import { RATGEBER_PAGE } from '@/content/ratgeber';
 import { REGIONS } from '@/content/regions';
 import { getDict } from '@/i18n';
 import { brand } from '@/lib/brand';
 import { config, onlinePayment } from '@/lib/config';
-import { companyAddressLines } from '@/lib/format';
+import { chf, companyAddressLines } from '@/lib/format';
 import { LOCALE_TAGS, OG_LOCALES, isLocale, lp, type Locale } from '@/lib/i18n';
 import { getProducts } from '@/lib/products';
 import { INDEX, absolute, jsonLd, languageAlternates, returnPolicyLd, shareImage } from '@/lib/seo';
@@ -202,6 +204,14 @@ export default async function SiteLayout({ children, params }: Props) {
             </nav>
           </div>
         </footer>
+
+        <PromoBar
+          lang={lang}
+          shopHref={L('/shop')}
+          businessHref={L('/gastronomie#anfrage')}
+          tel={phoneLinks(c.phone || '+41 78 673 21 47').tel}
+          text={{ ...PROMO[lang], sub: PROMO[lang].sub(chf(config.shop.freeShippingFrom)) }}
+        />
       </body>
     </html>
   );

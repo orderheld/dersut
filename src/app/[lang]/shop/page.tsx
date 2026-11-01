@@ -8,6 +8,7 @@ import { asLocale, lp } from '@/lib/i18n';
 import { getProducts } from '@/lib/products';
 import { chf } from '@/lib/format';
 import Link from 'next/link';
+import { B2BHint } from '@/components/B2BHint';
 import { Icon } from '@/components/Icon';
 import { ARTICLES } from '@/content/ratgeber';
 import { absolute, breadcrumbLd, jsonLd, pageMeta } from '@/lib/seo';
@@ -123,6 +124,7 @@ export default async function Shop({ params }: Props) {
             </div>
           )}
           <p className="center" style={{ marginTop: 50, color: 'var(--muted)' }}>{t.shop.more}</p>
+          <B2BHint lang={lang} />
         </div>
       </section>
       <section className="section section--cream">
