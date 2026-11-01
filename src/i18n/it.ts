@@ -91,7 +91,7 @@ export const it: Dict = {
   },
   shop: {
     title: 'Shop online',
-    metaTitle: 'Caffè Dersut in grani: acquista online',
+    metaTitle: 'Comprare caffè in grani 1 kg online in Svizzera',
     metaDescription: 'Caffè in grani Dersut originale da 1 kg: Non Plus Ultra e Plus Oro (Gold Medal 2025), Optimum Rosso e Domus Marrone dal distributore ufficiale svizzero.',
     eyebrow: 'Shop online',
     heading: 'Caffè in grani Dersut <em>da Conegliano</em>',

@@ -78,6 +78,7 @@ function Invoice({ o, qr }: { o: Order; qr: string | null }) {
         meta={[
           ['Rechnungsdatum', dateCh(o.created_at)],
           ['Bestellnummer', o.number],
+          ['Lieferdatum', o.shipped_at ? dateCh(o.shipped_at) : paid ? 'Versand in Kürze' : 'nach Zahlungseingang'],
           ['Kunde', o.email],
           ...(paid ? [] : [['Zahlbar bis', dateCh(dueDate(o))] as [string, string]]),
         ]}
@@ -230,9 +231,12 @@ export default async function PrintPage({ searchParams }: Props) {
 
   return (
     <div className={`print print--${doc}`}>
+      {/* Seitenformat ohne Ränder; ohne Namen, damit es auch Safari und Firefox übernehmen */}
+      <style>{doc === 'etikett' ? '@page { size: 100mm 150mm; margin: 0; }' : '@page { size: A4 portrait; margin: 0; }'}</style>
       <PrintBar title={`${TITLES[doc]}${orders.length > 1 ? ` · ${orders.length} Bestellungen` : orders[0] ? ` · ${orders[0].number}` : ''}`} auto={sp.auto === '1'}>
         {doc === 'etikett' && <span className="muted small"> · Format 10 × 15 cm. Im Druckdialog das Etikettenformat oder A6 wählen, bei A4 «Tatsächliche Grösse».</span>}
         {doc === 'rechnung' && <span className="muted small"> · Offene Vorauskasse-Rechnungen mit QR-Zahlteil. Für Fenstercouverts C5 rechts.</span>}
+        {doc !== 'etikett' && <span className="muted small"> · Im Druckdialog: Papier A4, Ränder «Keine», Skalierung 100 %, Kopf- und Fusszeilen aus.</span>}
       </PrintBar>
       {!orders.length && <div className="card empty noprint">Keine Bestellungen ausgewählt.</div>}
       {orders.map((o, i) =>
