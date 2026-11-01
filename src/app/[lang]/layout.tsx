@@ -12,7 +12,8 @@ import { REGIONS } from '@/content/regions';
 import { getDict } from '@/i18n';
 import { brand } from '@/lib/brand';
 import { config, onlinePayment } from '@/lib/config';
-import { chf, companyAddressLines } from '@/lib/format';
+import { companyAddressLines } from '@/lib/format';
+import { chfShort } from '@/lib/shipping-text';
 import { LOCALE_TAGS, OG_LOCALES, isLocale, lp, type Locale } from '@/lib/i18n';
 import { getProducts } from '@/lib/products';
 import { INDEX, absolute, jsonLd, languageAlternates, returnPolicyLd, shareImage } from '@/lib/seo';
@@ -210,7 +211,7 @@ export default async function SiteLayout({ children, params }: Props) {
           shopHref={L('/shop')}
           businessHref={L('/gastronomie#anfrage')}
           tel={phoneLinks(c.phone || '+41 78 673 21 47').tel}
-          text={{ ...PROMO[lang], sub: PROMO[lang].sub(chf(config.shop.freeShippingFrom)) }}
+          text={{ ...PROMO[lang], sub: PROMO[lang].sub(chfShort(config.shop.freeShippingFrom)) }}
         />
       </body>
     </html>
