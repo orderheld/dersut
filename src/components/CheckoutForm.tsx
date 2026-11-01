@@ -6,6 +6,39 @@ import { getDict } from '@/i18n';
 import { lp, type Locale } from '@/lib/i18n';
 import { Field } from './Field';
 import { Icon } from './Icon';
+import './shop.css';
+
+/** Hinweise zur Zahlungsart: Online klar als «jetzt bezahlen», Vorauskasse rot mit Empfehlung für Online */
+const PAY: Record<Locale, { recommended: string; onlineNow: string; prepayWarn: string; prepayTip: string; switchOnline: string }> = {
+  de: {
+    recommended: 'Empfohlen',
+    onlineNow: 'Sie bezahlen jetzt online: Nach «Bestellen und bezahlen» öffnet sich die sichere Zahlungsseite. Danach versenden wir sofort.',
+    prepayWarn: 'Bei Vorauskasse versenden wir erst, wenn Ihr Geld auf unserem Konto eingetroffen ist. Das dauert meist 1 bis 3 Werktage.',
+    prepayTip: 'Wir empfehlen die Online-Zahlung, dann ist Ihr Kaffee sofort unterwegs.',
+    switchOnline: 'Online bezahlen wählen',
+  },
+  fr: {
+    recommended: 'Recommandé',
+    onlineNow: 'Vous payez maintenant en ligne : après « Commander et payer », la page de paiement sécurisée s’ouvre. Nous expédions ensuite immédiatement.',
+    prepayWarn: 'Avec le paiement anticipé, nous n’expédions qu’une fois votre argent arrivé sur notre compte, généralement en 1 à 3 jours ouvrables.',
+    prepayTip: 'Nous recommandons le paiement en ligne : votre café part tout de suite.',
+    switchOnline: 'Choisir le paiement en ligne',
+  },
+  it: {
+    recommended: 'Consigliato',
+    onlineNow: 'Pagate ora online: dopo «Ordina e paga» si apre la pagina di pagamento sicura. Poi spediamo subito.',
+    prepayWarn: 'Con il pagamento anticipato spediamo solo quando il denaro è arrivato sul nostro conto, di solito in 1–3 giorni lavorativi.',
+    prepayTip: 'Consigliamo il pagamento online: il vostro caffè parte subito.',
+    switchOnline: 'Scegliere il pagamento online',
+  },
+  en: {
+    recommended: 'Recommended',
+    onlineNow: 'You pay online now: after “Order and pay”, the secure payment page opens. We then ship right away.',
+    prepayWarn: 'With payment in advance, we only ship once your money has reached our account, usually within 1 to 3 working days.',
+    prepayTip: 'We recommend paying online, so your coffee is on its way immediately.',
+    switchOnline: 'Choose online payment',
+  },
+};
 
 export function CheckoutForm({ summary, initial, lang, online = false }: { summary: ReactNode; initial: Record<string, string>; lang: Locale; online?: boolean }) {
   const t = getDict(lang).checkout;
@@ -70,7 +103,7 @@ export function CheckoutForm({ summary, initial, lang, online = false }: { summa
                   <input type="radio" name="payment" value="online" checked={method === 'online'} onChange={() => setMethod('online')} />
                   <Icon name="lock" />
                   <div>
-                    <strong>{t.online}</strong>
+                    <strong>{t.online} <em className="paymethod__badge">{PAY[lang].recommended}</em></strong>
                     <span>{t.onlineText}</span>
                   </div>
                 </label>
@@ -82,6 +115,15 @@ export function CheckoutForm({ summary, initial, lang, online = false }: { summa
                     <span>{t.prepayText}</span>
                   </div>
                 </label>
+                {method === 'online' ? (
+                  <div className="paynote paynote--ok" role="status"><Icon name="lock" /><span>{PAY[lang].onlineNow}</span></div>
+                ) : (
+                  <div className="paynote paynote--warn" role="alert">
+                    <strong>{PAY[lang].prepayWarn}</strong>
+                    <span>{PAY[lang].prepayTip}</span>
+                    <button type="button" className="btn btn--primary btn--sm" onClick={() => setMethod('online')}>{PAY[lang].switchOnline}</button>
+                  </div>
+                )}
               </div>
             ) : (
               <div className="paymethod" style={{ marginTop: 18 }}>

@@ -142,22 +142,22 @@ const ON: Record<Locale, { metaDescription: string; h4: string; p4: string }> = 
   de: {
     metaDescription: `AGB für Bestellungen bei ${c.name}: Preise in CHF inkl. MWST, Zahlung online oder per Vorauskasse und Postversand in die ganze Schweiz.`,
     h4: '4. Zahlung',
-    p4: `Sie bezahlen wahlweise online oder per Vorauskasse. Bei der Online-Zahlung (zum Beispiel TWINT, Kredit- oder Debitkarte) wird die Zahlung über den Zahlungsdienstleister Payrexx AG abgewickelt; der Betrag ist mit Abschluss der Bestellung fällig. Bei Vorauskasse überweisen Sie den Betrag auf das in der Bestellbestätigung genannte Konto und geben im Zahlungszweck Ihre Bestellnummer an. Der Betrag ist innert ${days} Tagen nach Bestellung zur Zahlung fällig. Geht innert dieser Frist keine Zahlung ein, sind wir berechtigt, vom Vertrag zurückzutreten und die Bestellung zu stornieren.`,
+    p4: `Sie bezahlen wahlweise online oder per Vorauskasse. Bei der Online-Zahlung wird die Zahlung über den Zahlungsdienstleister Payrexx AG abgewickelt; der Betrag ist mit Abschluss der Bestellung fällig. Bei Vorauskasse überweisen Sie den Betrag auf das in der Bestellbestätigung genannte Konto und geben im Zahlungszweck Ihre Bestellnummer an. Der Betrag ist innert ${days} Tagen nach Bestellung zur Zahlung fällig. Geht innert dieser Frist keine Zahlung ein, sind wir berechtigt, vom Vertrag zurückzutreten und die Bestellung zu stornieren.`,
   },
   fr: {
     metaDescription: `CGV des commandes chez ${c.name} : prix en CHF TVA incluse, paiement en ligne ou anticipé, livraison par La Poste dans toute la Suisse.`,
     h4: '4. Paiement',
-    p4: `Vous payez au choix en ligne ou par paiement anticipé. En cas de paiement en ligne (par exemple TWINT, carte de crédit ou de débit), le paiement est traité par le prestataire de paiement Payrexx AG ; le montant est exigible à la conclusion de la commande. En cas de paiement anticipé, vous virez le montant sur le compte indiqué dans la confirmation de commande en mentionnant votre numéro de commande. Le montant est exigible dans les ${days} jours suivant la commande. Si aucun paiement n’est reçu dans ce délai, nous sommes en droit de résilier le contrat et d’annuler la commande.`,
+    p4: `Vous payez au choix en ligne ou par paiement anticipé. En cas de paiement en ligne, le paiement est traité par le prestataire de paiement Payrexx AG ; le montant est exigible à la conclusion de la commande. En cas de paiement anticipé, vous virez le montant sur le compte indiqué dans la confirmation de commande en mentionnant votre numéro de commande. Le montant est exigible dans les ${days} jours suivant la commande. Si aucun paiement n’est reçu dans ce délai, nous sommes en droit de résilier le contrat et d’annuler la commande.`,
   },
   it: {
     metaDescription: `CG per gli ordini presso ${c.name}: prezzi in franchi svizzeri IVA inclusa, pagamento online o anticipato, consegna in tutta la Svizzera.`,
     h4: '4. Pagamento',
-    p4: `Pagate a scelta online o con pagamento anticipato. Con il pagamento online (ad esempio TWINT, carta di credito o di debito) il pagamento è gestito dal fornitore di servizi di pagamento Payrexx AG; l’importo è esigibile alla conclusione dell’ordine. Con il pagamento anticipato versate l’importo sul conto indicato nella conferma d’ordine, indicando il numero d’ordine nella causale. L’importo è esigibile entro ${days} giorni dall’ordine. Se entro tale termine non riceviamo alcun pagamento, abbiamo il diritto di recedere dal contratto e di annullare l’ordine.`,
+    p4: `Pagate a scelta online o con pagamento anticipato. Con il pagamento online il pagamento è gestito dal fornitore di servizi di pagamento Payrexx AG; l’importo è esigibile alla conclusione dell’ordine. Con il pagamento anticipato versate l’importo sul conto indicato nella conferma d’ordine, indicando il numero d’ordine nella causale. L’importo è esigibile entro ${days} giorni dall’ordine. Se entro tale termine non riceviamo alcun pagamento, abbiamo il diritto di recedere dal contratto e di annullare l’ordine.`,
   },
   en: {
     metaDescription: `GTC for orders from ${c.name}: prices in Swiss francs incl. VAT, payment online or in advance, delivery by Swiss Post across Switzerland.`,
     h4: '4. Payment',
-    p4: `You can pay either online or in advance by bank transfer. Online payments (for example TWINT, credit or debit card) are processed by the payment service provider Payrexx AG; the amount is due when the order is placed. For payment in advance, transfer the amount to the account stated in the order confirmation and quote your order number in the payment reference. The amount is due within ${days} days of the order. If no payment is received within this period, we are entitled to withdraw from the contract and cancel the order.`,
+    p4: `You can pay either online or in advance by bank transfer. Online payments are processed by the payment service provider Payrexx AG; the amount is due when the order is placed. For payment in advance, transfer the amount to the account stated in the order confirmation and quote your order number in the payment reference. The amount is due within ${days} days of the order. If no payment is received within this period, we are entitled to withdraw from the contract and cancel the order.`,
   },
 };
 

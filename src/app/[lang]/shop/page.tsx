@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 import { settingsReady } from '@/lib/db';
 import { ShopHead } from '@/components/ShopHead';
+import { IntensityFilter } from '@/components/IntensityFilter';
+import { strengthOf } from '@/lib/strength';
 import { shopCategories } from '@/lib/categories';
 import { ProductCard } from '@/components/ProductCard';
 import { getDict } from '@/i18n';
@@ -106,6 +108,7 @@ export default async function Shop({ params }: Props) {
         lead={t.shop.lead}
         cats={cats}
         total={products.length}
+        filter={<IntensityFilter lang={lang} counts={products.reduce<Record<string, number>>((a, p) => ((a[strengthOf(p.intensity)] = (a[strengthOf(p.intensity)] ?? 0) + 1), a), {})} />}
       />
       <section className="section shop-list">
         <div className="wrap">
@@ -114,13 +117,13 @@ export default async function Shop({ params }: Props) {
               <div key={g.slug || 'other'} className="pgroup">
                 <h2 className="pgroup__title">{g.slug ? <Link href={lp(lang, `/shop/kategorie/${g.slug}`)}>{g.name}</Link> : g.name}</h2>
                 <div className="pgrid">
-                  {g.items.map((p) => <ProductCard key={p.id} p={p} lang={lang} level={3} />)}
+                  {g.items.map((p) => <div key={p.id} data-int={strengthOf(p.intensity)}><ProductCard p={p} lang={lang} level={3} /></div>)}
                 </div>
               </div>
             ))
           ) : (
             <div className="pgrid">
-              {products.map((p) => <ProductCard key={p.id} p={p} lang={lang} level={2} />)}
+              {products.map((p) => <div key={p.id} data-int={strengthOf(p.intensity)}><ProductCard p={p} lang={lang} level={2} /></div>)}
             </div>
           )}
           <p className="center" style={{ marginTop: 50, color: 'var(--muted)' }}>{t.shop.more}</p>

@@ -60,7 +60,7 @@ export function AddToCart({ productId, soldOut, lang, detailed = false }: { prod
       {/* Direkt im <body>, damit die Meldung nicht in der (beim Antippen leicht verschobenen) Produktkarte hängt */}
       {flash && createPortal(
         <div className="toast is-in" role="status">
-          <span>✓ {t.toast}</span> <a href={lp(lang, '/warenkorb')}>{t.toCart} <Icon name="arrow" /></a>
+          <span>✓ {t.toast}</span> <a href={lp(lang, '/kasse')}>{getDict(lang).cart.checkout} <Icon name="arrow" /></a>
         </div>,
         document.body,
       )}

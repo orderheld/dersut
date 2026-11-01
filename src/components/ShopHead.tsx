@@ -14,7 +14,7 @@ const UI: Record<Locale, { all: string; nav: string }> = {
 };
 
 /** Kompakter Kopf für Shop und Kategorieseiten: Titel, eine Zeile Text, Kategorie-Filter. Die Produkte folgen direkt darunter. */
-export function ShopHead({ lang, crumbs, title, lead, cats, active, total }: {
+export function ShopHead({ lang, crumbs, title, lead, cats, active, total, filter }: {
   lang: Locale;
   crumbs: [string, string?][];
   title: ReactNode;
@@ -22,6 +22,7 @@ export function ShopHead({ lang, crumbs, title, lead, cats, active, total }: {
   cats: ShopCategory[];
   active?: string;
   total: number;
+  filter?: ReactNode;
 }) {
   const t = getDict(lang);
   const ui = UI[lang];
@@ -36,7 +37,7 @@ export function ShopHead({ lang, crumbs, title, lead, cats, active, total }: {
         </nav>
         <h1 className="shophead__title">{title}</h1>
         {lead && <p className="shophead__lead"><Icon name="truck" /> {lead}</p>}
-        {cats.length > 0 && (
+        {(cats.length > 1 || (cats.length === 1 && cats[0].count < total)) && (
           <nav className="catnav" aria-label={ui.nav}>
             <Link className={`catnav__chip${active ? '' : ' is-active'}`} aria-current={active ? undefined : 'page'} href={lp(lang, '/shop')}>
               {ui.all} <span>{total}</span>
@@ -48,6 +49,7 @@ export function ShopHead({ lang, crumbs, title, lead, cats, active, total }: {
             ))}
           </nav>
         )}
+        {filter}
       </div>
     </section>
   );

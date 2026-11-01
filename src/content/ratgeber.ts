@@ -1301,26 +1301,26 @@ export const RATGEBER_PAGE: Record<
 
 /** Zahlungstexte, sobald Online-Zahlung (Payrexx) aktiv ist: ersetzt die Vorauskasse-Sätze wörtlich */
 const ONLINE_PAY: Record<string, string> = {
-  'Einfach bezahlen mit QR-Rechnung': 'Einfach bezahlen mit TWINT, Karte oder QR-Rechnung',
+  'Einfach bezahlen mit QR-Rechnung': 'Einfach bezahlen: online oder mit QR-Rechnung',
   'Bezahlt wird per Vorauskasse mit Banküberweisung. Sie erhalten eine Schweizer QR-Rechnung, die Sie bequem mit Ihrer Banking-App scannen. Eine Kreditkarte brauchen Sie nicht. Sobald die Zahlung eingegangen ist, versenden wir Ihre Bestellung.':
-    'Sie bezahlen direkt online mit TWINT, Kredit- oder Debitkarte über unseren Schweizer Zahlungspartner Payrexx, dann versenden wir sofort. Lieber per Überweisung? Dann erhalten Sie eine Schweizer QR-Rechnung, die Sie bequem mit Ihrer Banking-App scannen, und wir versenden nach Zahlungseingang.',
+    'Sie bezahlen direkt online über unseren Schweizer Zahlungspartner Payrexx, dann versenden wir sofort. Lieber per Überweisung? Dann erhalten Sie eine Schweizer QR-Rechnung, die Sie bequem mit Ihrer Banking-App scannen, und wir versenden nach Zahlungseingang.',
   'Per Vorauskasse mit Banküberweisung über eine Schweizer QR-Rechnung. Eine Kreditkarte ist nicht nötig.':
-    'Online mit TWINT, Kredit- oder Debitkarte oder per Vorauskasse mit Banküberweisung über eine Schweizer QR-Rechnung.',
-  'Paiement simple par facture QR': 'Paiement simple par TWINT, carte ou facture QR',
+    'Online oder per Vorauskasse mit Banküberweisung über eine Schweizer QR-Rechnung.',
+  'Paiement simple par facture QR': 'Paiement simple en ligne ou par facture QR',
   'Le paiement se fait d’avance, par virement bancaire. Vous recevez une facture QR suisse à scanner directement dans votre application bancaire. Aucune carte de crédit n’est nécessaire. Dès réception du paiement, nous expédions votre commande.':
-    'Vous payez directement en ligne par TWINT, carte de crédit ou de débit via notre partenaire de paiement suisse Payrexx, et nous expédions aussitôt. Vous préférez le virement ? Vous recevez alors une facture QR suisse à scanner dans votre application bancaire, et nous expédions dès réception du paiement.',
+    'Vous payez directement en ligne via notre partenaire de paiement suisse Payrexx, et nous expédions aussitôt. Vous préférez le virement ? Vous recevez alors une facture QR suisse à scanner dans votre application bancaire, et nous expédions dès réception du paiement.',
   'D’avance, par virement bancaire avec une facture QR suisse. Pas besoin de carte de crédit.':
-    'En ligne par TWINT, carte de crédit ou de débit, ou d’avance par virement bancaire avec une facture QR suisse.',
-  'Pagare in modo semplice con la QR-fattura': 'Pagare in modo semplice con TWINT, carta o QR-fattura',
+    'En ligne, ou d’avance par virement bancaire avec une facture QR suisse.',
+  'Pagare in modo semplice con la QR-fattura': 'Pagare in modo semplice online o con QR-fattura',
   'Il pagamento avviene anticipato tramite bonifico bancario. Riceve una QR-fattura svizzera da scansionare comodamente con l’app della sua banca. Non serve la carta di credito. Appena ricevuto il pagamento, spediamo l’ordine.':
-    'Pagate direttamente online con TWINT, carta di credito o di debito tramite il nostro partner di pagamento svizzero Payrexx, e spediamo subito. Preferite il bonifico? Riceve allora una QR-fattura svizzera da scansionare con l’app della sua banca, e spediamo appena ricevuto il pagamento.',
+    'Pagate direttamente online tramite il nostro partner di pagamento svizzero Payrexx, e spediamo subito. Preferite il bonifico? Riceve allora una QR-fattura svizzera da scansionare con l’app della sua banca, e spediamo appena ricevuto il pagamento.',
   'In anticipo tramite bonifico bancario con una QR-fattura svizzera. Non serve la carta di credito.':
-    'Online con TWINT, carta di credito o di debito, oppure in anticipo tramite bonifico bancario con una QR-fattura svizzera.',
-  'Easy payment with a QR bill': 'Easy payment with TWINT, card or QR bill',
+    'Online, oppure in anticipo tramite bonifico bancario con una QR-fattura svizzera.',
+  'Easy payment with a QR bill': 'Easy payment online or with a QR bill',
   'Payment is made in advance by bank transfer. You receive a Swiss QR bill that you simply scan with your banking app. No credit card is needed. As soon as your payment arrives, we ship your order.':
-    'Pay directly online with TWINT, credit or debit card via our Swiss payment partner Payrexx, and we ship right away. Prefer a bank transfer? Then you receive a Swiss QR bill to scan with your banking app, and we ship as soon as your payment arrives.',
+    'Pay directly online via our Swiss payment partner Payrexx, and we ship right away. Prefer a bank transfer? Then you receive a Swiss QR bill to scan with your banking app, and we ship as soon as your payment arrives.',
   'In advance by bank transfer using a Swiss QR bill. No credit card is required.':
-    'Online with TWINT, credit or debit card, or in advance by bank transfer using a Swiss QR bill.',
+    'Online, or in advance by bank transfer using a Swiss QR bill.',
 };
 
 export function withOnlinePayment(x: ArticleText): ArticleText {
