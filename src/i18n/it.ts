@@ -264,7 +264,7 @@ export const it: Dict = {
   },
   status: { open: 'In attesa di pagamento', paid: 'Pagato', shipped: 'Spedito', cancelled: 'Annullato' } as Record<string, string>,
   contact: {
-    metaTitle: 'Contatti: Dersut Kaffee GmbH, Basilea',
+    metaTitle: 'Contatti: Dersut Kaffee GmbH, Aesch (BL)',
     metaDescription: 'Contattate Dersut Kaffee GmbH, distributore ufficiale di Dersut Caffè in Svizzera: consulenza, ordini e offerte per la gastronomia e gli uffici.',
     eyebrow: 'Contatti',
     heading: 'Siamo <em>a vostra disposizione</em>',

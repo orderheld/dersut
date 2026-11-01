@@ -46,7 +46,7 @@ export const B2B: Record<B2BKind, Record<Locale, B2BText>> = {
       eyebrow: 'Horeca · Bar · Ristorante',
       title: ['Italienischer Espresso', 'für Ihre Gäste'],
       lead:
-        'Restaurants, Bars, Cafés, Hotels und Bäckereien: Wir liefern Ihnen den Espresso, den über 4’000 Betriebe in Italien und weltweit ausschenken. Mit Schweizer Ansprechpartner in Basel und zu Konditionen, die zu Ihrem Bedarf passen.',
+        'Restaurants, Bars, Cafés, Hotels und Bäckereien: Wir liefern Ihnen den Espresso, den über 4’000 Betriebe in Italien und weltweit ausschenken. Mit Schweizer Ansprechpartner in Aesch bei Basel und zu Konditionen, die zu Ihrem Bedarf passen.',
       heroCta: 'Konditionen anfragen',
       segEyebrow: 'Für wen',
       segTitle: 'Gemacht für die Gastronomie',
@@ -63,7 +63,7 @@ export const B2B: Record<B2BKind, Record<Locale, B2BText>> = {
       why: [
         'Individuelle Preise und Mengenkonditionen für Geschäftskunden',
         'Originalware direkt aus der Rösterei, ohne Zwischenhandel',
-        'Persönlicher Ansprechpartner in Basel, Rechnung in CHF',
+        'Persönlicher Ansprechpartner in der Region Basel, Rechnung in CHF',
         'Lieferung in die ganze Schweiz, regelmässig nach Vereinbarung',
         'Beratung zu Mischung, Mahlgrad und Zubereitung',
         'Zertifiziert: Espresso Italiano Certificato (IEI)',
@@ -202,7 +202,7 @@ export const B2B: Record<B2BKind, Record<Locale, B2BText>> = {
       eyebrow: 'Horeca · Bar · Ristorante',
       title: ['Italian espresso', 'for your guests'],
       lead:
-        'Restaurants, bars, cafés, hotels and bakeries: we supply the espresso served by more than 4,000 businesses in Italy and around the world. With a Swiss contact in Basel and terms that match your needs.',
+        'Restaurants, bars, cafés, hotels and bakeries: we supply the espresso served by more than 4,000 businesses in Italy and around the world. With a Swiss contact in Aesch near Basel and terms that match your needs.',
       heroCta: 'Request terms',
       segEyebrow: 'Who it’s for',
       segTitle: 'Made for hospitality',
@@ -219,7 +219,7 @@ export const B2B: Record<B2BKind, Record<Locale, B2BText>> = {
       why: [
         'Individual prices and volume terms for business customers',
         'Original products straight from the roastery, no middlemen',
-        'Personal contact in Basel, invoices in CHF',
+        'Personal contact in the Basel region, invoices in CHF',
         'Delivery throughout Switzerland, on a regular schedule if you wish',
         'Advice on blend, grind and preparation',
         'Certified: Espresso Italiano Certificato (IEI)',

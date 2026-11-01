@@ -38,10 +38,16 @@ export function currentSettings(): SiteSettings {
   return current;
 }
 
+/** Umzug 2026-11-01: Im Admin gespeicherte alte Adresse (Fasanenstrasse 121, Basel) durch die neue aus config.ts ersetzen. */
+function migrateAddress(c: SiteSettings['company']): SiteSettings['company'] {
+  if (!/fasanenstrasse\s*121/i.test(c.street ?? '')) return c;
+  return { ...c, street: DEFAULTS.company.street, zip: DEFAULTS.company.zip, city: DEFAULTS.company.city };
+}
+
 export function parseSettings(raw: string | null | undefined): SiteSettings {
   try {
     const s = raw ? (JSON.parse(raw) as Partial<SiteSettings>) : {};
-    return { company: s.company ?? {}, email: s.email, bank: s.bank ?? {}, paymentDays: s.paymentDays, shipping: s.shipping, freeShippingFrom: s.freeShippingFrom, categories: Array.isArray(s.categories) ? s.categories : [] };
+    return { company: migrateAddress(s.company ?? {}), email: s.email, bank: s.bank ?? {}, paymentDays: s.paymentDays, shipping: s.shipping, freeShippingFrom: s.freeShippingFrom, categories: Array.isArray(s.categories) ? s.categories : [] };
   } catch {
     return { company: {}, bank: {}, categories: [] };
   }

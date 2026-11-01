@@ -257,7 +257,7 @@ const T: Record<Locale, typeof de> = {
   },
   en: {
     metaTitle: 'Buy Coffee Online: Italian Espresso | Dersut Switzerland',
-    metaDescription: 'Dersut Caffè from Conegliano, Italian espresso since 1947. Buy espresso beans from the official distributor in Basel, delivered throughout Switzerland.',
+    metaDescription: 'Dersut Caffè from Conegliano, Italian espresso since 1947. Buy espresso beans from the official distributor in Aesch (BL), delivered throughout Switzerland.',
     heroAlt: 'Espresso by Dersut Caffè',
     heroKicker: 'Official distributor in Switzerland',
     heroLead: 'Since 1947, Dersut Caffè has been roasting espresso blends with an Italian soul in Conegliano. Now officially available in Switzerland: direct from the distributor, delivered throughout Switzerland.',
