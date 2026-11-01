@@ -81,3 +81,20 @@ export function faqLd(faq: [string, string][]) {
     mainEntity: faq.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })),
   };
 }
+
+/**
+ * Rückgaberegelung für Google (Produkt-Snippets / Merchant Listings), entspricht AGB Ziffer 7:
+ * Mängel innert 7 Tagen melden, Ersatz oder Rückerstattung; Rücksendung per Post, nur innerhalb der Schweiz.
+ */
+export function returnPolicyLd() {
+  return {
+    '@type': 'MerchantReturnPolicy',
+    applicableCountry: 'CH',
+    returnPolicyCountry: 'CH',
+    returnPolicyCategory: 'https://schema.org/MerchantReturnFiniteReturnWindow',
+    merchantReturnDays: 7,
+    returnMethod: 'https://schema.org/ReturnByMail',
+    returnFees: 'https://schema.org/FreeReturn',
+    merchantReturnLink: absolute('/agb'),
+  };
+}

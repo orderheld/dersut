@@ -89,10 +89,10 @@ export const de = {
   },
   shop: {
     title: 'Onlineshop',
-    metaTitle: 'Dersut Espressobohnen online kaufen',
-    metaDescription: 'Dersut Espressobohnen 1 kg online kaufen: Optimum Rosso und Domus Marrone vom offiziellen Vertrieb Schweiz. Versand in die ganze Schweiz für CHF 12.– (ab CHF 100.– gratis)',
+    metaTitle: 'Dersut Espressobohnen 1 kg online kaufen – Schweiz',
+    metaDescription: 'Original Dersut Espressobohnen 1 kg: Optimum Rosso und Domus Marrone vom offiziellen Vertrieb. Versand in die ganze Schweiz, ab CHF 100.– gratis.',
     eyebrow: 'Onlineshop',
-    heading: 'Espresso aus <em>Conegliano</em>',
+    heading: 'Dersut Espressobohnen <em>aus Conegliano</em>',
     lead: 'Original Dersut Caffè, direkt vom offiziellen Vertrieb in der Schweiz. Versand in die ganze Schweiz für pauschal CHF 12.– (ab CHF 100.– gratis).',
     more: 'Weitere Produkte folgen: Das Sortiment wird laufend und je nach Saison erweitert.',
   },
@@ -260,7 +260,7 @@ export const de = {
   },
   status: { open: 'Zahlung ausstehend', paid: 'Bezahlt', shipped: 'Versendet', cancelled: 'Storniert' } as Record<string, string>,
   contact: {
-    metaTitle: 'Kontakt',
+    metaTitle: 'Kontakt: Dersut Kaffee GmbH, Basel',
     metaDescription: 'Kontakt zu Dersut Kaffee GmbH, dem offiziellen Vertrieb von Dersut Caffè in der Schweiz. Beratung, Bestellungen und Angebote für die Gastronomie.',
     eyebrow: 'Contatti',
     heading: 'Wir sind <em>für Sie da</em>',
