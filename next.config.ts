@@ -27,6 +27,8 @@ const nextConfig: NextConfig = {
   },
   async headers() {
     return [
+      // Werbebilder (Google-Beiträge) dürfen von anderen Seiten geladen werden
+      { source: '/marketing/:file*', headers: [{ key: 'Access-Control-Allow-Origin', value: '*' }] },
       {
         source: '/:path*',
         headers: [
