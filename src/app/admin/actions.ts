@@ -16,6 +16,8 @@ import { one, query } from '@/lib/db';
 import { mailTypeForStatus, resetMailHtml, sendOrderMail, testMailHtml } from '@/lib/emails';
 import { absUrl, slugify, statusLabel, toRappen } from '@/lib/format';
 import { deliverMail } from '@/lib/mail';
+import { preparePackshot, preparePhoto } from '@/lib/imaging';
+import { saveMedia } from '@/lib/media';
 import { notifyAdmins, removePushSubscription, savePushSubscription } from '@/lib/push';
 import { addLog, getOrder, ORDER_STATUSES, setOrderStatus, type OrderStatus } from '@/lib/orders';
 
@@ -215,27 +217,21 @@ export async function noteAction(fd: FormData): Promise<void> {
 
 /* ---------- Produkte ---------- */
 
-async function storeUpload(file: File): Promise<string> {
-  const types: Record<string, string> = { 'image/jpeg': 'jpg', 'image/png': 'png', 'image/webp': 'webp' };
-  const ext = types[file.type];
-  if (!ext) throw new Error('Bitte ein Bild im Format JPG, PNG oder WebP hochladen.');
-  if (file.size > 4 * 1024 * 1024) throw new Error('Das Bild ist zu gross (max. 4 MB).');
-  const name = `produkte/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
-  if (process.env.BLOB_READ_WRITE_TOKEN) {
-    const { put } = await import('@vercel/blob');
-    const blob = await put(name, file, { access: 'public', contentType: file.type });
-    return blob.url;
+const MAX_UPLOAD = 4.5 * 1024 * 1024;
+
+/** Hochgeladenes Bild prüfen, aufbereiten (Produktfoto oder Stimmungsbild) und in der Datenbank ablegen. */
+async function storeUpload(file: File, kind: 'pack' | 'photo'): Promise<{ src: string; note: string }> {
+  if (!['image/jpeg', 'image/png', 'image/webp'].includes(file.type)) throw new Error('Bitte ein Bild im Format JPG, PNG oder WebP hochladen.');
+  if (file.size > MAX_UPLOAD) throw new Error('Das Bild ist zu gross (max. 4.5 MB).');
+  const buf = Buffer.from(await file.arrayBuffer());
+  let img;
+  try {
+    img = kind === 'pack' ? await preparePackshot(buf) : await preparePhoto(buf);
+  } catch (e) {
+    console.error('Bildaufbereitung fehlgeschlagen:', e);
+    throw new Error('Das Bild konnte nicht gelesen werden. Bitte ein anderes Foto versuchen.');
   }
-  if (process.env.VERCEL) {
-    throw new Error('Für Bild-Uploads bitte in Vercel unter Storage einen Blob-Speicher verbinden, oder eine Bild-URL angeben.');
-  }
-  // Lokal: in public/uploads speichern
-  const { mkdir, writeFile } = await import('node:fs/promises');
-  const path = await import('node:path');
-  const dir = path.join(process.cwd(), 'public', 'uploads', 'produkte');
-  await mkdir(dir, { recursive: true });
-  await writeFile(path.join(process.cwd(), 'public', 'uploads', name), Buffer.from(await file.arrayBuffer()));
-  return `/uploads/${name}`;
+  return { src: await saveMedia(img.data, img.mime, img.width, img.height), note: img.note };
 }
 
 export async function saveProductAction(_prev: FormState, fd: FormData): Promise<FormState> {
@@ -251,10 +247,13 @@ export async function saveProductAction(_prev: FormState, fd: FormData): Promise
   if (clash) return { error: `Die URL-Kennung «${slug}» wird bereits verwendet.` };
 
   let image = str(fd, 'image');
+  let note = '';
   const upload = fd.get('upload');
   if (upload instanceof File && upload.size > 0) {
     try {
-      image = await storeUpload(upload);
+      const r = await storeUpload(upload, fd.get('raw') === '1' ? 'photo' : 'pack');
+      image = r.src;
+      note = r.note;
     } catch (e) {
       return { error: e instanceof Error ? e.message : 'Upload fehlgeschlagen.' };
     }
@@ -263,7 +262,7 @@ export async function saveProductAction(_prev: FormState, fd: FormData): Promise
   for (const f of fd.getAll('gallery_upload')) {
     if (f instanceof File && f.size > 0) {
       try {
-        gallery.push(await storeUpload(f));
+        gallery.push((await storeUpload(f, fd.get('gallery_pack') === '1' ? 'pack' : 'photo')).src);
       } catch (e) {
         return { error: e instanceof Error ? e.message : 'Upload fehlgeschlagen.' };
       }
@@ -303,7 +302,40 @@ export async function saveProductAction(_prev: FormState, fd: FormData): Promise
     savedId = row!.id;
   }
   revalidatePath('/', 'layout');
-  redirect(`/admin/produkte/${savedId}?ok=saved`);
+  redirect(`/admin/produkte/${savedId}?ok=${note ? 'saved_bg' : 'saved'}`);
+}
+
+/** Produkt im Shop ein- oder ausblenden (direkt aus der Liste). */
+export async function toggleProductAction(fd: FormData): Promise<void> {
+  await requireAdmin();
+  await query('UPDATE products SET active = NOT active WHERE id = $1', [Number(fd.get('id'))]);
+  revalidatePath('/', 'layout');
+}
+
+/** Kopie als Vorlage für ein ähnliches Produkt (ausgeblendet, bis sie fertig ist). */
+export async function duplicateProductAction(fd: FormData): Promise<void> {
+  await requireAdmin();
+  const id = Number(fd.get('id'));
+  const src = await one<{ slug: string }>('SELECT slug FROM products WHERE id = $1', [id]);
+  if (!src) redirect('/admin/produkte');
+  let slug = `${src.slug}-kopie`;
+  for (let n = 2; await one('SELECT 1 FROM products WHERE slug = $1', [slug]); n++) slug = `${src.slug}-kopie-${n}`;
+  const row = await one<{ id: number }>(
+    `INSERT INTO products (slug, name, line, subtitle, description, notes, blend, weight, price, image, intensity, accent, active, stock, sort, translations, gallery)
+     SELECT $2, name || ' (Kopie)', line, subtitle, description, notes, blend, weight, price, image, intensity, accent, FALSE, stock, sort + 1, translations, gallery
+     FROM products WHERE id = $1 RETURNING id`,
+    [id, slug],
+  );
+  revalidatePath('/admin', 'layout');
+  redirect(`/admin/produkte/${row!.id}?ok=copied`);
+}
+
+/** Produkt endgültig löschen. Bestehende Bestellungen behalten Name und Preis. */
+export async function deleteProductAction(fd: FormData): Promise<void> {
+  await requireAdmin();
+  await query('DELETE FROM products WHERE id = $1', [Number(fd.get('id'))]);
+  revalidatePath('/', 'layout');
+  redirect('/admin/produkte?ok=deleted');
 }
 
 /* ---------- Nachrichten ---------- */

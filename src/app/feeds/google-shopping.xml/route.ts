@@ -20,7 +20,7 @@ export async function GET(req: Request) {
   const ship = config.shop.shipping, free = config.shop.freeShippingFrom;
   const items = products
     .map((p) => {
-      const images = p.images.map(productImage).filter(Boolean);
+      const images = p.images.map(productImage).filter(Boolean).map((i) => (i.startsWith('http') ? i : absolute(i)));
       const shipping = p.price >= free ? 0 : ship;
       return `    <item>
       <g:id>${esc(p.slug)}</g:id>
