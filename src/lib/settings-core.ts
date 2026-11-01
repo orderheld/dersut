@@ -1,4 +1,5 @@
 import { config } from './config';
+import { swissPhone } from './format';
 
 /**
  * Im Admin änderbare Stammdaten (Firma, Kontakt, Bank, Zahlungsfrist, Kategorien).
@@ -40,7 +41,7 @@ const pick = <T extends Record<string, unknown>>(base: T, over: Partial<Record<k
   for (const k of Object.keys(base) as (keyof T)[]) {
     const v = over[k];
     // «phone» darf bewusst leer sein, die anderen Felder nicht
-    if (typeof v === 'string' && (v.trim() || k === 'phone')) out[k] = v.trim() as T[keyof T];
+    if (typeof v === 'string' && (v.trim() || k === 'phone')) out[k] = (k === 'phone' ? swissPhone(v) : v.trim()) as T[keyof T];
   }
   return out;
 };
