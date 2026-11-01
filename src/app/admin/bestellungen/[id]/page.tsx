@@ -10,7 +10,7 @@ import { chf, dateCh, ibanFormat, statusLabel, trackingUrl } from '@/lib/format'
 import { LOCALE_NAMES, lp } from '@/lib/i18n';
 import { getLogs, getOrder } from '@/lib/orders';
 import { dueDate, paymentMessage } from '@/lib/orders-shared';
-import { noteAction, orderStatusAction, resendMailAction, trackingAction } from '../../actions';
+import { deleteOrderAction, noteAction, orderStatusAction, resendMailAction, trackingAction } from '../../actions';
 
 type Props = { params: Promise<{ id: string }>; searchParams: Promise<{ ok?: string; mail?: string }> };
 
@@ -115,6 +115,11 @@ export default async function OrderDetail({ params, searchParams }: Props) {
                     <ConfirmButton className="btn btn--ghost btn--sm" confirm="Status auf «Zahlung ausstehend» zurücksetzen?">Auf «Zahlung ausstehend» zurücksetzen</ConfirmButton>
                   </StatusForm>
                 )}
+                <form action={deleteOrderAction} className="danger-zone">
+                  <input type="hidden" name="id" value={o.id} />
+                  <ConfirmButton className="btn btn--danger btn--sm" confirm={`Bestellung ${o.number} endgültig löschen?\n\nArtikel und Verlauf werden mit gelöscht, der Lagerbestand wird zurückgebucht. Der Kunde wird nicht informiert. Das kann nicht rückgängig gemacht werden.`}>🗑 Bestellung endgültig löschen</ConfirmButton>
+                  <span className="muted small">Für Testbestellungen. Echte Bestellungen besser stornieren.</span>
+                </form>
               </div>
             </details>
           </section>

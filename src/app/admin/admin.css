@@ -470,3 +470,19 @@ details.card[open] > summary::before { content: "− "; }
 
 /* Speichern-Knopf bleibt beim Scrollen langer Formulare sichtbar */
 .savebar { position: sticky; bottom: 0; z-index: 4; padding: 12px 0 16px; background: linear-gradient(to top, var(--bg, #f3f1ec) 70%, transparent); }
+
+/* ---------- Postfach: Mehrfachauswahl ---------- */
+.btn--xs { padding: 4px 9px; font-size: 12px; }
+.mbulk { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; padding: 8px 12px; border-bottom: 1px solid #f0ede6; background: #fbfaf7; min-height: 42px; }
+.mbulk__all { display: inline-flex; align-items: center; gap: 6px; font-size: 12.5px; color: var(--muted); cursor: pointer; margin: 0; }
+.mbulk__btns { display: none; gap: 6px; flex-wrap: wrap; }
+.mailbox__bulk:has(input[name="ids"]:checked) .mbulk__btns { display: inline-flex; }
+.mailbox__bulk:has(input[name="ids"]:checked) .mbulk__hint { display: none; }
+.mrow { display: grid; grid-template-columns: 34px minmax(0, 1fr); align-items: stretch; border-bottom: 1px solid #f0ede6; }
+.mrow > input { justify-self: center; align-self: start; margin-top: 14px; width: 16px; height: 16px; }
+.mrow .mitem { border-bottom: 0; padding-left: 4px; min-width: 0; }
+.mrow .mitem.is-unread::before { display: none; }
+.mrow:has(.is-unread) > input { outline: 2px solid var(--navy); outline-offset: 1px; border-radius: 3px; }
+.mrow:has(.is-unread) { box-shadow: inset 3px 0 0 var(--navy); }
+.mrow:has(input:checked) { background: #f3f6fb; }
+.danger-zone { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-top: 16px !important; padding-top: 12px; border-top: 1px dashed var(--line); }

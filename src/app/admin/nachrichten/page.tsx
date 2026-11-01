@@ -1,13 +1,14 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Composer } from '@/components/admin/Composer';
+import { CheckAll } from '@/components/admin/CheckAll';
 import { ConfirmButton } from '@/components/admin/ConfirmButton';
 import { requireAdmin } from '@/lib/admin';
 import { query, one } from '@/lib/db';
 import { signatureHtml } from '@/lib/emails';
 import { chf, dateCh, statusLabel } from '@/lib/format';
 import {
-  messageDeleteAction, messageDoneAction, messageSpamAction, messageTrashAction, messageUnreadAction, sendAdminMailAction,
+  messageDeleteAction, messageDoneAction, messageMarkDoneAction, messageMarkOpenAction, messageMarkSpamAction, messageNoSpamAction, messageReadAction, messageRestoreAction, messageSpamAction, messageTrashAction, messageUnreadAction, sendAdminMailAction, sentDeleteAction,
 } from '../actions';
 
 export const metadata: Metadata = { title: 'Nachrichten' };
@@ -117,21 +118,54 @@ export default async function Messages({ searchParams }: Props) {
             <input type="hidden" name="f" value={folder} />
             <input type="search" name="q" defaultValue={q} placeholder="Suchen …" />
           </form>
+          <form className="mailbox__bulk">
+            <input type="hidden" name="back" value={listHref} />
+            {(folder === 'sent' ? sent.length : list.length) > 0 && (
+              <div className="mbulk">
+                <label className="mbulk__all"><CheckAll name="ids" /> Alle</label>
+                <span className="mbulk__hint muted small">Nachrichten anhaken für mehrere auf einmal</span>
+                <span className="mbulk__btns">
+                  {folder === 'inbox' && (
+                    <>
+                      <button className="btn btn--ghost btn--xs" formAction={messageMarkDoneAction}>✓ Erledigt</button>
+                      <button className="btn btn--ghost btn--xs" formAction={messageReadAction}>Gelesen</button>
+                      <button className="btn btn--ghost btn--xs" formAction={messageUnreadAction}>Ungelesen</button>
+                      <button className="btn btn--ghost btn--xs" formAction={messageMarkSpamAction}>Spam</button>
+                    </>
+                  )}
+                  {folder === 'done' && <button className="btn btn--ghost btn--xs" formAction={messageMarkOpenAction}>↩ Posteingang</button>}
+                  {folder === 'spam' && <button className="btn btn--ghost btn--xs" formAction={messageNoSpamAction}>Kein Spam</button>}
+                  {folder === 'trash' && <button className="btn btn--ghost btn--xs" formAction={messageRestoreAction}>Wiederherstellen</button>}
+                  {(folder === 'inbox' || folder === 'done' || folder === 'spam') && (
+                    <button className="btn btn--danger btn--xs" formAction={messageTrashAction}>🗑 Löschen</button>
+                  )}
+                  {folder === 'trash' && <ConfirmButton className="btn btn--danger btn--xs" formAction={messageDeleteAction} confirm="Ausgewählte Nachrichten endgültig löschen? Das kann nicht rückgängig gemacht werden.">Endgültig löschen</ConfirmButton>}
+                  {folder === 'sent' && <ConfirmButton className="btn btn--danger btn--xs" formAction={sentDeleteAction} confirm="Ausgewählte gesendete E-Mails endgültig löschen? Beim Kunden bleiben sie natürlich erhalten.">🗑 Löschen</ConfirmButton>}
+                </span>
+              </div>
+            )}
           {folder === 'sent'
             ? sent.map((m) => (
-                <Link key={m.id} href={href({ id: m.id })} className={`mitem${m.id === openId ? ' is-active' : ''}`}>
-                  <span className="mitem__top"><strong>An {m.to_email}</strong><time>{dateCh(m.created_at)}</time></span>
-                  <span className="mitem__subj">{m.ok ? '' : '⚠ '}{m.subject}</span>
-                  <span className="mitem__prev">{m.body.slice(0, 90)}</span>
-                </Link>
+                <div key={m.id} className="mrow">
+                  <input type="checkbox" name="ids" value={m.id} aria-label="Auswählen" />
+                  <Link href={href({ id: m.id })} className={`mitem${m.id === openId ? ' is-active' : ''}`}>
+                    <span className="mitem__top"><strong>An {m.to_email}</strong><time>{dateCh(m.created_at)}</time></span>
+                    <span className="mitem__subj">{m.ok ? '' : '⚠ '}{m.subject}</span>
+                    <span className="mitem__prev">{m.body.slice(0, 90)}</span>
+                  </Link>
+                </div>
               ))
             : list.map((m) => (
-                <Link key={m.id} href={href({ id: m.id })} className={`mitem${m.id === openId ? ' is-active' : ''}${!m.read_at && folder === 'inbox' ? ' is-unread' : ''}`}>
-                  <span className="mitem__top"><strong>{m.name}</strong><time>{dateCh(m.created_at)}</time></span>
-                  <span className="mitem__subj">{m.topic || 'Allgemeine Anfrage'}{m.company ? ` · ${m.company}` : ''}</span>
-                  <span className="mitem__prev">{folder === 'spam' ? m.spam : m.message.slice(0, 90)}</span>
-                </Link>
+                <div key={m.id} className="mrow">
+                  <input type="checkbox" name="ids" value={m.id} aria-label="Auswählen" />
+                  <Link href={href({ id: m.id })} className={`mitem${m.id === openId ? ' is-active' : ''}${!m.read_at && folder === 'inbox' ? ' is-unread' : ''}`}>
+                    <span className="mitem__top"><strong>{m.name}</strong><time>{dateCh(m.created_at)}</time></span>
+                    <span className="mitem__subj">{m.topic || 'Allgemeine Anfrage'}{m.company ? ` · ${m.company}` : ''}</span>
+                    <span className="mitem__prev">{folder === 'spam' ? m.spam : m.message.slice(0, 90)}</span>
+                  </Link>
+                </div>
               ))}
+          </form>
           {(folder === 'sent' ? !sent.length : !list.length) && (
             <p className="mailbox__empty">{q ? 'Nichts gefunden.' : folder === 'inbox' ? 'Posteingang leer. Alles erledigt. 🎉' : 'Keine Nachrichten.'}</p>
           )}
@@ -150,6 +184,9 @@ export default async function Messages({ searchParams }: Props) {
             <section className="mview">
               <Link className="back mview__back" href={listHref}>← Zurück</Link>
               <h2 className="mview__title">{openSent.subject}</h2>
+              <div className="mview__tools">
+                <form action={sentDeleteAction}><input type="hidden" name="id" value={openSent.id} /><ConfirmButton className="btn btn--danger btn--sm" confirm="Diese gesendete E-Mail endgültig löschen?">🗑 Löschen</ConfirmButton></form>
+              </div>
               <p className="muted small">An {openSent.to_email} · {dateCh(openSent.created_at, true)} · gesendet von {openSent.sent_by || 'Admin'}</p>
               {!openSent.ok && <div className="flash flash--error">Nicht zugestellt: {openSent.error}</div>}
               <div className="mview__body">{openSent.body}</div>

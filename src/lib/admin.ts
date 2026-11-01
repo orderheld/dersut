@@ -29,5 +29,6 @@ export const FLASH: Record<string, string> = {
   saved_bg: 'Produkt gespeichert. Hinweis: Der Hintergrund des Fotos war nicht einheitlich und wurde nicht entfernt. Am schönsten wird es mit einem Foto vor einer hellen, ruhigen Fläche.',
   copied: 'Kopie erstellt. Sie ist noch ausgeblendet: Name, Bild und Preis anpassen, dann «Im Shop sichtbar» anhaken.',
   deleted: 'Produkt gelöscht.',
+  order_deleted: 'Bestellung endgültig gelöscht. Der Lagerbestand wurde zurückgebucht.',
   welcome: 'Willkommen! Ihr Admin-Konto ist eingerichtet.',
 };

@@ -35,7 +35,7 @@ export function ConfirmButton({
         const f = e.currentTarget.form;
         const notify = f?.elements.namedItem('notify');
         const st = f?.elements.namedItem('status');
-        const toOpen = st instanceof HTMLSelectElement && st.value === 'open'; // Zurücksetzen sendet keine E-Mail
+        const toOpen = st instanceof HTMLSelectElement && (st.value === 'open' || st.value === 'delete'); // Zurücksetzen sendet keine E-Mail
         const sends = !!mail && !toOpen && (mailAlways || !(notify instanceof HTMLInputElement) || notify.checked);
         let to = mail;
         if (mail === 'field:to') {
@@ -45,6 +45,12 @@ export function ConfirmButton({
         } else if (mail === 'selected') {
           const n = f ? f.querySelectorAll('input[name="ids"]:checked').length : 0;
           to = n === 1 ? 'den Kunden der ausgewählten Bestellung' : `die Kunden der ${n} ausgewählten Bestellungen`;
+        }
+        if (st instanceof HTMLSelectElement && st.value === 'delete') {
+          // Sammelaktion «endgültig löschen»: eigene, deutliche Rückfrage, keine E-Mail
+          const n = f ? f.querySelectorAll('input[name="ids"]:checked').length : 0;
+          if (!window.confirm(`${n === 1 ? 'Die ausgewählte Bestellung' : `Die ${n} ausgewählten Bestellungen`} endgültig löschen?\n\nArtikel und Verlauf werden mit gelöscht, der Lagerbestand wird zurückgebucht. Das kann nicht rückgängig gemacht werden.`)) e.preventDefault();
+          return;
         }
         const text = [confirm, sends ? `✉ Es wird eine E-Mail an ${to} gesendet.` : ''].filter(Boolean).join('\n\n');
         if (text && !window.confirm(text)) e.preventDefault();
