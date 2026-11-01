@@ -5,11 +5,14 @@ import { Img } from '@/components/Img';
 import { ActionForm } from '@/components/admin/ActionForm';
 import { Flash } from '@/components/admin/Flash';
 import { requireAdmin } from '@/lib/admin';
-import { productImage } from '@/lib/brand';
+import { cutoutImage, productImage } from '@/lib/brand';
+import { ConfirmButton } from '@/components/admin/ConfirmButton';
+import { GalleryEditor } from '@/components/admin/GalleryEditor';
+import { ImageUpload } from '@/components/admin/ImageUpload';
 import { LOCALES, LOCALE_NAMES, type Locale } from '@/lib/i18n';
 import { getProduct, type Product } from '@/lib/products';
 import type { ProductText } from '@/lib/products-shared';
-import { saveProductAction } from '../../actions';
+import { deleteProductAction, duplicateProductAction, saveProductAction } from '../../actions';
 
 type Props = { params: Promise<{ id: string }>; searchParams: Promise<{ ok?: string }> };
 
@@ -67,7 +70,19 @@ export default async function ProductEdit({ params, searchParams }: Props) {
           <Link className="back" href="/admin/produkte">← Alle Produkte</Link>
           <h1>{p.id ? p.name : 'Neues Produkt'}</h1>
         </div>
-        {p.id > 0 && p.active && <a className="btn btn--ghost" href={`/shop/${p.slug}`} target="_blank" rel="noopener">Im Shop ansehen ↗</a>}
+        {p.id > 0 && (
+          <div className="headactions">
+            {p.active && <a className="btn btn--ghost" href={`/shop/${p.slug}`} target="_blank" rel="noopener">Im Shop ansehen ↗</a>}
+            <form action={duplicateProductAction}>
+              <input type="hidden" name="id" value={p.id} />
+              <button className="btn btn--ghost" type="submit">Kopieren</button>
+            </form>
+            <form action={deleteProductAction}>
+              <input type="hidden" name="id" value={p.id} />
+              <ConfirmButton className="btn btn--danger" confirm={`«${p.name}» endgültig löschen? Bestehende Bestellungen bleiben erhalten. Tipp: Zum vorübergehenden Entfernen reicht «Im Shop sichtbar» abzuwählen.`}>Löschen</ConfirmButton>
+            </form>
+          </div>
+        )}
       </header>
       <Flash ok={ok} />
 
@@ -110,20 +125,29 @@ export default async function ProductEdit({ params, searchParams }: Props) {
             <label>URL-Kennung <span className="muted">(optional)</span><input name="slug" defaultValue={p.slug} placeholder="wird automatisch erstellt" /></label>
           </section>
           <section className="card form">
-            <h2>Bild</h2>
-            {img && <div className="preview"><Img src={img} alt="" /></div>}
-            <label>Neues Bild hochladen (JPG, PNG, WebP, max. 4 MB)<input type="file" name="upload" accept="image/jpeg,image/png,image/webp" /></label>
-            <label>oder Bild-URL<input name="image" defaultValue={p.image} placeholder="https://… oder brand:prod_optimum" /></label>
+            <h2>Produktfoto</h2>
+            {img ? (
+              <div className="stage">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img className="stage__beans" src="/deco/beans.webp" alt="" />
+                <Img src={cutoutImage(img)} fallbackSrc={img} alt="" className="stage__img" />
+                <span className="stage__label">So erscheint es im Shop</span>
+              </div>
+            ) : (
+              <div className="stage stage--empty"><span>Noch kein Foto</span></div>
+            )}
+            <ImageUpload name="upload" hint="JPG, PNG oder WebP. Wird automatisch freigestellt, zugeschnitten und gleich gross wie die anderen Packungen dargestellt." />
+            <label className="inline small"><input type="checkbox" name="raw" value="1" /> Foto unverändert verwenden (nicht freistellen)</label>
+            <details className="more">
+              <summary>Erweitert: Bild-Adresse</summary>
+              <label>Bild-URL<input name="image" defaultValue={p.image} placeholder="https://… oder brand:prod_optimum" /></label>
+            </details>
           </section>
           <section className="card form">
             <h2>Weitere Bilder (Galerie)</h2>
-            {p.gallery.length > 0 && (
-              <div className="thumbs">
-                {p.gallery.map((g) => <div className="preview preview--sm" key={g}><Img src={productImage(g)} alt="" /></div>)}
-              </div>
-            )}
-            <label>Bilder hochladen <span className="muted">(mehrere möglich, zusammen max. 4 MB)</span><input type="file" name="gallery_upload" multiple accept="image/jpeg,image/png,image/webp" /></label>
-            <label>Bild-URLs <span className="muted">(eine pro Zeile, Reihenfolge = Anzeige)</span><textarea name="gallery" rows={5} defaultValue={p.gallery.join('\n')} placeholder="brand:tazze" /></label>
+            <GalleryEditor initial={p.gallery} previews={Object.fromEntries(p.gallery.map((g) => [g, productImage(g)]))} />
+            <ImageUpload name="gallery_upload" multiple hint="Stimmungsbilder, Tassen, Bohnen … bis 10 Fotos auf einmal. Werden verkleinert und komprimiert." />
+            <label className="inline small"><input type="checkbox" name="gallery_pack" value="1" /> Diese Fotos auch freistellen (z. B. Rückseite der Packung)</label>
           </section>
           <button className="btn btn--primary btn--lg btn--block" type="submit">Speichern</button>
         </div>

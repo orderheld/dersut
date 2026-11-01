@@ -26,5 +26,8 @@ export const FLASH: Record<string, string> = {
   bulk: 'Ausgewählte Bestellungen aktualisiert.',
   bulk_none: 'Bitte zuerst Bestellungen auswählen.',
   saved: 'Produkt gespeichert.',
+  saved_bg: 'Produkt gespeichert. Hinweis: Der Hintergrund des Fotos war nicht einheitlich und wurde nicht entfernt. Am schönsten wird es mit einem Foto vor einer hellen, ruhigen Fläche.',
+  copied: 'Kopie erstellt. Sie ist noch ausgeblendet: Name, Bild und Preis anpassen, dann «Im Shop sichtbar» anhaken.',
+  deleted: 'Produkt gelöscht.',
   welcome: 'Willkommen! Ihr Admin-Konto ist eingerichtet.',
 };

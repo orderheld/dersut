@@ -3,14 +3,17 @@ import Link from 'next/link';
 import { Img } from '@/components/Img';
 import { RowLink } from '@/components/admin/RowLink';
 import { requireAdmin } from '@/lib/admin';
-import { productImage } from '@/lib/brand';
+import { cutoutImage, productImage } from '@/lib/brand';
 import { chf } from '@/lib/format';
 import { getProducts } from '@/lib/products';
+import { Flash } from '@/components/admin/Flash';
+import { toggleProductAction } from '../actions';
 
 export const metadata: Metadata = { title: 'Produkte' };
 
-export default async function Products() {
+export default async function Products({ searchParams }: { searchParams: Promise<{ ok?: string }> }) {
   await requireAdmin();
+  const { ok } = await searchParams;
   const products = await getProducts(false);
   return (
     <>
@@ -18,17 +21,25 @@ export default async function Products() {
         <div><h1>Produkte</h1><p className="muted">Preise, Texte, Bilder und Verfügbarkeit verwalten. Neue Produkte erscheinen sofort im Shop.</p></div>
         <Link className="btn btn--primary" href="/admin/produkte/neu">+ Neues Produkt</Link>
       </header>
+      <Flash ok={ok} />
       <div className="card table-wrap">
         <table className="table">
           <thead><tr><th></th><th>Produkt</th><th className="num">Preis</th><th>Lager</th><th>Sichtbar</th><th className="num">Reihenfolge</th></tr></thead>
           <tbody>
             {products.map((p) => (
               <RowLink key={p.id} href={`/admin/produkte/${p.id}`}>
-                <td className="thumb"><Img src={productImage(p.image)} alt="" /></td>
+                <td className="thumb"><Img src={cutoutImage(productImage(p.image))} fallbackSrc={productImage(p.image)} alt="" /></td>
                 <td><Link className="ordlink" href={`/admin/produkte/${p.id}`}>{p.name}</Link><br /><span className="muted">{p.subtitle}</span></td>
                 <td className="num"><strong>{chf(p.price)}</strong></td>
                 <td>{p.stock === null ? <span className="muted">unbegrenzt</span> : p.stock <= 0 ? <span className="badge badge--cancelled">ausverkauft</span> : `${p.stock} Stk.`}</td>
-                <td>{p.active ? <span className="badge badge--shipped">im Shop</span> : <span className="badge">ausgeblendet</span>}</td>
+                <td>
+                  <form action={toggleProductAction}>
+                    <input type="hidden" name="id" value={p.id} />
+                    <button type="submit" className={`switch${p.active ? ' is-on' : ''}`} title={p.active ? 'Klicken zum Ausblenden' : 'Klicken zum Einblenden'}>
+                      <i /> {p.active ? 'im Shop' : 'ausgeblendet'}
+                    </button>
+                  </form>
+                </td>
                 <td className="num muted">{p.sort}</td>
               </RowLink>
             ))}

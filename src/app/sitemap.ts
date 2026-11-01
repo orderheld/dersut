@@ -33,7 +33,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         changeFrequency: 'weekly',
         priority: 0.9,
         alternates: { languages: languageAlternates(path) },
-        images: p.images.map(productImage).filter(Boolean),
+        images: p.images.map(productImage).filter(Boolean).map((i) => (i.startsWith('http') ? i : absolute(i))),
       });
     }
   }

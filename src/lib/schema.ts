@@ -106,6 +106,16 @@ export const SCHEMA = [
   // Spamschutz Kontaktformular: Absender-IP (für Rate-Limit) und Spam-Markierung mit Grund
   `ALTER TABLE messages ADD COLUMN IF NOT EXISTS ip TEXT NOT NULL DEFAULT ''`,
   `ALTER TABLE messages ADD COLUMN IF NOT EXISTS spam TEXT NOT NULL DEFAULT ''`,
+  // Hochgeladene Bilder (Produktfotos) liegen direkt in der Datenbank: kein zusätzlicher Speicher nötig
+  `CREATE TABLE IF NOT EXISTS media (
+    id SERIAL PRIMARY KEY,
+    hash TEXT NOT NULL UNIQUE,
+    mime TEXT NOT NULL,
+    data BYTEA NOT NULL,
+    width INTEGER NOT NULL DEFAULT 0,
+    height INTEGER NOT NULL DEFAULT 0,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+  )`,
   // Lagerbestand darf nie negativ werden: Zwei gleichzeitige Bestellungen für das letzte Stück scheitern so sauber
   `DO $$ BEGIN
      IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'products_stock_nonneg') THEN
