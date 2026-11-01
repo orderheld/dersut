@@ -11,6 +11,14 @@ import { getDict } from '@/i18n';
 import { brand, cutoutImage, productImage, type BrandKey } from '@/lib/brand';
 import { Medal } from '@/components/Medal';
 import { AWARD_TEXT, latestMedal } from '@/content/awards';
+
+/** Siegel im Startseiten-Header: zwei Goldmedaillen 2025 */
+const HERO_AWARD: Record<Locale, { event: string; title: string; blends: string; cert: string; aria: string }> = {
+  de: { event: 'International Coffee Tasting 2025', title: '2× Gold Medal', blends: 'für Plus Oro und Non Plus Ultra', cert: 'Zertifiziert: Espresso Italiano di Qualità', aria: 'Zweimal Gold Medal 2025 beim International Coffee Tasting: mehr erfahren' },
+  fr: { event: 'International Coffee Tasting 2025', title: '2× Gold Medal', blends: 'pour Plus Oro et Non Plus Ultra', cert: 'Certifié : Espresso Italiano di Qualità', aria: 'Deux Gold Medals 2025 à l’International Coffee Tasting : en savoir plus' },
+  it: { event: 'International Coffee Tasting 2025', title: '2× Gold Medal', blends: 'per Plus Oro e Non Plus Ultra', cert: 'Certificato: Espresso Italiano di Qualità', aria: 'Due Gold Medal 2025 all’International Coffee Tasting: scopri di più' },
+  en: { event: 'International Coffee Tasting 2025', title: '2× Gold Medal', blends: 'for Plus Oro and Non Plus Ultra', cert: 'Certified: Espresso Italiano di Qualità', aria: 'Two Gold Medals 2025 at the International Coffee Tasting: learn more' },
+};
 import { config } from '@/lib/config';
 import { asLocale, LOCALE_TAGS, lp, type Locale } from '@/lib/i18n';
 import { getProducts } from '@/lib/products';
@@ -354,6 +362,21 @@ export default async function Home({ params }: Props) {
       <section className="hero">
         <div className="hero__media"><Img src={brand('hero_1')} alt={t.heroAlt} className="hero__img" eager /></div>
         <div className="wrap hero__inner">
+          {winners.length > 0 && (
+            <a className="hero-award" href="#gold-2025" aria-label={HERO_AWARD[lang].aria}>
+              <span className="hero-award__medals" aria-hidden="true">
+                <Medal year="2025" label="" className="hero-award__back" />
+                <Medal year="2025" label="" className="hero-award__front" />
+              </span>
+              <span className="hero-award__text">
+                <small>{HERO_AWARD[lang].event}</small>
+                <strong>{HERO_AWARD[lang].title}</strong>
+                <span>{HERO_AWARD[lang].blends}</span>
+                <em><Icon name="shield" /> {HERO_AWARD[lang].cert}</em>
+              </span>
+            </a>
+          )}
+          <div className="hero__text">
           <p className="hero__kicker"><span className="rule" /> {t.heroKicker}</p>
           <h1 className="hero__title">{HERO_TITLE[lang][0]}<br /><em>{HERO_TITLE[lang][1]}</em></h1>
           <p className="hero__lead">{t.heroLead}</p>
@@ -366,6 +389,7 @@ export default async function Home({ params }: Props) {
             <li><Icon name="shield" /> {t.proof[1]}</li>
             <li><Icon name="truck" /> {t.proof[2]}</li>
           </ul>
+          </div>
         </div>
         <div className="hero__since" aria-hidden="true">Dal 1947</div>
       </section>
@@ -392,7 +416,7 @@ export default async function Home({ params }: Props) {
       </section>
 
       {winners.length > 0 && (
-        <section className="awardband">
+        <section className="awardband" id="gold-2025">
           <div className="wrap awardband__inner">
             <div className="awardband__text">
               <p className="eyebrow eyebrow--gold">{at.homeEyebrow}</p>
