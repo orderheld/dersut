@@ -2,12 +2,18 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useEffect } from 'react';
 import { Icon } from '../Icon';
 
 type Counts = { todo: number; messages: number };
 
 export function SideNav({ counts }: { counts: Counts }) {
   const path = usePathname();
+  // Handy: Menü nach dem Antippen eines Eintrags wieder schliessen
+  useEffect(() => {
+    const t = document.getElementById('navtoggle') as HTMLInputElement | null;
+    if (t) t.checked = false;
+  }, [path]);
   const is = (p: string, exact = false) => (exact ? path === p : path === p || path.startsWith(p + '/'));
   const items = [
     { href: '/admin', label: 'Zu erledigen', icon: 'clock', active: is('/admin', true), badge: counts.todo },

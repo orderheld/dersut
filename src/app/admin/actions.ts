@@ -385,7 +385,10 @@ export async function sendAdminMailAction(_prev: FormState, fd: FormData): Promi
   if (!body) return { error: 'Bitte einen Text schreiben.' };
   const id = Number(fd.get('id')) || null;
   const orig = id ? await one<{ name: string; message: string; created_at: Date }>('SELECT name, message, created_at FROM messages WHERE id = $1', [id]) : null;
-  const html = adminMailHtml(body, orig && fd.get('quote') === '1' ? { name: orig.name, date: dateCh(orig.created_at, true), text: orig.message } : undefined);
+  const html = adminMailHtml(body, {
+    signature: fd.get('sig') === '1',
+    quote: orig && fd.get('quote') === '1' ? { name: orig.name, date: dateCh(orig.created_at, true), text: orig.message } : undefined,
+  });
   const r = await deliverMail({ to, subject, html, replyTo: config.email.contact });
   await query('INSERT INTO mail_out (message_id, to_email, subject, body, ok, error, sent_by) VALUES ($1, $2, $3, $4, $5, $6, $7)', [
     orig ? id : null, to, subject, body, r.ok, r.error ?? '', admin.email,
@@ -427,6 +430,7 @@ export async function saveSettingsAction(_prev: FormState, fd: FormData): Promis
     bank: { holder: str(fd, 'bank_holder'), bank: str(fd, 'bank_bank'), iban },
     paymentDays,
     categories,
+    signature: { name: str(fd, 'sig_name').slice(0, 80), role: str(fd, 'sig_role').slice(0, 80), phone: str(fd, 'sig_phone').slice(0, 40) },
   };
   await query(
     `INSERT INTO app_settings (key, value) VALUES ($1, $2) ON CONFLICT (key) DO UPDATE SET value = EXCLUDED.value`,

@@ -13,7 +13,16 @@ export type SiteSettings = {
   bank: Partial<Record<'holder' | 'bank' | 'iban', string>>;
   paymentDays?: number;
   categories: Category[];
+  /** Person in der E-Mail-Signatur (Antworten aus dem Admin) */
+  signature?: { name?: string; role?: string; phone?: string };
 };
+
+export const SIGNATURE_DEFAULTS = { name: 'Asurhan Özçelik', role: 'Inhaber & Geschäftsführer', phone: '+41 76 343 21 47' };
+
+export function signaturePerson(): { name: string; role: string; phone: string } {
+  const sg = current.signature ?? {};
+  return { name: sg.name?.trim() || SIGNATURE_DEFAULTS.name, role: sg.role?.trim() || SIGNATURE_DEFAULTS.role, phone: sg.phone?.trim() ?? SIGNATURE_DEFAULTS.phone };
+}
 
 export const SETTINGS_KEY = 'site';
 
@@ -29,7 +38,7 @@ export function currentSettings(): SiteSettings {
 export function parseSettings(raw: string | null | undefined): SiteSettings {
   try {
     const s = raw ? (JSON.parse(raw) as Partial<SiteSettings>) : {};
-    return { company: s.company ?? {}, email: s.email, bank: s.bank ?? {}, paymentDays: s.paymentDays, categories: Array.isArray(s.categories) ? s.categories : [] };
+    return { company: s.company ?? {}, email: s.email, bank: s.bank ?? {}, paymentDays: s.paymentDays, categories: Array.isArray(s.categories) ? s.categories : [], signature: s.signature };
   } catch {
     return { company: {}, bank: {}, categories: [] };
   }

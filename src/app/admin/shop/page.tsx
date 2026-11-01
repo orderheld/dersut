@@ -5,7 +5,7 @@ import { requireAdmin } from '@/lib/admin';
 import { config } from '@/lib/config';
 import { query } from '@/lib/db';
 import { chf, ibanFormat } from '@/lib/format';
-import { currentSettings } from '@/lib/settings-core';
+import { currentSettings, signaturePerson } from '@/lib/settings-core';
 import { saveSettingsAction } from '../actions';
 
 export const metadata: Metadata = { title: 'Firma & Shop' };
@@ -45,6 +45,15 @@ export default async function ShopSettings() {
             <label>E-Mail-Adresse <span className="muted">(für alles: Absender, Bestellkopien, Kontaktformular)</span><input name="email" type="email" required defaultValue={config.email.info} /></label>
             <p className="muted small" style={{ marginTop: -8 }}>Muss auf @dersut.ch enden, weil nur diese Domain für den Versand eingerichtet ist.</p>
             <label>Telefon <span className="muted">(optional, erscheint auf der Kontaktseite und den Dokumenten)</span><input name="company_phone" type="tel" defaultValue={c.phone} placeholder="+41 61 …" /></label>
+          </section>
+          <section className="card form">
+            <h2>E-Mail-Signatur</h2>
+            <p className="muted small">Erscheint unter Antworten aus dem Admin (Nachrichten). Firma, Adresse und E-Mail kommen automatisch von oben.</p>
+            <label>Name<input name="sig_name" defaultValue={signaturePerson().name} /></label>
+            <div className="row2">
+              <label>Funktion<input name="sig_role" defaultValue={signaturePerson().role} /></label>
+              <label>Telefon<input name="sig_phone" type="tel" defaultValue={signaturePerson().phone} /></label>
+            </div>
           </section>
         </div>
         <div>
