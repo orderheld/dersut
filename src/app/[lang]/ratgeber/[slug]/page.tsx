@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { shipText } from '@/lib/shipping-text';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { PageHero } from '@/components/PageHero';
@@ -20,7 +21,7 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { lang: l, slug } = await params;
   const lang = asLocale(l);
-  const a = ARTICLES.find((x) => x.slug === slug);
+  const a = shipText(ARTICLES.find((x) => x.slug === slug));
   if (!a) return { robots: { index: false } };
   const x = a.text[lang];
   return pageMeta(lang, `/ratgeber/${a.slug}`, x.metaTitle, x.metaDescription, { image: brand(a.image), type: 'article' });
@@ -29,7 +30,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function Article({ params }: Props) {
   const { lang: l, slug } = await params;
   const lang = asLocale(l);
-  const a = ARTICLES.find((x) => x.slug === slug);
+  const a = shipText(ARTICLES.find((x) => x.slug === slug));
   if (!a) notFound();
   const x = onlinePayment() ? withOnlinePayment(a.text[lang]) : a.text[lang];
   const t = RATGEBER_PAGE[lang];

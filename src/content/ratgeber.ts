@@ -969,7 +969,7 @@ export const ARTICLES: Article[] = [
           {
             h: 'Versand in der ganzen Schweiz',
             p: [
-              'Wir versenden mit der Schweizerischen Post in die ganze Schweiz. Ihre Bestellung geht innert 1 bis 2 Werktagen nach Zahlungseingang auf den Weg. Der Versand kostet pauschal CHF 12. Ab einem Warenwert von CHF 100 liefern wir kostenlos, das entspricht zum Beispiel vier Packungen.',
+              'Wir versenden mit der Schweizerischen Post in die ganze Schweiz. Ihre Bestellung geht innert 1 bis 2 Werktagen nach Zahlungseingang auf den Weg. Der Versand kostet pauschal {ship}. Ab einem Warenwert von {free} liefern wir kostenlos, das entspricht zum Beispiel vier Packungen.',
               'Gerade wer regelmässig Espresso trinkt, profitiert davon: Mit vier Kilogramm sind Sie für einige Zeit versorgt, und dank der gut verschlossenen Originalpackungen bleibt jede ungeöffnete Packung frisch, bis Sie sie brauchen. Lagern Sie sie kühl, trocken und dunkel.',
             ],
           },
@@ -993,7 +993,7 @@ export const ARTICLES: Article[] = [
           ],
           [
             'Was kostet der Versand?',
-            'Pauschal CHF 12 in die ganze Schweiz. Ab CHF 100 Warenwert, zum Beispiel vier Packungen, ist der Versand kostenlos.',
+            'Pauschal {ship} in die ganze Schweiz. Ab {free} Warenwert, zum Beispiel vier Packungen, ist der Versand kostenlos.',
           ],
           [
             'Wie kann ich bezahlen?',
@@ -1046,7 +1046,7 @@ export const ARTICLES: Article[] = [
           {
             h: 'Livraison dans toute la Suisse',
             p: [
-              'Nous expédions avec La Poste suisse dans toute la Suisse. Votre commande part dans un délai de 1 à 2 jours ouvrables après réception du paiement. Les frais de port sont forfaitaires : CHF 12. Dès CHF 100 de marchandise, la livraison est offerte, soit par exemple quatre paquets.',
+              'Nous expédions avec La Poste suisse dans toute la Suisse. Votre commande part dans un délai de 1 à 2 jours ouvrables après réception du paiement. Les frais de port sont forfaitaires : {ship}. Dès {free} de marchandise, la livraison est offerte, soit par exemple quatre paquets.',
               'Si vous buvez de l’espresso régulièrement, c’est intéressant : avec quatre kilos, vous êtes servi pour un bon moment, et les paquets originaux bien fermés restent frais jusqu’à leur ouverture. Conservez-les au frais, au sec et à l’abri de la lumière.',
             ],
           },
@@ -1070,7 +1070,7 @@ export const ARTICLES: Article[] = [
           ],
           [
             'Combien coûte la livraison ?',
-            'CHF 12 forfaitaires dans toute la Suisse. Dès CHF 100 de marchandise, par exemple quatre paquets, la livraison est gratuite.',
+            '{ship} forfaitaires dans toute la Suisse. Dès {free} de marchandise, par exemple quatre paquets, la livraison est gratuite.',
           ],
           [
             'Comment puis-je payer ?',
@@ -1123,7 +1123,7 @@ export const ARTICLES: Article[] = [
           {
             h: 'Spedizione in tutta la Svizzera',
             p: [
-              'Spediamo con la Posta Svizzera in tutta la Svizzera. Il suo ordine parte entro 1-2 giorni lavorativi dal ricevimento del pagamento. La spedizione costa CHF 12 forfettari. Da CHF 100 di merce la consegna è gratuita, per esempio con quattro confezioni.',
+              'Spediamo con la Posta Svizzera in tutta la Svizzera. Il suo ordine parte entro 1-2 giorni lavorativi dal ricevimento del pagamento. La spedizione costa {ship} forfettari. Da {free} di merce la consegna è gratuita, per esempio con quattro confezioni.',
               'Per chi beve espresso tutti i giorni è un vantaggio: con quattro chili è a posto per un bel po’, e le confezioni originali ben chiuse restano fresche fino all’apertura. Le conservi in luogo fresco, asciutto e al buio.',
             ],
           },
@@ -1147,7 +1147,7 @@ export const ARTICLES: Article[] = [
           ],
           [
             'Quanto costa la spedizione?',
-            'CHF 12 forfettari in tutta la Svizzera. Da CHF 100 di merce, per esempio quattro confezioni, la spedizione è gratuita.',
+            '{ship} forfettari in tutta la Svizzera. Da {free} di merce, per esempio quattro confezioni, la spedizione è gratuita.',
           ],
           [
             'Come posso pagare?',
@@ -1200,7 +1200,7 @@ export const ARTICLES: Article[] = [
           {
             h: 'Shipping all over Switzerland',
             p: [
-              'We ship with Swiss Post all over Switzerland. Your order goes out within 1 to 2 working days after we receive payment. Shipping costs a flat CHF 12. From CHF 100 in goods value, delivery is free, which is for example four packs.',
+              'We ship with Swiss Post all over Switzerland. Your order goes out within 1 to 2 working days after we receive payment. Shipping costs a flat {ship}. From {free} in goods value, delivery is free, which is for example four packs.',
               'If you drink espresso regularly, this pays off: four kilos keep you supplied for quite a while, and the well-sealed original packs stay fresh until you open them. Store them somewhere cool, dry and dark.',
             ],
           },
@@ -1224,7 +1224,7 @@ export const ARTICLES: Article[] = [
           ],
           [
             'How much does shipping cost?',
-            'A flat CHF 12 anywhere in Switzerland. From CHF 100 in goods value, for example four packs, shipping is free.',
+            'A flat {ship} anywhere in Switzerland. From {free} in goods value, for example four packs, shipping is free.',
           ],
           [
             'How can I pay?',

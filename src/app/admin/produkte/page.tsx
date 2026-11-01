@@ -8,6 +8,7 @@ import { chf } from '@/lib/format';
 import { getProducts } from '@/lib/products';
 import { Flash } from '@/components/admin/Flash';
 import { toggleProductAction } from '../actions';
+import { categoryName } from '@/lib/settings-core';
 
 export const metadata: Metadata = { title: 'Produkte' };
 
@@ -29,7 +30,7 @@ export default async function Products({ searchParams }: { searchParams: Promise
             {products.map((p) => (
               <RowLink key={p.id} href={`/admin/produkte/${p.id}`}>
                 <td className="thumb c-thumb"><Img src={cutoutImage(productImage(p.image))} fallbackSrc={productImage(p.image)} alt="" /></td>
-                <td className="c-name"><Link className="ordlink" href={`/admin/produkte/${p.id}`}>{p.name}</Link><br /><span className="muted">{p.subtitle}</span></td>
+                <td className="c-name"><Link className="ordlink" href={`/admin/produkte/${p.id}`}>{p.name}</Link><br /><span className="muted">{p.subtitle}{p.category ? ` · ${categoryName(p.category, 'de') || p.category}` : ' · ohne Kategorie'}</span></td>
                 <td className="num c-price"><strong>{chf(p.price)}</strong></td>
                 <td className="c-stock">{p.stock === null ? <span className="muted">unbegrenzt</span> : p.stock <= 0 ? <span className="badge badge--cancelled">ausverkauft</span> : `${p.stock} Stk.`}</td>
                 <td className="c-vis">

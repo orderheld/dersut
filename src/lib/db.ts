@@ -3,6 +3,7 @@ import { neon } from '@neondatabase/serverless';
 import { SCHEMA, SEED_PRODUCTS } from './schema';
 import { SEED_TRANSLATIONS, SEO_DESCRIPTION_UPDATES } from './product-seed-i18n';
 import { applySettings, parseSettings, SETTINGS_KEY } from './settings-core';
+import { seedCategories } from './category-seed';
 
 export type Row = Record<string, any>;
 export type Query = { text: string; params?: unknown[] };
@@ -86,6 +87,7 @@ async function getDriver(): Promise<Driver> {
           [slug, lang, old, next],
         );
       }
+      await seedCategories(d.query);
       await refreshSettings(d);
       return d;
     })().catch((e) => {

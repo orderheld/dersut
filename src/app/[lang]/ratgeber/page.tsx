@@ -1,3 +1,4 @@
+import { shipText } from '@/lib/shipping-text';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Img } from '@/components/Img';
@@ -33,7 +34,7 @@ export default async function Ratgeber({ params }: Props) {
       <section className="section">
         <div className="wrap guides">
           {ARTICLES.map((a) => {
-            const x = a.text[lang];
+            const x = shipText(a.text[lang]);
             const href = lp(lang, `/ratgeber/${a.slug}`);
             return (
               <article className="guide-card" key={a.slug}>

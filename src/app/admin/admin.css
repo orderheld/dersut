@@ -366,6 +366,10 @@ details.card[open] > summary::before { content: "− "; }
 .cats__head span { font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
 .cats__del { border: 1px solid var(--line); background: #fff; border-radius: 6px; height: 36px; cursor: pointer; color: var(--err); }
 .cats .btn { justify-self: start; margin-top: 4px; }
+.cats__item { display: grid; gap: 4px; padding-bottom: 6px; border-bottom: 1px dashed var(--line); }
+.cats__text summary { font-size: 12.5px; color: var(--muted); cursor: pointer; }
+.cats__text label { font-size: 12.5px; }
+.cats__text textarea { font-size: 13.5px !important; }
 @media (max-width: 600px) { .cats__row { grid-template-columns: 1fr 32px; } .cats__row input:not([name=cat_de]) { display: none; } .cats__head { display: none; } }
 .grid2 > .flash { grid-column: 1 / -1; }
 

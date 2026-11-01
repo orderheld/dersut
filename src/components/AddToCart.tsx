@@ -7,6 +7,7 @@ import { notifyCart } from '@/lib/cart-shared';
 import { lp, type Locale } from '@/lib/i18n';
 import { Icon } from './Icon';
 import { QtyInput } from './QtyInput';
+import './shop.css';
 
 export function AddToCart({ productId, soldOut, lang, detailed = false }: { productId: number; soldOut: boolean; lang: Locale; detailed?: boolean }) {
   const t = getDict(lang).cartBtn;
@@ -57,7 +58,7 @@ export function AddToCart({ productId, soldOut, lang, detailed = false }: { prod
       )}
       {flash && (
         <div className="toast is-in" role="status">
-          {t.toast} <a href={lp(lang, '/warenkorb')}>{t.toCart}</a>
+          <span>✓ {t.toast}</span> <a href={lp(lang, '/warenkorb')}>{t.toCart} <Icon name="arrow" /></a>
         </div>
       )}
       {state.error && <p className="f__err">{state.error}</p>}
