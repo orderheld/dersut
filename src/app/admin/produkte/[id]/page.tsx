@@ -11,6 +11,7 @@ import { GalleryEditor } from '@/components/admin/GalleryEditor';
 import { ImageUpload } from '@/components/admin/ImageUpload';
 import { LOCALES, LOCALE_NAMES, type Locale } from '@/lib/i18n';
 import { getProduct, type Product } from '@/lib/products';
+import { currentSettings } from '@/lib/settings-core';
 import type { ProductText } from '@/lib/products-shared';
 import { deleteProductAction, duplicateProductAction, saveProductAction } from '../../actions';
 
@@ -20,7 +21,7 @@ export const metadata: Metadata = { title: 'Produkt bearbeiten' };
 
 const EMPTY: Product = {
   id: 0, slug: '', name: '', line: '', subtitle: 'Espressobohnen · 1 kg', description: '', notes: '', blend: '', weight: '1 kg',
-  price: 0, image: '', intensity: 3, accent: '#002856', active: true, stock: null, sort: 100, translations: {}, gallery: [],
+  price: 0, image: '', intensity: 3, accent: '#002856', active: true, stock: null, sort: 100, translations: {}, gallery: [], category: '',
 };
 
 const FIELDS: [keyof ProductText, string, 'input' | 'text' | 'lines'][] = [
@@ -121,6 +122,13 @@ export default async function ProductEdit({ params, searchParams }: Props) {
             <label>Preis in CHF inkl. MWST<input name="price" required inputMode="decimal" defaultValue={p.price ? (p.price / 100).toFixed(2) : ''} placeholder="29.90" /></label>
             <label>Lagerbestand <span className="muted">(leer = unbegrenzt)</span><input type="number" name="stock" min={0} defaultValue={p.stock ?? ''} /></label>
             <label className="inline"><input type="checkbox" name="active" value="1" defaultChecked={p.active} /> Im Shop sichtbar</label>
+            <label>Kategorie
+              <select name="category" defaultValue={p.category}>
+                <option value="">Keine Kategorie</option>
+                {currentSettings().categories.map((c) => <option key={c.slug} value={c.slug}>{c.de}</option>)}
+              </select>
+              <span className="muted small">Kategorien verwalten unter <Link href="/admin/shop#kategorien">Firma &amp; Shop</Link>.</span>
+            </label>
             <label>Reihenfolge <span className="muted">(kleiner = weiter vorne)</span><input type="number" name="sort" defaultValue={p.sort} /></label>
             <label>URL-Kennung <span className="muted">(optional)</span><input name="slug" defaultValue={p.slug} placeholder="wird automatisch erstellt" /></label>
           </section>

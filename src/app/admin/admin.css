@@ -95,7 +95,7 @@ img.is-broken { visibility: hidden; }
 .actions { border-left: 4px solid var(--gold); }
 .actions form { display: grid; gap: 12px; margin-top: 10px; }
 .form label { display: block; font-weight: 500; color: var(--ink); margin-bottom: 14px; font-size: 13.5px; }
-.form input:not([type=checkbox]):not([type=color]), .form textarea, .actions input:not([type=checkbox]), .card textarea, .row input { display: block; width: 100%; margin-top: 6px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 6px; font: 14.5px Inter, sans-serif; background: #fdfcfa; }
+.form input:not([type=checkbox]):not([type=color]), .form textarea, .form select, .actions input:not([type=checkbox]), .card textarea, .row input { display: block; width: 100%; margin-top: 6px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 6px; font: 14.5px Inter, sans-serif; background: #fdfcfa; }
 .form input:focus, .form textarea:focus, .card textarea:focus { outline: none; border-color: var(--navy); background: #fff; }
 .form input[type=color] { display: block; margin-top: 6px; width: 100%; height: 42px; border: 1px solid var(--line); border-radius: 6px; padding: 3px; }
 label.inline { display: flex !important; align-items: center; gap: 8px; font-weight: 400 !important; }
@@ -338,3 +338,13 @@ details.card[open] > summary::before { content: "− "; }
   .mailbox:not(.has-open) .mailbox__view { display: none; }
   .mview__back { display: inline-block; }
 }
+
+/* ---------- Kategorien ---------- */
+.cats { display: grid; gap: 8px; }
+.cats__row { display: grid; grid-template-columns: 1.2fr 1fr 1fr 1fr 32px; gap: 6px; align-items: center; }
+.cats__row input { margin: 0 !important; padding: 8px 10px !important; font-size: 13.5px !important; }
+.cats__head span { font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.cats__del { border: 1px solid var(--line); background: #fff; border-radius: 6px; height: 36px; cursor: pointer; color: var(--err); }
+.cats .btn { justify-self: start; margin-top: 4px; }
+@media (max-width: 600px) { .cats__row { grid-template-columns: 1fr 32px; } .cats__row input:not([name=cat_de]) { display: none; } .cats__head { display: none; } }
+.grid2 > .flash { grid-column: 1 / -1; }

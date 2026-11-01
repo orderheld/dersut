@@ -23,6 +23,7 @@ export type Product = {
   sort: number;
   translations: ProductTranslations;
   gallery: string[];
+  category: string;
 };
 
 /** Produkt mit Texten in der gewünschten Sprache (fehlende Felder fallen auf Deutsch zurück). */

@@ -12,7 +12,8 @@ import {
   recordFailedAttempt, tooManyAttempts, verifyPassword, verifyResetToken,
 } from '@/lib/auth';
 import { config } from '@/lib/config';
-import { one, query } from '@/lib/db';
+import { one, query, reloadSettings } from '@/lib/db';
+import { SETTINGS_KEY, type Category, type SiteSettings } from '@/lib/settings-core';
 import { adminMailHtml, mailTypeForStatus, resetMailHtml, sendOrderMail, testMailHtml } from '@/lib/emails';
 import { absUrl, dateCh, slugify, statusLabel, toRappen } from '@/lib/format';
 import { deliverMail } from '@/lib/mail';
@@ -290,14 +291,14 @@ export async function saveProductAction(_prev: FormState, fd: FormData): Promise
   if (id) {
     await query(
       `UPDATE products SET slug=$1, name=$2, line=$3, subtitle=$4, description=$5, notes=$6, blend=$7, weight=$8, price=$9,
-         image=$10, intensity=$11, accent=$12, active=$13, stock=$14, sort=$15, translations=$16::jsonb, gallery=$17::jsonb WHERE id=$18`,
-      [...values, JSON.stringify(translations), JSON.stringify([...new Set(gallery)]), id],
+         image=$10, intensity=$11, accent=$12, active=$13, stock=$14, sort=$15, translations=$16::jsonb, gallery=$17::jsonb, category=$18 WHERE id=$19`,
+      [...values, JSON.stringify(translations), JSON.stringify([...new Set(gallery)]), str(fd, 'category'), id],
     );
   } else {
     const row = await one<{ id: number }>(
-      `INSERT INTO products (slug, name, line, subtitle, description, notes, blend, weight, price, image, intensity, accent, active, stock, sort, translations, gallery)
-       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16::jsonb,$17::jsonb) RETURNING id`,
-      [...values, JSON.stringify(translations), JSON.stringify([...new Set(gallery)])],
+      `INSERT INTO products (slug, name, line, subtitle, description, notes, blend, weight, price, image, intensity, accent, active, stock, sort, translations, gallery, category)
+       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16::jsonb,$17::jsonb,$18) RETURNING id`,
+      [...values, JSON.stringify(translations), JSON.stringify([...new Set(gallery)]), str(fd, 'category')],
     );
     savedId = row!.id;
   }
@@ -321,8 +322,8 @@ export async function duplicateProductAction(fd: FormData): Promise<void> {
   let slug = `${src.slug}-kopie`;
   for (let n = 2; await one('SELECT 1 FROM products WHERE slug = $1', [slug]); n++) slug = `${src.slug}-kopie-${n}`;
   const row = await one<{ id: number }>(
-    `INSERT INTO products (slug, name, line, subtitle, description, notes, blend, weight, price, image, intensity, accent, active, stock, sort, translations, gallery)
-     SELECT $2, name || ' (Kopie)', line, subtitle, description, notes, blend, weight, price, image, intensity, accent, FALSE, stock, sort + 1, translations, gallery
+    `INSERT INTO products (slug, name, line, subtitle, description, notes, blend, weight, price, image, intensity, accent, active, stock, sort, translations, gallery, category)
+     SELECT $2, name || ' (Kopie)', line, subtitle, description, notes, blend, weight, price, image, intensity, accent, FALSE, stock, sort + 1, translations, gallery, category
      FROM products WHERE id = $1 RETURNING id`,
     [id, slug],
   );
@@ -393,6 +394,49 @@ export async function sendAdminMailAction(_prev: FormState, fd: FormData): Promi
   if (orig && fd.get('done') === '1') await query('UPDATE messages SET done = TRUE, read_at = COALESCE(read_at, now()) WHERE id = $1', [id]);
   revalidatePath('/admin', 'layout');
   return { ok: `E-Mail an ${to} gesendet.` };
+}
+
+/* ---------- Firma & Shop ---------- */
+
+export async function saveSettingsAction(_prev: FormState, fd: FormData): Promise<FormState> {
+  await requireAdmin();
+  const company: SiteSettings['company'] = {};
+  for (const k of ['name', 'co', 'street', 'zip', 'city', 'phone', 'uid', 'vatNo', 'register', 'managing'] as const) company[k] = str(fd, `company_${k}`).slice(0, 120);
+  if (!company.name || !company.street || !company.zip || !company.city) return { error: 'Firmenname, Strasse, PLZ und Ort sind Pflicht (für Rechnungen und QR-Code).' };
+  const email = str(fd, 'email').toLowerCase();
+  if (!/^[^\s@]+@dersut\.ch$/.test(email)) return { error: 'Die E-Mail-Adresse muss auf @dersut.ch enden: Nur diese Domain ist für den Versand freigeschaltet.' };
+  const iban = str(fd, 'bank_iban').replace(/\s+/g, '').toUpperCase();
+  if (!/^(CH|LI)\d{19}$/.test(iban)) return { error: 'Die IBAN ist ungültig (Schweizer IBAN: CH + 19 Ziffern).' };
+  const paymentDays = Math.floor(Number(str(fd, 'paymentDays')));
+  if (!(paymentDays >= 1 && paymentDays <= 60)) return { error: 'Die Zahlungsfrist muss zwischen 1 und 60 Tagen liegen.' };
+
+  const categories: Category[] = [];
+  const names = fd.getAll('cat_de').map(String);
+  names.forEach((de, i) => {
+    const name = de.trim();
+    if (!name) return;
+    const slug = String(fd.getAll('cat_slug')[i] ?? '').trim() || slugify(name);
+    if (categories.some((c) => c.slug === slug)) return;
+    const tr = (l: string) => String(fd.getAll(`cat_${l}`)[i] ?? '').trim().slice(0, 60) || undefined;
+    categories.push({ slug, de: name.slice(0, 60), fr: tr('fr'), it: tr('it'), en: tr('en') });
+  });
+
+  const settings: SiteSettings = {
+    company,
+    email,
+    bank: { holder: str(fd, 'bank_holder'), bank: str(fd, 'bank_bank'), iban },
+    paymentDays,
+    categories,
+  };
+  await query(
+    `INSERT INTO app_settings (key, value) VALUES ($1, $2) ON CONFLICT (key) DO UPDATE SET value = EXCLUDED.value`,
+    [SETTINGS_KEY, JSON.stringify(settings)],
+  );
+  // Produkte mit gelöschter Kategorie zurücksetzen
+  await query(`UPDATE products SET category = '' WHERE category <> '' AND NOT (category = ANY($1::text[]))`, [categories.map((c) => c.slug)]);
+  await reloadSettings();
+  revalidatePath('/', 'layout');
+  return { ok: 'Gespeichert. Webseite, Rechnungen und E-Mails verwenden ab sofort die neuen Angaben.' };
 }
 
 /* ---------- Einstellungen ---------- */

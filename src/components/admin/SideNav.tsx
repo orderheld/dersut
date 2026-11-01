@@ -14,6 +14,7 @@ export function SideNav({ counts }: { counts: Counts }) {
     { href: '/admin/bestellungen', label: 'Alle Bestellungen', icon: 'box', active: is('/admin/bestellungen') },
     { href: '/admin/produkte', label: 'Produkte', icon: 'bean', active: is('/admin/produkte') },
     { href: '/admin/nachrichten', label: 'Nachrichten', icon: 'mail', active: is('/admin/nachrichten'), badge: counts.messages },
+    { href: '/admin/shop', label: 'Firma & Shop', icon: 'flag', active: is('/admin/shop') },
     { href: '/admin/konto', label: 'Einstellungen', icon: 'lock', active: is('/admin/konto') },
   ];
   return (
