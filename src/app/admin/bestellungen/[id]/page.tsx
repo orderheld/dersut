@@ -49,6 +49,18 @@ export default async function OrderDetail({ params, searchParams }: Props) {
       </header>
       <Flash ok={ok} />
 
+      <ol className="steps">
+        <li className="is-done">Bestellt<small>{dateCh(o.created_at)}</small></li>
+        {o.status === 'cancelled' ? (
+          <li className="is-now">Storniert<small>{dateCh(o.cancelled_at)}</small></li>
+        ) : (
+          <>
+            <li className={o.paid_at ? 'is-done' : 'is-now'}>Bezahlt<small>{o.paid_at ? dateCh(o.paid_at) : 'ausstehend'}</small></li>
+            <li className={o.shipped_at ? 'is-done' : o.paid_at ? 'is-now' : ''}>Versendet<small>{o.shipped_at ? dateCh(o.shipped_at) : 'offen'}</small></li>
+          </>
+        )}
+      </ol>
+
       <div className="grid2">
         <div>
           <section className="card actions">
@@ -148,6 +160,15 @@ export default async function OrderDetail({ params, searchParams }: Props) {
             </p>
             <CopyButton text={addr} className="btn btn--ghost btn--sm" label="Adresse kopieren" />
             {o.note && <div className="note"><strong>Bemerkung des Kunden</strong><br /><span style={{ whiteSpace: 'pre-line' }}>{o.note}</span></div>}
+          </section>
+
+          <section className="card">
+            <h2>Dokumente drucken</h2>
+            <div className="docs">
+              <a href={`/admin/druck?doc=lieferschein&ids=${o.id}`}><i>📄</i>Lieferschein</a>
+              <a href={`/admin/druck?doc=rechnung&ids=${o.id}`}><i>🧾</i>Rechnung</a>
+              <a href={`/admin/druck?doc=etikett&ids=${o.id}`}><i>🏷️</i>Adressetikett</a>
+            </div>
           </section>
 
           <section className="card">

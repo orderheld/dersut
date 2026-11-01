@@ -75,7 +75,7 @@ a.stat:hover { box-shadow: 0 4px 14px rgba(0,0,0,.06); }
 .table tr[data-href]:hover td { background: #fbfaf7; }
 .table .num { text-align: right; }
 .w-check { width: 36px; }
-.ordlink { font-weight: 600; text-decoration: none; }
+.ordlink { font-weight: 600; text-decoration: none; white-space: nowrap; }
 .table--plain td { padding: 9px 0; }
 .table--plain .total td { font-weight: 600; color: var(--ink); font-size: 16px; border-top: 2px solid var(--ink); }
 .thumb { width: 64px; }
@@ -187,3 +187,99 @@ details.card[open] > summary::before { content: "− "; }
 .switch.is-on { color: var(--ok); }
 .switch.is-on i { background: var(--ok); }
 .switch.is-on i::after { left: 15px; }
+
+/* ---------- Druck: Rechnung, Lieferschein, Etikett ---------- */
+.printbar { position: sticky; top: 0; z-index: 5; display: flex; justify-content: space-between; align-items: center; gap: 14px; flex-wrap: wrap; background: #fff; border: 1px solid var(--line); border-radius: 10px; padding: 12px 16px; margin-bottom: 22px; box-shadow: 0 4px 14px rgba(0,0,0,.05); }
+.printbar__btns { display: flex; gap: 8px; }
+.printsel { display: inline-flex; gap: 6px; align-items: center; margin-left: auto; flex-wrap: wrap; }
+.doc { background: #fff; color: #111; box-shadow: 0 6px 24px rgba(0,0,0,.1); margin: 0 auto 28px; position: relative; font: 10pt/1.45 Inter, Arial, sans-serif; overflow: hidden; }
+.doc--a4 { width: 210mm; height: 297mm; padding: 14mm 18mm 0 22mm; page: a4; }
+.doc__head { display: flex; justify-content: space-between; align-items: flex-start; height: 26mm; }
+.doc__logo { height: 11mm; width: auto; }
+.doc__company { text-align: right; font-size: 8.5pt; color: #444; line-height: 1.5; }
+.doc__company strong { color: #002856; }
+.doc__window { position: absolute; left: 118mm; top: 48mm; width: 80mm; height: 40mm; }
+.doc__sender { font-size: 6.5pt; line-height: 1.3; color: #555; border-bottom: .3pt solid #888; padding-bottom: 1mm; margin-bottom: 3mm; }
+.doc__recipient { font-size: 11pt; line-height: 1.4; }
+.doc__title { font: 600 20pt/1.2 "Cormorant Garamond", Georgia, serif; color: #002856; margin: 52mm 0 5mm; display: block; }
+.doc__meta { position: absolute; left: 22mm; top: 50mm; width: 88mm; display: grid; grid-template-columns: auto 1fr; gap: 1mm 6mm; margin: 0; font-size: 9pt; }
+.doc__meta dt { color: #666; }
+.doc__meta dd { margin: 0; font-weight: 500; }
+.doc__table { width: 100%; border-collapse: collapse; margin-bottom: 7mm; font-size: 9.5pt; }
+.doc__table th { text-align: left; font-size: 7.5pt; letter-spacing: .08em; text-transform: uppercase; color: #666; border-bottom: .8pt solid #002856; padding: 2mm 1.5mm; }
+.doc__table td { padding: 2.6mm 1.5mm; border-bottom: .3pt solid #ddd; vertical-align: top; }
+.doc__table .num { text-align: right; white-space: nowrap; }
+.doc__table .sub td { color: #444; }
+.doc__table .total td { font-weight: 700; font-size: 11pt; border-top: .8pt solid #111; border-bottom: 0; }
+.doc__table .vat td { color: #666; font-size: 8.5pt; border: 0; padding-top: 0; }
+.doc__table .check { width: 9mm; text-align: center; }
+.doc__table .box { display: inline-block; width: 3.6mm; height: 3.6mm; border: .8pt solid #333; border-radius: .6mm; }
+.doc__text { font-size: 9.5pt; margin: 0 0 3mm; max-width: 165mm; }
+.doc__note { background: #f6f3ec; border-radius: 2mm; padding: 3mm 4mm; margin-bottom: 6mm; font-size: 9pt; }
+.doc__stamp { display: inline-block; border: 1pt solid #2f6b45; color: #2f6b45; border-radius: 1.5mm; padding: 2mm 4mm; font-weight: 600; margin: 0 0 5mm; }
+.doc__stamp--cancel { border-color: #a12a2a; color: #a12a2a; }
+.doc__foot { position: absolute; left: 22mm; right: 18mm; bottom: 10mm; display: flex; justify-content: space-between; gap: 4mm; font-size: 7pt; color: #777; border-top: .3pt solid #ccc; padding-top: 2mm; }
+.qrbill { position: absolute; left: 0; right: 0; bottom: 0; height: 105mm; display: flex; border-top: .3pt dashed #000; font: 8pt/1.35 Arial, Helvetica, sans-serif; color: #000; }
+.qrbill::before { content: "✂"; position: absolute; top: -2.6mm; left: 6mm; font-size: 9pt; background: #fff; }
+.qrbill h3 { font-size: 11pt; font-weight: 700; margin: 0 0 4mm; }
+.qrbill h4 { font-size: 6pt; font-weight: 700; margin: 0; }
+.qrbill p { margin: 0 0 3mm; font-size: 8pt; }
+.qrbill__receipt { width: 62mm; padding: 5mm; border-right: .3pt dashed #000; position: relative; }
+.qrbill__receipt p { font-size: 8pt; }
+.qrbill__pay { width: 148mm; padding: 5mm; display: flex; }
+.qrbill__left { width: 56mm; }
+.qrbill__qr { width: 46mm; height: 46mm; margin: 0 0 5mm; }
+.qrbill__qr svg { width: 46mm; height: 46mm; display: block; }
+.qrbill__right { flex: 1; font-size: 10pt; }
+.qrbill__right h4 { font-size: 8pt; }
+.qrbill__right p { font-size: 10pt; }
+.qrbill__amount { display: flex; gap: 6mm; font-size: 10pt; }
+.qrbill__receipt .qrbill__amount { font-size: 8pt; position: absolute; top: 68mm; }
+.qrbill__accept { position: absolute; right: 5mm; top: 82mm; }
+
+.doc--label { width: 100mm; height: 150mm; padding: 5mm; display: flex; flex-direction: column; gap: 3mm; page: label; font-family: Arial, Helvetica, sans-serif; }
+.doc--label span { display: block; font-size: 6.5pt; text-transform: uppercase; letter-spacing: .08em; color: #555; margin-bottom: .8mm; }
+.label__from { font-size: 8pt; line-height: 1.3; border-bottom: .5pt solid #000; padding-bottom: 2mm; }
+.label__sticker { height: 52mm; border: 1pt dashed #777; border-radius: 2mm; display: flex; align-items: center; justify-content: center; text-align: center; }
+.label__sticker span { color: #999; }
+.label__to { flex: 1; border: 1.5pt solid #000; border-radius: 2mm; padding: 4mm; font-size: 14pt; line-height: 1.3; font-weight: 700; }
+.label__to small { display: block; font-size: 9pt; font-weight: 400; margin-top: 2mm; }
+.label__foot { display: flex; justify-content: space-between; font-size: 8pt; }
+.label__foot span { font-size: 8pt; text-transform: none; letter-spacing: 0; color: #000; margin: 0; }
+
+@page a4 { size: A4; margin: 0; }
+@page label { size: 100mm 150mm; margin: 0; }
+@media print {
+  body { background: #fff; }
+  .side, .noprint { display: none !important; }
+  .has-side .main { margin: 0; padding: 0; max-width: none; }
+  .doc { box-shadow: none; margin: 0; break-after: page; }
+  .doc:last-child { break-after: auto; }
+}
+@media screen and (max-width: 960px) {
+  .print { overflow-x: auto; }
+}
+
+/* ---------- Bestellliste: Statusfarben ---------- */
+.table tr.st td:first-child { box-shadow: inset 4px 0 0 var(--st, transparent); }
+.st--open { --st: #e2b65a; }
+.st--paid { --st: var(--navy); }
+.st--shipped { --st: var(--ok); }
+.st--cancelled { --st: #c98a8a; }
+.st--cancelled td { color: var(--muted); }
+.tabs a b { font-weight: 600; margin-left: 4px; font-size: 11.5px; opacity: .75; }
+.pay { font-size: 11.5px; color: var(--muted); display: block; }
+.is-new { background: var(--gold); color: #fff; font-size: 10px; padding: 1px 6px; border-radius: 8px; margin-left: 6px; vertical-align: 2px; letter-spacing: .04em; }
+.docs { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+.docs a { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 12px 8px; border: 1px solid var(--line); border-radius: 8px; text-decoration: none; color: var(--ink); font-weight: 500; font-size: 13px; text-align: center; background: #fdfcfa; }
+.docs a:hover { border-color: var(--navy); background: #fff; }
+.docs a i { font-style: normal; font-size: 22px; }
+.steps { display: flex; gap: 0; margin: 0 0 22px; list-style: none; padding: 0; }
+.steps li { flex: 1; text-align: center; font-size: 12.5px; color: var(--muted); position: relative; padding-top: 22px; }
+.steps li::before { content: ""; position: absolute; top: 5px; left: 50%; width: 12px; height: 12px; margin-left: -6px; border-radius: 50%; background: #d8d4ca; z-index: 1; }
+.steps li::after { content: ""; position: absolute; top: 10px; left: -50%; width: 100%; height: 2px; background: #d8d4ca; }
+.steps li:first-child::after { display: none; }
+.steps li.is-done { color: var(--ink); }
+.steps li.is-done::before, .steps li.is-done::after { background: var(--ok); }
+.steps li.is-now::before { background: var(--gold); box-shadow: 0 0 0 4px rgba(130,117,79,.2); }
+.steps li small { display: block; color: var(--muted); font-size: 11px; }

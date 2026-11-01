@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { CheckAll } from '@/components/admin/CheckAll';
 import { ConfirmButton } from '@/components/admin/ConfirmButton';
 import { Flash } from '@/components/admin/Flash';
+import { PrintSelected } from '@/components/admin/PrintSelected';
 import { RowLink } from '@/components/admin/RowLink';
 import { chf, dateCh, statusLabel } from '@/lib/format';
 import { listOrders, orderCounts } from '@/lib/orders';
@@ -19,6 +20,8 @@ const TABS: [string, string][] = [
 export async function OrdersView({ dashboard, status, q, ok }: { dashboard: boolean; status: string; q: string; ok?: string }) {
   const base = dashboard ? '/admin' : '/admin/bestellungen';
   const [orders, counts] = await Promise.all([listOrders(status, q), orderCounts()]);
+  const tabCount = (k: string) => (k === 'todo' ? counts.open + counts.paid : k in counts && k !== 'shipped' && k !== 'cancelled' ? counts[k as 'open' | 'paid'] : 0);
+  const dayAgo = Date.now() - 24 * 3600 * 1000;
   const here = `${base}?status=${status}${q ? `&q=${encodeURIComponent(q)}` : ''}`;
 
   return (
@@ -42,7 +45,9 @@ export async function OrdersView({ dashboard, status, q, ok }: { dashboard: bool
       <div className="toolbar">
         <nav className="tabs">
           {TABS.map(([k, label]) => (
-            <Link key={k} href={`${base}?status=${k}${q ? `&q=${encodeURIComponent(q)}` : ''}`} className={status === k ? 'is-active' : ''}>{label}</Link>
+            <Link key={k} href={`${base}?status=${k}${q ? `&q=${encodeURIComponent(q)}` : ''}`} className={status === k ? 'is-active' : ''}>
+              {label}{tabCount(k) ? <b>{tabCount(k)}</b> : null}
+            </Link>
           ))}
         </nav>
         <form method="get" action={base} className="search">
@@ -66,9 +71,13 @@ export async function OrdersView({ dashboard, status, q, ok }: { dashboard: bool
               </thead>
               <tbody>
                 {orders.map((o) => (
-                  <RowLink key={o.id} href={`/admin/bestellungen/${o.id}`}>
+                  <RowLink key={o.id} href={`/admin/bestellungen/${o.id}`} className={`st st--${o.status}`}>
                     <td className="w-check"><input type="checkbox" name="ids" value={o.id} aria-label="Auswählen" /></td>
-                    <td><Link className="ordlink" href={`/admin/bestellungen/${o.id}`}>{o.number}</Link></td>
+                    <td>
+                      <Link className="ordlink" href={`/admin/bestellungen/${o.id}`}>{o.number}</Link>
+                      {o.created_at.getTime() > dayAgo && o.status !== 'cancelled' && <span className="is-new">NEU</span>}
+                      <span className="pay">{o.payment_method === 'online' ? 'Online bezahlt' : 'Vorauskasse'}</span>
+                    </td>
                     <td className="muted">{dateCh(o.created_at, true)}</td>
                     <td><strong>{o.first_name} {o.last_name}</strong><br /><span className="muted">{o.company ? `${o.company} · ` : ''}{o.zip} {o.city}</span></td>
                     <td className="muted">{o.item_count} Stk.</td>
@@ -101,6 +110,7 @@ export async function OrdersView({ dashboard, status, q, ok }: { dashboard: bool
             </select>
             <label className="inline"><input type="checkbox" name="notify" value="1" defaultChecked /> Kunden per E-Mail informieren</label>
             <ConfirmButton className="btn btn--primary btn--sm" confirm="Status der ausgewählten Bestellungen ändern?">Ausführen</ConfirmButton>
+            <PrintSelected />
           </div>
         </form>
       )}
