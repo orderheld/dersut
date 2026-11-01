@@ -10,6 +10,8 @@ import { sendContactMail } from '@/lib/emails';
 import { getProduct } from '@/lib/products';
 import { query } from '@/lib/db';
 import { notifyAdmins } from '@/lib/push';
+import { clientIp } from '@/lib/auth';
+import { spamReason } from '@/lib/spam';
 import { getDict } from '@/i18n';
 import { asLocale, lp } from '@/lib/i18n';
 import { B2B_FORM } from '@/content/b2b';
@@ -141,9 +143,12 @@ export async function contactAction(_prev: ContactState, fd: FormData): Promise<
   if (Object.values(v).some((x, i) => i < 5 && x.length > 200)) errors._ = t.contact.tooLong;
   if (Object.keys(errors).length) return { sent: false, errors, values: v };
 
-  await query('INSERT INTO messages (name, email, phone, company, topic, message) VALUES ($1,$2,$3,$4,$5,$6)', [
-    v.name, v.email, v.phone, v.company, v.topic, v.message,
+  const ip = await clientIp();
+  const spam = await spamReason({ ...v, startedAt: str(fd, 'started'), ip });
+  await query('INSERT INTO messages (name, email, phone, company, topic, message, ip, spam) VALUES ($1,$2,$3,$4,$5,$6,$7,$8)', [
+    v.name, v.email, v.phone, v.company, v.topic, v.message, ip, spam,
   ]);
+  if (spam) return { sent: true, errors: {}, values: {} }; // still ablegen, keine Mail, kein Push
   await Promise.all([
     sendContactMail(v),
     notifyAdmins({ title: `Neue Nachricht von ${v.name}`, body: (v.topic ? `${v.topic}: ` : '') + v.message.slice(0, 140), url: '/admin/nachrichten', tag: 'message' }),
@@ -193,9 +198,12 @@ export async function b2bAction(_prev: B2BState, fd: FormData): Promise<B2BState
     '',
     v.message || '(keine Nachricht)',
   ].join('\n');
-  await query('INSERT INTO messages (name, email, phone, company, topic, message) VALUES ($1,$2,$3,$4,$5,$6)', [
-    v.name, v.email, v.phone, v.company, topic, message,
+  const ip = await clientIp();
+  const spam = await spamReason({ ...v, startedAt: str(fd, 'started'), ip });
+  await query('INSERT INTO messages (name, email, phone, company, topic, message, ip, spam) VALUES ($1,$2,$3,$4,$5,$6,$7,$8)', [
+    v.name, v.email, v.phone, v.company, topic, message, ip, spam,
   ]);
+  if (spam) return { sent: true, errors: {}, values: {} };
   await Promise.all([
     sendContactMail({ name: v.name, email: v.email, phone: v.phone, company: v.company, topic, message }),
     notifyAdmins({ title: `${topic}: ${v.company}`, body: `${v.name}${v.place ? `, ${v.place}` : ''}${v.volume ? ` · ${v.volume}` : ''}`, url: '/admin/nachrichten', tag: 'message' }),

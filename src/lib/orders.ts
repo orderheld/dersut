@@ -228,7 +228,7 @@ export async function orderCounts() {
     if (r.status === 'open') c.openSum = Number(r.t);
     if (r.status === 'paid' || r.status === 'shipped') c.revenue += Number(r.t);
   }
-  const m = await one<{ n: number }>('SELECT COUNT(*)::int AS n FROM messages WHERE NOT done');
+  const m = await one<{ n: number }>(`SELECT COUNT(*)::int AS n FROM messages WHERE NOT done AND spam = ''`);
   c.messages = m?.n ?? 0;
   return c;
 }

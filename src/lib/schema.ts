@@ -103,6 +103,9 @@ export const SCHEMA = [
   // Zahlungsart: 'prepay' (Vorauskasse) oder 'online' (Payrexx)
   `ALTER TABLE orders ADD COLUMN IF NOT EXISTS payment_method TEXT NOT NULL DEFAULT 'prepay'`,
   `ALTER TABLE orders ADD COLUMN IF NOT EXISTS payrexx_gateway_id BIGINT`,
+  // Spamschutz Kontaktformular: Absender-IP (für Rate-Limit) und Spam-Markierung mit Grund
+  `ALTER TABLE messages ADD COLUMN IF NOT EXISTS ip TEXT NOT NULL DEFAULT ''`,
+  `ALTER TABLE messages ADD COLUMN IF NOT EXISTS spam TEXT NOT NULL DEFAULT ''`,
   // Lagerbestand darf nie negativ werden: Zwei gleichzeitige Bestellungen für das letzte Stück scheitern so sauber
   `DO $$ BEGIN
      IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'products_stock_nonneg') THEN

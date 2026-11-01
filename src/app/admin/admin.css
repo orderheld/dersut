@@ -118,6 +118,11 @@ label.inline { display: flex !important; align-items: center; gap: 8px; font-wei
 .preview img { max-height: 200px; margin: 0 auto; }
 .msg__head { display: flex; justify-content: space-between; gap: 14px; margin-bottom: 10px; }
 .msg.is-done { opacity: .6; }
+.msg__actions { display: flex; gap: 6px; align-items: flex-start; }
+.spambox { margin-top: 24px; }
+.spambox summary { cursor: pointer; }
+.msg--spam { border-top: 1px solid var(--line, #e5e5e5); padding-top: 12px; margin-top: 12px; }
+.msg--spam p { font-size: 13px; margin: 0; }
 
 .is-auth { display: flex; align-items: center; justify-content: center; min-height: 100vh; background: var(--navy-900) radial-gradient(ellipse at top, #0a3770, transparent 65%); }
 .is-auth .main { margin: 0; padding: 20px; width: 100%; max-width: 440px; }

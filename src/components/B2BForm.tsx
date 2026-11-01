@@ -6,6 +6,7 @@ import { B2B_FORM, type B2BKind } from '@/content/b2b';
 import { getDict } from '@/i18n';
 import { lp, type Locale } from '@/lib/i18n';
 import { Field } from './Field';
+import { FormStart } from './FormStart';
 import { Icon } from './Icon';
 
 /** Anfrageformular für Gastronomie und Firmen (Konditionen, Angebot). */
@@ -24,6 +25,7 @@ export function B2BForm({ kind, lang }: { kind: B2BKind; lang: Locale }) {
     <form action={action} noValidate>
       <input type="hidden" name="lang" value={lang} />
       <input type="hidden" name="kind" value={kind} />
+      <FormStart />
       <div className="hp" aria-hidden="true"><label>Website <input type="text" name="website" tabIndex={-1} autoComplete="off" /></label></div>
       {e._ && <div className="alert alert--err" role="alert">{e._}</div>}
       <div className="fgrid">

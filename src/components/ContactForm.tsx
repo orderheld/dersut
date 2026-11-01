@@ -7,6 +7,7 @@ import { contactAction, type ContactState } from '@/app/[lang]/actions';
 import { getDict } from '@/i18n';
 import { lp, type Locale } from '@/lib/i18n';
 import { Field } from './Field';
+import { FormStart } from './FormStart';
 import { Icon } from './Icon';
 
 export function ContactForm({ topic, lang }: { topic: string; lang: Locale }) {
@@ -32,6 +33,7 @@ export function ContactForm({ topic, lang }: { topic: string; lang: Locale }) {
       {e._ && <div className="alert alert--err" role="alert">{e._}</div>}
       <form action={action} noValidate>
         <input type="hidden" name="lang" value={lang} />
+        <FormStart />
         <div className="hp" aria-hidden="true"><label>Website <input type="text" name="website" tabIndex={-1} autoComplete="off" /></label></div>
         <div className="fgrid">
           <Field name="name" label={t.name} span={3} error={e.name}><input id="name" name="name" defaultValue={v('name')} required autoComplete="name" /></Field>
