@@ -92,7 +92,7 @@ export const en: Dict = {
   shop: {
     title: 'Online shop',
     metaTitle: 'Buy Dersut Espresso Beans Online',
-    metaDescription: 'Genuine Dersut espresso beans (1 kg): Optimum Rosso and Domus Marrone from the official Swiss distributor. Delivery across Switzerland, free from {free}',
+    metaDescription: 'Genuine Dersut espresso beans (1 kg): Non Plus Ultra and Plus Oro (Gold Medal 2025), Optimum Rosso and Domus Marrone from the official Swiss distributor.',
     eyebrow: 'Online shop',
     heading: 'Dersut espresso beans <em>from Conegliano</em>',
     lead: 'Genuine products from the official Swiss distributor. Free shipping from {free}.',

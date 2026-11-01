@@ -92,7 +92,7 @@ export const it: Dict = {
   shop: {
     title: 'Shop online',
     metaTitle: 'Caffè Dersut in grani: acquista online',
-    metaDescription: 'Caffè in grani Dersut originale da 1 kg: Optimum Rosso e Domus Marrone dal distributore ufficiale. Spedizione in tutta la Svizzera, gratuita da {free}',
+    metaDescription: 'Caffè in grani Dersut originale da 1 kg: Non Plus Ultra e Plus Oro (Gold Medal 2025), Optimum Rosso e Domus Marrone dal distributore ufficiale svizzero.',
     eyebrow: 'Shop online',
     heading: 'Caffè in grani Dersut <em>da Conegliano</em>',
     lead: 'Originale dal distributore ufficiale in Svizzera. Spedizione gratuita da {free}.',

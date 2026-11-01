@@ -48,7 +48,7 @@ const de = {
   uid: 'UID',
   ctaEyebrow: 'Onlineshop',
   ctaTitle: 'Original Dersut, geliefert in die ganze Schweiz',
-  ctaText: 'Optimum Rosso und Domus Marrone, je 1 kg Espressobohnen.',
+  ctaText: 'Non Plus Ultra, Plus Oro, Optimum Rosso und Domus Marrone, je 1 kg Espressobohnen.',
   ctaButton: 'Jetzt bestellen',
 };
 
@@ -85,7 +85,7 @@ const T: Record<Locale, typeof de> = {
     uid: 'IDE',
     ctaEyebrow: 'Boutique en ligne',
     ctaTitle: 'Dersut original, livré dans toute la Suisse',
-    ctaText: 'Optimum Rosso et Domus Marrone, grains d’espresso en paquets de 1 kg.',
+    ctaText: 'Non Plus Ultra, Plus Oro, Optimum Rosso et Domus Marrone, grains d’espresso en paquets de 1 kg.',
     ctaButton: 'Commander maintenant',
   },
   it: {
@@ -119,7 +119,7 @@ const T: Record<Locale, typeof de> = {
     uid: 'IDI',
     ctaEyebrow: 'Shop online',
     ctaTitle: 'Dersut originale, consegnato in tutta la Svizzera',
-    ctaText: 'Optimum Rosso e Domus Marrone, caffè in grani in confezioni da 1 kg.',
+    ctaText: 'Non Plus Ultra, Plus Oro, Optimum Rosso e Domus Marrone, caffè in grani in confezioni da 1 kg.',
     ctaButton: 'Ordina ora',
   },
   en: {
@@ -153,7 +153,7 @@ const T: Record<Locale, typeof de> = {
     uid: 'UID',
     ctaEyebrow: 'Online shop',
     ctaTitle: 'Original Dersut, delivered throughout Switzerland',
-    ctaText: 'Optimum Rosso and Domus Marrone, 1 kg of espresso beans each.',
+    ctaText: 'Non Plus Ultra, Plus Oro, Optimum Rosso and Domus Marrone, 1 kg of espresso beans each.',
     ctaButton: 'Order now',
   },
 };

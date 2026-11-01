@@ -93,7 +93,7 @@ export const fr: Dict = {
     title: 'Boutique en ligne',
     metaTitle: 'Acheter des grains d’espresso Dersut en ligne',
     metaDescription:
-      'Grains d’espresso Dersut d’origine en 1 kg : Optimum Rosso et Domus Marrone, du distributeur officiel en Suisse. Livraison offerte dès {free}',
+      'Grains d’espresso Dersut d’origine en 1 kg : Non Plus Ultra et Plus Oro (Gold Medal 2025), Optimum Rosso et Domus Marrone, du distributeur officiel suisse.',
     eyebrow: 'Boutique en ligne',
     heading: 'Grains d’espresso Dersut <em>de Conegliano</em>',
     lead: 'Produits d’origine du distributeur officiel en Suisse. Livraison offerte dès {free}.',

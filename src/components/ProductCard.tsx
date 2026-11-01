@@ -9,16 +9,20 @@ import { AddToCart } from './AddToCart';
 import { Img } from './Img';
 import { Intensity } from './Intensity';
 import { PackDeco } from './PackDeco';
+import { Medal } from './Medal';
+import { AWARD_TEXT, latestMedal } from '@/content/awards';
 
 /** `level`: Überschriftenebene des Produktnamens (2 auf Seiten ohne Zwischentitel, sonst 3) */
 export function ProductCard({ p, lang, level = 3 }: { p: Product; lang: Locale; level?: 2 | 3 }) {
   const H = level === 2 ? 'h2' : 'h3';
   const t = getDict(lang);
   const href = lp(lang, `/shop/${p.slug}`);
+  const medal = latestMedal(p.slug);
   return (
     <article className="pcard" style={{ '--accent': p.accent } as CSSProperties}>
       <Link className="pcard__media is-pack" href={href}>
         <span className="pcard__badge">{p.line}</span>
+        {medal && <Medal year={medal} label={AWARD_TEXT[lang].medal(medal)} className="medal--card" />}
         <PackDeco />
         <Img src={cutoutImage(productImage(p.image))} fallbackSrc={productImage(p.image)} alt={`${p.name} ${p.weight}`} className="pcard__img" />
         <span className="pcard__fallback" aria-hidden="true">
