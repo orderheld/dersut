@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { Composer } from '@/components/admin/Composer';
+import { Composer, type Contact } from '@/components/admin/Composer';
 import { CheckAll } from '@/components/admin/CheckAll';
 import { ConfirmButton } from '@/components/admin/ConfirmButton';
 import { requireAdmin } from '@/lib/admin';
@@ -75,6 +75,15 @@ export default async function Messages({ searchParams }: Props) {
       orders = await query('SELECT id, number, status, total, created_at FROM orders WHERE lower(email) = lower($1) ORDER BY id DESC LIMIT 10', [open.email]);
     }
   }
+  // Bekannte Kunden für die Adressvorschläge beim Schreiben
+  const contacts = compose || open
+    ? await query<Contact>(
+        `SELECT DISTINCT ON (lower(email)) lower(email) AS email, name FROM (
+           SELECT email, trim(first_name || ' ' || last_name) AS name, created_at FROM orders
+           UNION ALL SELECT email, name, created_at FROM messages WHERE spam = ''
+         ) x WHERE email <> '' ORDER BY lower(email), created_at DESC LIMIT 500`,
+      )
+    : [];
   const openSent = folder === 'sent' && openId ? await one<Out>('SELECT * FROM mail_out WHERE id = $1', [openId]) : null;
 
   const href = (p: Record<string, string | number | undefined>) => {
@@ -176,7 +185,7 @@ export default async function Messages({ searchParams }: Props) {
             <section className="mview">
               <Link className="back mview__back" href={listHref}>← Zurück</Link>
               <h2 className="mview__title">Neue E-Mail</h2>
-              <Composer action={sendAdminMailAction} to={sp.to} signature={signature} />
+              <Composer action={sendAdminMailAction} to={sp.to} signature={signature} contacts={contacts} />
             </section>
           )}
 
@@ -253,7 +262,8 @@ export default async function Messages({ searchParams }: Props) {
                     messageId={open.id}
                     to={open.email}
                     subject={`Re: ${open.topic || 'Ihre Anfrage bei Dersut Kaffee Schweiz'}`}
-                    greeting={`Grüezi ${open.name.split(' ')[0]}`}
+                    greeting={`Guten Tag ${open.name}`}
+                    contacts={contacts}
                     signature={signature}
                     compact
                   />
