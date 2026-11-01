@@ -17,7 +17,7 @@ const TABS: [string, string][] = [
   ['all', 'Alle'],
 ];
 
-export async function OrdersView({ dashboard, status, q, ok }: { dashboard: boolean; status: string; q: string; ok?: string }) {
+export async function OrdersView({ dashboard, status, q, ok, mail }: { dashboard: boolean; status: string; q: string; ok?: string; mail?: string }) {
   const base = dashboard ? '/admin' : '/admin/bestellungen';
   const [orders, counts] = await Promise.all([listOrders(status, q), orderCounts()]);
   const tabCount = (k: string) => (k === 'todo' ? counts.open + counts.paid : k in counts && k !== 'shipped' && k !== 'cancelled' ? counts[k as 'open' | 'paid'] : 0);
@@ -33,12 +33,12 @@ export async function OrdersView({ dashboard, status, q, ok }: { dashboard: bool
         </div>
         <a className="btn btn--ghost" href="/admin/bestellungen/export.csv">CSV exportieren</a>
       </header>
-      <Flash ok={ok} />
+      <Flash ok={ok} mail={mail} />
       {dashboard && (
         <ol className="howto">
-          <li><b>1</b> Zahlung auf dem Konto sehen → <em>Bezahlt ✓</em></li>
-          <li><b>2</b> Bestellung öffnen, Lieferschein und Etikett drucken, Paket packen</li>
-          <li><b>3</b> Bei der Post aufgeben → <em>Als versendet markieren</em>, der Kunde bekommt eine E-Mail</li>
+          <li><b>1</b><span>Zahlung auf dem Konto gesehen? Bei der Bestellung auf <em>Bezahlt ✓</em> klicken.</span></li>
+          <li><b>2</b><span>Bestellung öffnen, <em>Lieferschein</em> und <em>Etikett</em> drucken, Paket packen.</span></li>
+          <li><b>3</b><span>Paket bei der Post aufgeben und <em>Als versendet</em> markieren. Der Kunde erhält eine E-Mail.</span></li>
         </ol>
       )}
 
@@ -95,7 +95,9 @@ export async function OrdersView({ dashboard, status, q, ok }: { dashboard: bool
                         <ConfirmButton
                           className="btn btn--sm btn--paid"
                           formAction={quickPaidAction.bind(null, o.id)}
-                          confirm={`Zahlung für ${o.number} über ${chf(o.total)} als eingegangen markieren? Der Kunde erhält eine Bestätigung per E-Mail.`}
+                          confirm={`Zahlung für ${o.number} über ${chf(o.total)} als eingegangen markieren?`}
+                          mail={o.email}
+                          mailAlways
                         >
                           Bezahlt ✓
                         </ConfirmButton>
@@ -116,7 +118,7 @@ export async function OrdersView({ dashboard, status, q, ok }: { dashboard: bool
               <option value="open">auf «Zahlung ausstehend» zurücksetzen</option>
             </select>
             <label className="inline"><input type="checkbox" name="notify" value="1" defaultChecked /> Kunden per E-Mail informieren</label>
-            <ConfirmButton className="btn btn--primary btn--sm" confirm="Status der ausgewählten Bestellungen ändern?">Ausführen</ConfirmButton>
+            <ConfirmButton className="btn btn--primary btn--sm" confirm="Status der ausgewählten Bestellungen ändern?" mail="selected">Ausführen</ConfirmButton>
             <PrintSelected />
           </div>
         </form>

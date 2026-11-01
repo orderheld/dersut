@@ -139,7 +139,13 @@ export async function logoutAction(): Promise<void> {
 
 /* ---------- Bestellungen ---------- */
 
-async function changeStatus(id: number, status: OrderStatus, notify: boolean, tracking = ''): Promise<'ok' | 'mail_failed'> {
+/** Hängt Rückmeldung (ok) und ggf. Empfänger der gesendeten E-Mail (mail) an die Rücksprungadresse. */
+function flashUrl(back: string, ok: string, mail?: string): string {
+  const u = `${back}${back.includes('?') ? '&' : '?'}ok=${ok}`;
+  return mail ? `${u}&mail=${encodeURIComponent(mail)}` : u;
+}
+
+async function changeStatus(id: number, status: OrderStatus, notify: boolean, tracking = ''): Promise<'ok' | 'mail_failed' | { sent: string }> {
   const { before, after } = await setOrderStatus(id, status, tracking);
   // Storno (oder Storno rückgängig) ändert den Lagerbestand: Shopseiten neu erzeugen
   if (status === 'cancelled' || before.status === 'cancelled') revalidatePath('/', 'layout');
@@ -147,6 +153,7 @@ async function changeStatus(id: number, status: OrderStatus, notify: boolean, tr
     const r = await sendOrderMail(after, mailTypeForStatus(status));
     await addLog(id, r.ok ? `E-Mail «${statusLabel(status)}» an ${after.email} gesendet.` : `E-Mail an ${after.email} konnte nicht gesendet werden (${r.error}).`);
     if (!r.ok) return 'mail_failed';
+    return { sent: after.email };
   }
   return 'ok';
 }
@@ -160,8 +167,8 @@ export async function orderStatusAction(fd: FormData): Promise<void> {
   const res = await changeStatus(id, status, notify, str(fd, 'tracking'));
   revalidatePath('/admin', 'layout');
   const back = backTo(fd, `/admin/bestellungen/${id}`);
-  const code = res === 'mail_failed' ? 'mail_failed' : notify && status !== 'open' ? `${status}_mail` : status;
-  redirect(`${back}${back.includes('?') ? '&' : '?'}ok=${code}`);
+  const code = res === 'mail_failed' ? 'mail_failed' : typeof res === 'object' ? `${status}_mail` : status;
+  redirect(flashUrl(back, code, typeof res === 'object' ? res.sent : undefined));
 }
 
 export async function quickPaidAction(id: number, fd: FormData): Promise<void> {
@@ -169,7 +176,7 @@ export async function quickPaidAction(id: number, fd: FormData): Promise<void> {
   const res = await changeStatus(id, 'paid', true);
   revalidatePath('/admin', 'layout');
   const back = backTo(fd, '/admin');
-  redirect(`${back}${back.includes('?') ? '&' : '?'}ok=${res === 'mail_failed' ? 'mail_failed' : 'paid_mail'}`);
+  redirect(res === 'mail_failed' ? flashUrl(back, 'mail_failed') : flashUrl(back, 'paid_mail', typeof res === 'object' ? res.sent : undefined));
 }
 
 export async function bulkAction(fd: FormData): Promise<void> {
@@ -181,13 +188,17 @@ export async function bulkAction(fd: FormData): Promise<void> {
   if (!ids.length || !ORDER_STATUSES.includes(status)) redirect(`${back}${sep}ok=bulk_none`);
   const notify = fd.get('notify') === '1';
   let failed = false;
+  const sent: string[] = [];
   for (const id of ids) {
     const o = await getOrder(id);
     if (!o || o.status === status) continue;
-    if ((await changeStatus(id, status, notify)) === 'mail_failed') failed = true;
+    const res = await changeStatus(id, status, notify);
+    if (res === 'mail_failed') failed = true;
+    else if (typeof res === 'object') sent.push(res.sent);
   }
   revalidatePath('/admin', 'layout');
-  redirect(`${back}${sep}ok=${failed ? 'mail_failed' : 'bulk'}`);
+  const mail = sent.length > 3 ? `${sent.length} Kunden` : sent.join(', ');
+  redirect(flashUrl(back, failed ? 'mail_failed' : 'bulk', mail || undefined));
 }
 
 export async function resendMailAction(fd: FormData): Promise<void> {
@@ -197,7 +208,7 @@ export async function resendMailAction(fd: FormData): Promise<void> {
   if (!o) redirect('/admin/bestellungen');
   const r = await sendOrderMail(o, mailTypeForStatus(o.status));
   await addLog(id, r.ok ? `E-Mail «${statusLabel(o.status)}» erneut an ${o.email} gesendet.` : `E-Mail an ${o.email} konnte nicht gesendet werden (${r.error}).`);
-  redirect(`/admin/bestellungen/${id}?ok=${r.ok ? 'resent' : 'resend_failed'}`);
+  redirect(flashUrl(`/admin/bestellungen/${id}`, r.ok ? 'resent' : 'resend_failed', r.ok ? o.email : undefined));
 }
 
 export async function trackingAction(fd: FormData): Promise<void> {
@@ -390,13 +401,15 @@ export async function sendAdminMailAction(_prev: FormState, fd: FormData): Promi
     quote: orig && fd.get('quote') === '1' ? { name: orig.name, date: dateCh(orig.created_at, true), text: orig.message } : undefined,
   });
   const r = await deliverMail({ to, subject, html, replyTo: config.email.contact });
-  await query('INSERT INTO mail_out (message_id, to_email, subject, body, ok, error, sent_by) VALUES ($1, $2, $3, $4, $5, $6, $7)', [
+  const out = await one<{ id: number }>('INSERT INTO mail_out (message_id, to_email, subject, body, ok, error, sent_by) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id', [
     orig ? id : null, to, subject, body, r.ok, r.error ?? '', admin.email,
   ]);
   if (!r.ok) return { error: `Die E-Mail konnte nicht gesendet werden (${r.error}). Der Text ist unter «Gesendet» gespeichert.` };
   if (orig && fd.get('done') === '1') await query('UPDATE messages SET done = TRUE, read_at = COALESCE(read_at, now()) WHERE id = $1', [id]);
   revalidatePath('/admin', 'layout');
-  return { ok: `E-Mail an ${to} gesendet.` };
+  // Bestätigung gross im Postfach anzeigen (bleibt auch nach dem Neuladen der Seite sichtbar)
+  const where = orig ? `f=${fd.get('done') === '1' ? 'done' : 'inbox'}&id=${id}` : `f=sent&id=${out?.id ?? ''}`;
+  redirect(`/admin/nachrichten?${where}&sent=${encodeURIComponent(to)}`);
 }
 
 /* ---------- Firma & Shop ---------- */
@@ -404,7 +417,7 @@ export async function sendAdminMailAction(_prev: FormState, fd: FormData): Promi
 export async function saveSettingsAction(_prev: FormState, fd: FormData): Promise<FormState> {
   await requireAdmin();
   const company: SiteSettings['company'] = {};
-  for (const k of ['name', 'co', 'street', 'zip', 'city', 'phone', 'uid', 'vatNo', 'register', 'managing'] as const) company[k] = str(fd, `company_${k}`).slice(0, 120);
+  for (const k of ['name', 'street', 'zip', 'city', 'phone', 'uid', 'vatNo', 'register'] as const) company[k] = str(fd, `company_${k}`).slice(0, 120);
   if (!company.name || !company.street || !company.zip || !company.city) return { error: 'Firmenname, Strasse, PLZ und Ort sind Pflicht (für Rechnungen und QR-Code).' };
   const email = str(fd, 'email').toLowerCase();
   if (!/^[^\s@]+@dersut\.ch$/.test(email)) return { error: 'Die E-Mail-Adresse muss auf @dersut.ch enden: Nur diese Domain ist für den Versand freigeschaltet.' };
@@ -430,7 +443,6 @@ export async function saveSettingsAction(_prev: FormState, fd: FormData): Promis
     bank: { holder: str(fd, 'bank_holder'), bank: str(fd, 'bank_bank'), iban },
     paymentDays,
     categories,
-    signature: { name: str(fd, 'sig_name').slice(0, 80), role: str(fd, 'sig_role').slice(0, 80), phone: str(fd, 'sig_phone').slice(0, 40) },
   };
   await query(
     `INSERT INTO app_settings (key, value) VALUES ($1, $2) ON CONFLICT (key) DO UPDATE SET value = EXCLUDED.value`,

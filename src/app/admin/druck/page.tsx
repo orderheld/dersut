@@ -4,7 +4,7 @@ import { requireAdmin } from '@/lib/admin';
 import { brand } from '@/lib/brand';
 import { config } from '@/lib/config';
 import { chf, dateCh, ibanFormat } from '@/lib/format';
-import { addLog, getOrder, type Order } from '@/lib/orders';
+import { getOrder, type Order } from '@/lib/orders';
 import { dueDate, paymentMessage } from '@/lib/orders-shared';
 import { swissQrSvg } from '@/lib/swissqr';
 import { PrintBar } from './PrintBar';
@@ -17,7 +17,11 @@ const TITLES: Record<Doc, string> = { rechnung: 'Rechnung', lieferschein: 'Liefe
 type Props = { searchParams: Promise<{ doc?: string; ids?: string; auto?: string; format?: string }> };
 
 const c = config.company;
-const senderLines = [c.name, c.co, c.street, `${c.zip} ${c.city}`].filter(Boolean);
+const senderLines = () => [c.name, c.street, `${c.zip} ${c.city}`].filter(Boolean);
+/** Webadresse ohne https:// (z. B. dersut.ch) */
+const host = () => config.siteUrl.replace(/^https?:\/\//, '').replace(/^www\./, '').replace(/\/$/, '');
+/** Swiss Standard: «CHE-123.456.789 MWST» */
+const vatLine = () => c.vatNo || (c.uid ? `UID ${c.uid}` : '');
 
 function recipientLines(o: Order): string[] {
   return [o.company, `${o.salutation} ${o.first_name} ${o.last_name}`.replace(/\s+/g, ' ').trim(), o.street, `${o.zip} ${o.city}`].filter(Boolean);
@@ -34,13 +38,13 @@ function Letterhead({ o, title, meta }: { o: Order; title: string; meta: [string
         <img className="doc__logo" src={brand('logo')} alt="Dersut" />
         <div className="doc__company">
           <strong>{c.name}</strong><br />
-          {c.street}, {c.zip} {c.city}<br />
-          {config.email.info} · {config.primaryHost}
-          {c.phone && <><br />{c.phone}</>}
+          {c.street} · {c.zip} {c.city}<br />
+          {[c.phone, config.email.info, host()].filter(Boolean).join(' · ')}<br />
+          {vatLine()}
         </div>
       </header>
       <div className="doc__window">
-        <div className="doc__sender">{senderLines.join(' · ')}</div>
+        <div className="doc__sender">{senderLines().join(' · ')}</div>
         <div className="doc__recipient"><Lines lines={recipientLines(o)} /></div>
       </div>
       <h1 className="doc__title">{title}</h1>
@@ -54,9 +58,8 @@ function Letterhead({ o, title, meta }: { o: Order; title: string; meta: [string
 function Footer() {
   return (
     <footer className="doc__foot">
-      <span>{c.name} · {c.street} · {c.zip} {c.city}</span>
-      <span>UID {c.uid}{c.vatNo ? ` · MWST-Nr. ${c.vatNo}` : ''}</span>
-      <span>{config.bank.bank} · IBAN {ibanFormat(config.bank.iban)}</span>
+      <span>{[c.name, c.street, `${c.zip} ${c.city}`, config.email.info, host()].join(' · ')}</span>
+      <span>{[vatLine(), config.bank.bank, `IBAN ${ibanFormat(config.bank.iban)}`].filter(Boolean).join(' · ')}</span>
     </footer>
   );
 }
@@ -80,29 +83,47 @@ function Invoice({ o, qr }: { o: Order; qr: string | null }) {
         ]}
       />
       <table className="doc__table">
-        <thead><tr><th>Artikel</th><th className="num">Menge</th><th className="num">Preis</th><th className="num">Betrag</th></tr></thead>
+        <thead><tr><th className="pos">Pos.</th><th>Artikel</th><th className="num">Menge</th><th className="num">Preis CHF</th><th className="num">Betrag CHF</th></tr></thead>
         <tbody>
-          {o.items.map((it) => (
-            <tr key={it.id}><td><strong>{it.name}</strong>{it.weight && <span className="muted"> · {it.weight}</span>}</td><td className="num">{it.qty}</td><td className="num">{chf(it.unit_price, false)}</td><td className="num">{chf(it.line_total, false)}</td></tr>
+          {o.items.map((it, i) => (
+            <tr key={it.id}><td className="pos">{i + 1}</td><td><strong>{it.name}</strong>{it.weight && <span className="muted"> · {it.weight}</span>}</td><td className="num">{it.qty}</td><td className="num">{chf(it.unit_price, false)}</td><td className="num">{chf(it.line_total, false)}</td></tr>
           ))}
-          <tr className="sub"><td colSpan={3}>Versand Schweiz (Post)</td><td className="num">{o.shipping ? chf(o.shipping, false) : 'gratis'}</td></tr>
-          <tr className="total"><td colSpan={3}>Total CHF</td><td className="num">{chf(o.total, false)}</td></tr>
-          <tr className="vat"><td colSpan={3}>Im Total enthalten: MWST {o.vat_rate} %</td><td className="num">{chf(o.vat_amount, false)}</td></tr>
         </tbody>
       </table>
+      <dl className="doc__totals">
+        <dt>Zwischensumme</dt><dd>{chf(o.subtotal, false)}</dd>
+        <dt>Versand Schweiz (Post)</dt><dd>{o.shipping ? chf(o.shipping, false) : 'gratis'}</dd>
+        <dt className="t">Total CHF</dt><dd className="t">{chf(o.total, false)}</dd>
+        <dt className="v">inkl. MWST {o.vat_rate} %</dt><dd className="v">{chf(o.vat_amount, false)}</dd>
+      </dl>
       {o.status === 'cancelled' ? (
         <p className="doc__stamp doc__stamp--cancel">Storniert am {dateCh(o.cancelled_at)}</p>
       ) : paid ? (
         <p className="doc__stamp">Bezahlt am {dateCh(o.paid_at)}{o.payment_method === 'online' ? ' (Online-Zahlung)' : ''}. Vielen Dank!</p>
       ) : (
-        <p className="doc__text">Bitte überweisen Sie den Betrag bis {dateCh(dueDate(o))} mit dem QR-Zahlteil unten oder auf {config.bank.holder}, {config.bank.bank}, IBAN {ibanFormat(config.bank.iban)}, Mitteilung «{paymentMessage(o)}».</p>
+        showQr && !qrOwnPage ? (
+          <p className="doc__text">Zahlbar bis <strong>{dateCh(dueDate(o))}</strong> mit dem QR-Zahlteil unten. Vielen Dank für Ihre Bestellung.</p>
+        ) : (
+        <div className="doc__pay">
+          <p>Zahlbar bis <strong>{dateCh(dueDate(o))}</strong>{showQr ? ' mit dem QR-Zahlteil auf der nächsten Seite oder' : ''} per Überweisung:</p>
+          <dl>
+            <dt>Konto</dt><dd>{config.bank.holder} · {config.bank.bank}</dd>
+            <dt>IBAN</dt><dd>{ibanFormat(config.bank.iban)}</dd>
+            <dt>Mitteilung</dt><dd>{paymentMessage(o)}</dd>
+          </dl>
+        </div>
+        )
       )}
       {!(showQr && !qrOwnPage) && <p className="doc__text">Herzlichen Dank für Ihre Bestellung und viel Genuss mit Dersut Caffè.</p>}
       {showQr && !qrOwnPage ? <QrBill o={o} qr={qr!} /> : <Footer />}
     </section>
     {qrOwnPage && (
       <section className="doc doc--a4">
-        <p className="doc__text" style={{ marginTop: '20mm' }}>Zahlteil zu Rechnung {o.number} vom {dateCh(o.created_at)}</p>
+        <header className="doc__head doc__head--small">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img className="doc__logo" src={brand('logo')} alt="Dersut" />
+          <div className="doc__company"><strong>Zahlteil zu Rechnung {o.number}</strong><br />vom {dateCh(o.created_at)} · Betrag CHF {chf(o.total, false)}</div>
+        </header>
         <QrBill o={o} qr={qr!} />
       </section>
     )}
@@ -155,12 +176,12 @@ function DeliveryNote({ o }: { o: Order }) {
         ]}
       />
       <table className="doc__table">
-        <thead><tr><th className="check">✓</th><th className="num">Menge</th><th>Artikel</th><th>Inhalt</th></tr></thead>
+        <thead><tr><th className="pos">Pos.</th><th>Artikel</th><th>Inhalt</th><th className="num">Menge</th><th className="check">Geprüft</th></tr></thead>
         <tbody>
-          {o.items.map((it) => (
-            <tr key={it.id}><td className="check"><span className="box" /></td><td className="num"><strong>{it.qty}</strong></td><td><strong>{it.name}</strong></td><td>{it.weight}</td></tr>
+          {o.items.map((it, i) => (
+            <tr key={it.id}><td className="pos">{i + 1}</td><td><strong>{it.name}</strong></td><td>{it.weight}</td><td className="num"><strong>{it.qty}</strong></td><td className="check"><span className="box" /></td></tr>
           ))}
-          <tr className="total"><td></td><td className="num">{count}</td><td colSpan={2}>Artikel total</td></tr>
+          <tr className="total"><td></td><td colSpan={2}>Total Artikel</td><td className="num">{count}</td><td></td></tr>
         </tbody>
       </table>
       {o.note && <div className="doc__note"><strong>Ihre Bemerkung</strong><br /><span style={{ whiteSpace: 'pre-line' }}>{o.note}</span></div>}
@@ -176,19 +197,21 @@ function Label({ o }: { o: Order }) {
   return (
     <section className="doc doc--label">
       <div className="label__from">
-        <span>Absender</span>
-        {senderLines.join(', ')}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={brand('logo')} alt="Dersut" />
+        <div><span>Absender</span>{c.name}<br />{c.street}, {c.zip} {c.city}</div>
       </div>
       <div className="label__sticker">
-        <span>Platz für den Barcode-Kleber der Post<br />(Sendungsnummer)</span>
+        <span>Barcode-Kleber der Post hier aufkleben</span>
       </div>
-      <div className="label__to">
+      {/* Schrift so wählen, dass auch lange Firmennamen auf eine Zeile passen */}
+      <div className="label__to" style={{ fontSize: `${Math.min(14, Math.max(9, 400 / Math.max(...recipientLines(o).map((l) => l.length))))}pt` }}>
         <span>Empfänger</span>
         <div><Lines lines={recipientLines(o)} /></div>
         {o.phone && <small>Tel. {o.phone}</small>}
       </div>
       <div className="label__foot">
-        <span>{o.number}</span>
+        <span>Bestellung {o.number}</span>
         <span>{o.items.reduce((s, it) => s + it.qty, 0)} Artikel</span>
         <span>{dateCh(new Date())}</span>
       </div>
@@ -203,7 +226,6 @@ export default async function PrintPage({ searchParams }: Props) {
   const ids = String(sp.ids ?? '').split(',').map(Number).filter((n) => n > 0).slice(0, 100);
   const orders = (await Promise.all(ids.map((id) => getOrder(id)))).filter((o): o is Order => !!o);
   const qrs = doc === 'rechnung' ? await Promise.all(orders.map((o) => swissQrSvg(o))) : [];
-  await Promise.all(orders.map((o) => addLog(o.id, `${TITLES[doc]} zum Drucken geöffnet.`)));
 
   return (
     <div className={`print print--${doc}`}>

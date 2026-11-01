@@ -8,21 +8,12 @@ import { config } from './config';
 export type Category = { slug: string; de: string; fr?: string; it?: string; en?: string };
 
 export type SiteSettings = {
-  company: Partial<Record<'name' | 'co' | 'street' | 'zip' | 'city' | 'phone' | 'uid' | 'vatNo' | 'register' | 'managing', string>>;
+  company: Partial<Record<'name' | 'street' | 'zip' | 'city' | 'phone' | 'uid' | 'vatNo' | 'register', string>>;
   email?: string;
   bank: Partial<Record<'holder' | 'bank' | 'iban', string>>;
   paymentDays?: number;
   categories: Category[];
-  /** Person in der E-Mail-Signatur (Antworten aus dem Admin) */
-  signature?: { name?: string; role?: string; phone?: string };
 };
-
-export const SIGNATURE_DEFAULTS = { name: 'Asurhan Özçelik', role: 'Inhaber & Geschäftsführer', phone: '+41 76 343 21 47' };
-
-export function signaturePerson(): { name: string; role: string; phone: string } {
-  const sg = current.signature ?? {};
-  return { name: sg.name?.trim() || SIGNATURE_DEFAULTS.name, role: sg.role?.trim() || SIGNATURE_DEFAULTS.role, phone: sg.phone?.trim() ?? SIGNATURE_DEFAULTS.phone };
-}
 
 export const SETTINGS_KEY = 'site';
 
@@ -38,7 +29,7 @@ export function currentSettings(): SiteSettings {
 export function parseSettings(raw: string | null | undefined): SiteSettings {
   try {
     const s = raw ? (JSON.parse(raw) as Partial<SiteSettings>) : {};
-    return { company: s.company ?? {}, email: s.email, bank: s.bank ?? {}, paymentDays: s.paymentDays, categories: Array.isArray(s.categories) ? s.categories : [], signature: s.signature };
+    return { company: s.company ?? {}, email: s.email, bank: s.bank ?? {}, paymentDays: s.paymentDays, categories: Array.isArray(s.categories) ? s.categories : [] };
   } catch {
     return { company: {}, bank: {}, categories: [] };
   }
@@ -48,8 +39,8 @@ const pick = <T extends Record<string, unknown>>(base: T, over: Partial<Record<k
   const out = { ...base };
   for (const k of Object.keys(base) as (keyof T)[]) {
     const v = over[k];
-    // «co» und «phone» dürfen bewusst leer sein, die anderen Felder nicht
-    if (typeof v === 'string' && (v.trim() || k === 'co' || k === 'phone')) out[k] = v.trim() as T[keyof T];
+    // «phone» darf bewusst leer sein, die anderen Felder nicht
+    if (typeof v === 'string' && (v.trim() || k === 'phone')) out[k] = v.trim() as T[keyof T];
   }
   return out;
 };

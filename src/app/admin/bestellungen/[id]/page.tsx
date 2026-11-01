@@ -12,7 +12,7 @@ import { getLogs, getOrder } from '@/lib/orders';
 import { dueDate, paymentMessage } from '@/lib/orders-shared';
 import { noteAction, orderStatusAction, resendMailAction, trackingAction } from '../../actions';
 
-type Props = { params: Promise<{ id: string }>; searchParams: Promise<{ ok?: string }> };
+type Props = { params: Promise<{ id: string }>; searchParams: Promise<{ ok?: string; mail?: string }> };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const o = await getOrder(Number((await params).id) || 0);
@@ -24,7 +24,7 @@ export default async function OrderDetail({ params, searchParams }: Props) {
   const id = Number((await params).id);
   const o = id ? await getOrder(id) : null;
   if (!o) notFound();
-  const { ok } = await searchParams;
+  const { ok, mail } = await searchParams;
   const logs = await getLogs(o.id);
   const msg = paymentMessage(o);
   const addr = [o.company, `${o.first_name} ${o.last_name}`.trim(), o.street, `${o.zip} ${o.city}`].filter(Boolean).join('\n');
@@ -47,7 +47,7 @@ export default async function OrderDetail({ params, searchParams }: Props) {
         </div>
         <a className="btn btn--ghost" href={lp(o.lang, `/bestellung/${o.number}?t=${o.token}`)} target="_blank" rel="noopener">Kundenansicht ↗</a>
       </header>
-      <Flash ok={ok} />
+      <Flash ok={ok} mail={mail} />
 
       <ol className="steps">
         <li className="is-done">Bestellt<small>{dateCh(o.created_at)}</small></li>
@@ -70,7 +70,7 @@ export default async function OrderDetail({ params, searchParams }: Props) {
                 <p>Warten auf Zahlung von <strong>{chf(o.total)}</strong> mit der Mitteilung <strong>«{msg}»</strong>. Sobald der Betrag auf dem Konto ist:</p>
                 <StatusForm status="paid">
                   <label className="inline"><input type="checkbox" name="notify" value="1" defaultChecked /> Kunden per E-Mail über den Zahlungseingang informieren</label>
-                  <ConfirmButton className="btn btn--paid btn--lg" confirm="Zahlung als eingegangen markieren?">✓ Als bezahlt markieren</ConfirmButton>
+                  <ConfirmButton className="btn btn--paid btn--lg" confirm="Zahlung als eingegangen markieren?" mail={o.email}>✓ Als bezahlt markieren</ConfirmButton>
                 </StatusForm>
               </>
             )}
@@ -80,7 +80,7 @@ export default async function OrderDetail({ params, searchParams }: Props) {
                 <StatusForm status="shipped">
                   <label>Sendungsnummer der Post <span className="muted">(optional, erscheint in der E-Mail)</span><input name="tracking" placeholder="z. B. 99.00.123456.12345678" defaultValue={o.tracking} /></label>
                   <label className="inline"><input type="checkbox" name="notify" value="1" defaultChecked /> Kunden per E-Mail über den Versand informieren</label>
-                  <button className="btn btn--ship btn--lg" type="submit">📦 Als versendet markieren</button>
+                  <ConfirmButton className="btn btn--ship btn--lg" confirm="Bestellung als versendet markieren?" mail={o.email}>📦 Als versendet markieren</ConfirmButton>
                 </StatusForm>
               </>
             )}
@@ -102,12 +102,12 @@ export default async function OrderDetail({ params, searchParams }: Props) {
               <div className="more__body">
                 <form action={resendMailAction} className="row">
                   <input type="hidden" name="id" value={o.id} />
-                  <button className="btn btn--ghost btn--sm" type="submit">Letzte E-Mail erneut senden</button>
+                  <ConfirmButton className="btn btn--ghost btn--sm" confirm={`E-Mail «${statusLabel(o.status)}» erneut senden?`} mail={o.email}>✉ Letzte E-Mail erneut senden</ConfirmButton>
                 </form>
                 {o.status !== 'cancelled' && (
                   <StatusForm status="cancelled">
                     <label className="inline"><input type="checkbox" name="notify" value="1" defaultChecked /> Kunden informieren</label>
-                    <ConfirmButton className="btn btn--danger btn--sm" confirm={`Bestellung ${o.number} wirklich stornieren?`}>Stornieren</ConfirmButton>
+                    <ConfirmButton className="btn btn--danger btn--sm" confirm={`Bestellung ${o.number} wirklich stornieren?`} mail={o.email}>Stornieren</ConfirmButton>
                   </StatusForm>
                 )}
                 {o.status !== 'open' && (

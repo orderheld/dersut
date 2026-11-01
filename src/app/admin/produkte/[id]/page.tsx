@@ -157,7 +157,7 @@ export default async function ProductEdit({ params, searchParams }: Props) {
             <ImageUpload name="gallery_upload" multiple hint="Stimmungsbilder, Tassen, Bohnen … bis 10 Fotos auf einmal. Werden verkleinert und komprimiert." />
             <label className="inline small"><input type="checkbox" name="gallery_pack" value="1" /> Diese Fotos auch freistellen (z. B. Rückseite der Packung)</label>
           </section>
-          <button className="btn btn--primary btn--lg btn--block" type="submit">Speichern</button>
+          <div className="savebar"><button className="btn btn--primary btn--lg btn--block" type="submit">Speichern</button></div>
         </div>
       </ActionForm>
     </>

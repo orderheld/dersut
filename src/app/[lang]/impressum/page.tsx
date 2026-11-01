@@ -20,7 +20,6 @@ const de = {
   operator: 'Betreiberin',
   email: 'E-Mail',
   phone: 'Telefon',
-  managing: 'Geschäftsführung',
   uid: 'UID',
   vatNo: 'MWST-Nr.',
   register: 'Handelsregister',
@@ -42,7 +41,6 @@ const T: Record<Locale, typeof de> = {
     operator: 'Exploitant',
     email: 'E-mail',
     phone: 'Téléphone',
-    managing: 'Direction',
     uid: 'IDE',
     vatNo: 'N° TVA',
     register: 'Registre du commerce',
@@ -61,7 +59,6 @@ const T: Record<Locale, typeof de> = {
     operator: 'Gestore',
     email: 'E-mail',
     phone: 'Telefono',
-    managing: 'Direzione',
     uid: 'IDI',
     vatNo: 'N. IVA',
     register: 'Registro di commercio',
@@ -80,7 +77,6 @@ const T: Record<Locale, typeof de> = {
     operator: 'Operator',
     email: 'E-mail',
     phone: 'Phone',
-    managing: 'Management',
     uid: 'UID',
     vatNo: 'VAT No.',
     register: 'Commercial register',
@@ -111,7 +107,6 @@ export default async function Impressum({ params }: Props) {
           <p>
             {t.email}: <a href={`mailto:${config.email.info}`}>{config.email.info}</a><br />
             {c.phone && <>{t.phone}: {c.phone}<br /></>}
-            {c.managing && <>{t.managing}: {c.managing}<br /></>}
             {c.uid && <>{t.uid}: {c.uid}<br /></>}
             {c.vatNo && <>{t.vatNo}: {c.vatNo}<br /></>}
             {c.register && <>{t.register}: {c.register}</>}
