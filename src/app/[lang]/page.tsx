@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { B2BHint } from '@/components/B2BHint';
 import { Icon } from '@/components/Icon';
 import { Img } from '@/components/Img';
 import { ProductCard } from '@/components/ProductCard';
@@ -382,6 +383,7 @@ export default async function Home({ params }: Props) {
             <p className="lead">{t.shopLead}</p>
           </header>
           <div className="pgrid">{products.map((p) => <ProductCard key={p.id} p={p} lang={lang} />)}</div>
+          <B2BHint lang={lang} />
         </div>
       </section>
 

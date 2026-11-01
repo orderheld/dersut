@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import type { CSSProperties } from 'react';
 import { AddToCart } from '@/components/AddToCart';
+import { B2BHint } from '@/components/B2BHint';
 import { Icon } from '@/components/Icon';
 import { Img } from '@/components/Img';
 import { ProductCard } from '@/components/ProductCard';
@@ -15,8 +16,8 @@ import { LOCALE_TAGS, asLocale, lp } from '@/lib/i18n';
 import { getProductBySlug, getProducts, isSoldOut, type LocalizedProduct } from '@/lib/products';
 import { absolute, jsonLd, pageMeta, returnPolicyLd } from '@/lib/seo';
 import { ARTICLES, RATGEBER_PAGE } from '@/content/ratgeber';
-import { AWARD_TEXT, awardsOf, latestMedal } from '@/content/awards';
-import { Medal } from '@/components/Medal';
+import { AWARD_TEXT, HOUSE_SLUGS, HOUSE_TEXT, awardsOf, latestMedal } from '@/content/awards';
+import { HouseSeal, Medal } from '@/components/Medal';
 
 const AROMA: Record<string, string> = { de: 'Aromen', fr: 'Arômes', it: 'Aromi', en: 'Aromas' };
 const AWARDS_LINK: Record<string, string> = { de: 'Alle Zertifizierungen & Auszeichnungen', fr: 'Toutes les certifications & distinctions', it: 'Tutte le certificazioni e i premi', en: 'All certifications & awards' };
@@ -189,6 +190,7 @@ export default async function ProductPage({ params }: Props) {
                   <ul>{guides.map((g) => <li key={g.slug}><Link href={lp(lang, `/ratgeber/${g.slug}`)}>{g.text[lang].title}</Link></li>)}</ul>
                 </nav>
               )}
+              <B2BHint lang={lang} compact />
             </div>
           </div>
         </div>
@@ -242,6 +244,32 @@ export default async function ProductPage({ params }: Props) {
             </div>
           </section>
         )}
+
+        {awards.length === 0 && HOUSE_SLUGS.includes(p.slug) && (() => {
+          const h = HOUSE_TEXT[lang];
+          return (
+            <section className="pd-awards" id="auszeichnungen">
+              <div className="wrap pd-awards__inner">
+                <div className="pd-awards__medal"><HouseSeal label={h.seal} /></div>
+                <div>
+                  <p className="eyebrow eyebrow--gold">{h.eyebrow}</p>
+                  <h2 className="h2">{h.title}</h2>
+                  <p className="pd-awards__lead">{h.lead(p.name)}</p>
+                  <ul className="pd-awards__list">
+                    {h.items.map(([small, title, year], i) => (
+                      <li key={title}>
+                        <Icon name={i === 0 ? 'award' : 'shield'} />
+                        <div><small>{small}</small><strong>{title}</strong></div>
+                        <em>{year}</em>
+                      </li>
+                    ))}
+                  </ul>
+                  <Link className="link-arrow link-arrow--light" href={lp(lang, '/zertifizierungen')}>{AWARDS_LINK[lang]} <Icon name="arrow" /></Link>
+                </div>
+              </div>
+            </section>
+          );
+        })()}
 
         <section className="section">
           <div className="wrap">

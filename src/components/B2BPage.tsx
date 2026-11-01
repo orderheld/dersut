@@ -1,9 +1,11 @@
 import Link from 'next/link';
 import { B2B, B2B_PATH, type B2BKind } from '@/content/b2b';
 import { brand } from '@/lib/brand';
+import { config } from '@/lib/config';
 import { lp, type Locale } from '@/lib/i18n';
 import { absolute, breadcrumbLd, faqLd, jsonLd } from '@/lib/seo';
 import { B2BForm } from './B2BForm';
+import { QuickContact } from './B2BHint';
 import { Icon } from './Icon';
 import { Img } from './Img';
 import { PageHero } from './PageHero';
@@ -26,6 +28,11 @@ export function B2BPage({ kind, lang }: { kind: B2BKind; lang: Locale }) {
       provider: { '@id': absolute('/#organization') },
       areaServed: { '@type': 'Country', name: 'Switzerland' },
       audience: { '@type': 'BusinessAudience' },
+      availableChannel: {
+        '@type': 'ServiceChannel',
+        serviceUrl: `${url}#anfrage`,
+        ...(config.company.phone ? { servicePhone: { '@type': 'ContactPoint', telephone: config.company.phone, contactType: 'sales', areaServed: 'CH' } } : {}),
+      },
       url,
     },
     breadcrumbLd(lang, [[t.crumb, path]]),
@@ -95,6 +102,7 @@ export function B2BPage({ kind, lang }: { kind: B2BKind; lang: Locale }) {
             <ul className="checks">
               {t.why.slice(0, 3).map((c) => <li key={c}><Icon name="check" /> {c}</li>)}
             </ul>
+            <QuickContact lang={lang} />
           </div>
           <div className="form-card">
             <B2BForm kind={kind} lang={lang} />

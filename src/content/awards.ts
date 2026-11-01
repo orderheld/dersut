@@ -124,3 +124,59 @@ export const AWARD_TEXT: Record<
     homeProduct: 'View product',
   },
 };
+
+/**
+ * Optimum Rosso und Domus Marrone haben laut dersut.it (geprüft 2026-11-01) keine eigene Medaille
+ * und kein eigenes Zertifikat. Deshalb zeigen wir nur, was für die Rösterei als Ganzes belegt ist.
+ */
+export const HOUSE_SLUGS = ['dersut-optimum-rosso-1kg', 'dersut-domus-marrone-1kg'];
+
+export const HOUSE_TEXT: Record<
+  Locale,
+  { seal: string; eyebrow: string; title: string; lead: (name: string) => string; items: [string, string, string][] }
+> = {
+  de: {
+    seal: 'Original Dersut Caffè, Conegliano, seit 1947',
+    eyebrow: 'Aus ausgezeichnetem Haus',
+    title: 'Geröstet von der Rösterei der Goldmedaillen',
+    lead: (n) => `Der ${n} kommt aus derselben Rösterei in Conegliano wie die mit Gold prämierten Mischungen Plus Oro und Non Plus Ultra: gleiche Sorgfalt bei Auswahl, Röstung und Kontrolle.`,
+    items: [
+      ['Gold Medal 2025 für unsere Schwestersorten', 'Plus Oro & Non Plus Ultra', 'IIAC 2025'],
+      ['Mitglied seit 2014', 'Specialty Coffee Association (SCA)', '2014'],
+      ['Gründungsmitglied', 'Consorzio di Tutela del Caffè Espresso Italiano Tradizionale', '2014'],
+    ],
+  },
+  fr: {
+    seal: 'Dersut Caffè original, Conegliano, depuis 1947',
+    eyebrow: 'D’une maison primée',
+    title: 'Torréfié par la maison des médailles d’or',
+    lead: (n) => `Le ${n} provient de la même torréfaction de Conegliano que les mélanges médaillés d’or Plus Oro et Non Plus Ultra : même soin dans la sélection, la torréfaction et le contrôle.`,
+    items: [
+      ['Gold Medal 2025 pour les mélanges frères', 'Plus Oro & Non Plus Ultra', 'IIAC 2025'],
+      ['Membre depuis 2014', 'Specialty Coffee Association (SCA)', '2014'],
+      ['Membre fondateur', 'Consorzio di Tutela del Caffè Espresso Italiano Tradizionale', '2014'],
+    ],
+  },
+  it: {
+    seal: 'Dersut Caffè originale, Conegliano, dal 1947',
+    eyebrow: 'Da una casa premiata',
+    title: 'Tostato dalla torrefazione delle medaglie d’oro',
+    lead: (n) => `Il ${n} nasce nella stessa torrefazione di Conegliano delle miscele premiate con l’oro Plus Oro e Non Plus Ultra: la stessa cura nella selezione, nella tostatura e nel controllo.`,
+    items: [
+      ['Gold Medal 2025 per le miscele sorelle', 'Plus Oro & Non Plus Ultra', 'IIAC 2025'],
+      ['Socio dal 2014', 'Specialty Coffee Association (SCA)', '2014'],
+      ['Socio fondatore', 'Consorzio di Tutela del Caffè Espresso Italiano Tradizionale', '2014'],
+    ],
+  },
+  en: {
+    seal: 'Original Dersut Caffè, Conegliano, since 1947',
+    eyebrow: 'From an award-winning house',
+    title: 'Roasted by the house of gold medals',
+    lead: (n) => `${n} comes from the same Conegliano roastery as the gold-medal blends Plus Oro and Non Plus Ultra: the same care in selection, roasting and quality control.`,
+    items: [
+      ['Gold Medal 2025 for the sister blends', 'Plus Oro & Non Plus Ultra', 'IIAC 2025'],
+      ['Member since 2014', 'Specialty Coffee Association (SCA)', '2014'],
+      ['Founding member', 'Consorzio di Tutela del Caffè Espresso Italiano Tradizionale', '2014'],
+    ],
+  },
+};
