@@ -35,7 +35,7 @@ export function B2BPage({ kind, lang }: { kind: B2BKind; lang: Locale }) {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={jsonLd(ld)} />
-      <PageHero
+      <PageHero ld={false}
         lang={lang}
         img={brand(kind === 'gastro' ? 'macchina' : 'tazze')}
         crumb={t.crumb}

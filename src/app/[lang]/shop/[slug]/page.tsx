@@ -13,7 +13,7 @@ import { config, onlinePayment } from '@/lib/config';
 import { chf } from '@/lib/format';
 import { LOCALE_TAGS, asLocale, lp } from '@/lib/i18n';
 import { getProductBySlug, getProducts, isSoldOut, type LocalizedProduct } from '@/lib/products';
-import { absolute, jsonLd, pageMeta } from '@/lib/seo';
+import { absolute, jsonLd, pageMeta, returnPolicyLd } from '@/lib/seo';
 import { ARTICLES, RATGEBER_PAGE } from '@/content/ratgeber';
 
 
@@ -87,6 +87,7 @@ export default async function ProductPage({ params }: Props) {
         itemCondition: 'https://schema.org/NewCondition',
         availability: soldOut ? 'https://schema.org/OutOfStock' : 'https://schema.org/InStock',
         seller: { '@id': absolute('/#organization'), '@type': 'Organization', name: config.company.name },
+        hasMerchantReturnPolicy: returnPolicyLd(),
         shippingDetails: {
           '@type': 'OfferShippingDetails',
           shippingRate: { '@type': 'MonetaryAmount', value: (config.shop.shipping / 100).toFixed(2), currency: 'CHF' },

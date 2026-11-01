@@ -93,9 +93,9 @@ export const fr: Dict = {
     title: 'Boutique en ligne',
     metaTitle: 'Acheter des grains d’espresso Dersut en ligne',
     metaDescription:
-      'Commandez en ligne les grains d’espresso Dersut d’origine en 1 kg : Optimum Rosso et Domus Marrone, du distributeur officiel en Suisse. Livraison CHF 12.– (livraison offerte dès CHF 100.–).',
+      'Grains d’espresso Dersut d’origine en 1 kg : Optimum Rosso et Domus Marrone, du distributeur officiel en Suisse. Livraison offerte dès CHF 100.–',
     eyebrow: 'Boutique en ligne',
-    heading: 'L’espresso de <em>Conegliano</em>',
+    heading: 'Grains d’espresso Dersut <em>de Conegliano</em>',
     lead: 'Dersut Caffè d’origine, directement du distributeur officiel en Suisse. Livraison dans toute la Suisse pour un forfait de CHF 12.– (livraison offerte dès CHF 100.–).',
     more: 'D’autres produits suivront : l’assortiment s’enrichit continuellement, au fil des saisons.',
   },
@@ -263,7 +263,7 @@ export const fr: Dict = {
   },
   status: { open: 'Paiement en attente', paid: 'Payée', shipped: 'Expédiée', cancelled: 'Annulée' } as Record<string, string>,
   contact: {
-    metaTitle: 'Contact',
+    metaTitle: 'Contact : Dersut Kaffee GmbH, Bâle',
     metaDescription: 'Contactez Dersut Kaffee GmbH, distributeur officiel de Dersut Caffè en Suisse : conseils, commandes et offres pour la restauration et les bureaux.',
     eyebrow: 'Contatti',
     heading: 'Nous sommes <em>à votre écoute</em>',

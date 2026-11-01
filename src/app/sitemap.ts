@@ -10,7 +10,7 @@ export const dynamic = 'force-dynamic';
 
 // Stand der Inhalte (bei grösseren Textänderungen anpassen); Produkte nutzen das aktuelle Datum nicht,
 // damit Suchmaschinen nicht bei jedem Aufruf eine Änderung sehen
-const CONTENT_UPDATED = new Date('2026-10-12');
+const CONTENT_UPDATED = new Date('2026-11-01');
 
 const PAGES: [string, number][] = [
   ['/', 1], ['/shop', 0.9], ...REGIONS.map((r): [string, number] => [`/region/${r.slug}`, 0.7]), ['/geschichte', 0.7], ['/qualitaet', 0.7], ['/zertifizierungen', 0.6], ['/nachhaltigkeit', 0.6],

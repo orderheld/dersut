@@ -59,7 +59,7 @@ export default async function Article({ params }: Props) {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={jsonLd(ld)} />
-      <PageHero lang={lang} img={brand(a.image)} crumb={t.crumb} eyebrow={t.crumb} title={x.title} lead={<RichText text={x.lead} lang={lang} />} />
+      <PageHero ld={false} lang={lang} img={brand(a.image)} crumb={t.crumb} eyebrow={t.crumb} title={x.title} lead={<RichText text={x.lead} lang={lang} />} />
       <article className="section">
         <div className="wrap prose guide">
           {x.sections.map((s) => (

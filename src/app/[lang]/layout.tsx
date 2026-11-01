@@ -12,7 +12,7 @@ import { config, onlinePayment } from '@/lib/config';
 import { companyAddressLines } from '@/lib/format';
 import { LOCALE_TAGS, OG_LOCALES, isLocale, lp, type Locale } from '@/lib/i18n';
 import { getProducts } from '@/lib/products';
-import { INDEX, absolute, jsonLd, languageAlternates, shareImage } from '@/lib/seo';
+import { INDEX, absolute, jsonLd, languageAlternates, returnPolicyLd, shareImage } from '@/lib/seo';
 import './site.css';
 
 type Props = { children: React.ReactNode; params: Promise<{ lang: string }> };
@@ -60,7 +60,7 @@ export default async function SiteLayout({ children, params }: Props) {
 
   const org = {
     '@context': 'https://schema.org',
-    '@type': 'Organization',
+    '@type': ['Organization', 'OnlineStore'],
     '@id': absolute('/#organization'),
     name: c.name,
     alternateName: ['Dersut Kaffee Schweiz', 'Dersut Caffè Svizzera', 'Café Dersut Suisse'],
@@ -71,6 +71,7 @@ export default async function SiteLayout({ children, params }: Props) {
     ...(c.uid ? { taxID: c.uid } : {}),
     ...(c.vatNo ? { vatID: c.vatNo } : {}),
     brand: { '@type': 'Brand', name: 'Dersut Caffè' },
+    hasMerchantReturnPolicy: returnPolicyLd(),
     knowsLanguage: ['de-CH', 'fr-CH', 'it-CH', 'en'],
     areaServed: [
       { '@type': 'Country', name: 'Switzerland' },
@@ -150,7 +151,7 @@ export default async function SiteLayout({ children, params }: Props) {
               <p className="footer__since">Dal 1947 · Conegliano · Italia</p>
             </div>
             <div>
-              <h3>{t.footer.shop}</h3>
+              <h2>{t.footer.shop}</h2>
               <ul>
                 {products.map((p) => <li key={p.id}><Link href={L(`/shop/${p.slug}`)}>{p.name}</Link></li>)}
                 <li><Link href={L('/shop')}>{t.nav.allProducts}</Link></li>
@@ -159,18 +160,18 @@ export default async function SiteLayout({ children, params }: Props) {
               </ul>
             </div>
             <div>
-              <h3>{t.nav.business}</h3>
+              <h2>{t.nav.business}</h2>
               <ul>
                 <li><Link href={L('/gastronomie')}>{t.nav.gastro}</Link></li>
                 <li><Link href={L('/firmen')}>{t.nav.office}</Link></li>
               </ul>
-              <h3 className="footer__h3-2">{t.nav.regions}</h3>
+              <h2 className="footer__h3-2">{t.nav.regions}</h2>
               <ul>
                 {REGIONS.map((r) => <li key={r.slug}><Link href={L(`/region/${r.slug}`)}>{r.text[lang].name}</Link></li>)}
               </ul>
             </div>
             <div>
-              <h3>{t.footer.aboutDersut}</h3>
+              <h2>{t.footer.aboutDersut}</h2>
               <ul>
                 <li><Link href={L('/geschichte')}>{t.nav.history}</Link></li>
                 <li><Link href={L('/qualitaet')}>{t.nav.quality}</Link></li>
@@ -180,7 +181,7 @@ export default async function SiteLayout({ children, params }: Props) {
               </ul>
             </div>
             <div>
-              <h3>{t.footer.contact}</h3>
+              <h2>{t.footer.contact}</h2>
               <ul className="footer__contact">
                 {companyAddressLines(t.footer.country).map((line, i) => <li key={i}>{i === 0 ? <strong>{line}</strong> : line}</li>)}
                 {c.phone && <li><a href={`tel:${c.phone.replace(/[^+\d]/g, '')}`}>{c.phone}</a></li>}

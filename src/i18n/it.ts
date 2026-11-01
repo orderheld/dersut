@@ -92,9 +92,9 @@ export const it: Dict = {
   shop: {
     title: 'Shop online',
     metaTitle: 'Caffè Dersut in grani: acquista online',
-    metaDescription: 'Caffè in grani Dersut da 1 kg online: Optimum Rosso e Domus Marrone dal distributore ufficiale svizzero. Spedizione in tutta la Svizzera a CHF 12.– (gratuita da CHF 100.–)',
+    metaDescription: 'Caffè in grani Dersut originale da 1 kg: Optimum Rosso e Domus Marrone dal distributore ufficiale. Spedizione in tutta la Svizzera, gratuita da CHF 100.–',
     eyebrow: 'Shop online',
-    heading: 'Espresso da <em>Conegliano</em>',
+    heading: 'Caffè in grani Dersut <em>da Conegliano</em>',
     lead: 'Dersut Caffè originale, direttamente dal distributore ufficiale in Svizzera. Spedizione in tutta la Svizzera a un forfait di CHF 12.– (gratuita da CHF 100.–).',
     more: 'Altri prodotti in arrivo: l’assortimento viene ampliato costantemente, a seconda della stagione.',
   },
@@ -262,7 +262,7 @@ export const it: Dict = {
   },
   status: { open: 'In attesa di pagamento', paid: 'Pagato', shipped: 'Spedito', cancelled: 'Annullato' } as Record<string, string>,
   contact: {
-    metaTitle: 'Contatti',
+    metaTitle: 'Contatti: Dersut Kaffee GmbH, Basilea',
     metaDescription: 'Contattate Dersut Kaffee GmbH, distributore ufficiale di Dersut Caffè in Svizzera: consulenza, ordini e offerte per la gastronomia e gli uffici.',
     eyebrow: 'Contatti',
     heading: 'Siamo <em>a vostra disposizione</em>',
