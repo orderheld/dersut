@@ -1065,3 +1065,51 @@ body.promo-on .toast { bottom: calc(var(--promo-h, 72px) + 16px); }
 .quickcontact p { margin: 0 0 12px; font-weight: 500; color: var(--navy); }
 .quickcontact__links { display: flex; flex-wrap: wrap; gap: 10px; }
 .quickcontact__links .btn { min-height: 46px; padding: 10px 16px; font-size: 14.5px; }
+
+/* ---------- Startseite: Goldmedaillen-Siegel im Header ---------- */
+.hero__inner { display: grid; grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "text award"; align-items: center; gap: 40px; }
+.hero__text { grid-area: text; min-width: 0; }
+.hero-award { grid-area: award; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 18px; width: 300px; text-decoration: none; color: #fff; }
+.hero-award__medals { position: relative; display: block; width: 260px; height: 230px; }
+.hero-award__medals .medal { position: absolute; filter: drop-shadow(0 18px 30px rgba(0, 0, 0, .5)); }
+.hero-award__back { width: 160px; height: 160px; left: 0; top: 4px; transform: rotate(-14deg); opacity: .96; }
+.hero-award__front { width: 200px; height: 200px; right: 0; bottom: 0; transform: rotate(8deg); transition: transform .5s var(--ease); }
+.hero-award:hover .hero-award__front { transform: rotate(0deg) scale(1.04); }
+.hero-award__text { display: grid; gap: 4px; padding: 16px 22px 18px; border: 1px solid rgba(217, 180, 90, .45); border-radius: 12px; background: rgba(0, 17, 42, .62); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
+.hero-award__text small { font-size: 11px; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: #e6c979; }
+.hero-award__text strong { font-family: var(--serif); font-size: 34px; font-weight: 600; line-height: 1.05; color: #f7e9b9; }
+.hero-award__text > span { font-size: 14.5px; color: rgba(255, 255, 255, .88); }
+.hero-award__text em { margin-top: 8px; padding-top: 10px; border-top: 1px solid rgba(255, 255, 255, .14); font-style: normal; font-size: 12.5px; color: rgba(255, 255, 255, .75); display: inline-flex; align-items: center; justify-content: center; gap: 7px; }
+.hero-award__text em .icon { color: #d9b45a; width: 16px; height: 16px; }
+.hero-award:hover .hero-award__text { border-color: #d9b45a; }
+#gold-2025 { scroll-margin-top: 90px; }
+
+/* Tablet und Handy: Siegel als breites Label oben im Header, damit es sofort sichtbar ist */
+@media (max-width: 960px) {
+  .hero__inner { grid-template-columns: 1fr; grid-template-areas: "award" "text"; gap: 26px; padding-top: 40px; }
+  .hero-award { flex-direction: row; text-align: left; width: auto; max-width: 520px; gap: 14px; padding: 10px 18px 10px 10px; border: 1px solid rgba(217, 180, 90, .5); border-radius: 999px; background: rgba(0, 17, 42, .66); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); justify-self: start; }
+  .hero-award__medals { width: 104px; height: 84px; flex: none; }
+  .hero-award__back { width: 62px; height: 62px; top: 2px; }
+  .hero-award__front { width: 80px; height: 80px; }
+  .hero-award__text { padding: 0; border: 0; background: none; backdrop-filter: none; -webkit-backdrop-filter: none; gap: 2px; }
+  .hero-award__text strong { font-size: 27px; }
+  .hero-award__text > span { font-size: 13.5px; }
+  .hero-award__text em { display: none; }
+}
+@media (max-width: 420px) {
+  .hero-award { gap: 10px; padding-right: 14px; }
+  .hero-award__medals { width: 90px; height: 74px; }
+  .hero-award__back { width: 54px; height: 54px; }
+  .hero-award__front { width: 70px; height: 70px; }
+  .hero-award__text small { font-size: 9.5px; letter-spacing: .12em; }
+  .hero-award__text strong { font-size: 24px; }
+  .hero-award__text > span { font-size: 12.5px; }
+}
+@media (min-width: 641px) and (max-width: 960px) {
+  .hero-award { gap: 18px; padding: 12px 26px 12px 12px; }
+  .hero-award__medals { width: 128px; height: 102px; }
+  .hero-award__back { width: 76px; height: 76px; }
+  .hero-award__front { width: 98px; height: 98px; }
+  .hero-award__text strong { font-size: 32px; }
+  .hero-award__text > span { font-size: 15px; }
+}
