@@ -2,6 +2,7 @@ import 'server-only';
 import { neon } from '@neondatabase/serverless';
 import { SCHEMA, SEED_PRODUCTS } from './schema';
 import { SEED_TRANSLATIONS, SEO_DESCRIPTION_UPDATES } from './product-seed-i18n';
+import { applySettings, parseSettings, SETTINGS_KEY } from './settings-core';
 
 export type Row = Record<string, any>;
 export type Query = { text: string; params?: unknown[] };
@@ -12,6 +13,14 @@ type Driver = {
 };
 
 let driver: Promise<Driver> | null = null;
+let settingsLoadedAt = 0;
+
+/** Stammdaten aus dem Admin übernehmen (beim Start und danach höchstens einmal pro Minute neu). */
+async function refreshSettings(d: Driver): Promise<void> {
+  settingsLoadedAt = Date.now();
+  const rows = await d.query('SELECT value FROM app_settings WHERE key = $1', [SETTINGS_KEY]).catch(() => []);
+  applySettings(parseSettings(rows[0]?.value));
+}
 
 async function createDriver(): Promise<Driver> {
   const url = process.env.DATABASE_URL;
@@ -74,6 +83,7 @@ async function getDriver(): Promise<Driver> {
           [slug, lang, old, next],
         );
       }
+      await refreshSettings(d);
       return d;
     })().catch((e) => {
       driver = null;
@@ -84,11 +94,18 @@ async function getDriver(): Promise<Driver> {
 }
 
 export async function query<T = Row>(text: string, params: unknown[] = []): Promise<T[]> {
-  return (await (await getDriver()).query(text, params)) as T[];
+  const d = await getDriver();
+  if (Date.now() - settingsLoadedAt > 60_000) await refreshSettings(d);
+  return (await d.query(text, params)) as T[];
 }
 
 export async function one<T = Row>(text: string, params: unknown[] = []): Promise<T | null> {
   return (await query<T>(text, params))[0] ?? null;
+}
+
+/** Nach dem Speichern im Admin sofort übernehmen. */
+export async function reloadSettings(): Promise<void> {
+  await refreshSettings(await getDriver());
 }
 
 export async function transaction(queries: Query[]): Promise<void> {

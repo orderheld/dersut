@@ -887,3 +887,8 @@ a.ccard:hover { border-color: var(--gold); box-shadow: var(--shadow-sm); color: 
 .pd-guides { margin-top: 18px; font-size: 14px; }
 .pd-guides strong { display: block; margin-bottom: 4px; color: var(--ink); }
 .pd-guides ul { margin: 0; padding-left: 1.1em; }
+
+/* Shop nach Kategorien */
+.pgroup + .pgroup { margin-top: 64px; }
+.pgroup__title { font-family: var(--serif, "Cormorant Garamond", serif); font-weight: 600; font-size: clamp(28px, 3vw, 38px); margin: 0 0 26px; color: var(--ink, #17181c); }
+.pgroup .pgrid { grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); }
