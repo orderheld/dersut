@@ -21,7 +21,7 @@ const GUIDE: Record<Locale, { eyebrow: string; title: string; text: string; inte
   de: {
     eyebrow: 'Beratung',
     title: 'Welche Dersut Sorte passt zu Ihnen?',
-    text: 'Beide Mischungen sind ganze Espressobohnen in der 1-kg-Packung, frisch geröstet in Conegliano und geeignet für Vollautomat, Siebträger und Moka. Der Unterschied liegt im Geschmack und in der Intensität:',
+    text: 'Alle Mischungen sind ganze Espressobohnen in der 1-kg-Packung, frisch geröstet in Conegliano und geeignet für Vollautomat, Siebträger und Moka. Der Unterschied liegt im Geschmack und in der Intensität: Non Plus Ultra (100 % Arabica) ist fein und floral, Plus Oro harmonisch und süss, Optimum Rosso der ausgewogene Allrounder und Domus Marrone der kräftigste.',
     intensity: 'Intensität',
     shipping: 'Versand & Zahlung',
     gastro: 'Kaffee für Gastronomie & Hotels',
@@ -31,7 +31,7 @@ const GUIDE: Record<Locale, { eyebrow: string; title: string; text: string; inte
   fr: {
     eyebrow: 'Conseil',
     title: 'Quel café Dersut vous convient ?',
-    text: 'Les deux mélanges sont des grains d’espresso entiers en paquet de 1 kg, torréfiés à Conegliano et adaptés aux machines automatiques, aux machines à porte-filtre et à la moka. La différence se situe dans le goût et l’intensité :',
+    text: 'Tous les mélanges sont des grains d’espresso entiers en paquet de 1 kg, torréfiés à Conegliano et adaptés aux machines automatiques, aux machines à porte-filtre et à la moka. La différence se situe dans le goût et l’intensité : Non Plus Ultra (100 % Arabica) est fin et floral, Plus Oro harmonieux et doux, Optimum Rosso le polyvalent équilibré et Domus Marrone le plus corsé.',
     intensity: 'Intensité',
     shipping: 'Livraison & paiement',
     gastro: 'Café pour la restauration & l’hôtellerie',
@@ -41,7 +41,7 @@ const GUIDE: Record<Locale, { eyebrow: string; title: string; text: string; inte
   it: {
     eyebrow: 'Consulenza',
     title: 'Quale caffè Dersut fa per voi?',
-    text: 'Entrambe le miscele sono caffè in grani interi in confezione da 1 kg, tostati a Conegliano e adatti a macchine automatiche, macchine a leva e moka. La differenza sta nel gusto e nell’intensità:',
+    text: 'Tutte le miscele sono caffè in grani interi in confezione da 1 kg, tostati a Conegliano e adatti a macchine automatiche, macchine a leva e moka. La differenza sta nel gusto e nell’intensità: Non Plus Ultra (100 % Arabica) è fine e floreale, Plus Oro armonioso e dolce, Optimum Rosso il tuttofare equilibrato e Domus Marrone il più deciso.',
     intensity: 'Intensità',
     shipping: 'Spedizione & pagamento',
     gastro: 'Caffè per gastronomia e hotel',
@@ -51,7 +51,7 @@ const GUIDE: Record<Locale, { eyebrow: string; title: string; text: string; inte
   en: {
     eyebrow: 'Advice',
     title: 'Which Dersut blend suits you?',
-    text: 'Both blends are whole espresso beans in a 1 kg bag, roasted in Conegliano and suitable for bean-to-cup machines, portafilter machines and the moka pot. The difference lies in taste and intensity:',
+    text: 'All blends are whole espresso beans in a 1 kg bag, roasted in Conegliano and suitable for bean-to-cup machines, portafilter machines and the moka pot. The difference lies in taste and intensity: Non Plus Ultra (100 % Arabica) is fine and floral, Plus Oro harmonious and sweet, Optimum Rosso the balanced all-rounder and Domus Marrone the boldest.',
     intensity: 'Intensity',
     shipping: 'Shipping & payment',
     gastro: 'Coffee for restaurants & hotels',

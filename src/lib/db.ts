@@ -1,6 +1,6 @@
 import 'server-only';
 import { neon } from '@neondatabase/serverless';
-import { SCHEMA, SEED_PRODUCTS } from './schema';
+import { ADDED_PRODUCTS, SCHEMA, SEED_PRODUCTS } from './schema';
 import { SEED_TRANSLATIONS, SEO_DESCRIPTION_UPDATES } from './product-seed-i18n';
 import { applySettings, parseSettings, SETTINGS_KEY } from './settings-core';
 
@@ -69,6 +69,23 @@ async function getDriver(): Promise<Driver> {
             Object.values(p),
           );
         }
+      }
+      // Neue Sorten einmalig ins bestehende Sortiment aufnehmen (Kategorie wie die übrigen Espressobohnen)
+      for (const slug of ADDED_PRODUCTS) {
+        const flag = `seed_product:${slug}`;
+        if ((await d.query('SELECT 1 FROM app_settings WHERE key = $1', [flag])).length) continue;
+        const p = SEED_PRODUCTS.find((x) => x.slug === slug);
+        if (p) {
+          const keys = Object.keys(p);
+          await d.query(
+            `INSERT INTO products (${keys.join(', ')}, category)
+             VALUES (${keys.map((_, i) => '$' + (i + 1)).join(', ')},
+               COALESCE((SELECT category FROM products WHERE category <> '' ORDER BY sort, id LIMIT 1), ''))
+             ON CONFLICT (slug) DO NOTHING`,
+            Object.values(p),
+          );
+        }
+        await d.query(`INSERT INTO app_settings (key, value) VALUES ($1, '1') ON CONFLICT (key) DO NOTHING`, [flag]);
       }
       // Übersetzungen und Galerie der Startprodukte nachtragen, solange noch leer
       for (const [slug, seed] of Object.entries(SEED_TRANSLATIONS)) {

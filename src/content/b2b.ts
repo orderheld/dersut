@@ -78,7 +78,7 @@ export const B2B: Record<B2BKind, Record<Locale, B2BText>> = {
       ],
       faqTitle: 'Häufige Fragen aus der Gastronomie',
       faq: [
-        ['Welche Mischung eignet sich für meinen Betrieb?', 'Optimum Rosso ist ausgewogen mit feinen Kakaonoten und langanhaltender Crema, ideal als Hausespresso. Domus Marrone ist kräftiger und vollmundiger, perfekt für Gäste, die einen intensiven Espresso schätzen und für Milchgetränke. Wir beraten Sie gerne persönlich.'],
+        ['Welche Mischung eignet sich für meinen Betrieb?', 'Optimum Rosso ist ausgewogen mit feinen Kakaonoten und langanhaltender Crema, ideal als Hausespresso. Domus Marrone ist kräftiger und vollmundiger, perfekt für Gäste, die einen intensiven Espresso schätzen und für Milchgetränke. Für ein Premium-Angebot empfehlen sich die mit Gold prämierten Plus Oro und Non Plus Ultra (100 % Arabica). Wir beraten Sie gerne persönlich.'],
         ['Gibt es Mengenrabatte?', 'Ja. Für Betriebe mit regelmässigem Bedarf erstellen wir ein individuelles Angebot. Die Konditionen richten sich nach Menge und Liefertakt.'],
         ['Liefern Sie in die ganze Schweiz?', 'Ja, wir liefern in alle Regionen der Schweiz: von Basel über Zürich und Bern bis in die Romandie und ins Tessin.'],
         ['Kann ich Dersut vorher testen?', 'Natürlich. Sie können einzelne Packungen jederzeit in unserem Onlineshop bestellen und den Kaffee in Ruhe mit Ihrer Maschine testen.'],
@@ -130,7 +130,7 @@ export const B2B: Record<B2BKind, Record<Locale, B2BText>> = {
       ],
       faqTitle: 'Questions fréquentes des restaurateurs',
       faq: [
-        ['Quel mélange convient à mon établissement ?', 'Optimum Rosso est équilibré, avec de fines notes de cacao et une crème persistante : l’espresso maison idéal. Domus Marrone est plus corsé et plus rond, parfait pour les amateurs d’espresso intense et pour les boissons lactées. Nous vous conseillons volontiers.'],
+        ['Quel mélange convient à mon établissement ?', 'Optimum Rosso est équilibré, avec de fines notes de cacao et une crème persistante : l’espresso maison idéal. Domus Marrone est plus corsé et plus rond, parfait pour les amateurs d’espresso intense et pour les boissons lactées. Pour une offre premium, choisissez les médaillés d’or Plus Oro et Non Plus Ultra (100 % Arabica). Nous vous conseillons volontiers.'],
         ['Proposez-vous des remises sur quantité ?', 'Oui. Pour les établissements aux besoins réguliers, nous établissons une offre personnalisée. Les conditions dépendent des quantités et du rythme de livraison.'],
         ['Livrez-vous dans toute la Suisse ?', 'Oui, nous livrons dans toutes les régions : Genève, Lausanne, Neuchâtel, Fribourg, le Valais et le Jura comme la Suisse alémanique et le Tessin.'],
         ['Puis-je tester Dersut avant ?', 'Bien sûr. Vous pouvez commander des paquets à l’unité dans notre boutique en ligne et tester le café en toute tranquillité avec votre machine.'],
@@ -182,7 +182,7 @@ export const B2B: Record<B2BKind, Record<Locale, B2BText>> = {
       ],
       faqTitle: 'Domande frequenti dalla gastronomia',
       faq: [
-        ['Quale miscela è adatta al mio locale?', 'Optimum Rosso è equilibrata, con fini note di cacao e crema persistente: l’espresso della casa ideale. Domus Marrone è più decisa e corposa, perfetta per chi ama un espresso intenso e per le bevande al latte. Vi consigliamo volentieri.'],
+        ['Quale miscela è adatta al mio locale?', 'Optimum Rosso è equilibrata, con fini note di cacao e crema persistente: l’espresso della casa ideale. Domus Marrone è più decisa e corposa, perfetta per chi ama un espresso intenso e per le bevande al latte. Per un’offerta premium sono ideali le medaglie d’oro Plus Oro e Non Plus Ultra (100 % Arabica). Vi consigliamo volentieri.'],
         ['Ci sono sconti sulla quantità?', 'Sì. Per i locali con un fabbisogno regolare prepariamo un’offerta personalizzata. Le condizioni dipendono da quantità e frequenza di consegna.'],
         ['Consegnate in tutta la Svizzera?', 'Sì, consegniamo in tutte le regioni della Svizzera, dal Ticino alla Svizzera tedesca fino alla Romandia.'],
         ['Posso provare Dersut prima?', 'Certo. Potete ordinare singole confezioni nel nostro negozio online e provare il caffè con calma con la vostra macchina.'],
@@ -234,7 +234,7 @@ export const B2B: Record<B2BKind, Record<Locale, B2BText>> = {
       ],
       faqTitle: 'Frequently asked questions from hospitality',
       faq: [
-        ['Which blend suits my business?', 'Optimum Rosso is balanced, with fine cocoa notes and a long-lasting crema: the ideal house espresso. Domus Marrone is stronger and fuller, perfect for guests who love an intense espresso and for milk drinks. We are happy to advise you.'],
+        ['Which blend suits my business?', 'Optimum Rosso is balanced, with fine cocoa notes and a long-lasting crema: the ideal house espresso. Domus Marrone is stronger and fuller, perfect for guests who love an intense espresso and for milk drinks. For a premium offer, choose the gold-medal blends Plus Oro and Non Plus Ultra (100 % Arabica). We are happy to advise you.'],
         ['Do you offer volume discounts?', 'Yes. For businesses with regular requirements we prepare an individual quote. Terms depend on volume and delivery frequency.'],
         ['Do you deliver throughout Switzerland?', 'Yes, we deliver to every region of Switzerland, from Basel, Zurich and Bern to French-speaking Switzerland and Ticino.'],
         ['Can I try Dersut first?', 'Of course. You can order individual packs in our online shop at any time and test the coffee with your machine.'],
@@ -289,7 +289,7 @@ export const B2B: Record<B2BKind, Record<Locale, B2BText>> = {
       faqTitle: 'Häufige Fragen zum Bürokaffee',
       faq: [
         ['Wie viel Kaffee braucht unser Büro?', 'Als Faustregel rechnet man mit rund 7 g Bohnen pro Tasse. Ein Kilo ergibt also etwa 140 Espressi. Bei 10 Personen mit je zwei Tassen pro Arbeitstag sind das rund 3 kg pro Monat.'],
-        ['Eignen sich die Bohnen für unseren Vollautomaten?', 'Ja. Optimum Rosso und Domus Marrone sind ganze Bohnen und eignen sich für alle gängigen Vollautomaten. Wir empfehlen einen mittelfeinen bis feinen Mahlgrad.'],
+        ['Eignen sich die Bohnen für unseren Vollautomaten?', 'Ja. Alle unsere Sorten sind ganze Bohnen und eignen sich für alle gängigen Vollautomaten. Wir empfehlen einen mittelfeinen bis feinen Mahlgrad.'],
         ['Gibt es Konditionen für Firmen?', 'Ja. Je nach Menge und Liefertakt erstellen wir Ihnen ein individuelles Angebot. Fragen Sie einfach unverbindlich an.'],
         ['Liefern Sie auch ausserhalb von Basel?', 'Selbstverständlich. Wir liefern an Firmenadressen in der ganzen Schweiz, von Zürich und Bern bis Genf, Lausanne und Lugano.'],
         ['Können wir zuerst probieren?', 'Gerne. Bestellen Sie einzelne Packungen in unserem Onlineshop und testen Sie Dersut in Ruhe im Büroalltag.'],
@@ -341,7 +341,7 @@ export const B2B: Record<B2BKind, Record<Locale, B2BText>> = {
       faqTitle: 'Questions fréquentes sur le café au bureau',
       faq: [
         ['De combien de café notre bureau a-t-il besoin ?', 'On compte environ 7 g de grains par tasse : un kilo donne donc quelque 140 espressos. Pour 10 personnes buvant deux tasses par jour ouvrable, cela représente environ 3 kg par mois.'],
-        ['Les grains conviennent-ils à notre machine automatique ?', 'Oui. Optimum Rosso et Domus Marrone sont des grains entiers qui conviennent à toutes les machines automatiques courantes. Nous recommandons une mouture moyenne-fine à fine.'],
+        ['Les grains conviennent-ils à notre machine automatique ?', 'Oui. Toutes nos variétés sont des grains entiers qui conviennent à toutes les machines automatiques courantes. Nous recommandons une mouture moyenne-fine à fine.'],
         ['Avez-vous des conditions pour les entreprises ?', 'Oui. Selon les quantités et le rythme de livraison, nous établissons une offre personnalisée. Demandez-la simplement, sans engagement.'],
         ['Livrez-vous en Suisse romande ?', 'Bien sûr. Nous livrons les entreprises dans toute la Suisse romande, à Genève, Lausanne, Neuchâtel, Fribourg, Sion et dans le Jura, ainsi que dans le reste du pays.'],
         ['Pouvons-nous d’abord goûter ?', 'Volontiers. Commandez des paquets à l’unité dans notre boutique en ligne et testez Dersut au quotidien, en toute tranquillité.'],
@@ -393,7 +393,7 @@ export const B2B: Record<B2BKind, Record<Locale, B2BText>> = {
       faqTitle: 'Domande frequenti sul caffè in ufficio',
       faq: [
         ['Di quanto caffè ha bisogno il nostro ufficio?', 'Si calcolano circa 7 g di chicchi per tazzina: un chilo corrisponde quindi a circa 140 espressi. Per 10 persone con due tazzine per giorno lavorativo sono circa 3 kg al mese.'],
-        ['I chicchi sono adatti alla nostra macchina automatica?', 'Sì. Optimum Rosso e Domus Marrone sono chicchi interi adatti a tutte le comuni macchine automatiche. Consigliamo una macinatura medio-fine o fine.'],
+        ['I chicchi sono adatti alla nostra macchina automatica?', 'Sì. Tutte le nostre miscele sono chicchi interi adatti a tutte le comuni macchine automatiche. Consigliamo una macinatura medio-fine o fine.'],
         ['Ci sono condizioni per le aziende?', 'Sì. In base a quantità e frequenza di consegna prepariamo un’offerta personalizzata. Richiedetela senza impegno.'],
         ['Consegnate anche in Ticino?', 'Certamente. Consegniamo alle aziende in tutto il Ticino, a Lugano, Bellinzona, Locarno e Mendrisio, e nel resto della Svizzera.'],
         ['Possiamo prima assaggiare?', 'Volentieri. Ordinate singole confezioni nel nostro negozio online e provate Dersut con calma nella vita d’ufficio.'],
@@ -445,7 +445,7 @@ export const B2B: Record<B2BKind, Record<Locale, B2BText>> = {
       faqTitle: 'Frequently asked questions about office coffee',
       faq: [
         ['How much coffee does our office need?', 'As a rule of thumb, count about 7 g of beans per cup, so one kilo makes roughly 140 espressos. For 10 people drinking two cups per working day, that is about 3 kg per month.'],
-        ['Are the beans suitable for our bean-to-cup machine?', 'Yes. Optimum Rosso and Domus Marrone are whole beans and suit all common bean-to-cup machines. We recommend a medium-fine to fine grind.'],
+        ['Are the beans suitable for our bean-to-cup machine?', 'Yes. All our blends are whole beans and suit all common bean-to-cup machines. We recommend a medium-fine to fine grind.'],
         ['Do you offer terms for companies?', 'Yes. Depending on volume and delivery frequency, we prepare an individual quote. Just ask, without obligation.'],
         ['Do you deliver outside Basel?', 'Of course. We deliver to business addresses throughout Switzerland, from Zurich and Bern to Geneva, Lausanne and Lugano.'],
         ['Can we try it first?', 'Gladly. Order individual packs in our online shop and test Dersut in your everyday office life.'],

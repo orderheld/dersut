@@ -5,7 +5,9 @@ import { Img } from '@/components/Img';
 import { ProductCard } from '@/components/ProductCard';
 import { RegionLinks } from '@/components/RegionLinks';
 import { getDict } from '@/i18n';
-import { brand, type BrandKey } from '@/lib/brand';
+import { brand, cutoutImage, productImage, type BrandKey } from '@/lib/brand';
+import { Medal } from '@/components/Medal';
+import { AWARD_TEXT, latestMedal } from '@/content/awards';
 import { config } from '@/lib/config';
 import { asLocale, LOCALE_TAGS, lp, type Locale } from '@/lib/i18n';
 import { getProducts } from '@/lib/products';
@@ -41,7 +43,7 @@ const de = {
   ],
   shopEyebrow: 'Onlineshop',
   shopTitle: 'Unsere Espressobohnen',
-  shopLead: 'Zwei Klassiker aus dem Hause Dersut, frisch aus Conegliano. Das Sortiment wird laufend und saisonal erweitert.',
+  shopLead: 'Vier Mischungen aus dem Hause Dersut, frisch aus Conegliano: vom prämierten 100 % Arabica bis zum kräftigen Klassiker.',
   storyAlt: 'Die Familie Caballini, Inhaberin von Dersut Caffè',
   storyEyebrow: 'Geschichte',
   storyTitle: <>Eine Familie.<br />Eine Leidenschaft. Seit 1947.</>,
@@ -115,7 +117,7 @@ const T: Record<Locale, typeof de> = {
     ],
     shopEyebrow: 'Boutique en ligne',
     shopTitle: 'Nos grains d’espresso',
-    shopLead: 'Deux classiques de la maison Dersut, tout droit venus de Conegliano. L’assortiment s’enrichit en continu et au fil des saisons.',
+    shopLead: 'Quatre mélanges de la maison Dersut, tout droit venus de Conegliano : du 100 % Arabica primé au classique corsé.',
     storyAlt: 'La famille Caballini, propriétaire de Dersut Caffè',
     storyEyebrow: 'Histoire',
     storyTitle: <>Une famille.<br />Une passion. Depuis 1947.</>,
@@ -186,7 +188,7 @@ const T: Record<Locale, typeof de> = {
     ],
     shopEyebrow: 'Negozio online',
     shopTitle: 'Il nostro caffè in grani',
-    shopLead: 'Due classici di casa Dersut, freschi da Conegliano. L’assortimento viene ampliato costantemente e secondo le stagioni.',
+    shopLead: 'Quattro miscele di casa Dersut, fresche da Conegliano: dal pluripremiato 100 % Arabica al classico deciso.',
     storyAlt: 'La famiglia Caballini, proprietaria di Dersut Caffè',
     storyEyebrow: 'Storia',
     storyTitle: <>Una famiglia.<br />Una passione. Dal 1947.</>,
@@ -257,7 +259,7 @@ const T: Record<Locale, typeof de> = {
     ],
     shopEyebrow: 'Online shop',
     shopTitle: 'Our espresso beans',
-    shopLead: 'Two classics from the house of Dersut, fresh from Conegliano. The range is continually expanded with new and seasonal additions.',
+    shopLead: 'Four blends from the house of Dersut, fresh from Conegliano: from the award-winning 100 % Arabica to the bold classic.',
     storyAlt: 'The Caballini family, owners of Dersut Caffè',
     storyEyebrow: 'History',
     storyTitle: <>One family.<br />One passion. Since 1947.</>,
@@ -332,6 +334,8 @@ export default async function Home({ params }: Props) {
   const lang = asLocale((await params).lang);
   const t = T[lang];
   const products = await getProducts(true, lang);
+  const winners = products.filter((p) => latestMedal(p.slug));
+  const at = AWARD_TEXT[lang];
   const siteLd = {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
@@ -380,6 +384,43 @@ export default async function Home({ params }: Props) {
           <div className="pgrid">{products.map((p) => <ProductCard key={p.id} p={p} lang={lang} />)}</div>
         </div>
       </section>
+
+      {winners.length > 0 && (
+        <section className="awardband">
+          <div className="wrap awardband__inner">
+            <div className="awardband__text">
+              <p className="eyebrow eyebrow--gold">{at.homeEyebrow}</p>
+              <h2 className="h2">{at.homeTitle}</h2>
+              <p className="lead">{at.homeLead}</p>
+              <ul className="awardband__facts">
+                {at.homeFacts.map(([h, txt], i) => (
+                  <li key={h}><Icon name={['award', 'cup', 'shield'][i]} /><div><strong>{h}</strong><span>{txt}</span></div></li>
+                ))}
+              </ul>
+              <Link className="link-arrow link-arrow--light" href={lp(lang, '/zertifizierungen')}>{at.homeLink} <Icon name="arrow" /></Link>
+            </div>
+            <div className="awardband__products">
+              {winners.map((p) => {
+                const year = latestMedal(p.slug)!;
+                const href = lp(lang, `/shop/${p.slug}`);
+                return (
+                  <Link key={p.id} href={href} className="awardcard">
+                    <span className="awardcard__media">
+                      <Img src={cutoutImage(productImage(p.image))} fallbackSrc={productImage(p.image)} alt={`${p.name} ${p.weight}`} />
+                      <Medal year={year} label={at.medal(year)} className="medal--award" />
+                    </span>
+                    <span className="awardcard__body">
+                      <strong>{p.name}</strong>
+                      <span>{p.notes}</span>
+                      <span className="awardcard__more">{at.homeProduct} <Icon name="arrow" /></span>
+                    </span>
+                  </Link>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+      )}
 
       <section className="split split--cream">
         <div className="wrap split__inner">
