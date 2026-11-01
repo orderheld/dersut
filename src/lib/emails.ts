@@ -174,7 +174,7 @@ export async function sendContactMail(m: { name: string; email: string; phone: s
 /** Antwort bzw. neue E-Mail aus dem Admin-Postfach: eigener Text, darunter optional die ursprüngliche Nachricht. */
 /**
  * HTML-Signatur für E-Mails aus dem Admin (wie /mnt/project-files/signatur): Logo, Person, Firma, Kontakt.
- * Der Webseiten-Link führt auf dersutkaffee.ch, angezeigt wird die kurze Marke «dersut.ch».
+ * Der Webseiten-Link führt auf die Hauptadresse (dersut.ch), angezeigt wird die kurze Marke «dersut.ch».
  */
 export function signatureHtml(): string {
   const p = signaturePerson();
@@ -215,7 +215,7 @@ ${q}
 
 export function resetMailHtml(link: string): string {
   return layout(`${h1('Passwort neu setzen')}
-<p>Für den Admin-Bereich von dersutkaffee.ch wurde ein neues Passwort angefordert. Der Link ist 30 Minuten gültig und funktioniert nur einmal.</p>
+<p>Für den Admin-Bereich von dersut.ch wurde ein neues Passwort angefordert. Der Link ist 30 Minuten gültig und funktioniert nur einmal.</p>
 ${button(link, 'Neues Passwort setzen')}
 <p style="font-size:13px;color:#6c6a64">Haben Sie das nicht angefordert? Dann ignorieren Sie diese E-Mail einfach, Ihr Passwort bleibt unverändert.</p>`);
 }
