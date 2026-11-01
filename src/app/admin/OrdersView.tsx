@@ -117,6 +117,7 @@ export async function OrdersView({ dashboard, status, q, ok, mail }: { dashboard
               <option value="shipped">als versendet markieren</option>
               <option value="cancelled">stornieren</option>
               <option value="open">auf «Zahlung ausstehend» zurücksetzen</option>
+              <option value="delete">endgültig löschen (z. B. Testbestellungen)</option>
             </select>
             <label className="inline"><input type="checkbox" name="notify" value="1" defaultChecked /> Kunden per E-Mail informieren</label>
             <ConfirmButton className="btn btn--primary btn--sm" confirm="Status der ausgewählten Bestellungen ändern?" mail="selected">Ausführen</ConfirmButton>

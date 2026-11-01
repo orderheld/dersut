@@ -184,6 +184,10 @@ export async function bulkAction(fd: FormData): Promise<void> {
   const back = backTo(fd, '/admin');
   const sep = back.includes('?') ? '&' : '?';
   const ids = fd.getAll('ids').map(Number).filter(Boolean);
+  if (ids.length && str(fd, 'status') === 'delete') {
+    await removeOrders(ids);
+    redirect(`${back}${sep}ok=order_deleted`);
+  }
   const status = str(fd, 'status') as OrderStatus;
   if (!ids.length || !ORDER_STATUSES.includes(status)) redirect(`${back}${sep}ok=bulk_none`);
   const notify = fd.get('notify') === '1';
@@ -199,6 +203,26 @@ export async function bulkAction(fd: FormData): Promise<void> {
   revalidatePath('/admin', 'layout');
   const mail = sent.length > 3 ? `${sent.length} Kunden` : sent.join(', ');
   redirect(flashUrl(back, failed ? 'mail_failed' : 'bulk', mail || undefined));
+}
+
+/**
+ * Bestellungen endgültig löschen (z. B. Testbestellungen), samt Artikeln und Verlauf.
+ * Noch nicht stornierte Bestellungen werden vorher storniert, damit der Lagerbestand zurückgebucht wird.
+ */
+async function removeOrders(ids: number[]): Promise<void> {
+  for (const id of ids) {
+    const o = await getOrder(id);
+    if (!o) continue;
+    if (o.status !== 'cancelled') await setOrderStatus(id, 'cancelled');
+    await query('DELETE FROM orders WHERE id = $1', [id]);
+  }
+  revalidatePath('/', 'layout');
+}
+
+export async function deleteOrderAction(fd: FormData): Promise<void> {
+  await requireAdmin();
+  await removeOrders([Number(fd.get('id'))].filter(Boolean));
+  redirect('/admin/bestellungen?ok=order_deleted');
 }
 
 export async function resendMailAction(fd: FormData): Promise<void> {
@@ -370,6 +394,41 @@ export async function messageDoneAction(fd: FormData): Promise<void> {
 /** Nachricht als Spam markieren oder aus dem Spam zurückholen («Kein Spam»). */
 export async function messageSpamAction(fd: FormData): Promise<void> {
   await msgUpdate(fd, 'UPDATE messages SET spam = $1 WHERE id = $IDS', [fd.get('spam') === '1' ? 'Von Hand als Spam markiert' : '']);
+}
+
+/* Varianten für die Mehrfachauswahl: Knöpfe mit eigener Server-Aktion können keinen name/value mitschicken */
+export async function messageMarkDoneAction(fd: FormData): Promise<void> {
+  fd.set('done', '1');
+  await messageDoneAction(fd);
+}
+export async function messageMarkOpenAction(fd: FormData): Promise<void> {
+  fd.set('done', '0');
+  await messageDoneAction(fd);
+}
+export async function messageMarkSpamAction(fd: FormData): Promise<void> {
+  fd.set('spam', '1');
+  await messageSpamAction(fd);
+}
+export async function messageNoSpamAction(fd: FormData): Promise<void> {
+  fd.set('spam', '0');
+  await messageSpamAction(fd);
+}
+export async function messageRestoreAction(fd: FormData): Promise<void> {
+  fd.set('restore', '1');
+  await messageTrashAction(fd);
+}
+
+export async function messageReadAction(fd: FormData): Promise<void> {
+  await msgUpdate(fd, 'UPDATE messages SET read_at = COALESCE(read_at, now()) WHERE id = $IDS');
+}
+
+/** Gesendete E-Mails (Ordner «Gesendet») endgültig löschen. */
+export async function sentDeleteAction(fd: FormData): Promise<void> {
+  await requireAdmin();
+  const ids = (fd.getAll('ids').length ? fd.getAll('ids') : [fd.get('id')]).map(Number).filter(Boolean);
+  if (ids.length) await query('DELETE FROM mail_out WHERE id = ANY($1::int[])', [ids]);
+  revalidatePath('/admin', 'layout');
+  redirect('/admin/nachrichten?f=sent');
 }
 
 export async function messageUnreadAction(fd: FormData): Promise<void> {
