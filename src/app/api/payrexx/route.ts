@@ -4,7 +4,7 @@ import { syncOnlinePayment } from '@/lib/payment';
 export const dynamic = 'force-dynamic';
 
 /**
- * Webhook von Payrexx (im Payrexx-Konto unter Webhooks eintragen: https://dersutkaffee.ch/api/payrexx).
+ * Webhook von Payrexx (im Payrexx-Konto unter Webhooks eintragen: https://dersut.ch/api/payrexx).
  * Der Inhalt dient nur als Hinweis, welche Bestellung betroffen ist: Den Zahlungsstatus fragen wir
  * danach selbst bei Payrexx ab. So kann ein gefälschter Aufruf keine Bestellung als bezahlt markieren.
  */

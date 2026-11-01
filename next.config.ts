@@ -18,11 +18,11 @@ const nextConfig: NextConfig = {
       { protocol: 'https', hostname: '*.public.blob.vercel-storage.com' },
     ],
   },
-  // Hauptadresse ist dersutkaffee.ch: dersut.ch und alle www.-Varianten leiten dorthin weiter
+  // Hauptadresse ist dersut.ch: dersutkaffee.ch und alle www.-Varianten leiten dorthin weiter
   async redirects() {
     return [
-      { source: '/:path*', has: [{ type: 'host', value: '(www\\.)?dersut\\.ch' }], destination: 'https://dersutkaffee.ch/:path*', permanent: true },
-      { source: '/:path*', has: [{ type: 'host', value: 'www\\.dersutkaffee\\.ch' }], destination: 'https://dersutkaffee.ch/:path*', permanent: true },
+      { source: '/:path*', has: [{ type: 'host', value: '(www\\.)?dersutkaffee\\.ch' }], destination: 'https://dersut.ch/:path*', permanent: true },
+      { source: '/:path*', has: [{ type: 'host', value: 'www\\.dersut\\.ch' }], destination: 'https://dersut.ch/:path*', permanent: true },
     ];
   },
   async headers() {
