@@ -34,6 +34,13 @@ export async function OrdersView({ dashboard, status, q, ok }: { dashboard: bool
         <a className="btn btn--ghost" href="/admin/bestellungen/export.csv">CSV exportieren</a>
       </header>
       <Flash ok={ok} />
+      {dashboard && (
+        <ol className="howto">
+          <li><b>1</b> Zahlung auf dem Konto sehen → <em>Bezahlt ✓</em></li>
+          <li><b>2</b> Bestellung öffnen, Lieferschein und Etikett drucken, Paket packen</li>
+          <li><b>3</b> Bei der Post aufgeben → <em>Als versendet markieren</em>, der Kunde bekommt eine E-Mail</li>
+        </ol>
+      )}
 
       <div className="stats">
         <Link className="stat stat--open" href={`${base}?status=open`}><span>Zahlung ausstehend</span><strong>{counts.open}</strong><small>{chf(counts.openSum)} offen</small></Link>
@@ -62,7 +69,7 @@ export async function OrdersView({ dashboard, status, q, ok }: { dashboard: bool
         <form action={bulkAction}>
           <input type="hidden" name="back" value={here} />
           <div className="card table-wrap">
-            <table className="table">
+            <table className="table table--cards table--orders">
               <thead>
                 <tr>
                   <th className="w-check"><CheckAll name="ids" /></th>
@@ -72,18 +79,18 @@ export async function OrdersView({ dashboard, status, q, ok }: { dashboard: bool
               <tbody>
                 {orders.map((o) => (
                   <RowLink key={o.id} href={`/admin/bestellungen/${o.id}`} className={`st st--${o.status}`}>
-                    <td className="w-check"><input type="checkbox" name="ids" value={o.id} aria-label="Auswählen" /></td>
-                    <td>
+                    <td className="w-check c-check"><input type="checkbox" name="ids" value={o.id} aria-label="Auswählen" /></td>
+                    <td className="c-no">
                       <Link className="ordlink" href={`/admin/bestellungen/${o.id}`}>{o.number}</Link>
                       {o.created_at.getTime() > dayAgo && o.status !== 'cancelled' && <span className="is-new">NEU</span>}
                       <span className="pay">{o.payment_method === 'online' ? 'Online bezahlt' : 'Vorauskasse'}</span>
                     </td>
-                    <td className="muted">{dateCh(o.created_at, true)}</td>
-                    <td><strong>{o.first_name} {o.last_name}</strong><br /><span className="muted">{o.company ? `${o.company} · ` : ''}{o.zip} {o.city}</span></td>
-                    <td className="muted">{o.item_count} Stk.</td>
-                    <td className="num"><strong>{chf(o.total)}</strong></td>
-                    <td><span className={`badge badge--${o.status}`}>{statusLabel(o.status)}</span></td>
-                    <td className="num">
+                    <td className="muted c-date">{dateCh(o.created_at, true)}</td>
+                    <td className="c-cust"><strong>{o.first_name} {o.last_name}</strong><br /><span className="muted">{o.company ? `${o.company} · ` : ''}{o.zip} {o.city}</span></td>
+                    <td className="muted c-items">{o.item_count} Stk.</td>
+                    <td className="num c-total"><strong>{chf(o.total)}</strong></td>
+                    <td className="c-status"><span className={`badge badge--${o.status}`}>{statusLabel(o.status)}</span></td>
+                    <td className="num c-act">
                       {o.status === 'open' && (
                         <ConfirmButton
                           className="btn btn--sm btn--paid"

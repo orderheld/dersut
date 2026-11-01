@@ -23,16 +23,16 @@ export default async function Products({ searchParams }: { searchParams: Promise
       </header>
       <Flash ok={ok} />
       <div className="card table-wrap">
-        <table className="table">
+        <table className="table table--cards table--products">
           <thead><tr><th></th><th>Produkt</th><th className="num">Preis</th><th>Lager</th><th>Sichtbar</th><th className="num">Reihenfolge</th></tr></thead>
           <tbody>
             {products.map((p) => (
               <RowLink key={p.id} href={`/admin/produkte/${p.id}`}>
-                <td className="thumb"><Img src={cutoutImage(productImage(p.image))} fallbackSrc={productImage(p.image)} alt="" /></td>
-                <td><Link className="ordlink" href={`/admin/produkte/${p.id}`}>{p.name}</Link><br /><span className="muted">{p.subtitle}</span></td>
-                <td className="num"><strong>{chf(p.price)}</strong></td>
-                <td>{p.stock === null ? <span className="muted">unbegrenzt</span> : p.stock <= 0 ? <span className="badge badge--cancelled">ausverkauft</span> : `${p.stock} Stk.`}</td>
-                <td>
+                <td className="thumb c-thumb"><Img src={cutoutImage(productImage(p.image))} fallbackSrc={productImage(p.image)} alt="" /></td>
+                <td className="c-name"><Link className="ordlink" href={`/admin/produkte/${p.id}`}>{p.name}</Link><br /><span className="muted">{p.subtitle}</span></td>
+                <td className="num c-price"><strong>{chf(p.price)}</strong></td>
+                <td className="c-stock">{p.stock === null ? <span className="muted">unbegrenzt</span> : p.stock <= 0 ? <span className="badge badge--cancelled">ausverkauft</span> : `${p.stock} Stk.`}</td>
+                <td className="c-vis">
                   <form action={toggleProductAction}>
                     <input type="hidden" name="id" value={p.id} />
                     <button type="submit" className={`switch${p.active ? ' is-on' : ''}`} title={p.active ? 'Klicken zum Ausblenden' : 'Klicken zum Einblenden'}>
@@ -40,7 +40,7 @@ export default async function Products({ searchParams }: { searchParams: Promise
                     </button>
                   </form>
                 </td>
-                <td className="num muted">{p.sort}</td>
+                <td className="num muted c-sort">{p.sort}</td>
               </RowLink>
             ))}
           </tbody>

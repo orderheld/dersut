@@ -27,6 +27,11 @@ export default async function AdminLayout({ children }: { children: React.ReactN
         {admin && c && (
           <aside className="side">
             <Link className="side__brand" href="/admin"><span>DERSUT</span><em>Admin · Schweiz</em></Link>
+            <input type="checkbox" id="navtoggle" className="navtoggle" aria-hidden="true" tabIndex={-1} />
+            <label htmlFor="navtoggle" className="burger" aria-label="Menü öffnen">
+              <i /><i /><i />
+              {c.open + c.paid + c.messages > 0 && <b>{c.open + c.paid + c.messages}</b>}
+            </label>
             <SideNav counts={{ todo: c.open + c.paid, messages: c.messages }} />
             <div className="side__foot">
               <a href="/" target="_blank" rel="noopener">Webseite ansehen ↗</a>

@@ -3,8 +3,8 @@ import Link from 'next/link';
 import { Composer } from '@/components/admin/Composer';
 import { ConfirmButton } from '@/components/admin/ConfirmButton';
 import { requireAdmin } from '@/lib/admin';
-import { config } from '@/lib/config';
 import { query, one } from '@/lib/db';
+import { signatureHtml } from '@/lib/emails';
 import { chf, dateCh, statusLabel } from '@/lib/format';
 import {
   messageDeleteAction, messageDoneAction, messageSpamAction, messageTrashAction, messageUnreadAction, sendAdminMailAction,
@@ -29,10 +29,10 @@ type Folder = (typeof FOLDERS)[number][0];
 
 type Props = { searchParams: Promise<{ f?: string; id?: string; q?: string; neu?: string; to?: string }> };
 
-const signature = `Freundliche Grüsse\n\n${config.company.name}\n${config.email.contact} · ${config.primaryHost}`;
 
 export default async function Messages({ searchParams }: Props) {
   await requireAdmin();
+  const signature = signatureHtml();
   const sp = await searchParams;
   const folder: Folder = (FOLDERS.find(([k]) => k === sp.f)?.[0] ?? 'inbox') as Folder;
   const q = (sp.q ?? '').trim();

@@ -18,7 +18,7 @@ export function Composer({
   to?: string;
   subject?: string;
   greeting?: string;
-  signature: string;
+  signature: string; // HTML der Signatur (Vorschau)
   messageId?: number;
   compact?: boolean;
 }) {
@@ -47,7 +47,11 @@ export function Composer({
         <span className="muted small">Textbausteine:</span>
         {TEMPLATES.map(([k, v]) => <button key={k} type="button" onClick={() => insert(v)}>{k}</button>)}
       </div>
-      <textarea ref={ta} onFocus={() => (touched.current = true)} onClick={() => (touched.current = true)} name="body" rows={compact ? 9 : 14} required defaultValue={`${greeting ?? 'Grüezi'}\n\n\n\n${signature}`} />
+      <textarea ref={ta} onFocus={() => (touched.current = true)} onClick={() => (touched.current = true)} name="body" rows={compact ? 9 : 14} required defaultValue={`${greeting ?? 'Grüezi'}\n\n`} />
+      <details className="sigbox" open>
+        <summary><label className="inline small" onClick={(e) => e.stopPropagation()}><input type="checkbox" name="sig" value="1" defaultChecked /> Signatur anhängen</label></summary>
+        <div className="sigbox__preview" dangerouslySetInnerHTML={{ __html: signature }} />
+      </details>
       <div className="composer__foot">
         {messageId && <label className="inline small"><input type="checkbox" name="quote" value="1" defaultChecked /> Ursprüngliche Nachricht anhängen</label>}
         {messageId && <label className="inline small"><input type="checkbox" name="done" value="1" defaultChecked /> Danach als erledigt ablegen</label>}
