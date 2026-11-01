@@ -170,6 +170,15 @@ export async function sendContactMail(m: { name: string; email: string; phone: s
   });
 }
 
+/** Antwort bzw. neue E-Mail aus dem Admin-Postfach: eigener Text, darunter optional die ursprüngliche Nachricht. */
+export function adminMailHtml(body: string, quote?: { name: string; date: string; text: string }): string {
+  const q = quote
+    ? `<div style="margin-top:26px;padding:12px 16px;border-left:3px solid #d8cfb8;color:#6c6a64;font-size:13.5px">
+<div style="margin-bottom:6px">${esc(quote.name)} schrieb am ${esc(quote.date)}:</div>${nl2br(quote.text)}</div>`
+    : '';
+  return layout(`<div>${nl2br(body)}</div>${q}`);
+}
+
 export function resetMailHtml(link: string): string {
   return layout(`${h1('Passwort neu setzen')}
 <p>Für den Admin-Bereich von dersutkaffee.ch wurde ein neues Passwort angefordert. Der Link ist 30 Minuten gültig und funktioniert nur einmal.</p>
