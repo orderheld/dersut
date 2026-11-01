@@ -3,7 +3,6 @@ import { config } from './config';
 import { absUrl, chf, companyAddressLines, dateCh, ibanFormat, statusLabel, trackingUrl } from './format';
 import type { Order } from './orders';
 import { dueDate, paymentMessage } from './orders-shared';
-import { signaturePerson } from './settings-core';
 import { deliverMail, sendMail, type MailResult } from './mail';
 import { getDict } from '@/i18n';
 import { lp, type Locale } from './i18n';
@@ -177,21 +176,19 @@ export async function sendContactMail(m: { name: string; email: string; phone: s
  * Der Webseiten-Link führt auf die Hauptadresse dersut.ch.
  */
 export function signatureHtml(): string {
-  const p = signaturePerson();
   const c = config.company;
   const site = absUrl('/').replace(/\/$/, '');
-  const tel = p.phone.replace(/[^\d+]/g, '');
+  const tel = c.phone.replace(/[^\d+]/g, '');
   return `<p style="margin:0 0 14px 0;font-family:Arial,Helvetica,sans-serif;font-size:13px;line-height:19px;color:#34363d;">Freundliche Gr&uuml;sse</p>
 <table cellpadding="0" cellspacing="0" border="0" role="presentation" style="border-collapse:collapse;font-family:Arial,Helvetica,sans-serif;color:#34363d;font-size:13px;line-height:19px;">
 <tr><td style="padding:0 18px 0 0;vertical-align:middle;border-right:2px solid #82754F;">
 <a href="${esc(site)}" style="text-decoration:none;"><img src="${esc(site)}/mail/dersut-logo.png" width="150" height="24" alt="DERSUT" style="display:block;width:150px;height:24px;border:0;"></a>
 <div style="font-family:Georgia,'Times New Roman',serif;font-style:italic;font-size:12px;line-height:16px;color:#82754F;padding-top:6px;">Espresso aus Conegliano seit 1947</div>
 </td><td style="padding:0 0 0 18px;vertical-align:middle;">
-<div style="font-family:Georgia,'Times New Roman',serif;font-size:18px;line-height:22px;font-weight:bold;color:#002856;">${esc(p.name)}</div>
-${p.role ? `<div style="font-size:12px;line-height:18px;color:#82754F;letter-spacing:0.5px;padding-bottom:6px;">${esc(p.role)}</div>` : ''}
-<div style="font-weight:bold;color:#002856;">${esc(c.name)}</div>
+<div style="font-family:Georgia,'Times New Roman',serif;font-size:17px;line-height:22px;font-weight:bold;color:#002856;">${esc(c.name)}</div>
+<div style="font-size:12px;line-height:18px;color:#82754F;letter-spacing:0.5px;padding-bottom:6px;">Dersut Caff&egrave; Schweiz</div>
 <div>${esc(`${c.street}, ${c.zip} ${c.city}, Schweiz`)}</div>
-${p.phone ? `<div style="padding-top:6px;"><span style="color:#82754F;">T</span>&nbsp;&nbsp;<a href="tel:${esc(tel)}" style="color:#34363d;text-decoration:none;">${esc(p.phone)}</a></div>` : '<div style="padding-top:6px;"></div>'}
+${c.phone ? `<div style="padding-top:6px;"><span style="color:#82754F;">T</span>&nbsp;&nbsp;<a href="tel:${esc(tel)}" style="color:#34363d;text-decoration:none;">${esc(c.phone)}</a></div>` : '<div style="padding-top:6px;"></div>'}
 <div><span style="color:#82754F;">E</span>&nbsp;&nbsp;<a href="mailto:${esc(config.email.info)}" style="color:#34363d;text-decoration:none;">${esc(config.email.info)}</a></div>
 <div><span style="color:#82754F;">W</span>&nbsp;&nbsp;<a href="${esc(site)}" style="color:#002856;text-decoration:none;font-weight:bold;">dersut.ch</a></div>
 </td></tr>

@@ -2,6 +2,7 @@
 
 import { useRef } from 'react';
 import { ActionForm, type FormState } from './ActionForm';
+import { ConfirmButton } from './ConfirmButton';
 
 /** Textbausteine für häufige Antworten: werden an der Cursor-Position eingefügt. */
 const TEMPLATES: [string, string][] = [
@@ -55,7 +56,7 @@ export function Composer({
       <div className="composer__foot">
         {messageId && <label className="inline small"><input type="checkbox" name="quote" value="1" defaultChecked /> Ursprüngliche Nachricht anhängen</label>}
         {messageId && <label className="inline small"><input type="checkbox" name="done" value="1" defaultChecked /> Danach als erledigt ablegen</label>}
-        <button className="btn btn--primary" type="submit">Senden ➤</button>
+        <ConfirmButton className="btn btn--primary" confirm="E-Mail jetzt senden?" mail="field:to" mailAlways>Senden ➤</ConfirmButton>
       </div>
       <p className="muted small">Absender: info@dersut.ch. Antworten des Kunden kommen im normalen E-Mail-Postfach an.</p>
     </ActionForm>

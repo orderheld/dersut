@@ -27,7 +27,7 @@ const FOLDERS = [
 ] as const;
 type Folder = (typeof FOLDERS)[number][0];
 
-type Props = { searchParams: Promise<{ f?: string; id?: string; q?: string; neu?: string; to?: string }> };
+type Props = { searchParams: Promise<{ f?: string; id?: string; q?: string; neu?: string; to?: string; sent?: string }> };
 
 
 export default async function Messages({ searchParams }: Props) {
@@ -93,6 +93,12 @@ export default async function Messages({ searchParams }: Props) {
         <div><h1>Nachrichten</h1><p className="muted">Anfragen über die Webseite beantworten, ablegen oder löschen. Werbung und Bots landen automatisch im Spam.</p></div>
         <Link className="btn btn--primary" href={href({ neu: 1 })}>✎ Neue E-Mail</Link>
       </header>
+
+      {sp.sent && (
+        <div className="flash flash--sent" role="status">
+          <strong>✉ E-Mail gesendet</strong> an {sp.sent}. Eine Kopie liegt im Ordner «Gesendet».
+        </div>
+      )}
 
       <div className={`mailbox${open || openSent || compose ? ' has-open' : ''}`}>
         <nav className="mailbox__folders">
