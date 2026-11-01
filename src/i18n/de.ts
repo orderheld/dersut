@@ -48,6 +48,7 @@ export const de = {
     office: 'Firmen & Büro',
     officeSub: 'Bürokaffee mit Mengenkonditionen',
     regions: 'Regionen',
+    guides: 'Ratgeber',
     contact: 'Kontakt',
     shipping: 'Versand & Zahlung',
     allProducts: 'Alle Produkte',

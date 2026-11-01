@@ -1,5 +1,6 @@
 import type { Locale } from '@/lib/i18n';
 import type { BrandKey } from '@/lib/brand';
+import { MORE_ARTICLES } from './ratgeber-more';
 
 export type ArticleSection = { h: string; p: string[]; list?: string[] };
 export type ArticleText = {
@@ -23,7 +24,7 @@ export type Article = {
 const OPTIMUM = 'dersut-optimum-rosso-1kg';
 const DOMUS = 'dersut-domus-marrone-1kg';
 
-export const ARTICLES: Article[] = [
+const BASE_ARTICLES: Article[] = [
   /* ------------------------------------------------------------------ */
   /* 1. Kaffeebohnen für Vollautomat                                    */
   /* ------------------------------------------------------------------ */
@@ -1502,6 +1503,16 @@ export const ARTICLES: Article[] = [
   },
 ];
 
+/**
+ * Alle Ratgeber in der Reihenfolge der Übersicht. Der Sortenvergleich steht zuoberst, weil er alle vier
+ * Produkte verlinkt; Produktseiten zeigen die ersten drei passenden Ratgeber.
+ */
+export const ARTICLES: Article[] = [
+  ...MORE_ARTICLES.filter((a) => a.slug === 'dersut-sorten-vergleich'),
+  ...BASE_ARTICLES,
+  ...MORE_ARTICLES.filter((a) => a.slug !== 'dersut-sorten-vergleich'),
+];
+
 export const RATGEBER_PAGE: Record<
   Locale,
   {
@@ -1517,10 +1528,10 @@ export const RATGEBER_PAGE: Record<
   de: {
     metaTitle: 'Kaffee-Ratgeber: Espresso, Bohnen und Zubereitung',
     metaDescription:
-      'Kaffee-Ratgeber für die Schweiz: Bohnen für den Vollautomaten, Espresso zubereiten, Optimum und Domus im Vergleich und Tipps zum Kaffeebohnen kaufen online.',
+      'Kaffee-Ratgeber: Bohnen für den Vollautomaten, Espresso und Cappuccino zubereiten, Arabica oder Robusta, Bürokaffee-Kosten und alle Dersut-Sorten im Vergleich.',
     title: 'Ratgeber rund um Espresso',
     lead:
-      'Praktische Tipps für besseren Espresso zu Hause: von der Wahl der richtigen Bohnen für den Vollautomaten über die Zubereitung mit Siebträger und Moka bis zum Einkauf von italienischem Kaffee in der Schweiz.',
+      'Praktische Tipps für besseren Espresso zu Hause und im Büro: von der Wahl der richtigen Bohnen über Espresso und Cappuccino bis zu den Kosten pro Tasse und Kaffee als Geschenk.',
     readMore: 'Weiterlesen',
     crumb: 'Ratgeber',
     related: 'Passende Ratgeber',
@@ -1528,7 +1539,7 @@ export const RATGEBER_PAGE: Record<
   fr: {
     metaTitle: 'Conseils café : espresso, grains et préparation',
     metaDescription:
-      'Nos conseils café pour la Suisse : grains pour machine automatique, préparer un espresso, Optimum et Domus comparés et acheter du café en grains en ligne.',
+      'Nos conseils café : grains pour machine automatique, espresso et cappuccino, Arabica ou Robusta, coût du café au bureau et les mélanges Dersut comparés.',
     title: 'Conseils autour de l’espresso',
     lead:
       'Des conseils pratiques pour un meilleur espresso à la maison : du choix des grains pour votre machine automatique à la préparation au porte-filtre et à la moka, jusqu’à l’achat de café italien en Suisse.',
@@ -1539,7 +1550,7 @@ export const RATGEBER_PAGE: Record<
   it: {
     metaTitle: 'Guida al caffè: espresso, chicchi e preparazione',
     metaDescription:
-      'Guida al caffè per la Svizzera: chicchi per macchina automatica, come preparare l’espresso, Optimum e Domus a confronto e consigli per comprare online.',
+      'Guida al caffè: chicchi per macchina automatica, espresso e cappuccino, Arabica o Robusta, costi del caffè in ufficio e le miscele Dersut a confronto.',
     title: 'Guida all’espresso',
     lead:
       'Consigli pratici per un espresso migliore a casa: dalla scelta dei chicchi per la macchina automatica alla preparazione con portafiltro e moka, fino all’acquisto di caffè italiano in Svizzera.',
@@ -1550,7 +1561,7 @@ export const RATGEBER_PAGE: Record<
   en: {
     metaTitle: 'Coffee guides: espresso, beans and brewing tips',
     metaDescription:
-      'Coffee guides for Switzerland: beans for bean-to-cup machines, how to make espresso, Optimum vs Domus compared and tips for buying coffee beans online.',
+      'Coffee guides: beans for bean-to-cup machines, espresso and cappuccino, Arabica vs Robusta, office coffee costs and all Dersut blends compared.',
     title: 'Espresso guides',
     lead:
       'Practical tips for better espresso at home: from choosing the right beans for your bean-to-cup machine to brewing with a portafilter or moka pot, and buying Italian coffee in Switzerland.',

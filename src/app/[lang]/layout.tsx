@@ -104,6 +104,7 @@ export default async function SiteLayout({ children, params }: Props) {
     language: t.a11y.language,
     country: t.footer.country,
     shop: t.nav.shop,
+    guides: t.nav.guides,
     about: t.nav.about,
     history: t.nav.history,
     historySub: t.nav.historySub,
