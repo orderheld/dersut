@@ -40,7 +40,7 @@ export const B2B_PATH: Record<B2BKind, string> = { gastro: '/gastronomie', offic
 export const B2B: Record<B2BKind, Record<Locale, B2BText>> = {
   gastro: {
     de: {
-      metaTitle: 'Kaffee für Gastronomie: Restaurant, Bar & Hotel',
+      metaTitle: 'Kaffeelieferant Gastronomie Schweiz: Bar & Restaurant',
       metaDescription: 'Dersut Espresso für Restaurants, Bars, Cafés und Hotels in Basel und der ganzen Schweiz. Individuelle Konditionen direkt vom offiziellen Vertrieb.',
       crumb: 'Gastronomie',
       eyebrow: 'Horeca · Bar · Ristorante',
@@ -92,7 +92,7 @@ export const B2B: Record<B2BKind, Record<Locale, B2BText>> = {
       crossLink: 'Zu Firmen & Büro',
     },
     fr: {
-      metaTitle: 'Café pour la restauration : bar, restaurant, hôtel',
+      metaTitle: 'Fournisseur de café pour restaurants, bars et hôtels',
       metaDescription: 'Espresso Dersut pour restaurants, bars, cafés et hôtels à Genève, Lausanne et dans toute la Suisse. Conditions sur mesure du distributeur officiel.',
       crumb: 'Restauration',
       eyebrow: 'Horeca · Bar · Ristorante',
@@ -144,7 +144,7 @@ export const B2B: Record<B2BKind, Record<Locale, B2BText>> = {
       crossLink: 'Entreprises & bureau',
     },
     it: {
-      metaTitle: 'Caffè per la gastronomia: bar, ristorante, hotel',
+      metaTitle: 'Fornitore di caffè per bar, ristoranti e hotel',
       metaDescription: 'Espresso Dersut per ristoranti, bar, caffè e hotel in Ticino e in tutta la Svizzera. Condizioni su misura direttamente dal distributore ufficiale.',
       crumb: 'Gastronomia',
       eyebrow: 'Horeca · Bar · Ristorante',
@@ -196,7 +196,7 @@ export const B2B: Record<B2BKind, Record<Locale, B2BText>> = {
       crossLink: 'Aziende & ufficio',
     },
     en: {
-      metaTitle: 'Coffee for hospitality: restaurants, bars & hotels',
+      metaTitle: 'Coffee supplier for restaurants, bars & hotels',
       metaDescription: 'Dersut espresso for restaurants, bars, cafés and hotels in Basel, Zurich, Geneva and all of Switzerland. Tailored terms from the official distributor.',
       crumb: 'Hospitality',
       eyebrow: 'Horeca · Bar · Ristorante',
@@ -250,7 +250,7 @@ export const B2B: Record<B2BKind, Record<Locale, B2BText>> = {
   },
   office: {
     de: {
-      metaTitle: 'Bürokaffee für Firmen: Espresso fürs Büro',
+      metaTitle: 'Bürokaffee Schweiz: Kaffeebohnen für Firmen & Büro',
       metaDescription: 'Italienischer Espresso fürs Büro: Dersut Kaffeebohnen für Firmen, Praxen und Kanzleien in der Schweiz, mit Mengenkonditionen und regelmässiger Lieferung.',
       crumb: 'Firmen & Büro',
       eyebrow: 'Caffè in ufficio',
