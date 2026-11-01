@@ -4,6 +4,7 @@ import { shipText } from '@/lib/shipping-text';
 import Link from 'next/link';
 import { B2BHint } from '@/components/B2BHint';
 import { HOME_FAQ } from '@/content/home-faq';
+import { GuideTeaser } from '@/components/GuideTeaser';
 import { Icon } from '@/components/Icon';
 import { Img } from '@/components/Img';
 import { ProductCard } from '@/components/ProductCard';
@@ -546,6 +547,8 @@ export default async function Home({ params }: Props) {
           </div>
         </div>
       </section>
+
+      <GuideTeaser lang={lang} />
 
       <section className="section">
         <div className="wrap">

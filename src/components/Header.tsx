@@ -14,7 +14,7 @@ const BUSINESS = ['/gastronomie', '/firmen'];
 export type HeaderLabels = Record<
   | 'menuOpen' | 'menuClose' | 'mainNav' | 'home' | 'cart' | 'language' | 'country'
   | 'shop' | 'about' | 'history' | 'historySub' | 'quality' | 'qualitySub' | 'certs' | 'certsSub'
-  | 'sustainability' | 'sustainabilitySub' | 'distribution' | 'gastro' | 'gastroSub' | 'business' | 'office' | 'officeSub' | 'contact',
+  | 'sustainability' | 'sustainabilitySub' | 'distribution' | 'gastro' | 'gastroSub' | 'business' | 'office' | 'officeSub' | 'guides' | 'contact',
   string
 >;
 
@@ -134,6 +134,7 @@ export function Header({ lang, labels: t }: { lang: Locale; labels: HeaderLabels
                 <li><Link href={L('/firmen')}><strong>{t.office}</strong><span>{t.officeSub}</span></Link></li>
               </ul>
             </li>
+            <li><Link href={L('/ratgeber')} className={active('/ratgeber')}>{t.guides}</Link></li>
             <li><Link href={L('/kontakt')} className={active('/kontakt')}>{t.contact}</Link></li>
           </ul>
           <ul className="nav__langs" aria-label={t.language}>

@@ -25,7 +25,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const cats = shopCategories(products, 'de');
   for (const lang of LOCALES) {
     for (const [path, priority] of PAGES) {
-      out.push({ url: absolute(lp(lang, path)), lastModified: CONTENT_UPDATED, changeFrequency: 'monthly', priority, alternates: { languages: languageAlternates(path) } });
+      const article = ARTICLES.find((x) => path === `/ratgeber/${x.slug}`);
+      const lastModified = article ? new Date(article.published) : CONTENT_UPDATED;
+      out.push({ url: absolute(lp(lang, path)), lastModified, changeFrequency: 'monthly', priority, alternates: { languages: languageAlternates(path) } });
     }
     for (const c of cats) {
       const path = `/shop/kategorie/${c.slug}`;

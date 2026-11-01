@@ -50,6 +50,7 @@ export const fr: Dict = {
     office: 'Entreprises & bureau',
     officeSub: 'Café de bureau à conditions avantageuses',
     regions: 'Régions',
+    guides: 'Conseils',
     contact: 'Contact',
     shipping: 'Livraison & paiement',
     allProducts: 'Tous les produits',

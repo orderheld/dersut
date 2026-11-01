@@ -1,3 +1,4 @@
+import { GuideTeaser } from '@/components/GuideTeaser';
 import type { Metadata } from 'next';
 import { settingsReady } from '@/lib/db';
 import Link from 'next/link';
@@ -132,6 +133,8 @@ export default async function RegionPage({ params }: Props) {
           </div>
         </div>
       </section>
+
+      <GuideTeaser lang={lang} slugs={['dersut-sorten-vergleich', 'kaffee-buero-kosten', 'kaffee-fuer-firmen-gastronomie']} />
 
       <RegionLinks lang={lang} current={r.slug} />
     </>
