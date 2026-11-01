@@ -31,7 +31,10 @@ async function createDriver(): Promise<Driver> {
   // Lokaler Test ohne Neon: DATABASE_URL="pglite:./.data"
   if (url.startsWith('pglite:')) {
     const { PGlite } = await import('@electric-sql/pglite');
-    const db = new PGlite(url.slice('pglite:'.length) || undefined);
+    // Eine Instanz pro Prozess: Seiten und API-Routen liegen in getrennten Bundles und würden sonst
+    // dieselbe Datenbankdatei zweimal öffnen (führt lokal zu «RuntimeError: Aborted()»).
+    const g = globalThis as { __dersutPglite?: InstanceType<typeof PGlite> };
+    const db = (g.__dersutPglite ??= new PGlite(url.slice('pglite:'.length) || undefined));
     return {
       query: async (text, params = []) => (await db.query<Row>(text, params as any[])).rows,
       transaction: async (queries) => {

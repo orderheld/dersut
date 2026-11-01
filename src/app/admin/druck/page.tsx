@@ -93,6 +93,7 @@ function Invoice({ o, qr }: { o: Order; qr: string | null }) {
       <dl className="doc__totals">
         <dt>Zwischensumme</dt><dd>{chf(o.subtotal, false)}</dd>
         <dt>Versand Schweiz (Post)</dt><dd>{o.shipping ? chf(o.shipping, false) : 'gratis'}</dd>
+        {o.discount > 0 && <><dt>Testrabatt</dt><dd>– {chf(o.discount, false)}</dd></>}
         <dt className="t">Total CHF</dt><dd className="t">{chf(o.total, false)}</dd>
         <dt className="v">inkl. MWST {o.vat_rate} %</dt><dd className="v">{chf(o.vat_amount, false)}</dd>
       </dl>

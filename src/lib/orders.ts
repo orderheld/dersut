@@ -51,6 +51,8 @@ export type Order = {
   lang: Locale;
   payment_method: PaymentMethod;
   payrexx_gateway_id: number | null;
+  discount: number;
+  is_test: boolean;
   items: OrderItem[];
 };
 
@@ -100,6 +102,8 @@ function normalize(o: any): Order {
     lang: o.lang || 'de',
     payment_method: o.payment_method === 'online' ? 'online' : 'prepay',
     payrexx_gateway_id: o.payrexx_gateway_id ? Number(o.payrexx_gateway_id) : null,
+    discount: Number(o.discount ?? 0),
+    is_test: Boolean(o.is_test),
     items: o.items ?? [],
   };
 }
@@ -120,12 +124,12 @@ export async function createOrder(input: CheckoutInput, cart: Cart, lang: Locale
   const queries: Query[] = [
     {
       text: `INSERT INTO orders (number, token, salutation, first_name, last_name, company, street, zip, city, email, phone, note,
-               subtotal, shipping, total, vat_rate, vat_amount, lang, payment_method)
-             VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19)`,
+               subtotal, shipping, total, vat_rate, vat_amount, lang, payment_method, discount, is_test)
+             VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21)`,
       params: [
         number, token, input.salutation, input.first_name.trim(), input.last_name.trim(), input.company.trim(),
         input.street.trim(), input.zip.trim(), input.city.trim(), input.email.trim().toLowerCase(), input.phone.trim(), input.note.trim(),
-        cart.subtotal, cart.shipping, cart.total, cart.vatRate, cart.vat, lang, method,
+        cart.subtotal, cart.shipping, cart.total, cart.vatRate, cart.vat, lang, method, cart.discount ?? 0, !!cart.isTest,
       ],
     },
   ];
@@ -136,7 +140,7 @@ export async function createOrder(input: CheckoutInput, cart: Cart, lang: Locale
     });
     queries.push({ text: 'UPDATE products SET stock = stock - $1 WHERE id = $2 AND stock IS NOT NULL', params: [it.qty, it.product.id] });
   }
-  queries.push({ text: `INSERT INTO order_log (order_id, message) VALUES (${orderId}, $1)`, params: [method === 'online' ? 'Bestellung eingegangen (Online-Zahlung über Payrexx).' : 'Bestellung eingegangen (Vorauskasse).'] });
+  queries.push({ text: `INSERT INTO order_log (order_id, message) VALUES (${orderId}, $1)`, params: [(method === 'online' ? 'Bestellung eingegangen (Online-Zahlung über Payrexx).' : 'Bestellung eingegangen (Vorauskasse).') + (cart.isTest ? ' TEST-Bestellung mit Testcode.' : '')] });
   try {
     await transaction(queries);
   } catch (e) {

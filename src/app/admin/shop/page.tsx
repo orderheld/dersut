@@ -7,6 +7,10 @@ import { query } from '@/lib/db';
 import { chf, ibanFormat } from '@/lib/format';
 import { currentSettings } from '@/lib/settings-core';
 import { saveSettingsAction } from '../actions';
+import { testCodeAction } from '../testcode-actions';
+import { CopyButton } from '@/components/CopyButton';
+import { getTestCode, TEST_TOTAL } from '@/lib/testcode';
+import { absUrl } from '@/lib/format';
 
 export const metadata: Metadata = { title: 'Firma & Shop' };
 
@@ -16,6 +20,8 @@ export default async function ShopSettings() {
   const counts = Object.fromEntries(rows.map((r) => [r.category, r.n]));
   const c = config.company;
   const s = currentSettings();
+  const test = await getTestCode();
+  const testLink = test.enabled ? absUrl(`/api/testcode?c=${encodeURIComponent(test.code)}`) : '';
 
   return (
     <>
@@ -67,6 +73,27 @@ export default async function ShopSettings() {
           </section>
           <div className="savebar"><button className="btn btn--primary btn--lg btn--block" type="submit">Speichern</button></div>
         </div>
+      </ActionForm>
+
+      <ActionForm action={testCodeAction} className="grid2">
+        <section className="card form">
+          <h2>Testbestellung zu {chf(TEST_TOTAL)} {test.enabled ? <span className="badge badge--test">aktiv</span> : <span className="badge">aus</span>}</h2>
+          <p className="small">Zum Testen der Online-Zahlung mit echtem Geld: Den Testlink im Browser öffnen, dann wie eine Kundin bestellen. Während 24 Stunden kostet in diesem Browser jede Bestellung nur <strong>{chf(TEST_TOTAL)}</strong> (gratis Versand). Die Bestellung ist im Admin und im Betreff der Bestell-Mail als <strong>TEST</strong> markiert. Danach die Bestellung stornieren, dann stimmt auch der Lagerbestand wieder.</p>
+          {test.enabled ? (
+            <>
+              <label>Testlink<input readOnly value={testLink} /></label>
+              <p style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+                <a className="btn btn--primary" href={testLink} target="_blank" rel="noopener noreferrer">Testlink öffnen</a>
+                <CopyButton text={testLink} className="btn btn--ghost" label="Link kopieren" />
+                <button className="btn btn--ghost" type="submit" name="op" value="renew">Neuen Link erzeugen</button>
+                <button className="btn btn--ghost" type="submit" name="op" value="off">Ausschalten</button>
+              </p>
+              <p className="muted small">Den Link nicht weitergeben: Wer ihn hat, bestellt für {chf(TEST_TOTAL)}. Ausschalten oder neu erzeugen macht alte Links sofort ungültig. Lehnt Payrexx den kleinen Betrag ab, wird die Testbestellung auf Vorauskasse umgestellt und der Grund steht im Verlauf der Bestellung.</p>
+            </>
+          ) : (
+            <p><button className="btn btn--primary" type="submit" name="op" value="on">Testcode einschalten</button></p>
+          )}
+        </section>
       </ActionForm>
     </>
   );

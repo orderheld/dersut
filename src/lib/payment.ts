@@ -15,7 +15,7 @@ export async function announcePrepayOrder(o: Order): Promise<void> {
     sendOrderMail(o, 'confirmation'),
     sendOrderMail(o, 'admin'),
     notifyAdmins({
-      title: `Neue Bestellung ${o.number}`,
+      title: `${o.is_test ? '[TEST] ' : ''}Neue Bestellung ${o.number}`,
       body: `${o.first_name} ${o.last_name}, ${o.city} · ${chf(o.total)}`,
       url: `/admin/bestellungen/${o.id}`,
       tag: `order-${o.id}`,
@@ -64,7 +64,7 @@ export async function syncOnlinePayment(o: Order): Promise<Order> {
     sendOrderMail(paid, 'online'),
     sendOrderMail(paid, 'admin'),
     notifyAdmins({
-      title: `Neue Bestellung ${paid.number} (bezahlt)`,
+      title: `${paid.is_test ? '[TEST] ' : ''}Neue Bestellung ${paid.number} (bezahlt)`,
       body: `${paid.first_name} ${paid.last_name}, ${paid.city} · ${chf(paid.total)} online bezahlt`,
       url: `/admin/bestellungen/${paid.id}`,
       tag: `order-${paid.id}`,

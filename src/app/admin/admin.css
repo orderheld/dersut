@@ -89,6 +89,7 @@ img.is-broken { visibility: hidden; }
 .badge--open { background: #fbf1dc; color: var(--warn); }
 .badge--paid { background: #e6eefa; color: var(--navy); }
 .badge--shipped { background: #e3f1e8; color: var(--ok); }
+.badge--test { background: #a3142a; color: #fff; margin-left: 6px; }
 .badge--cancelled { background: #f6e6e6; color: var(--err); }
 
 .bulkbar { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; padding: 12px 4px; font-size: 13.5px; }
