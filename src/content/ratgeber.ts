@@ -960,7 +960,7 @@ export const ARTICLES: Article[] = [
             ],
           },
           {
-            h: 'Zwei Mischungen für jeden Geschmack',
+            h: 'Vier Mischungen für jeden Geschmack',
             p: [
               'Im Shop finden Sie vier Espressomischungen als ganze Bohnen in der 1-kg-Packung, darunter die mit Gold prämierten [Dersut Non Plus Ultra](/shop/dersut-non-plus-ultra-1kg) aus 100 % Arabica und [Dersut Plus Oro](/shop/dersut-plus-oro-1kg). Der [Dersut Optimum Rosso](/shop/dersut-optimum-rosso-1kg) für CHF 29.90 ist der Allrounder mit lang anhaltender Crema, Noten von Kakao und Gebäck und Intensität 4 von 5, ideal für Espresso und Cappuccino. Der [Dersut Domus Marrone](/shop/dersut-domus-marrone-1kg) für CHF 26.90 hat mit Intensität 5 von 5 ein sehr intensives Aroma und einen starken, entschiedenen Charakter.',
               'Beide eignen sich für Vollautomat, Siebträger und Moka. Für den Vollautomaten stellen Sie einen mittelfeinen bis feinen Mahlgrad ein.',
@@ -1037,7 +1037,7 @@ export const ARTICLES: Article[] = [
             ],
           },
           {
-            h: 'Deux mélanges pour tous les goûts',
+            h: 'Quatre mélanges pour tous les goûts',
             p: [
               'La boutique propose quatre mélanges espresso en grains entiers, en paquet de 1 kg, dont les médaillés d’or [Dersut Non Plus Ultra](/shop/dersut-non-plus-ultra-1kg) 100 % Arabica et [Dersut Plus Oro](/shop/dersut-plus-oro-1kg). Le [Dersut Optimum Rosso](/shop/dersut-optimum-rosso-1kg), à CHF 29.90, est le polyvalent : crème persistante, notes de cacao et de pâtisserie, intensité 4 sur 5, idéal en espresso comme en cappuccino. Le [Dersut Domus Marrone](/shop/dersut-domus-marrone-1kg), à CHF 26.90, intensité 5 sur 5, offre un arôme très intense et un caractère fort et affirmé.',
               'Les deux conviennent à la machine automatique, au porte-filtre et à la moka. En machine automatique, réglez une mouture moyennement fine à fine.',
@@ -1114,7 +1114,7 @@ export const ARTICLES: Article[] = [
             ],
           },
           {
-            h: 'Due miscele per ogni gusto',
+            h: 'Quattro miscele per ogni gusto',
             p: [
               'Nel negozio trova quattro miscele espresso in grani interi, in confezione da 1 kg, tra cui le medaglie d’oro [Dersut Non Plus Ultra](/shop/dersut-non-plus-ultra-1kg) 100 % Arabica e [Dersut Plus Oro](/shop/dersut-plus-oro-1kg). Il [Dersut Optimum Rosso](/shop/dersut-optimum-rosso-1kg), a CHF 29.90, è il tuttofare: crema persistente, note di cacao e pasticceria, intensità 4 su 5, ideale per espresso e cappuccino. Il [Dersut Domus Marrone](/shop/dersut-domus-marrone-1kg), a CHF 26.90, intensità 5 su 5, ha un aroma molto intenso e un carattere forte e deciso.',
               'Entrambi sono adatti a macchina automatica, portafiltro e moka. In macchina automatica imposti una macinatura medio-fine o fine.',
@@ -1191,7 +1191,7 @@ export const ARTICLES: Article[] = [
             ],
           },
           {
-            h: 'Two blends for every taste',
+            h: 'Four blends for every taste',
             p: [
               'The shop offers four espresso blends as whole beans in 1 kg packs, including the gold-medal winners [Dersut Non Plus Ultra](/shop/dersut-non-plus-ultra-1kg), 100 % Arabica, and [Dersut Plus Oro](/shop/dersut-plus-oro-1kg). [Dersut Optimum Rosso](/shop/dersut-optimum-rosso-1kg) at CHF 29.90 is the all-rounder, with long-lasting crema, notes of cocoa and pastry and intensity 4 out of 5, ideal for espresso and cappuccino. [Dersut Domus Marrone](/shop/dersut-domus-marrone-1kg) at CHF 26.90 has intensity 5 out of 5, a very intense aroma and a strong, decisive character.',
               'Both suit bean-to-cup machines, portafilter machines and moka pots. For a fully automatic machine, set a medium-fine to fine grind.',
@@ -1236,6 +1236,267 @@ export const ARTICLES: Article[] = [
           ],
         ],
         cta: 'Order your Italian espresso directly from the official Swiss distributor:',
+      },
+    },
+  },
+  /* ------------------------------------------------------------------ */
+  /* 5. Kaffee für Firmen und Gastronomie                               */
+  /* ------------------------------------------------------------------ */
+  {
+    slug: 'kaffee-fuer-firmen-gastronomie',
+    image: 'tazze',
+    products: ['dersut-non-plus-ultra-1kg', 'dersut-plus-oro-1kg', OPTIMUM, DOMUS],
+    published: '2026-11-01',
+    text: {
+      de: {
+        title: 'Kaffee für Firmen und Gastronomie: den richtigen Kaffeelieferanten finden',
+        metaTitle: 'Kaffee für Firmen & Gastronomie: Lieferant Schweiz',
+        metaDescription:
+          'Kaffee fürs Büro, Restaurant oder Hotel: worauf Firmen bei Kaffeebohnen, Menge und Lieferant achten sollten. Mit Mengenpreisen vom offiziellen Dersut-Vertrieb.',
+        teaser:
+          'Bürokaffee, Bar oder Hotel: welche Bohnen passen, wie viel Kaffee Sie brauchen und worauf es bei einem Kaffeelieferanten in der Schweiz ankommt.',
+        lead:
+          'Guter Kaffee ist im Büro ein kleines Stück Wertschätzung und in Restaurant, Bar oder Hotel oft der letzte Eindruck, den Gäste mitnehmen. Wer Kaffee für die Firma oder den Betrieb einkauft, braucht deshalb mehr als irgendeine Packung aus dem Regal: verlässliche Qualität, die richtige Menge zum richtigen Preis und einen Lieferanten, der erreichbar ist. Dieser Ratgeber zeigt, worauf es ankommt.',
+        sections: [
+          {
+            h: 'Ganze Bohnen statt Kapseln: was sich für Firmen lohnt',
+            p: [
+              'Kapseln sind bequem, aber pro Tasse teuer und erzeugen viel Abfall. Ein Vollautomat oder eine Siebträgermaschine mit ganzen Bohnen liefert dagegen frisch gemahlenen Espresso und Cappuccino zu deutlich tieferen Kosten pro Tasse. Mit einem Kilogramm Bohnen lassen sich rund 120 bis 140 Espressi zubereiten.',
+              'Für Firmen mit einem Vollautomaten im Pausenraum und für Betriebe mit Siebträgermaschine sind 1-kg-Packungen ganzer Espressobohnen deshalb die wirtschaftlichste Lösung.',
+            ],
+          },
+          {
+            h: 'Welche Mischung passt zu Büro, Bar und Restaurant?',
+            p: [
+              'Im Büro trinken viele Mitarbeitende Kaffee mit Milch. Eine ausgewogene Mischung wie der [Dersut Optimum Rosso](/shop/dersut-optimum-rosso-1kg) mit Kakaonoten und lang anhaltender Crema passt hier besonders gut. Wer es kräftig mag, wählt den [Dersut Domus Marrone](/shop/dersut-domus-marrone-1kg) mit Intensität 5 von 5.',
+              'In Bar, Restaurant und Hotel zählt der pure Espresso. Hier überzeugen die mit Gold prämierten Mischungen [Dersut Plus Oro](/shop/dersut-plus-oro-1kg) und [Dersut Non Plus Ultra](/shop/dersut-non-plus-ultra-1kg) aus 100 % Arabica, beide ausgezeichnet beim International Coffee Tasting 2025.',
+            ],
+          },
+          {
+            h: 'Wie viel Kaffee braucht eine Firma?',
+            p: [
+              'Als Faustregel trinkt eine Person im Büro zwei bis drei Tassen pro Arbeitstag. Ein Team von zehn Personen braucht damit etwa drei bis vier Kilogramm Kaffeebohnen im Monat. In der Gastronomie hängt der Bedarf stark von der Zahl der Gäste ab, eine kleine Bar kommt schnell auf zehn Kilogramm und mehr pro Woche.',
+            ],
+            list: [
+              'Bis 10 Personen: rund 3 bis 4 kg pro Monat',
+              '10 bis 30 Personen: rund 4 bis 12 kg pro Monat',
+              'Café, Bar oder Restaurant: Bedarf nach Gästezahl, gerne berechnen wir ihn mit Ihnen',
+            ],
+          },
+          {
+            h: 'Worauf Sie bei einem Kaffeelieferanten achten sollten',
+            p: [
+              'Ein guter Kaffeelieferant liefert nicht nur Bohnen, sondern Verlässlichkeit. Achten Sie auf diese Punkte:',
+            ],
+            list: [
+              'Gleichbleibende Qualität aus einer bekannten Rösterei',
+              'Originalware mit klarer Herkunft, kein Graumarkt',
+              'Preise in Franken und Rechnung aus der Schweiz',
+              'Persönlicher Ansprechpartner, der schnell antwortet',
+              'Lieferung nach Plan, damit nie der Kaffee ausgeht',
+            ],
+          },
+          {
+            h: 'Dersut für Ihre Firma oder Ihren Betrieb',
+            p: [
+              'Dersut Caffè röstet seit 1947 in Conegliano und beliefert über 4’000 Bars und Geschäfte. Die Dersut Kaffee GmbH in Basel ist der offizielle Vertrieb für die Schweiz. Für Firmen und Gastronomie bieten wir Mengenpreise, Lieferung nach Plan und Rechnung in Franken.',
+              'Fragen Sie unverbindlich an: für Restaurants, Bars und Hotels auf der Seite [Gastronomie](/gastronomie), für Büros, Praxen und Kanzleien auf der Seite [Firmen & Büro](/firmen). Wir melden uns innert 24 Stunden.',
+            ],
+          },
+        ],
+        faq: [
+          ['Gibt es Mengenpreise für Firmen?', 'Ja. Für Firmen und Gastronomie erstellen wir ein Angebot nach Ihrem Bedarf. Fragen Sie einfach unverbindlich auf der Seite Gastronomie oder Firmen an.'],
+          ['Wie viel Kaffee braucht ein Büro mit 10 Personen?', 'Etwa drei bis vier Kilogramm Kaffeebohnen pro Monat, bei zwei bis drei Tassen pro Person und Arbeitstag.'],
+          ['Welche Kaffeebohnen eignen sich für den Vollautomaten im Büro?', 'Ganze Espressobohnen mit gleichmässiger Röstung, zum Beispiel Dersut Optimum Rosso für Kaffee mit Milch oder Domus Marrone für einen kräftigen Espresso.'],
+          ['Liefern Sie in die ganze Schweiz?', 'Ja, wir liefern mit der Schweizerischen Post in die ganze Schweiz. Ab {free} Warenwert ist der Versand gratis.'],
+        ],
+        cta: 'Bestellen Sie direkt oder fragen Sie Ihr Firmenangebot an:',
+      },
+      fr: {
+        title: 'Café pour entreprises et restaurants : bien choisir son fournisseur',
+        metaTitle: 'Café pour entreprises et restaurants en Suisse',
+        metaDescription:
+          'Café pour le bureau, le restaurant ou l’hôtel : grains, quantités et fournisseur, nos conseils. Avec des prix de quantité du distributeur officiel Dersut.',
+        teaser:
+          'Bureau, bar ou hôtel : quels grains choisir, quelle quantité prévoir et ce qui compte chez un fournisseur de café en Suisse.',
+        lead:
+          'Un bon café est au bureau une petite marque d’attention, et au restaurant, au bar ou à l’hôtel souvent la dernière impression laissée aux clients. Acheter du café pour une entreprise demande donc plus qu’un paquet pris au hasard : une qualité constante, la bonne quantité au bon prix et un fournisseur joignable. Voici ce qui compte.',
+        sections: [
+          {
+            h: 'Grains entiers plutôt que capsules',
+            p: [
+              'Les capsules sont pratiques, mais chères à la tasse et génèrent beaucoup de déchets. Une machine automatique ou à porte-filtre avec des grains entiers offre un espresso fraîchement moulu à un coût par tasse nettement plus bas. Un kilogramme de grains donne environ 120 à 140 espressos.',
+              'Pour une entreprise avec une machine automatique en salle de pause comme pour un établissement avec porte-filtre, les paquets de 1 kg de grains d’espresso sont la solution la plus économique.',
+            ],
+          },
+          {
+            h: 'Quel mélange pour le bureau, le bar et le restaurant ?',
+            p: [
+              'Au bureau, beaucoup boivent leur café avec du lait. Un mélange équilibré comme le [Dersut Optimum Rosso](/shop/dersut-optimum-rosso-1kg), aux notes de cacao et à la crème persistante, convient parfaitement. Pour plus de caractère, choisissez le [Dersut Domus Marrone](/shop/dersut-domus-marrone-1kg), intensité 5 sur 5.',
+              'Au bar, au restaurant et à l’hôtel, c’est l’espresso pur qui compte. Les mélanges médaillés d’or [Dersut Plus Oro](/shop/dersut-plus-oro-1kg) et [Dersut Non Plus Ultra](/shop/dersut-non-plus-ultra-1kg) 100 % Arabica, primés à l’International Coffee Tasting 2025, font la différence.',
+            ],
+          },
+          {
+            h: 'Combien de café pour une entreprise ?',
+            p: [
+              'En règle générale, une personne boit deux à trois tasses par jour de travail. Une équipe de dix personnes a donc besoin d’environ trois à quatre kilogrammes de grains par mois. En restauration, tout dépend du nombre de clients : un petit bar atteint vite dix kilogrammes et plus par semaine.',
+            ],
+            list: [
+              'Jusqu’à 10 personnes : environ 3 à 4 kg par mois',
+              '10 à 30 personnes : environ 4 à 12 kg par mois',
+              'Café, bar ou restaurant : selon la fréquentation, nous le calculons volontiers avec vous',
+            ],
+          },
+          {
+            h: 'Ce qui compte chez un fournisseur de café',
+            p: ['Un bon fournisseur livre non seulement du café, mais aussi de la fiabilité :'],
+            list: [
+              'Une qualité constante d’une torréfaction reconnue',
+              'Des produits originaux d’origine claire, pas de marché gris',
+              'Des prix en francs et une facture suisse',
+              'Un interlocuteur personnel qui répond vite',
+              'Des livraisons planifiées pour ne jamais manquer de café',
+            ],
+          },
+          {
+            h: 'Dersut pour votre entreprise ou votre établissement',
+            p: [
+              'Dersut Caffè torréfie à Conegliano depuis 1947 et fournit plus de 4’000 bars et commerces. Dersut Kaffee GmbH à Bâle est le distributeur officiel pour la Suisse. Pour les entreprises et la restauration, nous proposons des prix de quantité, des livraisons planifiées et une facture en francs.',
+              'Demandez une offre sans engagement : pour restaurants, bars et hôtels sur la page [Restauration](/gastronomie), pour bureaux, cabinets et études sur la page [Entreprises & bureau](/firmen). Réponse sous 24 heures.',
+            ],
+          },
+        ],
+        faq: [
+          ['Proposez-vous des prix de quantité aux entreprises ?', 'Oui. Pour les entreprises et la restauration, nous établissons une offre selon vos besoins. Demandez-la sans engagement sur la page Restauration ou Entreprises.'],
+          ['Combien de café pour un bureau de 10 personnes ?', 'Environ trois à quatre kilogrammes de grains par mois, pour deux à trois tasses par personne et par jour de travail.'],
+          ['Quels grains pour la machine automatique du bureau ?', 'Des grains d’espresso entiers à torréfaction régulière, par exemple Dersut Optimum Rosso pour le café au lait ou Domus Marrone pour un espresso corsé.'],
+          ['Livrez-vous dans toute la Suisse ?', 'Oui, nous livrons avec La Poste dans toute la Suisse. Dès {free} d’achat, la livraison est gratuite.'],
+        ],
+        cta: 'Commandez directement ou demandez votre offre entreprise :',
+      },
+      it: {
+        title: 'Caffè per aziende e gastronomia: scegliere il fornitore giusto',
+        metaTitle: 'Caffè per aziende e ristoranti in Svizzera',
+        metaDescription:
+          'Caffè per ufficio, ristorante o hotel: chicchi, quantità e fornitore, i nostri consigli. Con prezzi per quantità dal distributore ufficiale Dersut in Svizzera.',
+        teaser:
+          'Ufficio, bar o hotel: quali chicchi scegliere, quanta quantità prevedere e cosa conta in un fornitore di caffè in Svizzera.',
+        lead:
+          'Un buon caffè in ufficio è un piccolo gesto di attenzione, e in ristorante, bar o hotel spesso l’ultima impressione che resta agli ospiti. Chi acquista caffè per un’azienda ha bisogno quindi di più di una confezione qualsiasi: qualità costante, la quantità giusta al prezzo giusto e un fornitore raggiungibile. Ecco cosa conta.',
+        sections: [
+          {
+            h: 'Chicchi interi invece delle capsule',
+            p: [
+              'Le capsule sono comode, ma care per tazza e producono molti rifiuti. Una macchina automatica o a leva con chicchi interi offre invece espresso macinato al momento a un costo per tazza molto più basso. Con un chilogrammo di chicchi si preparano circa 120-140 espressi.',
+              'Per un’azienda con una macchina automatica in sala pausa come per un locale con macchina a leva, le confezioni da 1 kg di caffè in grani sono la soluzione più conveniente.',
+            ],
+          },
+          {
+            h: 'Quale miscela per ufficio, bar e ristorante?',
+            p: [
+              'In ufficio molti bevono il caffè con il latte. Una miscela equilibrata come il [Dersut Optimum Rosso](/shop/dersut-optimum-rosso-1kg), con note di cacao e crema persistente, è ideale. Per un gusto più deciso c’è il [Dersut Domus Marrone](/shop/dersut-domus-marrone-1kg), intensità 5 su 5.',
+              'In bar, ristorante e hotel conta l’espresso puro. Qui convincono le miscele premiate con l’oro [Dersut Plus Oro](/shop/dersut-plus-oro-1kg) e [Dersut Non Plus Ultra](/shop/dersut-non-plus-ultra-1kg) 100 % Arabica, entrambe premiate all’International Coffee Tasting 2025.',
+            ],
+          },
+          {
+            h: 'Quanto caffè serve a un’azienda?',
+            p: [
+              'Come regola generale, una persona beve due o tre tazze per giorno lavorativo. Un team di dieci persone ha quindi bisogno di circa tre o quattro chilogrammi di chicchi al mese. Nella gastronomia dipende dal numero di ospiti: un piccolo bar arriva presto a dieci chilogrammi e più alla settimana.',
+            ],
+            list: [
+              'Fino a 10 persone: circa 3-4 kg al mese',
+              'Da 10 a 30 persone: circa 4-12 kg al mese',
+              'Caffè, bar o ristorante: secondo il numero di ospiti, lo calcoliamo volentieri con voi',
+            ],
+          },
+          {
+            h: 'Cosa conta in un fornitore di caffè',
+            p: ['Un buon fornitore non consegna solo caffè, ma affidabilità:'],
+            list: [
+              'Qualità costante da una torrefazione affermata',
+              'Prodotti originali di provenienza chiara, niente mercato grigio',
+              'Prezzi in franchi e fattura svizzera',
+              'Un referente personale che risponde in fretta',
+              'Consegne programmate, per non restare mai senza caffè',
+            ],
+          },
+          {
+            h: 'Dersut per la vostra azienda o il vostro locale',
+            p: [
+              'Dersut Caffè tosta a Conegliano dal 1947 e rifornisce oltre 4’000 bar e negozi. Dersut Kaffee GmbH a Basilea è il distributore ufficiale per la Svizzera. Per aziende e gastronomia offriamo prezzi per quantità, consegne programmate e fattura in franchi.',
+              'Richiedete un’offerta senza impegno: per ristoranti, bar e hotel alla pagina [Gastronomia](/gastronomie), per uffici, studi e cabinet alla pagina [Aziende e ufficio](/firmen). Rispondiamo entro 24 ore.',
+            ],
+          },
+        ],
+        faq: [
+          ['Ci sono prezzi per quantità per le aziende?', 'Sì. Per aziende e gastronomia prepariamo un’offerta secondo il vostro fabbisogno. Richiedetela senza impegno alla pagina Gastronomia o Aziende.'],
+          ['Quanto caffè serve a un ufficio di 10 persone?', 'Circa tre o quattro chilogrammi di chicchi al mese, con due o tre tazze per persona e giorno lavorativo.'],
+          ['Quali chicchi per la macchina automatica in ufficio?', 'Caffè in grani interi con tostatura uniforme, ad esempio Dersut Optimum Rosso per il caffè con latte o Domus Marrone per un espresso deciso.'],
+          ['Consegnate in tutta la Svizzera?', 'Sì, consegniamo con La Posta in tutta la Svizzera. Da {free} di merce la spedizione è gratuita.'],
+        ],
+        cta: 'Ordinate subito o richiedete la vostra offerta aziendale:',
+      },
+      en: {
+        title: 'Coffee for companies and hospitality: choosing the right supplier',
+        metaTitle: 'Coffee for Offices & Restaurants in Switzerland',
+        metaDescription:
+          'Coffee for the office, restaurant or hotel: beans, quantities and supplier explained. With volume pricing from the official Dersut distributor in Switzerland.',
+        teaser:
+          'Office, bar or hotel: which beans suit you, how much coffee you need and what matters in a coffee supplier in Switzerland.',
+        lead:
+          'Good coffee at the office is a small sign of appreciation, and in a restaurant, bar or hotel it is often the last impression guests take home. Buying coffee for a business therefore takes more than any pack off the shelf: consistent quality, the right quantity at the right price and a supplier you can reach. Here is what matters.',
+        sections: [
+          {
+            h: 'Whole beans instead of capsules',
+            p: [
+              'Capsules are convenient but expensive per cup and create a lot of waste. A bean-to-cup or portafilter machine with whole beans gives you freshly ground espresso at a much lower cost per cup. One kilogram of beans makes around 120 to 140 espressos.',
+              'For a company with a bean-to-cup machine in the break room and for venues with a portafilter machine, 1 kg packs of whole espresso beans are the most economical choice.',
+            ],
+          },
+          {
+            h: 'Which blend for office, bar and restaurant?',
+            p: [
+              'At the office, many people drink coffee with milk. A balanced blend such as [Dersut Optimum Rosso](/shop/dersut-optimum-rosso-1kg), with cocoa notes and a long-lasting crema, is ideal. For a bolder cup, choose [Dersut Domus Marrone](/shop/dersut-domus-marrone-1kg) with intensity 5 of 5.',
+              'In bars, restaurants and hotels, the pure espresso counts. Here the gold-medal blends [Dersut Plus Oro](/shop/dersut-plus-oro-1kg) and [Dersut Non Plus Ultra](/shop/dersut-non-plus-ultra-1kg) (100 % Arabica), both awarded at the International Coffee Tasting 2025, stand out.',
+            ],
+          },
+          {
+            h: 'How much coffee does a company need?',
+            p: [
+              'As a rule of thumb, one person drinks two to three cups per working day. A team of ten therefore needs about three to four kilograms of beans per month. In hospitality it depends on your guests: a small bar quickly reaches ten kilograms or more per week.',
+            ],
+            list: [
+              'Up to 10 people: around 3 to 4 kg per month',
+              '10 to 30 people: around 4 to 12 kg per month',
+              'Café, bar or restaurant: based on guest numbers, we are happy to work it out with you',
+            ],
+          },
+          {
+            h: 'What matters in a coffee supplier',
+            p: ['A good supplier delivers not only coffee but reliability:'],
+            list: [
+              'Consistent quality from a renowned roastery',
+              'Original products of clear origin, no grey market',
+              'Prices in Swiss francs and a Swiss invoice',
+              'A personal contact who replies quickly',
+              'Scheduled deliveries so you never run out',
+            ],
+          },
+          {
+            h: 'Dersut for your company or venue',
+            p: [
+              'Dersut Caffè has been roasting in Conegliano since 1947 and supplies more than 4,000 bars and shops. Dersut Kaffee GmbH in Basel is the official distributor for Switzerland. For companies and hospitality we offer volume pricing, scheduled delivery and invoicing in Swiss francs.',
+              'Ask for a free quote: for restaurants, bars and hotels on the [Hospitality](/gastronomie) page, for offices, practices and law firms on the [Companies & offices](/firmen) page. We reply within 24 hours.',
+            ],
+          },
+        ],
+        faq: [
+          ['Do you offer volume pricing for companies?', 'Yes. For companies and hospitality we prepare a quote based on your needs. Just ask on the Hospitality or Companies page, with no obligation.'],
+          ['How much coffee does an office of 10 people need?', 'About three to four kilograms of beans per month, based on two to three cups per person per working day.'],
+          ['Which beans suit the office bean-to-cup machine?', 'Whole espresso beans with an even roast, for example Dersut Optimum Rosso for milk drinks or Domus Marrone for a bold espresso.'],
+          ['Do you deliver throughout Switzerland?', 'Yes, we deliver with Swiss Post throughout Switzerland. Shipping is free from {free} in goods value.'],
+        ],
+        cta: 'Order directly or request your business quote:',
       },
     },
   },

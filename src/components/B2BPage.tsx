@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { B2B, B2B_PATH, type B2BKind } from '@/content/b2b';
+import { ARTICLES } from '@/content/ratgeber';
 import { brand } from '@/lib/brand';
 import { config } from '@/lib/config';
 import { lp, type Locale } from '@/lib/i18n';
@@ -16,6 +17,7 @@ export function B2BPage({ kind, lang }: { kind: B2BKind; lang: Locale }) {
   const t = B2B[kind][lang];
   const other: B2BKind = kind === 'gastro' ? 'office' : 'gastro';
   const path = B2B_PATH[kind];
+  const guide = ARTICLES.find((a) => a.slug === 'kaffee-fuer-firmen-gastronomie');
   const url = absolute(lp(lang, path));
   const ld = [
     {
@@ -121,6 +123,11 @@ export function B2BPage({ kind, lang }: { kind: B2BKind; lang: Locale }) {
               </details>
             ))}
           </div>
+          {guide && (
+            <p className="center" style={{ marginTop: 30 }}>
+              <Link className="link-arrow" href={lp(lang, `/ratgeber/${guide.slug}`)}>{guide.text[lang].title} <Icon name="arrow" /></Link>
+            </p>
+          )}
         </div>
       </section>
 

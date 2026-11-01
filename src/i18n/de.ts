@@ -89,7 +89,7 @@ export const de = {
   },
   shop: {
     title: 'Onlineshop',
-    metaTitle: 'Dersut Espressobohnen 1 kg online kaufen – Schweiz',
+    metaTitle: 'Kaffee kaufen: Kaffeebohnen 1 kg online bestellen',
     metaDescription: 'Original Dersut Espressobohnen 1 kg: Non Plus Ultra und Plus Oro (Gold Medal 2025), Optimum Rosso und Domus Marrone vom offiziellen Vertrieb Schweiz.',
     eyebrow: 'Onlineshop',
     heading: 'Dersut Espressobohnen <em>aus Conegliano</em>',

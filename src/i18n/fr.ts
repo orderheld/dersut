@@ -91,7 +91,7 @@ export const fr: Dict = {
   },
   shop: {
     title: 'Boutique en ligne',
-    metaTitle: 'Acheter des grains d’espresso Dersut en ligne',
+    metaTitle: 'Acheter du café en grains 1 kg en ligne en Suisse',
     metaDescription:
       'Grains d’espresso Dersut d’origine en 1 kg : Non Plus Ultra et Plus Oro (Gold Medal 2025), Optimum Rosso et Domus Marrone, du distributeur officiel suisse.',
     eyebrow: 'Boutique en ligne',

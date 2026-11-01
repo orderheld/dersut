@@ -3,6 +3,7 @@ import { settingsReady } from '@/lib/db';
 import { shipText } from '@/lib/shipping-text';
 import Link from 'next/link';
 import { B2BHint } from '@/components/B2BHint';
+import { HOME_FAQ } from '@/content/home-faq';
 import { Icon } from '@/components/Icon';
 import { Img } from '@/components/Img';
 import { ProductCard } from '@/components/ProductCard';
@@ -14,7 +15,7 @@ import { AWARD_TEXT, latestMedal } from '@/content/awards';
 import { config } from '@/lib/config';
 import { asLocale, LOCALE_TAGS, lp, type Locale } from '@/lib/i18n';
 import { getProducts } from '@/lib/products';
-import { absolute, jsonLd, pageMeta } from '@/lib/seo';
+import { absolute, faqLd, jsonLd, pageMeta } from '@/lib/seo';
 
 type Props = { params: Promise<{ lang: string }> };
 
@@ -30,8 +31,8 @@ const CERTS: [BrandKey, string][] = [
 ];
 
 const de = {
-  metaTitle: 'Dersut Kaffee Schweiz · Italienischer Espresso kaufen',
-  metaDescription: 'Original Dersut Espresso aus Conegliano, seit 1947. Kaffeebohnen online kaufen beim offiziellen Vertrieb in Basel, Lieferung in die ganze Schweiz.',
+  metaTitle: 'Kaffee online kaufen: Italienischer Espresso | Dersut Schweiz',
+  metaDescription: 'Kaffee online bestellen beim offiziellen Dersut-Vertrieb: italienische Kaffeebohnen, zweimal Gold 2025, Lieferung in die ganze Schweiz. Auch für Firmen und Gastronomie.',
   heroAlt: 'Espresso von Dersut Caffè',
   heroKicker: 'Offizieller Vertrieb Schweiz',
   heroLead: 'Seit 1947 röstet Dersut Caffè in Conegliano Espresso-Mischungen mit italienischer Seele. Jetzt offiziell in der Schweiz erhältlich: direkt vom Vertriebspartner, geliefert in die ganze Schweiz.',
@@ -104,7 +105,7 @@ const de = {
 const T: Record<Locale, typeof de> = {
   de,
   fr: {
-    metaTitle: 'Café Dersut Suisse · Espresso italien en ligne',
+    metaTitle: 'Acheter du café en ligne : espresso italien | Dersut Suisse',
     metaDescription: 'Café Dersut de Conegliano depuis 1947 : grains d’espresso chez le distributeur officiel en Suisse, livrés à Genève, Lausanne et dans toute la Suisse.',
     heroAlt: 'Espresso de Dersut Caffè',
     heroKicker: 'Distributeur officiel en Suisse',
@@ -175,7 +176,7 @@ const T: Record<Locale, typeof de> = {
     ctaText: 'Nous vous conseillons volontiers sur les mélanges, les quantités et les conditions pour les clients professionnels dans toute la Suisse.',
   },
   it: {
-    metaTitle: 'Caffè Dersut Svizzera · Vero espresso italiano online',
+    metaTitle: 'Comprare caffè online: espresso italiano | Dersut Svizzera',
     metaDescription: 'Caffè Dersut da Conegliano dal 1947: caffè in grani dal distributore ufficiale svizzero, con consegna in Ticino e in tutta la Svizzera.',
     heroAlt: 'Espresso di Dersut Caffè',
     heroKicker: 'Distributore ufficiale Svizzera',
@@ -246,7 +247,7 @@ const T: Record<Locale, typeof de> = {
     ctaText: 'Vi consigliamo volentieri su miscele, quantità e condizioni per clienti commerciali in tutta la Svizzera.',
   },
   en: {
-    metaTitle: 'Dersut Coffee Switzerland · Italian Espresso Online',
+    metaTitle: 'Buy Coffee Online: Italian Espresso | Dersut Switzerland',
     metaDescription: 'Dersut Caffè from Conegliano, Italian espresso since 1947. Buy espresso beans from the official distributor in Basel, delivered throughout Switzerland.',
     heroAlt: 'Espresso by Dersut Caffè',
     heroKicker: 'Official distributor in Switzerland',
@@ -338,6 +339,7 @@ export default async function Home({ params }: Props) {
   await settingsReady();
   const lang = asLocale((await params).lang);
   const t = shipText(T[lang]);
+  const faq = shipText(HOME_FAQ[lang]);
   const products = await getProducts(true, lang);
   const winners = products.filter((p) => latestMedal(p.slug));
   const at = AWARD_TEXT[lang];
@@ -350,7 +352,7 @@ export default async function Home({ params }: Props) {
   };
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={jsonLd(siteLd)} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={jsonLd([siteLd, faqLd(faq.items)])} />
       <section className="hero">
         <div className="hero__media"><Img src={brand('hero_1')} alt={t.heroAlt} className="hero__img" eager /></div>
         <div className="wrap hero__inner">
@@ -517,6 +519,20 @@ export default async function Home({ params }: Props) {
           <div className="cta-box__actions">
             <Link className="btn btn--primary btn--lg" href={lp(lang, '/gastronomie')}>{getDict(lang).nav.gastro} <Icon name="arrow" /></Link>
             <Link className="btn btn--outline btn--lg" href={lp(lang, '/firmen')}>{getDict(lang).nav.office} <Icon name="arrow" /></Link>
+          </div>
+        </div>
+      </section>
+
+      <section className="section">
+        <div className="wrap">
+          <header className="section__head section__head--center"><h2 className="h2">{faq.title}</h2></header>
+          <div className="faq">
+            {faq.items.map(([q, a]) => (
+              <details key={q}>
+                <summary>{q}</summary>
+                <div>{a}</div>
+              </details>
+            ))}
           </div>
         </div>
       </section>
