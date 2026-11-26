@@ -40,6 +40,10 @@ const PAY: Record<Locale, { recommended: string; onlineNow: string; prepayWarn: 
   },
 };
 
+/** Ortschaften je Postleitzahl (amtliches Verzeichnis, Quelle: swisstopo), wird erst beim Tippen der PLZ geladen */
+let plzData: Promise<Record<string, string[]>> | null = null;
+const loadPlz = () => (plzData ??= fetch('/plz.json').then((r) => (r.ok ? r.json() : {})).catch(() => ({})) as Promise<Record<string, string[]>>);
+
 export function CheckoutForm({ summary, initial, lang, online = false }: { summary: ReactNode; initial: Record<string, string>; lang: Locale; online?: boolean }) {
   const t = getDict(lang).checkout;
   const [state, action, pending] = useActionState<CheckoutState, FormData>(checkoutAction, { errors: {}, values: initial });
@@ -48,6 +52,20 @@ export function CheckoutForm({ summary, initial, lang, online = false }: { summa
   const hasErrors = Object.keys(e).length > 0;
   const formRef = useRef<HTMLFormElement>(null);
   const [method, setMethod] = useState(online ? 'online' : 'prepay');
+  // PLZ eingeben → Ort wird automatisch ergänzt (spart Tipparbeit auf dem Handy)
+  const cityRef = useRef<HTMLInputElement>(null);
+  const autoCity = useRef('');
+  const [cities, setCities] = useState<string[]>([]);
+  const onZip = async (zip: string) => {
+    if (!/^\d{4}$/.test(zip)) return setCities([]);
+    const list = (await loadPlz())[zip] ?? [];
+    setCities(list);
+    const city = cityRef.current;
+    if (city && list[0] && (!city.value.trim() || city.value === autoCity.current)) {
+      city.value = list[0];
+      autoCity.current = list[0];
+    }
+  };
   // Nach einem Fehler zum ersten markierten Feld springen (wichtig auf dem Handy)
   useEffect(() => {
     if (!hasErrors) return;
@@ -82,11 +100,12 @@ export function CheckoutForm({ summary, initial, lang, online = false }: { summa
                 <input id="street" name="street" defaultValue={v('street')} required autoComplete="address-line1" autoCapitalize="words" enterKeyHint="next" />
               </Field>
               <Field name="zip" label={t.zip} span={2} error={e.zip}>
-                <input id="zip" name="zip" defaultValue={v('zip')} required inputMode="numeric" maxLength={4} autoComplete="postal-code" pattern="[0-9]*" enterKeyHint="next" />
+                <input id="zip" name="zip" defaultValue={v('zip')} required inputMode="numeric" maxLength={4} autoComplete="postal-code" pattern="[0-9]*" enterKeyHint="next" onFocus={() => void loadPlz()} onChange={(ev) => void onZip(ev.target.value.trim())} />
               </Field>
               <Field name="city" label={t.city} span={4} error={e.city}>
-                <input id="city" name="city" defaultValue={v('city')} required autoComplete="address-level2" autoCapitalize="words" enterKeyHint="next" />
+                <input id="city" name="city" ref={cityRef} defaultValue={v('city')} required autoComplete="address-level2" autoCapitalize="words" enterKeyHint="next" list={cities.length > 1 ? 'city-list' : undefined} />
               </Field>
+              {cities.length > 1 && <datalist id="city-list">{cities.map((c) => <option key={c} value={c} />)}</datalist>}
               <Field name="email" label={t.email} span={3} error={e.email}>
                 <input id="email" type="email" name="email" defaultValue={v('email')} required autoComplete="email" inputMode="email" autoCapitalize="off" spellCheck={false} enterKeyHint="next" />
               </Field>

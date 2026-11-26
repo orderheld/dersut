@@ -45,7 +45,7 @@ export default async function Ratgeber({ params }: Props) {
                 <div className="guide-card__body">
                   <h2 className="h3"><Link href={href}>{x.title}</Link></h2>
                   <p>{x.teaser}</p>
-                  <Link className="link-arrow" href={href}>{t.readMore} →</Link>
+                  <Link className="link-arrow" href={href}>{t.readMore}<span className="sr-only">: {x.title}</span> →</Link>
                 </div>
               </article>
             );

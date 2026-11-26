@@ -11,7 +11,7 @@ import { brand } from '@/lib/brand';
 import { config, onlinePayment } from '@/lib/config';
 import { LOCALE_TAGS, asLocale, lp } from '@/lib/i18n';
 import { getProducts } from '@/lib/products';
-import { absolute, breadcrumbLd, faqLd, jsonLd, pageMeta } from '@/lib/seo';
+import { absImage, absolute, breadcrumbLd, faqLd, jsonLd, pageMeta } from '@/lib/seo';
 
 type Props = { params: Promise<{ lang: string; slug: string }> };
 
@@ -48,7 +48,7 @@ export default async function Article({ params }: Props) {
       '@id': `${url}#article`,
       headline: x.title,
       description: x.metaDescription,
-      image: [brand(a.image)],
+      image: [absImage(brand(a.image))],
       datePublished: a.published,
       dateModified: a.published,
       inLanguage: LOCALE_TAGS[lang],

@@ -21,7 +21,7 @@ const HERO_AWARD: Record<Locale, { event: string; title: string; blends: string;
   it: { event: 'International Coffee Tasting 2025', title: '2× Gold Medal', blends: 'per Plus Oro e Non Plus Ultra', cert: 'Certificato: Espresso Italiano di Qualità', aria: 'Due Gold Medal 2025 all’International Coffee Tasting: scopri di più' },
   en: { event: 'International Coffee Tasting 2025', title: '2× Gold Medal', blends: 'for Plus Oro and Non Plus Ultra', cert: 'Certified: Espresso Italiano di Qualità', aria: 'Two Gold Medals 2025 at the International Coffee Tasting: learn more' },
 };
-import { config } from '@/lib/config';
+import { config, onlinePayment } from '@/lib/config';
 import { asLocale, LOCALE_TAGS, lp, type Locale } from '@/lib/i18n';
 import { getProducts } from '@/lib/products';
 import { absolute, faqLd, jsonLd, pageMeta } from '@/lib/seo';
@@ -41,7 +41,7 @@ const CERTS: [BrandKey, string][] = [
 
 const de = {
   metaTitle: 'Kaffee online kaufen: Italienischer Espresso | Dersut Schweiz',
-  metaDescription: 'Kaffee online bestellen beim offiziellen Dersut-Vertrieb: italienische Kaffeebohnen, zweimal Gold 2025, Lieferung in die ganze Schweiz. Auch für Firmen und Gastronomie.',
+  metaDescription: 'Kaffee online kaufen beim offiziellen Dersut-Vertrieb: italienische Espressobohnen, 2× Gold 2025, Lieferung in die ganze Schweiz. Auch für Firmen und Gastro.',
   heroAlt: 'Espresso von Dersut Caffè',
   heroKicker: 'Offizieller Vertrieb Schweiz',
   heroLead: 'Seit 1947 röstet Dersut Caffè in Conegliano Espresso-Mischungen mit italienischer Seele. Jetzt offiziell in der Schweiz erhältlich: direkt vom Vertriebspartner, geliefert in die ganze Schweiz.',
@@ -330,6 +330,43 @@ const T: Record<Locale, typeof de> = {
 
 const STEP_IMGS: BrandKey[] = ['selezione', 'tostatura', 'caffe'];
 const HOW_ICONS = ['bag', 'bank', 'truck'] as const;
+const HOW_ICONS_ONLINE = ['bag', 'lock', 'truck'] as const;
+
+/** «Bestellen in drei Schritten», wenn die Online-Zahlung aktiv ist (Vorauskasse bleibt als Option) */
+const HOW_ONLINE: Record<Locale, { lead: string; how: [string, string][] }> = {
+  de: {
+    lead: 'Schnell und sicher: Sie bezahlen direkt online, und Ihr Kaffee ist sofort unterwegs. Auf Wunsch auch per Vorauskasse.',
+    how: [
+      ['Bestellen', 'Wählen Sie Ihren Espresso und geben Sie Ihre Lieferadresse ein. Das dauert nur eine Minute.'],
+      ['Online bezahlen', 'Sie bezahlen auf der sicheren Zahlungsseite unseres Schweizer Partners. Ihre Zahlungsdaten sehen wir nie.'],
+      ['Geniessen', 'Wir versenden sofort mit der Post und schicken Ihnen die Versandbestätigung per E-Mail.'],
+    ],
+  },
+  fr: {
+    lead: 'Rapide et sûr : vous payez directement en ligne et votre café part aussitôt. Paiement anticipé possible sur demande.',
+    how: [
+      ['Commander', 'Choisissez votre espresso et indiquez votre adresse de livraison. Cela ne prend qu’une minute.'],
+      ['Payer en ligne', 'Vous payez sur la page de paiement sécurisée de notre partenaire suisse. Nous ne voyons jamais vos données de paiement.'],
+      ['Savourer', 'Nous expédions immédiatement par La Poste et vous envoyons la confirmation d’expédition par e-mail.'],
+    ],
+  },
+  it: {
+    lead: 'Veloce e sicuro: pagate direttamente online e il vostro caffè parte subito. Su richiesta anche con pagamento anticipato.',
+    how: [
+      ['Ordinare', 'Scegliete il vostro espresso e inserite l’indirizzo di consegna. Basta un minuto.'],
+      ['Pagare online', 'Pagate sulla pagina sicura del nostro partner svizzero. Non vediamo mai i vostri dati di pagamento.'],
+      ['Gustare', 'Spediamo subito con la Posta e vi inviamo la conferma di spedizione via e-mail.'],
+    ],
+  },
+  en: {
+    lead: 'Fast and secure: you pay online and your coffee is on its way right away. Payment in advance is also possible.',
+    how: [
+      ['Order', 'Choose your espresso and enter your delivery address. It only takes a minute.'],
+      ['Pay online', 'You pay on the secure payment page of our Swiss partner. We never see your payment details.'],
+      ['Enjoy', 'We ship right away with Swiss Post and send you the shipping confirmation by email.'],
+    ],
+  },
+};
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   await settingsReady();
@@ -348,6 +385,7 @@ export default async function Home({ params }: Props) {
   await settingsReady();
   const lang = asLocale((await params).lang);
   const t = shipText(T[lang]);
+  const online = onlinePayment();
   const faq = shipText(HOME_FAQ[lang]);
   const products = await getProducts(true, lang);
   const winners = products.filter((p) => latestMedal(p.slug));
@@ -366,7 +404,7 @@ export default async function Home({ params }: Props) {
         <div className="hero__media"><Img src={brand('hero_1')} alt={t.heroAlt} className="hero__img" eager /></div>
         <div className="wrap hero__inner">
           {winners.length > 0 && (
-            <a className="hero-award" href="#gold-2025" aria-label={HERO_AWARD[lang].aria}>
+            <a className="hero-award" href="#gold-2025">
               <span className="hero-award__medals" aria-hidden="true">
                 <Medal year="2025" label="" className="hero-award__back" />
                 <Medal year="2025" label="" className="hero-award__front" />
@@ -509,11 +547,11 @@ export default async function Home({ params }: Props) {
           <header className="section__head section__head--center">
             <p className="eyebrow">{t.howEyebrow}</p>
             <h2 className="h2">{t.howTitle}</h2>
-            <p className="lead">{t.howLead}</p>
+            <p className="lead">{online ? HOW_ONLINE[lang].lead : t.howLead}</p>
           </header>
           <ol className="howto">
-            {t.how.map(([h, p], i) => (
-              <li key={HOW_ICONS[i]}><span className="howto__icon"><Icon name={HOW_ICONS[i]} /></span><h3>{h}</h3><p>{p}</p></li>
+            {(online ? HOW_ONLINE[lang].how : t.how).map(([h, p], i) => (
+              <li key={h}><span className="howto__icon"><Icon name={(online ? HOW_ICONS_ONLINE : HOW_ICONS)[i]} /></span><h3>{h}</h3><p>{p}</p></li>
             ))}
           </ol>
         </div>

@@ -159,6 +159,14 @@ const T: Record<Locale, typeof de> = {
   },
 };
 
+/** Ausgehender Link zur Herstellerseite: bestätigt den offiziellen Vertrieb */
+const MAKER_LINK: Record<Locale, string> = {
+  de: 'Zur Webseite von Dersut Caffè in Italien (dersut.it)',
+  fr: 'Site de Dersut Caffè en Italie (dersut.it)',
+  it: 'Sito di Dersut Caffè in Italia (dersut.it)',
+  en: 'Website of Dersut Caffè in Italy (dersut.it)',
+};
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   await settingsReady();
   const lang = asLocale((await params).lang);
@@ -196,6 +204,7 @@ export default async function Vertrieb({ params }: Props) {
             <p>{t.partnerText1}</p>
             <p>{t.partnerText2}</p>
             <Link className="link-arrow" href={lp(lang, '/geschichte')}>{t.partnerLink} <Icon name="arrow" /></Link>
+            <p className="ext-link"><a href="https://www.dersut.it/" target="_blank" rel="noopener">{MAKER_LINK[lang]}</a></p>
           </div>
         </div>
       </section>

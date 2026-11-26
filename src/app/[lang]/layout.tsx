@@ -16,7 +16,7 @@ import { companyAddressLines } from '@/lib/format';
 import { chfShort } from '@/lib/shipping-text';
 import { LOCALE_TAGS, OG_LOCALES, isLocale, lp, type Locale } from '@/lib/i18n';
 import { getProducts } from '@/lib/products';
-import { INDEX, absolute, jsonLd, languageAlternates, returnPolicyLd, shareImage } from '@/lib/seo';
+import { INDEX, absImage, absolute, jsonLd, returnPolicyLd, shareImage } from '@/lib/seo';
 import './site.css';
 
 type Props = { children: React.ReactNode; params: Promise<{ lang: string }> };
@@ -40,7 +40,7 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
     applicationName: 'Dersut',
     appleWebApp: { title: 'Dersut', capable: true, statusBarStyle: 'default' },
     robots: INDEX,
-    alternates: { canonical: absolute(lp(lang, '/')), languages: languageAlternates('/') },
+    // Canonical und hreflang setzt jede Seite selbst (pageMeta); Warenkorb, Kasse und 404 bekommen bewusst keine
     openGraph: { type: 'website', locale: OG_LOCALES[lang], siteName: t.meta.siteName, images: [shareImage(brand('hero_1'), t.meta.siteName)] },
     twitter: { card: 'summary_large_image' },
     formatDetection: { telephone: false },
@@ -71,12 +71,12 @@ export default async function SiteLayout({ children, params }: Props) {
     name: c.name,
     alternateName: ['Dersut Kaffee Schweiz', 'Dersut Caffè Svizzera', 'Café Dersut Suisse'],
     url: config.siteUrl,
-    logo: brand('logo'),
+    logo: absImage(brand('logo')),
     email: config.email.info,
     description: t.meta.orgDescription,
     ...(c.uid ? { taxID: c.uid } : {}),
     ...(c.vatNo ? { vatID: c.vatNo } : {}),
-    brand: { '@type': 'Brand', name: 'Dersut Caffè' },
+    brand: { '@type': 'Brand', name: 'Dersut Caffè', url: 'https://www.dersut.it/' },
     hasMerchantReturnPolicy: returnPolicyLd(),
     knowsLanguage: ['de-CH', 'fr-CH', 'it-CH', 'en'],
     areaServed: [

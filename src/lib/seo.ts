@@ -6,6 +6,9 @@ import { getDict } from '@/i18n';
 
 export const absolute = (path: string) => config.siteUrl.replace(/\/$/, '') + (path.startsWith('/') ? path : `/${path}`);
 
+/** Bildadresse für strukturierte Daten und Feeds: lokale Pfade werden zu vollen URLs */
+export const absImage = (src: string) => (src && src.startsWith('/') ? absolute(src) : src);
+
 /** hreflang-Alternativen einer Seite in allen Sprachen (inkl. x-default = Deutsch) */
 /** Volle Sichtbarkeit in Google: grosse Bildvorschau, Snippets ohne Längenbegrenzung */
 export const INDEX = { index: true, follow: true, googleBot: { index: true, follow: true, 'max-image-preview': 'large' as const, 'max-snippet': -1, 'max-video-preview': -1 } };
@@ -30,6 +33,9 @@ export function languageAlternates(path: string): Record<string, string> {
  * Metadaten einer Seite: Titel, Beschreibung, Canonical, hreflang, Open Graph und Twitter.
  * `path` ist der Pfad ohne Sprachpräfix, z. B. '/shop'.
  */
+/** Zusatz aus dem Titel-Template im Layout */
+const TITLE_SUFFIX = ' | Dersut';
+
 export function pageMeta(
   lang: Locale,
   path: string,
@@ -39,8 +45,11 @@ export function pageMeta(
 ): Metadata {
   const url = absolute(lp(lang, path));
   const image = shareImage(opts.image || brand('hero_1'), title, opts.pack);
+  // Google zeigt rund 60 Zeichen: bei langen Titeln den Zusatz « | Dersut» weglassen (Marke steht meist schon drin)
+  const fullTitle = opts.absoluteTitle || title.length + TITLE_SUFFIX.length > 62 ? { absolute: title } : title;
+  description = description.length > 160 ? metaDescription(description) : description;
   return {
-    title: opts.absoluteTitle ? { absolute: title } : title,
+    title: fullTitle,
     description,
     alternates: { canonical: url, languages: languageAlternates(path) },
     openGraph: {
@@ -56,6 +65,26 @@ export function pageMeta(
     twitter: { card: 'summary_large_image', title, description, images: [image.url] },
     robots: opts.noindex ? { index: false, follow: true } : INDEX,
   };
+}
+
+/**
+ * Meta-Beschreibung, die Google nicht abschneidet (höchstens rund 158 Zeichen): ganze Sätze aus `text`,
+ * solange sie zusammen mit `tail` (z. B. Versandhinweis) Platz haben. Nie mitten im Satz abbrechen.
+ */
+export function metaDescription(text: string, tail = '', max = 158): string {
+  const sentences = text.match(/[^.!?]+[.!?]+(\s|$)|[^.!?]+$/g)?.map((x) => x.trim()).filter(Boolean) ?? [];
+  let out = '';
+  for (const s of sentences) {
+    const next = out ? `${out} ${s}` : s;
+    if ((tail ? `${next} ${tail}` : next).length > max) break;
+    out = next;
+  }
+  if (!out && sentences[0]) {
+    const cut = sentences[0].slice(0, max - 1);
+    out = `${cut.slice(0, cut.lastIndexOf(' '))}…`;
+  }
+  const full = tail ? `${out} ${tail}`.trim() : out;
+  return full.length > max + 2 ? out : full;
 }
 
 /** JSON-LD sicher in ein <script> schreiben */
