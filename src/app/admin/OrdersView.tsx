@@ -29,9 +29,9 @@ export async function OrdersView({ dashboard, status, q, ok, mail }: { dashboard
       <header className="pagehead">
         <div>
           <h1>{dashboard ? 'Guten Tag' : 'Bestellungen'}</h1>
-          <p className="muted">{dashboard ? 'Hier sehen Sie alle Bestellungen, die auf Zahlung oder Versand warten.' : 'Alle Bestellungen im Überblick.'}</p>
+          <p className={dashboard ? 'muted hide-mobile' : 'muted'}>{dashboard ? 'Hier sehen Sie alle Bestellungen, die auf Zahlung oder Versand warten.' : 'Alle Bestellungen im Überblick.'}</p>
         </div>
-        <a className="btn btn--ghost" href="/admin/bestellungen/export.csv">CSV exportieren</a>
+        <a className="btn btn--ghost hide-mobile" href="/admin/bestellungen/export.csv">CSV exportieren</a>
       </header>
       <Flash ok={ok} mail={mail} />
       {dashboard && (

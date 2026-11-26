@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import Link from 'next/link';
-import { SideNav } from '@/components/admin/SideNav';
+import { SideNav, TabBar } from '@/components/admin/SideNav';
 import { currentAdmin } from '@/lib/auth';
 import { orderCounts } from '@/lib/orders';
 import { logoutAction } from './actions';
@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   appleWebApp: { capable: true, title: 'Dersut Admin', statusBarStyle: 'black-translucent' },
 };
 
-export const viewport: Viewport = { width: 'device-width', initialScale: 1, themeColor: '#0e0f12' };
+export const viewport: Viewport = { width: 'device-width', initialScale: 1, viewportFit: 'cover', themeColor: '#001a3a' };
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   const admin = await currentAdmin();
@@ -41,6 +41,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
           </aside>
         )}
         <main className="main">{children}</main>
+        {admin && c && <TabBar counts={{ todo: c.open + c.paid, messages: c.messages }} />}
       </body>
     </html>
   );
