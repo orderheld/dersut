@@ -34,7 +34,7 @@ export function GuideTeaser({ lang, slugs = ['dersut-sorten-vergleich', 'kaffeeb
                 <div className="guide-card__body">
                   <h3 className="h3"><Link href={href}>{x.title}</Link></h3>
                   <p>{x.teaser}</p>
-                  <Link className="link-arrow" href={href}>{RATGEBER_PAGE[lang].readMore} <Icon name="arrow" /></Link>
+                  <Link className="link-arrow" href={href}>{RATGEBER_PAGE[lang].readMore}<span className="sr-only">: {x.title}</span> <Icon name="arrow" /></Link>
                 </div>
               </article>
             );

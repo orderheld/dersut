@@ -4,6 +4,11 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
   // PGlite wird nur lokal zum Testen ohne Neon verwendet
   serverExternalPackages: ['@electric-sql/pglite'],
+  // Freisteller und Vorschaubilder lesen die lokalen Markenbilder (public/brand) direkt von der Festplatte
+  outputFileTracingIncludes: {
+    '/api/cutout': ['./public/brand/**'],
+    '/api/og': ['./public/brand/**'],
+  },
   // Produktbilder bis 4 MB im Admin hochladen
   experimental: { serverActions: { bodySizeLimit: '5mb' } },
   // Bildoptimierung: Originalbilder von dersut.it und Uploads (Vercel Blob) werden als WebP/AVIF

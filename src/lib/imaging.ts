@@ -2,7 +2,7 @@ import 'server-only';
 import { readFile } from 'node:fs/promises';
 import path from 'node:path';
 import sharp from 'sharp';
-import { BRAND_ASSETS } from './brand';
+import { BRAND_ASSETS, brand, type BrandKey } from './brand';
 import { one } from './db';
 import { loadMedia, parseMediaPath } from './media';
 
@@ -11,6 +11,10 @@ import { loadMedia, parseMediaPath } from './media';
 const ALLOWED_HOSTS = [/^www\.dersut\.it$/, /\.public\.blob\.vercel-storage\.com$/];
 const MAX_BYTES = 12 * 1024 * 1024;
 const BRAND_URLS = new Set<string>(Object.values(BRAND_ASSETS));
+/** Lokale Kopie (/brand/…) → Original-Adresse auf dersut.it */
+const LOCAL_TO_ORIGINAL = new Map<string, string>(
+  (Object.keys(BRAND_ASSETS) as BrandKey[]).filter((k) => brand(k) !== BRAND_ASSETS[k]).map((k) => [brand(k), BRAND_ASSETS[k]]),
+);
 
 /** Nur Bilder freistellen, die die Webseite tatsächlich verwendet (Markenbilder oder Produktbilder aus der Datenbank). */
 export async function isKnownImage(src: string): Promise<boolean> {
@@ -25,7 +29,11 @@ export async function loadImage(src: string): Promise<Buffer | null> {
   if (src.startsWith('/brand/') || src.startsWith('/uploads/')) {
     const file = path.join(process.cwd(), 'public', path.normalize(src).replace(/^(\.\.[/\\])+/, ''));
     if (!file.startsWith(path.join(process.cwd(), 'public'))) return null;
-    return readFile(file).catch(() => null);
+    const local = await readFile(file).catch(() => null);
+    if (local) return local;
+    // Rückfall: lokale Kopie fehlt in der Serverfunktion, dann das Original von dersut.it laden
+    const original = LOCAL_TO_ORIGINAL.get(src);
+    return original ? loadImage(original) : null;
   }
   let url: URL;
   try {

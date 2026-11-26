@@ -44,7 +44,7 @@ export default async function Warenkorb({ params }: Props) {
             <Link className="btn btn--primary" href={lp(lang, '/shop')}>{T.common.toShop}</Link>
           </div>
         ) : (
-          <div className="shopgrid">
+          <div className="shopgrid shopgrid--cart">
             <div>
               <form action={updateCartAction} id="cartform">
                 <table className="cart-table">
@@ -79,23 +79,6 @@ export default async function Warenkorb({ params }: Props) {
                 <Link className="btn btn--ghost" href={lp(lang, '/shop')}>{t.continue}</Link>
                 <noscript><button className="btn btn--ghost" type="submit" form="cartform">{t.update}</button></noscript>
               </div>
-              {upsell.length > 0 && (
-                <section className="upsell" aria-labelledby="upsell-h">
-                  <h2 id="upsell-h" className="upsell__h">{t.upsellTitle}</h2>
-                  {upsell.map((p) => (
-                    <form key={p.id} action={addFromCartAction} className="upsell__item">
-                      <input type="hidden" name="product_id" value={p.id} />
-                      <input type="hidden" name="lang" value={lang} />
-                      <div className="cart-prod__img"><Img src={cutoutImage(productImage(p.image))} fallbackSrc={productImage(p.image)} alt="" /></div>
-                      <div className="upsell__txt">
-                        <Link href={lp(lang, `/shop/${p.slug}`)}>{p.name}</Link>
-                        <small>{p.notes} · {chf(p.price)}</small>
-                      </div>
-                      <button className="btn btn--outline btn--sm" type="submit"><Icon name="bag" /> {t.upsellAdd}</button>
-                    </form>
-                  ))}
-                </section>
-              )}
             </div>
             <div className="summary">
               <h2>{t.summary}</h2>
@@ -114,6 +97,23 @@ export default async function Warenkorb({ params }: Props) {
                 <span dangerouslySetInnerHTML={{ __html: onlinePayment() ? T.pay.cartNote : t.prepayNote }} />
               </div>
             </div>
+            {upsell.length > 0 && (
+                <section className="upsell" aria-labelledby="upsell-h">
+                  <h2 id="upsell-h" className="upsell__h">{t.upsellTitle}</h2>
+                  {upsell.map((p) => (
+                    <form key={p.id} action={addFromCartAction} className="upsell__item">
+                      <input type="hidden" name="product_id" value={p.id} />
+                      <input type="hidden" name="lang" value={lang} />
+                      <div className="cart-prod__img"><Img src={cutoutImage(productImage(p.image))} fallbackSrc={productImage(p.image)} alt="" /></div>
+                      <div className="upsell__txt">
+                        <Link href={lp(lang, `/shop/${p.slug}`)}>{p.name}</Link>
+                        <small>{p.notes} · {chf(p.price)}</small>
+                      </div>
+                      <button className="btn btn--outline btn--sm" type="submit"><Icon name="bag" /> {t.upsellAdd}</button>
+                    </form>
+                  ))}
+                </section>
+              )}
           </div>
         )}
       </div>

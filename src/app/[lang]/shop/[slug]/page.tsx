@@ -15,7 +15,7 @@ import { config, onlinePayment } from '@/lib/config';
 import { chf } from '@/lib/format';
 import { LOCALE_TAGS, asLocale, lp } from '@/lib/i18n';
 import { getProductBySlug, getProducts, isSoldOut, type LocalizedProduct } from '@/lib/products';
-import { absolute, jsonLd, pageMeta, returnPolicyLd } from '@/lib/seo';
+import { absImage, absolute, jsonLd, pageMeta, returnPolicyLd } from '@/lib/seo';
 import { ARTICLES, RATGEBER_PAGE } from '@/content/ratgeber';
 import { AWARD_TEXT, HOUSE_SLUGS, HOUSE_TEXT, awardsOf, latestMedal } from '@/content/awards';
 import { HouseSeal, Medal } from '@/components/Medal';
@@ -78,7 +78,7 @@ export default async function ProductPage({ params }: Props) {
       '@id': `${url}#product`,
       name: `${p.name} ${p.weight}`,
       description: [p.description, p.details].filter(Boolean).join('\n\n'),
-      image: images.map((im) => im.src),
+      image: images.map((im) => absImage(im.src)),
       sku: p.slug,
       category: 'Food, Beverages & Tobacco > Beverages > Coffee',
       brand: { '@type': 'Brand', name: 'Dersut Caffè' },

@@ -16,6 +16,13 @@ const PATH = '/zertifizierungen';
 const CERT_IMG: BrandKey[] = ['cert_iei', 'cert_gitc', 'cert_sca', 'cert_consorzio', 'cert_legalita', 'cert_confind', 'cert_aidaf', 'cert_comisso'];
 const AWARD_IMG: BrandKey[] = ['cert_gold', 'cert_camaleonte', 'cert_villani', 'cert_sole24', 'cert_best', 'cert_csr'];
 
+/** Offizielle Webseiten der Prüfstellen und Verbände (ausgehende Links als Beleg), Schlüssel = Logo */
+const LINKS: Partial<Record<BrandKey, string>> = {
+  cert_iei: 'https://www.espressoitaliano.org/',
+  cert_gitc: 'https://www.gitc.it/',
+  cert_sca: 'https://sca.coffee/',
+};
+
 /** [tag, name, text] */
 type Entry = [string, string, string];
 
@@ -172,7 +179,11 @@ function CertList({ items, imgs }: { items: Entry[]; imgs: BrandKey[] }) {
       {items.map(([tag, h, txt], i) => (
         <article className="cert" key={h}>
           <div className="cert__logo"><Icon name="award" /><Img src={brand(imgs[i])} alt={h} /></div>
-          <div><span className="cert__tag">{tag}</span><h3>{h}</h3><p>{txt}</p></div>
+          <div>
+            <span className="cert__tag">{tag}</span>
+            <h3>{LINKS[imgs[i]] ? <a href={LINKS[imgs[i]]} target="_blank" rel="noopener">{h}</a> : h}</h3>
+            <p>{txt}</p>
+          </div>
         </article>
       ))}
     </div>

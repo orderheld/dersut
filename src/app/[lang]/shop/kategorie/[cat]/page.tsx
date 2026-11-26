@@ -11,7 +11,7 @@ import { productImage } from '@/lib/brand';
 import { shopCategories } from '@/lib/categories';
 import { asLocale, lp, type Locale } from '@/lib/i18n';
 import { getProducts } from '@/lib/products';
-import { absolute, breadcrumbLd, jsonLd, pageMeta } from '@/lib/seo';
+import { absolute, breadcrumbLd, jsonLd, metaDescription, pageMeta } from '@/lib/seo';
 import { fillShipping } from '@/lib/shipping-text';
 
 type Props = { params: Promise<{ lang: string; cat: string }> };
@@ -43,8 +43,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   await settingsReady();
   const { lang, c, items } = await load(params);
   if (!c) return { title: getDict(lang).nav.shop, robots: { index: false } };
-  const desc = `${categoryIntro(c, lang)} ${fillShipping(FREE[lang])}`.trim();
-  return pageMeta(lang, `/shop/kategorie/${c.slug}`, TITLE[lang](c.name), desc.length > 160 ? `${desc.slice(0, 157)}…` : desc, { image: items[0] ? productImage(items[0].image) : undefined, pack: !!items[0] });
+  const desc = metaDescription(categoryIntro(c, lang), fillShipping(FREE[lang]));
+  return pageMeta(lang, `/shop/kategorie/${c.slug}`, TITLE[lang](c.name), desc, { image: items[0] ? productImage(items[0].image) : undefined, pack: !!items[0] });
 }
 
 export default async function CategoryPage({ params }: Props) {
