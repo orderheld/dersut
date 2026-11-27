@@ -113,17 +113,15 @@ export function faqLd(faq: [string, string][]) {
 
 /**
  * Rückgaberegelung für Google (Produkt-Snippets / Merchant Listings), entspricht AGB Ziffer 7:
- * Mängel innert 7 Tagen melden, Ersatz oder Rückerstattung; Rücksendung per Post, nur innerhalb der Schweiz.
+ * Lebensmittel sind von Umtausch und Rückgabe ausgeschlossen (Mängel werden weiterhin ersetzt oder erstattet,
+ * das ist Gewährleistung, keine Rückgabe). Darum «keine Rückgabe», sonst widerspricht das Markup den AGB.
  */
 export function returnPolicyLd() {
   return {
     '@type': 'MerchantReturnPolicy',
     applicableCountry: 'CH',
     returnPolicyCountry: 'CH',
-    returnPolicyCategory: 'https://schema.org/MerchantReturnFiniteReturnWindow',
-    merchantReturnDays: 7,
-    returnMethod: 'https://schema.org/ReturnByMail',
-    returnFees: 'https://schema.org/FreeReturn',
+    returnPolicyCategory: 'https://schema.org/MerchantReturnNotPermitted',
     merchantReturnLink: absolute('/agb'),
   };
 }
